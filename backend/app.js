@@ -1,7 +1,7 @@
 const express = require("express");
 const connectDB = require("./db/connect");
-const http = require('http');
-const SocketService = require('./services/socketService');
+const http = require("http");
+const SocketService = require("./services/socketService");
 
 const userRoutes = require("./routes/userRoutes");
 const donationRoutes = require("./routes/donationRoutes");
@@ -29,8 +29,8 @@ async function run() {
     const server = http.createServer(app);
     SocketService(server);
 
-    server.listen(3000, () => {
-        console.log("Server is running on http://localhost:5000");
+    server.listen(3001, () => {
+        console.log("Server is running on http://localhost:3001");
     });
 }
 
