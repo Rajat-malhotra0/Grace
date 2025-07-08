@@ -9,7 +9,6 @@ const paymentSchema = new mongoose.Schema({
         enum: ["pending", "completed", "failed"],
         default: "pending",
     },
-    createdAt: { type: Date, default: Date.now, immutable: true },
     transactionId: { type: String, unique: true },
     createdAt: { type: Date, default: Date.now, immutable: true },
 });
