@@ -1,5 +1,7 @@
 const express = require("express");
 const connectDB = require("./db/connect");
+const http = require('http');
+const SocketService = require('./services/socketService');
 
 const userRoutes = require("./routes/userRoutes");
 const donationRoutes = require("./routes/donationRoutes");
@@ -23,7 +25,11 @@ app.use("/api/impact-stories", impactStoryRoutes);
 async function run() {
     await connectDB();
     console.log("Connected to MongoDB");
-    app.listen(3000, () => {
+
+    const server = http.createServer(app);
+    SocketService(server);
+
+    server.listen(3000, () => {
         console.log("Server is running on http://localhost:5000");
     });
 }
