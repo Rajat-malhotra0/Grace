@@ -9,11 +9,11 @@ router.post("/",[
     body("status").isIn(['pending', 'in-progress', 'completed']).withMessage("Status must be one of: pending, in-progress, completed"),
     body("assignedTo").optional().isMongoId().withMessage("Invalid user ID"),
 ],
-    async (req, res, next) => {
+    async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return next({
-                status: 400,
+            return res.status(400).json({
+                success: false,
                 message: "Validation errors",
                 errors: errors.array(),
             });
@@ -46,11 +46,11 @@ router.get("/",
         query("title").optional().trim(),
         query("status").optional().isIn(['pending', 'in-progress', 'completed']).withMessage("Status must be one of: pending, in-progress, completed"),
         query("assignedTo").optional().isMongoId().withMessage("Invalid user ID"),
-    ], async (req, res, next) => {
+    ], async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return next({
-                status: 400,
+            return res.status(400).json({
+                success: false,
                 message: "Validation errors",
                 errors: errors.array(),
             });
@@ -113,15 +113,15 @@ router.put("/:id",
         body("description").optional().trim().notEmpty().withMessage("Description cannot be empty"),
         body("status").optional().isIn(['pending', 'in-progress', 'completed']).withMessage("Status must be one of: pending, in-progress, completed"),
         body("assignedTo").optional().isMongoId().withMessage("Invalid user ID"),
-    ], async (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return next({
-            status: 400,
-            message: "Validation errors",
-            errors: errors.array(),
-        });
-    }
+    ], async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({
+                success: false,
+                message: "Validation errors",
+                errors: errors.array(),
+            });
+        }
     try {
         const task = await taskService.updateTask(
             { _id: req.params.id },
@@ -151,15 +151,15 @@ router.put("/:id",
 router.delete("/:id", 
     [
         query("id").notEmpty().withMessage("ID is required").isMongoId().withMessage("Invalid ID format"),
-    ], async (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return next({
-            status: 400,
-            message: "Validation errors",
-            errors: errors.array(),
-        });
-    }
+    ], async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({
+                success: false,
+                message: "Validation errors",
+                errors: errors.array(),
+            });
+        }
         try {
         await taskService.deleteTask({ _id: req.params.id });
         res.status(200).json({

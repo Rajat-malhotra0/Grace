@@ -12,14 +12,14 @@ router.post("/",
     body("about").optional().trim()
     ],
     async (req, res, next) => {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return next({
-                status: 400,
-                message: "Validation errors",
-                errors: errors.array(),
-            });
-        }
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({
+            success: false,
+            message: "Validation errors",
+            errors: errors.array()
+        });
+    }
     try {
         const user = await userService.createUser(req.body);
         if (user) {
@@ -49,11 +49,11 @@ router.get("/",
         query("email").optional().isEmail().withMessage("Invalid email format"),
         query("role").optional().isIn(['volunteer', 'donor', 'admin']).withMessage("Role must be one of: volunteer, donor, admin"),
         query("isActive").optional().isBoolean().withMessage("isActive must be a boolean"),
-    ], async (req, res, next) => {
+    ], async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return next({
-                status: 400,
+            return res.status(400).json({
+                success: false,
                 message: "Validation errors",
                 errors: errors.array()
             });
@@ -78,11 +78,11 @@ router.get("/",
 router.get("/:id",
     [
         query("id").notEmpty().withMessage("ID is required")
-    ], async (req, res, next) => {
+    ], async (req, res) => {
         const error = validationResult(req);
         if (!error.isEmpty()) {
-            return next({
-                status: 400,
+            return res.status(400).json({
+                success: false,
                 message: "Validation errors",
                 errors: error.array(),
             });
@@ -119,11 +119,11 @@ router.put("/:id",
     body("role").isIn(['volunteer','donor','admin']).withMessage("Role must be one of: volunteer, donor, admin"),
     body("about").optional().trim(),
     ],
-    async (req, res, next) => {
+    async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return next({
-                status: 400,
+            return res.status(400).json({
+                success: false,
                 message: "Validation errors",
                 errors: errors.array(),
             });
@@ -157,11 +157,11 @@ router.put("/:id",
 router.delete("/:id",
     [
         param("id").notEmpty().withMessage("ID is required"),
-    ], async (req, res, next) => {
+    ], async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return next({
-            status: 400,
+        return res.status(400).json({
+            success: false,
             message: "Validation errors",
             errors: errors.array(),
         });
