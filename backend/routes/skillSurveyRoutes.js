@@ -12,14 +12,14 @@ router.post("/",
         body('questions.*.options').isArray().withMessage("Options must be an array"),
         body('questions.*.options.*').trim().notEmpty().withMessage("Option text cannot be empty"),
     ], async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return next({
-            status: 400,
-            message: "Validation errors",
-            errors: errors.array(),
-        });
-    }
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({
+                success: false,
+                message: "Validation errors",
+                errors: errors.array(),
+            });
+        }
     try {
         const skillSurvey = await skillSurveyService.createSkillSurvey(
             req.body
@@ -50,15 +50,15 @@ router.get("/",
         query("title").optional().trim(),
         query("description").optional().trim(),
         query("questions").optional().isArray().withMessage("Questions must be an array"),
-    ], async (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return next({
-            status: 400,
-            message: "Validation errors",
-            errors: errors.array(),
-        });
-    }
+    ], async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({
+                success: false,
+                message: "Validation errors",
+                errors: errors.array(),
+            });
+        }
     try {
         const filter = req.query;
         const skillSurveys = await skillSurveyService.readSkillSurveys(filter);
@@ -79,15 +79,15 @@ router.get("/",
 router.get("/:id",
     [
         param("id").notEmpty().withMessage("ID is required").isMongoId().withMessage("Invalid ID format"),
-    ], async (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return next({
-            status: 400,
-            message: "Validation errors",
-            errors: errors.array(),
-        });
-    }
+    ], async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({
+                success: false,
+                message: "Validation errors",
+                errors: errors.array(),
+            });
+        }
         try {
         const skillSurveys = await skillSurveyService.readSkillSurveys({
             _id: req.params.id,
@@ -121,15 +121,15 @@ router.put("/:id",
         body('questions.*.questionText').trim().notEmpty().withMessage("Question text is required"),
         body('questions.*.options').isArray().withMessage("Options must be an array"),
         body('questions.*.options.*').trim().notEmpty().withMessage("Option text cannot be empty"),
-    ], async (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return next({
-            status: 400,
-            message: "Validation errors",
-            errors: errors.array(),
-        });
-    }
+    ], async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({
+                success: false,
+                message: "Validation errors",
+                errors: errors.array(),
+            });
+        }
     try {
         const skillSurvey = await skillSurveyService.updateSkillSurvey(
             { _id: req.params.id },
@@ -159,15 +159,15 @@ router.put("/:id",
 router.delete("/:id",
     [
         param("id").notEmpty().withMessage("ID is required").isMongoId().withMessage("Invalid ID format"),
-    ], async (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return next({
-            status: 400,
-            message: "Validation errors",
-            errors: errors.array(),
-        });
-    }
+    ], async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({
+                success: false,
+                message: "Validation errors",
+                errors: errors.array(),
+            });
+        }
     try {
         await skillSurveyService.deleteSkillSurvey({ _id: req.params.id });
         res.status(200).json({

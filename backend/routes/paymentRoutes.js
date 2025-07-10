@@ -8,15 +8,15 @@ router.post("/",
         body("amount").isNumeric().withMessage("Amount must be a number"),
         body("currency").isString().withMessage("Currency must be a string"),
         body("paymentMethod").isString().withMessage("Payment method must be a string"),
-    ], async (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return next({
-            status: 400,
-            message: "Validation errors",
-            errors: errors.array(),
-        });
-    }
+    ], async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({
+                success: false,
+                message: "Validation errors",
+                errors: errors.array(),
+            });
+        }
         try {
         const payment = await paymentService.createPayment(req.body);
         if (payment) {
@@ -45,15 +45,15 @@ router.get("/",
         query("amount").optional().isNumeric().withMessage("Amount must be a number"),
         query("currency").optional().isString().withMessage("Currency must be a string"),
         query("paymentMethod").optional().isString().withMessage("Payment method must be a string"),
-    ], async (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return next({
-            status: 400,
-            message: "Validation errors",
-            errors: errors.array(),
-        });
-    }
+    ], async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({
+                success: false,
+                message: "Validation errors",
+                errors: errors.array(),
+            });
+        }
         try {
         const filter = req.query;
         const payments = await paymentService.readPayments(filter);
@@ -74,15 +74,15 @@ router.get("/",
 router.get("/:id",
     [
         param("id").notEmpty().withMessage("ID is required").isMongoId().withMessage("Invalid ID format"),
-    ], async (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return next({
-            status: 400,
-            message: "Validation errors",
-            errors: errors.array(),
-        });
-    }
+    ], async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({
+                success: false,
+                message: "Validation errors",
+                errors: errors.array(),
+            });
+        }
         try {
         const payments = await paymentService.readPayments({
             _id: req.params.id,
@@ -114,15 +114,15 @@ router.put("/:id",
         body("amount").optional().isNumeric().withMessage("Amount must be a number"),
         body("currency").optional().isString().withMessage("Currency must be a string"),
         body("paymentMethod").optional().isString().withMessage("Payment method must be a string"),
-    ], async (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return next({
-            status: 400,
-            message: "Validation errors",
-            errors: errors.array(),
-        });
-    }
+    ], async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({
+                success: false,
+                message: "Validation errors",
+                errors: errors.array(),
+            });
+        }
     try {
         const payment = await paymentService.updatePayment(
             { _id: req.params.id },
@@ -152,15 +152,15 @@ router.put("/:id",
 router.delete("/:id",
     [
         param("id").notEmpty().withMessage("ID is required").isMongoId().withMessage("Invalid ID format"),
-    ], async (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return next({
-            status: 400,
-            message: "Validation errors",
-            errors: errors.array(),
-        });
-    }
+    ], async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({
+                success: false,
+                message: "Validation errors",
+                errors: errors.array(),
+            });
+        }
     try {
         await paymentService.deletePayment({ _id: req.params.id });
         res.status(200).json({

@@ -10,15 +10,15 @@ router.post("/",
         body("address").trim().notEmpty().withMessage("Address is required"),
         body("phone").trim().notEmpty().withMessage("Phone number is required"),
 
-    ], async (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return next({
-            status: 400,
-            message: "Validation errors",
-            errors: errors.array(),
-        });
-    }
+    ], async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({
+                success: false,
+                message: "Validation errors",
+                errors: errors.array(),
+            });
+        }
     try {
         const ngo = await ngoService.createNgo(req.body);
         if (ngo) {
@@ -48,15 +48,15 @@ router.get("/",
         query("email").optional().isEmail().withMessage("Invalid email format"),
         query("address").optional().trim(),
         query("phone").optional().trim(),
-    ], async (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return next({
-            status: 400,
-            message: "Validation errors",
-            errors: errors.array(),
-        });
-    }
+    ], async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({
+                success: false,
+                message: "Validation errors",
+                errors: errors.array(),
+            });
+        }
     try {
         const filter = req.query;
         const ngos = await ngoService.readNgos(filter);
@@ -77,15 +77,15 @@ router.get("/",
 router.get("/:id",
     [
         param("id").notEmpty().withMessage("ID is required")
-    ], async (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return next({
-            status: 400,
-            message: "Validation errors",
-            errors: errors.array(),
-        });
-    }
+    ], async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({
+                success: false,
+                message: "Validation errors",
+                errors: errors.array(),
+            });
+        }
     try {
         const ngos = await ngoService.readNgos({ _id: req.params.id });
         if (ngos && ngos.length > 0) {
@@ -116,11 +116,11 @@ router.put("/:id",
         body("email").trim().isEmail().withMessage("Email is required"),
         body("address").trim().notEmpty().withMessage("Address is required"),
         body("phone").trim().notEmpty().withMessage("Phone number is required"),
-    ], async (req, res, next) => {
+    ], async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return next({
-                status: 400,
+            return res.status(400).json({
+                success: false,
                 message: "Validation errors",
                 errors: errors.array(),
             });
@@ -154,15 +154,15 @@ router.put("/:id",
 router.delete("/:id",
     [
         param("id").notEmpty().withMessage("ID is required").isMongoId().withMessage("Invalid ID format"),
-    ], async (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return next({
-            status: 400,
-            message: "Validation errors",
-            errors: errors.array(),
-        });
-    }
+    ], async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({
+                success: false,
+                message: "Validation errors",
+                errors: errors.array(),
+            });
+        }
     try {
         await ngoService.deleteNgo({ _id: req.params.id });
         res.status(200).json({
