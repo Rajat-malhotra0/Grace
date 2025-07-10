@@ -1,8 +1,25 @@
 const express = require("express");
 const router = express.Router();
+const { body, query, validationResult  } = require("express-validator");
 const userService = require("../services/userService");
 
-router.post("/", async (req, res) => {
+router.post("/",
+    [
+    body("name").trim().notEmpty().withMessage("Name is required").isLength({min: 3}).withMessage("Name must be at least 3 characters long"),
+    body("email").trim().isEmail().withMessage("email is required"),
+    body("password").trim().isLength({ min: 6 }).withMessage("Password must be atleast 6 characters Long"),
+    body("role").isIn(['volunteer','donor','admin']).withMessage("Role must be one of: volunteer, donor, admin"),
+    body("about").optional().trim()
+    ],
+    async (req, res, next) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return next({
+                status: 400,
+                message: "Validation errors",
+                errors: errors.array(),
+            });
+        }
     try {
         const user = await userService.createUser(req.body);
         if (user) {
@@ -26,7 +43,21 @@ router.post("/", async (req, res) => {
     }
 });
 
-router.get("/", async (req, res) => {
+router.get("/",
+    [
+        query("name").optional().trim(),
+        query("email").optional().isEmail().withMessage("Invalid email format"),
+        query("role").optional().isIn(['volunteer', 'donor', 'admin']).withMessage("Role must be one of: volunteer, donor, admin"),
+        query("isActive").optional().isBoolean().withMessage("isActive must be a boolean"),
+    ], async (req, res, next) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return next({
+                status: 400,
+                message: "Validation errors",
+                errors: errors.array()
+            });
+        }
     try {
         const filter = req.query;
         const users = await userService.readUsers(filter);
@@ -44,7 +75,19 @@ router.get("/", async (req, res) => {
     }
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id",
+    [
+        query("id").notEmpty().withMessage("ID is required")
+    ], async (req, res, next) => {
+        const error = validationResult(req);
+        if (!error.isEmpty()) {
+            return next({
+                status: 400,
+                message: "Validation errors",
+                errors: error.array(),
+            });
+        }
+        res.send(`User ID: ${req.params.id}`);
     try {
         const users = await userService.readUsers({ _id: req.params.id });
         if (users && users.length > 0) {
@@ -68,7 +111,23 @@ router.get("/:id", async (req, res) => {
     }
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/:id",
+    [
+    body("name").trim().notEmpty().withMessage("Name is required").isLength({min: 3}).withMessage("Name must be at least 3 characters long"),
+    body("email").trim().isEmail().withMessage("email is required"),
+    body("password").trim().isLength({ min: 6 }).withMessage("Password must be atleast 6 characters Long"),
+    body("role").isIn(['volunteer','donor','admin']).withMessage("Role must be one of: volunteer, donor, admin"),
+    body("about").optional().trim(),
+    ],
+    async (req, res, next) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return next({
+                status: 400,
+                message: "Validation errors",
+                errors: errors.array(),
+            });
+        }
     try {
         const user = await userService.updateUser(
             { _id: req.params.id },
@@ -95,7 +154,18 @@ router.put("/:id", async (req, res) => {
     }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id",
+    [
+        param("id").notEmpty().withMessage("ID is required"),
+    ], async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return next({
+            status: 400,
+            message: "Validation errors",
+            errors: errors.array(),
+        });
+    }
     try {
         await userService.deleteUser({ _id: req.params.id });
         res.status(200).json({

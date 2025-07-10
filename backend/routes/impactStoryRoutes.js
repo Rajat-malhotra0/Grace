@@ -1,8 +1,22 @@
 const express = require("express");
 const router = express.Router();
+const { body, query, param, validationResult } = require("express-validator");
 const impactStoryService = require("../services/impactStoryService");
 
-router.post("/", async (req, res) => {
+router.post("/",
+    [
+        body("title").trim().notEmpty().withMessage("Title is required"),
+        body("description").trim().notEmpty().withMessage("Description is required"),
+        body("ngoId").notEmpty().withMessage("NGO ID is required").isMongoId().withMessage("Invalid NGO ID format"),
+    ], async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return next({
+            status: 400,
+            message: "Validation errors",
+            errors: errors.array(),
+        });
+    }
     try {
         const impactStory = await impactStoryService.createImpactStory(
             req.body
@@ -28,7 +42,19 @@ router.post("/", async (req, res) => {
     }
 });
 
-router.get("/", async (req, res) => {
+router.get("/",
+    [
+        query("title").optional().trim(),
+        query("ngoId").optional().isMongoId().withMessage("Invalid NGO ID format"),
+    ], async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return next({
+            status: 400,
+            message: "Validation errors",
+            errors: errors.array(),
+        });
+    }
     try {
         const filter = req.query;
         const impactStories = await impactStoryService.readImpactStories(
@@ -48,7 +74,18 @@ router.get("/", async (req, res) => {
     }
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id",
+    [
+        param("id").notEmpty().withMessage("ID is required").isMongoId().withMessage("Invalid ID format"),
+    ], async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return next({
+            status: 400,
+            message: "Validation errors",
+            errors: errors.array(),
+        });
+    }
     try {
         const impactStories = await impactStoryService.readImpactStories({
             _id: req.params.id,
@@ -74,7 +111,21 @@ router.get("/:id", async (req, res) => {
     }
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/:id",
+    [
+        param("id").notEmpty().withMessage("ID is required").isMongoId().withMessage("Invalid ID format"),
+        body("title").trim().notEmpty().withMessage("Title is required"),
+        body("description").trim().notEmpty().withMessage("Description is required"),
+        body("ngoId").notEmpty().withMessage("NGO ID is required").isMongoId().withMessage("Invalid NGO ID format"),
+    ], async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return next({
+            status: 400,
+            message: "Validation errors",
+            errors: errors.array(),
+        });
+    }
     try {
         const impactStory = await impactStoryService.updateImpactStory(
             { _id: req.params.id },
@@ -101,7 +152,18 @@ router.put("/:id", async (req, res) => {
     }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id",
+    [
+        param("id").notEmpty().withMessage("ID is required").isMongoId().withMessage("Invalid ID format"),
+    ], async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return next({
+            status: 400,
+            message: "Validation errors",
+            errors: errors.array(),
+        });
+    }   
     try {
         await impactStoryService.deleteImpactStory({ _id: req.params.id });
         res.status(200).json({

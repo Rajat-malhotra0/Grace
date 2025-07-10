@@ -1,9 +1,23 @@
 const express = require("express");
 const router = express.Router();
+const { body, query, param, validationResult } = require("express-validator");
 const paymentService = require("../services/paymentService");
 
-router.post("/", async (req, res) => {
-    try {
+router.post("/",
+    [
+        body("amount").isNumeric().withMessage("Amount must be a number"),
+        body("currency").isString().withMessage("Currency must be a string"),
+        body("paymentMethod").isString().withMessage("Payment method must be a string"),
+    ], async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return next({
+            status: 400,
+            message: "Validation errors",
+            errors: errors.array(),
+        });
+    }
+        try {
         const payment = await paymentService.createPayment(req.body);
         if (payment) {
             res.status(201).json({
@@ -26,8 +40,21 @@ router.post("/", async (req, res) => {
     }
 });
 
-router.get("/", async (req, res) => {
-    try {
+router.get("/",
+    [
+        query("amount").optional().isNumeric().withMessage("Amount must be a number"),
+        query("currency").optional().isString().withMessage("Currency must be a string"),
+        query("paymentMethod").optional().isString().withMessage("Payment method must be a string"),
+    ], async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return next({
+            status: 400,
+            message: "Validation errors",
+            errors: errors.array(),
+        });
+    }
+        try {
         const filter = req.query;
         const payments = await paymentService.readPayments(filter);
         res.status(200).json({
@@ -44,8 +71,19 @@ router.get("/", async (req, res) => {
     }
 });
 
-router.get("/:id", async (req, res) => {
-    try {
+router.get("/:id",
+    [
+        param("id").notEmpty().withMessage("ID is required").isMongoId().withMessage("Invalid ID format"),
+    ], async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return next({
+            status: 400,
+            message: "Validation errors",
+            errors: errors.array(),
+        });
+    }
+        try {
         const payments = await paymentService.readPayments({
             _id: req.params.id,
         });
@@ -70,7 +108,21 @@ router.get("/:id", async (req, res) => {
     }
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/:id",
+    [
+        param("id").notEmpty().withMessage("ID is required").isMongoId().withMessage("Invalid ID format"),
+        body("amount").optional().isNumeric().withMessage("Amount must be a number"),
+        body("currency").optional().isString().withMessage("Currency must be a string"),
+        body("paymentMethod").optional().isString().withMessage("Payment method must be a string"),
+    ], async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return next({
+            status: 400,
+            message: "Validation errors",
+            errors: errors.array(),
+        });
+    }
     try {
         const payment = await paymentService.updatePayment(
             { _id: req.params.id },
@@ -97,7 +149,18 @@ router.put("/:id", async (req, res) => {
     }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id",
+    [
+        param("id").notEmpty().withMessage("ID is required").isMongoId().withMessage("Invalid ID format"),
+    ], async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return next({
+            status: 400,
+            message: "Validation errors",
+            errors: errors.array(),
+        });
+    }
     try {
         await paymentService.deletePayment({ _id: req.params.id });
         res.status(200).json({
