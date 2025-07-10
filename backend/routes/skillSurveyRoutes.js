@@ -1,8 +1,25 @@
 const express = require("express");
 const router = express.Router();
+const { body, query, validationResult } = require("express-validator");
 const skillSurveyService = require("../services/skillSurveyService");
 
-router.post("/", async (req, res) => {
+router.post("/",
+    [
+        body('title').trim().notEmpty().withMessage("Title is required"),
+        body('description').trim().notEmpty().withMessage("Description is required"),
+        body('questions').isArray().withMessage("Questions must be an array"),
+        body('questions.*.questionText').trim().notEmpty().withMessage("Question text is required"),
+        body('questions.*.options').isArray().withMessage("Options must be an array"),
+        body('questions.*.options.*').trim().notEmpty().withMessage("Option text cannot be empty"),
+    ], async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return next({
+            status: 400,
+            message: "Validation errors",
+            errors: errors.array(),
+        });
+    }
     try {
         const skillSurvey = await skillSurveyService.createSkillSurvey(
             req.body
@@ -28,7 +45,20 @@ router.post("/", async (req, res) => {
     }
 });
 
-router.get("/", async (req, res) => {
+router.get("/",
+    [
+        query("title").optional().trim(),
+        query("description").optional().trim(),
+        query("questions").optional().isArray().withMessage("Questions must be an array"),
+    ], async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return next({
+            status: 400,
+            message: "Validation errors",
+            errors: errors.array(),
+        });
+    }
     try {
         const filter = req.query;
         const skillSurveys = await skillSurveyService.readSkillSurveys(filter);
@@ -46,8 +76,19 @@ router.get("/", async (req, res) => {
     }
 });
 
-router.get("/:id", async (req, res) => {
-    try {
+router.get("/:id",
+    [
+        param("id").notEmpty().withMessage("ID is required").isMongoId().withMessage("Invalid ID format"),
+    ], async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return next({
+            status: 400,
+            message: "Validation errors",
+            errors: errors.array(),
+        });
+    }
+        try {
         const skillSurveys = await skillSurveyService.readSkillSurveys({
             _id: req.params.id,
         });
@@ -72,7 +113,23 @@ router.get("/:id", async (req, res) => {
     }
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/:id",
+    [
+        body('title').trim().notEmpty().withMessage("Title is required"),
+        body('description').trim().notEmpty().withMessage("Description is required"),
+        body('questions').isArray().withMessage("Questions must be an array"),
+        body('questions.*.questionText').trim().notEmpty().withMessage("Question text is required"),
+        body('questions.*.options').isArray().withMessage("Options must be an array"),
+        body('questions.*.options.*').trim().notEmpty().withMessage("Option text cannot be empty"),
+    ], async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return next({
+            status: 400,
+            message: "Validation errors",
+            errors: errors.array(),
+        });
+    }
     try {
         const skillSurvey = await skillSurveyService.updateSkillSurvey(
             { _id: req.params.id },
@@ -99,7 +156,18 @@ router.put("/:id", async (req, res) => {
     }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id",
+    [
+        param("id").notEmpty().withMessage("ID is required").isMongoId().withMessage("Invalid ID format"),
+    ], async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return next({
+            status: 400,
+            message: "Validation errors",
+            errors: errors.array(),
+        });
+    }
     try {
         await skillSurveyService.deleteSkillSurvey({ _id: req.params.id });
         res.status(200).json({

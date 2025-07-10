@@ -1,9 +1,24 @@
 const express = require("express");
 const router = express.Router();
+const { body, query, validationResult } = require("express-validator");
 const taskService = require("../services/taskService");
 
-router.post("/", async (req, res) => {
-    try {
+router.post("/",[
+    body("title").trim().notEmpty().withMessage("Title is required"),
+    body("description").trim().notEmpty().withMessage("Description is required"),
+    body("status").isIn(['pending', 'in-progress', 'completed']).withMessage("Status must be one of: pending, in-progress, completed"),
+    body("assignedTo").optional().isMongoId().withMessage("Invalid user ID"),
+],
+    async (req, res, next) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return next({
+                status: 400,
+                message: "Validation errors",
+                errors: errors.array(),
+            });
+        }
+        try {
         const task = await taskService.createTask(req.body);
         if (task) {
             res.status(201).json({
@@ -26,8 +41,21 @@ router.post("/", async (req, res) => {
     }
 });
 
-router.get("/", async (req, res) => {
-    try {
+router.get("/",
+    [
+        query("title").optional().trim(),
+        query("status").optional().isIn(['pending', 'in-progress', 'completed']).withMessage("Status must be one of: pending, in-progress, completed"),
+        query("assignedTo").optional().isMongoId().withMessage("Invalid user ID"),
+    ], async (req, res, next) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return next({
+                status: 400,
+                message: "Validation errors",
+                errors: errors.array(),
+            });
+        }
+        try {
         const filter = req.query;
         const tasks = await taskService.readTasks(filter);
         res.status(200).json({
@@ -44,7 +72,18 @@ router.get("/", async (req, res) => {
     }
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id",
+    [
+        query("id").notEmpty().withMessage("ID is required").isMongoId().withMessage("Invalid ID format"),
+    ], async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return next({
+            status: 400,
+            message: "Validation errors",
+            errors: errors.array(),
+        });
+    }
     try {
         const tasks = await taskService.readTasks({ _id: req.params.id });
         if (tasks && tasks.length > 0) {
@@ -68,7 +107,21 @@ router.get("/:id", async (req, res) => {
     }
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/:id",
+    [
+        body("title").optional().trim().notEmpty().withMessage("Title cannot be empty"),
+        body("description").optional().trim().notEmpty().withMessage("Description cannot be empty"),
+        body("status").optional().isIn(['pending', 'in-progress', 'completed']).withMessage("Status must be one of: pending, in-progress, completed"),
+        body("assignedTo").optional().isMongoId().withMessage("Invalid user ID"),
+    ], async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return next({
+            status: 400,
+            message: "Validation errors",
+            errors: errors.array(),
+        });
+    }
     try {
         const task = await taskService.updateTask(
             { _id: req.params.id },
@@ -95,8 +148,19 @@ router.put("/:id", async (req, res) => {
     }
 });
 
-router.delete("/:id", async (req, res) => {
-    try {
+router.delete("/:id", 
+    [
+        query("id").notEmpty().withMessage("ID is required").isMongoId().withMessage("Invalid ID format"),
+    ], async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return next({
+            status: 400,
+            message: "Validation errors",
+            errors: errors.array(),
+        });
+    }
+        try {
         await taskService.deleteTask({ _id: req.params.id });
         res.status(200).json({
             success: true,

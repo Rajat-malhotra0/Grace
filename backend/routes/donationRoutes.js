@@ -1,8 +1,22 @@
 const express = require("express");
 const router = express.Router();
+const { body, query, param, validationResult } = require("express-validator");
 const donationService = require("../services/donationService");
 
-router.post("/", async (req, res) => {
+router.post("/",
+    [
+        body("amount").notEmpty().withMessage("Amount is required").isNumeric().withMessage("Amount must be a number"),
+        body("donorId").notEmpty().withMessage("Donor ID is required").isMongoId().withMessage("Invalid Donor ID format"),
+        body("ngoId").notEmpty().withMessage("NGO ID is required").isMongoId().withMessage("Invalid NGO ID format"),
+    ], async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return next({
+            status: 400,
+            message: "Validation errors",
+            errors: errors.array(),
+        });
+    }
     try {
         const donation = await donationService.createDonation(req.body);
         if (donation) {
@@ -26,7 +40,20 @@ router.post("/", async (req, res) => {
     }
 });
 
-router.get("/", async (req, res) => {
+router.get("/",
+    [
+        query("amount").optional().isNumeric().withMessage("Amount must be a number"),
+        query("donorId").optional().isMongoId().withMessage("Invalid Donor ID format"),
+        query("ngoId").optional().isMongoId().withMessage("Invalid NGO ID format"),
+    ], async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return next({
+            status: 400,
+            message: "Validation errors",
+            errors: errors.array(),
+        });
+    }
     try {
         const filter = req.query;
         const donations = await donationService.readDonations(filter);
@@ -44,7 +71,18 @@ router.get("/", async (req, res) => {
     }
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id",
+    [
+        param("id").notEmpty().withMessage("ID is required").isMongoId().withMessage("Invalid ID format"),
+    ], async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return next({
+            status: 400,
+            message: "Validation errors",
+            errors: errors.array(),
+        });
+    }
     try {
         const donations = await donationService.readDonations({
             _id: req.params.id,
@@ -70,7 +108,21 @@ router.get("/:id", async (req, res) => {
     }
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/:id",
+    [
+        param("id").notEmpty().withMessage("ID is required").isMongoId().withMessage("Invalid ID format"),
+        body("amount").optional().isNumeric().withMessage("Amount must be a number"),
+        body("donorId").optional().isMongoId().withMessage("Invalid Donor ID format"),
+        body("ngoId").optional().isMongoId().withMessage("Invalid NGO ID format"),
+    ], async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return next({
+            status: 400,
+            message: "Validation errors",
+            errors: errors.array(),
+        });
+    }
     try {
         const donation = await donationService.updateDonation(
             { _id: req.params.id },
@@ -97,7 +149,18 @@ router.put("/:id", async (req, res) => {
     }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id",
+    [
+        param("id").notEmpty().withMessage("ID is required").isMongoId().withMessage("Invalid ID format"),
+    ], async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return next({
+            status: 400,
+            message: "Validation errors",
+            errors: errors.array(),
+        });
+    }
     try {
         await donationService.deleteDonation({ _id: req.params.id });
         res.status(200).json({

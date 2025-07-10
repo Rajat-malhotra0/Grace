@@ -1,8 +1,24 @@
 const express = require("express");
 const router = express.Router();
+const { body, query, param, validationResult } = require("express-validator");
 const ngoService = require("../services/ngoService");
 
-router.post("/", async (req, res) => {
+router.post("/",
+    [
+        body("name").trim().notEmpty().withMessage("Name is required").isLength({ min: 3 }).withMessage("Name must be at least 3 characters long"),
+        body("email").trim().isEmail().withMessage("Email is required"),
+        body("address").trim().notEmpty().withMessage("Address is required"),
+        body("phone").trim().notEmpty().withMessage("Phone number is required"),
+
+    ], async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return next({
+            status: 400,
+            message: "Validation errors",
+            errors: errors.array(),
+        });
+    }
     try {
         const ngo = await ngoService.createNgo(req.body);
         if (ngo) {
@@ -26,7 +42,21 @@ router.post("/", async (req, res) => {
     }
 });
 
-router.get("/", async (req, res) => {
+router.get("/",
+    [
+        query("name").optional().trim(),
+        query("email").optional().isEmail().withMessage("Invalid email format"),
+        query("address").optional().trim(),
+        query("phone").optional().trim(),
+    ], async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return next({
+            status: 400,
+            message: "Validation errors",
+            errors: errors.array(),
+        });
+    }
     try {
         const filter = req.query;
         const ngos = await ngoService.readNgos(filter);
@@ -44,7 +74,18 @@ router.get("/", async (req, res) => {
     }
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id",
+    [
+        param("id").notEmpty().withMessage("ID is required")
+    ], async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return next({
+            status: 400,
+            message: "Validation errors",
+            errors: errors.array(),
+        });
+    }
     try {
         const ngos = await ngoService.readNgos({ _id: req.params.id });
         if (ngos && ngos.length > 0) {
@@ -68,7 +109,22 @@ router.get("/:id", async (req, res) => {
     }
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/:id",
+    [
+        param("id").notEmpty().withMessage("ID is required").isMongoId().withMessage("Invalid ID format"),
+        body("name").trim().notEmpty().withMessage("Name is required").isLength({ min: 3 }).withMessage("Name must be at least 3 characters long"),
+        body("email").trim().isEmail().withMessage("Email is required"),
+        body("address").trim().notEmpty().withMessage("Address is required"),
+        body("phone").trim().notEmpty().withMessage("Phone number is required"),
+    ], async (req, res, next) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return next({
+                status: 400,
+                message: "Validation errors",
+                errors: errors.array(),
+            });
+        }
     try {
         const ngo = await ngoService.updateNgo(
             { _id: req.params.id },
@@ -95,7 +151,18 @@ router.put("/:id", async (req, res) => {
     }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id",
+    [
+        param("id").notEmpty().withMessage("ID is required").isMongoId().withMessage("Invalid ID format"),
+    ], async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return next({
+            status: 400,
+            message: "Validation errors",
+            errors: errors.array(),
+        });
+    }
     try {
         await ngoService.deleteNgo({ _id: req.params.id });
         res.status(200).json({
