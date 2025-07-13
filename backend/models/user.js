@@ -26,19 +26,14 @@ const userSchema = new mongoose.Schema({
 userSchema.pre("save", async function (next) {
     if (!this.isModified("password")) return next();
     this.password = await bcrypt.hash(this.password, 12);
-    next();
-
-    //Someone add hashing here
-
     this.updatedAt = new Date();
+    next();    
 });
 
 userSchema.methods.comparePassword = async function (candidatePassword) {
     return await bcrypt.compare(candidatePassword, this.password);
 };
 
-userSchema.index({ email: 1 });
-userSchema.index({ userName: 1 });
 userSchema.index({ role: 1 });
 
 module.exports = mongoose.model("user", userSchema);

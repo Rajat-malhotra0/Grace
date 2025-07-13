@@ -1,11 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const { body, query, validationResult  } = require("express-validator");
+const { body, query,param,validationResult  } = require("express-validator");
 const userService = require("../services/userService");
 
 router.post("/",
     [
-    body("name").trim().notEmpty().withMessage("Name is required").isLength({min: 3}).withMessage("Name must be at least 3 characters long"),
+    body("userName").trim().notEmpty().withMessage("userName is required").isLength({min: 3}).withMessage("Name must be at least 3 characters long"),
     body("email").trim().isEmail().withMessage("email is required"),
     body("password").trim().isLength({ min: 6 }).withMessage("Password must be atleast 6 characters Long"),
     body("role").isIn(['volunteer','donor','admin']).withMessage("Role must be one of: volunteer, donor, admin"),
@@ -45,7 +45,7 @@ router.post("/",
 
 router.get("/",
     [
-        query("name").optional().trim(),
+        query("userName").optional().trim(),
         query("email").optional().isEmail().withMessage("Invalid email format"),
         query("role").optional().isIn(['volunteer', 'donor', 'admin']).withMessage("Role must be one of: volunteer, donor, admin"),
         query("isActive").optional().isBoolean().withMessage("isActive must be a boolean"),
@@ -77,7 +77,7 @@ router.get("/",
 
 router.get("/:id",
     [
-        query("id").notEmpty().withMessage("ID is required")
+        param("id").notEmpty().withMessage("ID is required").isMongoId().withMessage("Invalid ID"),
     ], async (req, res) => {
         const error = validationResult(req);
         if (!error.isEmpty()) {
@@ -87,7 +87,6 @@ router.get("/:id",
                 errors: error.array(),
             });
         }
-        res.send(`User ID: ${req.params.id}`);
     try {
         const users = await userService.readUsers({ _id: req.params.id });
         if (users && users.length > 0) {
@@ -113,7 +112,7 @@ router.get("/:id",
 
 router.put("/:id",
     [
-    body("name").trim().notEmpty().withMessage("Name is required").isLength({min: 3}).withMessage("Name must be at least 3 characters long"),
+    body("userName").trim().notEmpty().withMessage("Name is required").isLength({min: 3}).withMessage("Name must be at least 3 characters long"),
     body("email").trim().isEmail().withMessage("email is required"),
     body("password").trim().isLength({ min: 6 }).withMessage("Password must be atleast 6 characters Long"),
     body("role").isIn(['volunteer','donor','admin']).withMessage("Role must be one of: volunteer, donor, admin"),

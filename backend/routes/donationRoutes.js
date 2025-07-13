@@ -5,9 +5,11 @@ const donationService = require("../services/donationService");
 
 router.post("/",
     [
-        body("amount").notEmpty().withMessage("Amount is required").isNumeric().withMessage("Amount must be a number"),
-        body("donorId").notEmpty().withMessage("Donor ID is required").isMongoId().withMessage("Invalid Donor ID format"),
-        body("ngoId").notEmpty().withMessage("NGO ID is required").isMongoId().withMessage("Invalid NGO ID format"),
+        body("donor").notEmpty().withMessage("User ID is required").isMongoId().withMessage("Invalid User ID format"),
+        body("amount").isNumeric().withMessage("Amount must be a number"),
+        body("donationType").optional().isIn(["monetary", "goods"]).withMessage("Donation type must be either 'monetary' or 'goods'"),
+        body("currency").optional().isString().withMessage("Currency must be a string"),
+        body("transactionId").optional().isString().withMessage("Transaction ID must be a string"),
     ], async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -43,7 +45,7 @@ router.post("/",
 router.get("/",
     [
         query("amount").optional().isNumeric().withMessage("Amount must be a number"),
-        query("donorId").optional().isMongoId().withMessage("Invalid Donor ID format"),
+        query("donor").optional().isMongoId().withMessage("Invalid Donor ID format"),
         query("ngoId").optional().isMongoId().withMessage("Invalid NGO ID format"),
     ], async (req, res) => {
         const errors = validationResult(req);
@@ -112,7 +114,7 @@ router.put("/:id",
     [
         param("id").notEmpty().withMessage("ID is required").isMongoId().withMessage("Invalid ID format"),
         body("amount").optional().isNumeric().withMessage("Amount must be a number"),
-        body("donorId").optional().isMongoId().withMessage("Invalid Donor ID format"),
+        body("donor").optional().isMongoId().withMessage("Invalid Donor ID format"),
         body("ngoId").optional().isMongoId().withMessage("Invalid NGO ID format"),
     ], async (req, res) => {
         const errors = validationResult(req);

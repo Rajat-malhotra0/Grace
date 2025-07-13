@@ -1,14 +1,15 @@
 const express = require("express");
 const router = express.Router();
-const { body, query, validationResult } = require("express-validator");
+const { body, query,param, validationResult } = require("express-validator");
 const taskService = require("../services/taskService");
 
 router.post("/",[
     body("title").trim().notEmpty().withMessage("Title is required"),
-    body("description").trim().notEmpty().withMessage("Description is required"),
-    body("status").isIn(['pending', 'in-progress', 'completed']).withMessage("Status must be one of: pending, in-progress, completed"),
+    body("category").notEmpty().isMongoId().withMessage("Category ID is required"),
+    body("ngo").notEmpty().isMongoId().withMessage("NGO ID is required "),
+    body("createdBy").notEmpty().isMongoId().withMessage("CreatedBy ID is required and must be a valid MongoDB ObjectId"),
     body("assignedTo").optional().isMongoId().withMessage("Invalid user ID"),
-],
+    ],
     async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -44,7 +45,7 @@ router.post("/",[
 router.get("/",
     [
         query("title").optional().trim(),
-        query("status").optional().isIn(['pending', 'in-progress', 'completed']).withMessage("Status must be one of: pending, in-progress, completed"),
+        query("status").optional().isIn(["free", "in-progress", "done", "cancelled"]).withMessage("Status must be one of: free, in-progress, done, cancelled"),
         query("assignedTo").optional().isMongoId().withMessage("Invalid user ID"),
     ], async (req, res) => {
         const errors = validationResult(req);
@@ -71,10 +72,9 @@ router.get("/",
         });
     }
 });
-
 router.get("/:id",
     [
-        query("id").notEmpty().withMessage("ID is required").isMongoId().withMessage("Invalid ID format"),
+        param("id").notEmpty().withMessage("ID is required").isMongoId().withMessage("Invalid ID format"),
     ], async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -111,7 +111,7 @@ router.put("/:id",
     [
         body("title").optional().trim().notEmpty().withMessage("Title cannot be empty"),
         body("description").optional().trim().notEmpty().withMessage("Description cannot be empty"),
-        body("status").optional().isIn(['pending', 'in-progress', 'completed']).withMessage("Status must be one of: pending, in-progress, completed"),
+        body("status").optional().isIn(["free", "in-progress", "done", "cancelled"]).withMessage("Status must be one of: free, in-progress, done, cancelled"),
         body("assignedTo").optional().isMongoId().withMessage("Invalid user ID"),
     ], async (req, res) => {
         const errors = validationResult(req);
@@ -150,7 +150,7 @@ router.put("/:id",
 
 router.delete("/:id", 
     [
-        query("id").notEmpty().withMessage("ID is required").isMongoId().withMessage("Invalid ID format"),
+        param("id").notEmpty().withMessage("ID is required").isMongoId().withMessage("Invalid ID format"),
     ], async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
