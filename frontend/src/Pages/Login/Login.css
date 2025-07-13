@@ -1,0 +1,106 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap");
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 120px 2rem 2rem 2rem; /* Top padding for fixed header */
+    background-color: #f4f7f6;
+    font-family: "Poppins", sans-serif;
+    box-sizing: border-box;
+}
+
+.login-box {
+    width: 100%;
+    max-width: 420px; /* Slightly smaller for a simpler form */
+    background: #ffffff;
+    padding: 2.5rem;
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.login-header h1 {
+    font-family: var(--font-serif); /* From Header.css */
+    font-size: 2.5rem;
+    color: #333;
+    margin: 0;
+}
+
+.login-header p {
+    font-size: 1rem;
+    color: #666;
+    margin-top: 0.5rem;
+}
+
+.login-form input[type="email"],
+.login-form input[type="password"] {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 1.25rem; /* More space between inputs */
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    color: #333;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    box-sizing: border-box;
+}
+
+.login-form input:focus {
+    outline: none;
+    border-color: #555;
+    box-shadow: 0 0 0 2px rgba(85, 85, 85, 0.1);
+}
+
+.login-form button {
+    width: 100%;
+    padding: 14px;
+    background-color: #222;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    margin-top: 1rem;
+}
+
+.login-form button:hover {
+    background-color: #444;
+    transform: translateY(-2px);
+}
+
+.register-link {
+    text-align: center;
+    margin-top: 1.5rem;
+    font-size: 0.95rem;
+    color: #666;
+}
+
+.register-link a {
+    color: #333;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.register-link a:hover {
+    color: #000;
+    text-decoration: underline;
+}
+
+@media (max-width: 520px) {
+    .login-box {
+        padding: 2rem 1.5rem;
+    }
+
+    .login-header h1 {
+        font-size: 2rem;
+    }
+}

@@ -1,0 +1,147 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap");
+
+/* This is the main container for the page */
+.register-page-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 120px 2rem 2rem 2rem; /* Top padding for fixed header */
+    background-color: #f4f7f6;
+    font-family: "Poppins", sans-serif;
+    box-sizing: border-box;
+}
+
+/* Introductory paragraph */
+.register-page-container > p {
+    text-align: center;
+    font-size: 1.1rem;
+    color: #555;
+    max-width: 500px;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+/* "Create an account" heading */
+.register-page-container > span:first-of-type {
+    font-family: var(--font-serif); /* Using serif font from your header */
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+/* The form box */
+.register-page-container form {
+    width: 100%;
+    max-width: 480px;
+    background: #ffffff;
+    padding: 2.5rem;
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+}
+
+/* All text, password, and date inputs */
+.register-page-container form input[type="text"],
+.register-page-container form input[type="email"],
+.register-page-container form input[type="password"],
+.register-page-container form input[type="date"] {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    color: #333;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    box-sizing: border-box;
+}
+
+.register-page-container form input:focus {
+    outline: none;
+    border-color: #555;
+    box-shadow: 0 0 0 2px rgba(85, 85, 85, 0.1);
+}
+
+/* All form labels */
+.register-page-container form label {
+    display: flex;
+    align-items: center;
+    text-align: left;
+    font-size: 0.95rem;
+    color: #555;
+    margin-bottom: 1rem;
+    cursor: pointer;
+}
+
+/* Special styling for the Date of Birth label to stack it */
+.register-page-container form label:has(input[type="date"]) {
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.register-page-container form label input[type="date"] {
+    margin-top: 0.5rem;
+}
+
+/* Radio and Checkbox inputs */
+.register-page-container form input[type="radio"],
+.register-page-container form input[type="checkbox"] {
+    margin-right: 0.75rem;
+    accent-color: #333;
+    width: 1.1em;
+    height: 1.1em;
+    flex-shrink: 0;
+}
+
+/* Submit button */
+.register-page-container form button[type="submit"] {
+    width: 100%;
+    padding: 14px;
+    background-color: #222;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    margin-top: 1rem;
+}
+
+.register-page-container form button[type="submit"]:hover {
+    background-color: #444;
+    transform: translateY(-2px);
+}
+
+/* "Already have an account" link */
+.register-page-container > span:last-of-type {
+    text-align: center;
+    margin-top: 1.5rem;
+    font-size: 0.95rem;
+    color: #666;
+}
+
+.register-page-container > span:last-of-type a {
+    color: #333;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.register-page-container > span:last-of-type a:hover {
+    color: #000;
+    text-decoration: underline;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 520px) {
+    .register-page-container form {
+        padding: 2rem 1.5rem;
+    }
+
+    .register-page-container > span:first-of-type {
+        font-size: 2rem;
+    }
+}
