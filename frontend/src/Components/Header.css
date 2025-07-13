@@ -1,0 +1,90 @@
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&display=swap");
+
+:root {
+  --font-serif: "Playfair Display", serif;
+}
+
+/* Sticky header */
+.grace-header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding: 1.2rem 0;
+  background: transparent;
+  transition: background-color 0.4s ease;
+  z-index: 1000;
+}
+
+.grace-header.scrolled {
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+/* Header inner container */
+.header-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; 
+  padding: 0 2rem;
+}
+
+/* Logo text */
+.logo {
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  font-weight: 400;
+  color: white;
+  transition: color 0.4s ease;
+}
+
+.grace-header.scrolled .logo {
+  color: black;
+}
+
+/* Navigation links */
+.nav-links a {
+  font-family: var(--font-serif);
+  margin: 0 1rem;
+  text-decoration: none;
+  color: white;
+  font-size: 1rem;
+  transition: color 0.3s ease;
+}
+
+.grace-header.scrolled .nav-links a {
+  color: black;
+}
+
+.nav-links a:hover {
+  color: #888;
+}
+
+/* Button style (imported separately, but you can also keep it here) */
+.grace-button {
+  border: 1px solid white;
+  background: transparent;
+  color: white;
+  padding: 0.5rem 1rem;
+  text-transform: uppercase;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  transition: all 0.3s ease;
+}
+
+.grace-button:hover {
+  background: white;
+  color: black;
+}
+
+.grace-header.scrolled .grace-button {
+  border-color: black;
+  color: black;
+}
+
+.grace-header.scrolled .grace-button:hover {
+  background: black;
+  color: white;
+}

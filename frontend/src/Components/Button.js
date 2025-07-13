@@ -1,11 +1,12 @@
-import React from "react";
+//A resuable button component 
+import React from 'react';
+import './Button.css';
 
-function Button(props) {
+function Button({ text, onClick, className = '' }) {
   return (
-    <div>
-      
-      <button>{props.button_text}</button>
-    </div>
+    <button className={`grace-button ${className}`} onClick={onClick}>
+      {text}
+    </button>
   );
 }
 
