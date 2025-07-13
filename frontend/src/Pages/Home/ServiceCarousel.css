@@ -1,0 +1,164 @@
+.service-section {
+  padding: 5rem 1.5rem;
+  background-color: #f9fafb;
+}
+
+.container {
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.section-header h2 {
+  font-family: serif;
+  font-size: 4.5rem;
+  font-weight: 700;
+  color: #222;
+}
+
+.section-header p {
+  font-family: serif;
+  font-size: 1.8rem;
+  color: #555;
+  margin-top: 0.5rem;
+}
+
+.service-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+}
+
+.tab-btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 1rem;
+  font-size: 1rem;
+  font-weight: 500;
+  background-color: #eee;
+  color: #444;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.tab-btn:hover {
+  background-color: #ddd;
+}
+
+.active-tab {
+  color: white !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Background Color Utility */
+.bg-blue {
+  background-color: #092658;
+}
+.bg-pink {
+  background-color: #4f0228;
+}
+.bg-purple {
+  background-color: #190547;
+}
+.bg-yellow {
+  background-color: #4e3203;
+}
+.bg-emerald {
+  background-color: #013d29;
+}
+
+.service-card {
+  border-radius: 2rem;
+  overflow: hidden;
+  padding: 3rem 2rem;
+  color: white;
+}
+
+.service-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+@media (min-width: 1024px) {
+  .service-card-content {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+.service-icon-box {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.service-icon {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 9999px;
+  padding: 1.5rem;
+}
+
+.service-text {
+  flex: 1;
+}
+
+.service-text h3 {
+  font-family: serif;
+  font-size: 3rem;
+  font-weight: 900;
+  margin-bottom: 1rem;
+}
+
+.service-text .desc {
+  font-family: serif;
+  font-size: 1.5rem;
+  font-weight: 500;
+  opacity: 0.9;
+  margin-bottom: 1rem;
+}
+
+.service-text .details {
+  font-family: serif;
+  font-size: 1.5rem;
+  font-weight: 500;
+  opacity: 0.8;
+  margin-bottom: 2rem;
+}
+
+.service-btn {
+  background: white;
+  color: #222;
+  padding: 0.9rem 2rem;
+  border-radius: 2rem;
+  font-family: serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.service-btn:hover {
+  background: #f0f0f0;
+}
+.service-image-box {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-right: 2rem;
+}
+
+.service-image {
+  width: 100%;
+  max-width: 500px;
+  border-radius: 1.5rem;
+  object-fit: cover;
+}
