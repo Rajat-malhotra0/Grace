@@ -1,5 +1,6 @@
 const express = require("express");
 const connectDB = require("./db/connect");
+const cors = require("cors");
 // const http = require("http");
 // const SocketService = require("./services/socketService");
 
@@ -13,6 +14,7 @@ const taskRoutes = require("./routes/taskRoutes");
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 app.use("/api/users", userRoutes);
 app.use("/api/tasks", taskRoutes);

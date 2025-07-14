@@ -19,6 +19,10 @@ const userSchema = new mongoose.Schema({
     ],
     about: { type: String, default: "" },
     score: { type: Number, default: 0 },
+    dob: { type: Date, default: null },
+    remindMe: { type: Boolean, default: false },
+    termsAccepted: { type: Boolean, default: false },
+    newsLetter: { type: Boolean, default: false },
     isActive: { type: Boolean, default: true },
     createdAt: { type: Date, default: Date.now, immutable: true },
 });

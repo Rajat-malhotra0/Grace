@@ -5,23 +5,23 @@ const userService = require("../services/userService");
 
 router.post(
     "/",
-    [
-        body("name")
-            .trim()
-            .notEmpty()
-            .withMessage("Name is required")
-            .isLength({ min: 3 })
-            .withMessage("Name must be at least 3 characters long"),
-        body("email").trim().isEmail().withMessage("email is required"),
-        body("password")
-            .trim()
-            .isLength({ min: 6 })
-            .withMessage("Password must be atleast 6 characters Long"),
-        body("role")
-            .isIn(["volunteer", "donor", "admin"])
-            .withMessage("Role must be one of: volunteer, donor, admin"),
-        body("about").optional().trim(),
-    ],
+    // [
+    //     body("name")
+    //         .trim()
+    //         .notEmpty()
+    //         .withMessage("Name is required")
+    //         .isLength({ min: 3 })
+    //         .withMessage("Name must be at least 3 characters long"),
+    //     body("email").trim().isEmail().withMessage("email is required"),
+    //     body("password")
+    //         .trim()
+    //         .isLength({ min: 6 })
+    //         .withMessage("Password must be atleast 6 characters Long"),
+    //     body("role")
+    //         .isIn(["volunteer", "donor", "admin"])
+    //         .withMessage("Role must be one of: volunteer, donor, admin"),
+    //     body("about").optional().trim(),
+    // ],
     async (req, res, next) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -95,6 +95,39 @@ router.get(
         }
     }
 );
+
+router.post("/login", async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        const users = await userService.readUsers({ email });
+        const user = Array.isArray(users) ? users[0] : users;
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found",
+            });
+        }
+        const isMatch = await user.comparePassword(password);
+        if (!isMatch) {
+            return res.status(401).json({
+                success: false,
+                message: "Invalid password",
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            message: "Login Sucessfull",
+            data: user,
+        });
+    } catch (err) {
+        res.status(500).json({
+            success: false,
+            message: "Internal server error",
+            error: err.message,
+        });
+    }
+});
 
 router.get(
     "/:id",

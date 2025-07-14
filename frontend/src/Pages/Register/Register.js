@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Register.css";
+import axios from "axios";
 
 function Register() {
     const [formData, setFormData] = useState({});
@@ -15,6 +16,38 @@ function Register() {
         }));
     };
 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        const payload = {
+            userName: formData.name,
+            email: formData.email,
+            password: formData.password,
+            role: formData.type ? [formData.type] : [],
+            about: "",
+            score: 0,
+            isActive: true,
+            dob: formData.dob,
+            remindMe: formData.remindMe || false,
+            termsAccepted: formData.termsAccepted || false,
+            newsLetter: formData.newsLetter || false,
+        };
+
+        try {
+            const response = await axios.post(
+                "http://localhost:3001/api/users",
+                payload
+            );
+
+            if (response.status === 201) {
+                alert("saved");
+                console.log(response.data);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
     return (
         <div className="register-page-container">
             <p>
@@ -24,7 +57,7 @@ function Register() {
                 changemakers
             </p>
             <span>Create an account</span>
-            <form>
+            <form onSubmit={handleSubmit}>
                 <label>Email</label>
                 <input
                     type="text"
@@ -59,15 +92,33 @@ function Register() {
                 ></input>
 
                 <label>
-                    <input type="radio" name="type" value="ngo" />
+                    <input
+                        type="radio"
+                        name="type"
+                        value="ngo"
+                        onChange={handleChange}
+                        checked={formData.type === "ngo"}
+                    />
                     NGO
                 </label>
                 <label>
-                    <input type="radio" name="type" value="donor" />
+                    <input
+                        type="radio"
+                        name="type"
+                        value="donor"
+                        onChange={handleChange}
+                        checked={formData.type === "donor"}
+                    />
                     donor
                 </label>
                 <label>
-                    <input type="radio" name="type" value="volunteer" />
+                    <input
+                        type="radio"
+                        name="type"
+                        value="volunteer"
+                        onChange={handleChange}
+                        checked={formData.type === "volunteer"}
+                    />
                     volunteer
                 </label>
 
