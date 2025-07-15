@@ -12,65 +12,108 @@ router.post("/",
     body("about").optional().trim()
     ],
     async (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({
-            success: false,
-            message: "Validation errors",
-            errors: errors.array()
-        });
-    }
-    try {
-        const user = await userService.createUser(req.body);
-        if (user) {
-            res.status(201).json({
-                success: true,
-                message: "User created successfully",
-                data: user,
-            });
-        } else {
-            res.status(400).json({
-                success: false,
-                message: "Failed to create user",
-            });
-        }
-    } catch (error) {
-        res.status(500).json({
-            success: false,
-            message: "Internal server error",
-            error: error.message,
-        });
-    }
-});
-
-router.get("/",
-    [
-        query("userName").optional().trim(),
-        query("email").optional().isEmail().withMessage("Invalid email format"),
-        query("role").optional().isIn(['volunteer', 'donor', 'admin']).withMessage("Role must be one of: volunteer, donor, admin"),
-        query("isActive").optional().isBoolean().withMessage("isActive must be a boolean"),
-    ], async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({
                 success: false,
                 message: "Validation errors",
-                errors: errors.array()
+                errors: errors.array(),
             });
         }
+        try {
+            const user = await userService.createUser(req.body);
+            if (user) {
+                res.status(201).json({
+                    success: true,
+                    message: "User created successfully",
+                    data: user,
+                });
+            } else {
+                res.status(400).json({
+                    success: false,
+                    message: "Failed to create user",
+                });
+            }
+        } catch (error) {
+            res.status(500).json({
+                success: false,
+                message: "Internal server error",
+                error: error.message,
+            });
+        }
+    }
+);
+
+router.get(
+    "/",
+    [
+        query("userName").optional().trim(),
+        query("email").optional().isEmail().withMessage("Invalid email format"),
+        query("role")
+            .optional()
+            .isIn(["volunteer", "donor", "admin"])
+            .withMessage("Role must be one of: volunteer, donor, admin"),
+        query("isActive")
+            .optional()
+            .isBoolean()
+            .withMessage("isActive must be a boolean"),
+    ],
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({
+                success: false,
+                message: "Validation errors",
+                errors: errors.array(),
+            });
+        }
+        try {
+            const filter = req.query;
+            const users = await userService.readUsers(filter);
+            res.status(200).json({
+                success: true,
+                message: "Users retrieved successfully",
+                data: users,
+            });
+        } catch (error) {
+            res.status(500).json({
+                success: false,
+                message: "Internal server error",
+                error: error.message,
+            });
+        }
+    }
+);
+
+router.post("/login", async (req, res) => {
     try {
-        const filter = req.query;
-        const users = await userService.readUsers(filter);
+        const { email, password } = req.body;
+        const users = await userService.readUsers({ email });
+        const user = Array.isArray(users) ? users[0] : users;
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found",
+            });
+        }
+        const isMatch = await user.comparePassword(password);
+        if (!isMatch) {
+            return res.status(401).json({
+                success: false,
+                message: "Invalid password",
+            });
+        }
+
         res.status(200).json({
             success: true,
-            message: "Users retrieved successfully",
-            data: users,
+            message: "Login Sucessfull",
+            data: user,
         });
-    } catch (error) {
+    } catch (err) {
         res.status(500).json({
             success: false,
             message: "Internal server error",
-            error: error.message,
+            error: err.message,
         });
     }
 });
@@ -110,7 +153,8 @@ router.get("/:id",
     }
 });
 
-router.put("/:id",
+router.put(
+    "/:id",
     [
     body("userName").trim().notEmpty().withMessage("Name is required").isLength({min: 3}).withMessage("Name must be at least 3 characters long"),
     body("email").trim().isEmail().withMessage("email is required"),
@@ -127,57 +171,59 @@ router.put("/:id",
                 errors: errors.array(),
             });
         }
-    try {
-        const user = await userService.updateUser(
-            { _id: req.params.id },
-            req.body
-        );
-        if (user) {
-            res.status(200).json({
-                success: true,
-                message: "User updated successfully",
-                data: user,
-            });
-        } else {
-            res.status(404).json({
+        try {
+            const user = await userService.updateUser(
+                { _id: req.params.id },
+                req.body
+            );
+            if (user) {
+                res.status(200).json({
+                    success: true,
+                    message: "User updated successfully",
+                    data: user,
+                });
+            } else {
+                res.status(404).json({
+                    success: false,
+                    message: "User not found",
+                });
+            }
+        } catch (error) {
+            res.status(500).json({
                 success: false,
-                message: "User not found",
+                message: "Internal server error",
+                error: error.message,
             });
         }
-    } catch (error) {
-        res.status(500).json({
-            success: false,
-            message: "Internal server error",
-            error: error.message,
-        });
     }
-});
+);
 
-router.delete("/:id",
-    [
-        param("id").notEmpty().withMessage("ID is required"),
-    ], async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({
-            success: false,
-            message: "Validation errors",
-            errors: errors.array(),
-        });
+router.delete(
+    "/:id",
+    [param("id").notEmpty().withMessage("ID is required")],
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({
+                success: false,
+                message: "Validation errors",
+                errors: errors.array(),
+            });
+        }
+        try {
+            await userService.deleteUser({ _id: req.params.id });
+            res.status(200).json({
+                success: true,
+                message: "User deleted successfully",
+            });
+        } catch (error) {
+            res.status(500).json({
+                success: false,
+                message: "Internal server error",
+                error: error.message,
+            });
+        }
     }
-    try {
-        await userService.deleteUser({ _id: req.params.id });
-        res.status(200).json({
-            success: true,
-            message: "User deleted successfully",
-        });
-    } catch (error) {
-        res.status(500).json({
-            success: false,
-            message: "Internal server error",
-            error: error.message,
-        });
-    }
-});
+);
 
 module.exports = router;

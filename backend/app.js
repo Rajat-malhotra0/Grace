@@ -15,6 +15,7 @@ const taskRoutes = require("./routes/taskRoutes");
 const app = express();
 app.use(express.json());
 app.use(cors());
+app.use(cors());
 
 app.use("/api/users", userRoutes);
 app.use("/api/tasks", taskRoutes);
@@ -31,7 +32,7 @@ async function run() {
     const server = http.createServer(app);
     socketService.init(server);
 
-    server.listen(3001, () => {
+    app.listen(3001, () => {
         console.log("Server is running on http://localhost:3001");
     });
 }
