@@ -19,6 +19,10 @@ const userSchema = new mongoose.Schema({
     ],
     about: { type: String, default: "" },
     score: { type: Number, default: 0 },
+    dob: { type: Date, default: null },
+    remindMe: { type: Boolean, default: false },
+    termsAccepted: { type: Boolean, default: false },
+    newsLetter: { type: Boolean, default: false },
     isActive: { type: Boolean, default: true },
     createdAt: { type: Date, default: Date.now, immutable: true },
 });
@@ -26,11 +30,8 @@ const userSchema = new mongoose.Schema({
 userSchema.pre("save", async function (next) {
     if (!this.isModified("password")) return next();
     this.password = await bcrypt.hash(this.password, 12);
-    next();
-
-    //Someone add hashing here
-
     this.updatedAt = new Date();
+    next();    
 });
 
 userSchema.methods.comparePassword = async function (candidatePassword) {

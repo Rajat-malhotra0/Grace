@@ -6,10 +6,11 @@ const ngoService = require("../services/ngoService");
 router.post("/",
     [
         body("name").trim().notEmpty().withMessage("Name is required").isLength({ min: 3 }).withMessage("Name must be at least 3 characters long"),
-        body("email").trim().isEmail().withMessage("Email is required"),
-        body("address").trim().notEmpty().withMessage("Address is required"),
-        body("phone").trim().notEmpty().withMessage("Phone number is required"),
-
+        body("category").notEmpty().withMessage("Category is required").isMongoId().withMessage("Invalid category ID format"),
+        body("location.address").trim().notEmpty().withMessage("Address is required"),
+        body("contact.email").trim().isEmail().withMessage("Valid email is required"),
+        body("contact.phone").trim().notEmpty().withMessage("Contact number is required"),
+        body("isVerified").optional().isBoolean().withMessage("isVerified must be a boolean"),
     ], async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -45,9 +46,10 @@ router.post("/",
 router.get("/",
     [
         query("name").optional().trim(),
-        query("email").optional().isEmail().withMessage("Invalid email format"),
-        query("address").optional().trim(),
-        query("phone").optional().trim(),
+        query("category").optional().isMongoId().withMessage("Invalid category ID format"),
+        query("location.address").optional().trim(),
+        query("contact.email").optional().isEmail().withMessage("Invalid email format"),
+        query("contact.phone").optional().trim(),
     ], async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -112,10 +114,12 @@ router.get("/:id",
 router.put("/:id",
     [
         param("id").notEmpty().withMessage("ID is required").isMongoId().withMessage("Invalid ID format"),
-        body("name").trim().notEmpty().withMessage("Name is required").isLength({ min: 3 }).withMessage("Name must be at least 3 characters long"),
-        body("email").trim().isEmail().withMessage("Email is required"),
-        body("address").trim().notEmpty().withMessage("Address is required"),
-        body("phone").trim().notEmpty().withMessage("Phone number is required"),
+        body("name").optional().trim().isLength({ min: 3 }).withMessage("Name must be at least 3 characters long"),
+        body("category").optional().isMongoId().withMessage("Invalid category ID format"),
+        body("location.address").optional().trim().notEmpty().withMessage("Address is required"),
+        body("contact.email").optional().isEmail().withMessage("Valid email is required"),
+        body("contact.phone").optional().trim().notEmpty().withMessage("Phone number is required"),
+        body("isVerified").optional().isBoolean().withMessage("isVerified must be a boolean"),
     ], async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {

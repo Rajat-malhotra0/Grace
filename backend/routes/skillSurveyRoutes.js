@@ -1,30 +1,17 @@
 const express = require("express");
 const router = express.Router();
-const { body, query, param, validationResult } = require("express-validator");
+const { body, query,param, validationResult } = require("express-validator");
 const skillSurveyService = require("../services/skillSurveyService");
 
 router.post(
     "/",
     [
-        body("title").trim().notEmpty().withMessage("Title is required"),
-        body("description")
-            .trim()
-            .notEmpty()
-            .withMessage("Description is required"),
-        body("questions").isArray().withMessage("Questions must be an array"),
-        body("questions.*.questionText")
-            .trim()
-            .notEmpty()
-            .withMessage("Question text is required"),
-        body("questions.*.options")
-            .isArray()
-            .withMessage("Options must be an array"),
-        body("questions.*.options.*")
-            .trim()
-            .notEmpty()
-            .withMessage("Option text cannot be empty"),
-    ],
-    async (req, res) => {
+        body('user').notEmpty().withMessage("User ID is required").isMongoId().withMessage("Invalid User ID format"),
+        body('skills').isArray().withMessage("Skills is not an array"),
+        body('interests').optional().isArray().withMessage("Interests is not an array"),
+        body('helpCategories').optional().isArray().withMessage("Help categories is not an array"),
+        body('availabilityHours').optional().isInt({ min: 0 }).withMessage("Availability hours is not valid"),
+    ], async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({
@@ -62,14 +49,11 @@ router.post(
 router.get(
     "/",
     [
-        query("title").optional().trim(),
-        query("description").optional().trim(),
-        query("questions")
-            .optional()
-            .isArray()
-            .withMessage("Questions must be an array"),
-    ],
-    async (req, res) => {
+        query("user").optional().isMongoId().withMessage("Invalid User ID format"),
+        query("skills").optional().isArray().withMessage("Skills must be an array"),
+        query("interests").optional().isArray().withMessage("Interests must be an array"),
+        query("helpCategories").optional().isArray().withMessage("Help categories must be an array"),
+    ], async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({
@@ -145,25 +129,12 @@ router.get(
 router.put(
     "/:id",
     [
-        body("title").trim().notEmpty().withMessage("Title is required"),
-        body("description")
-            .trim()
-            .notEmpty()
-            .withMessage("Description is required"),
-        body("questions").isArray().withMessage("Questions must be an array"),
-        body("questions.*.questionText")
-            .trim()
-            .notEmpty()
-            .withMessage("Question text is required"),
-        body("questions.*.options")
-            .isArray()
-            .withMessage("Options must be an array"),
-        body("questions.*.options.*")
-            .trim()
-            .notEmpty()
-            .withMessage("Option text cannot be empty"),
-    ],
-    async (req, res) => {
+        body('user').notEmpty().withMessage("User ID is required").isMongoId().withMessage("Invalid User ID format"),
+        body('skills').isArray().withMessage("Skills is not an array"),
+        body('interests').isArray().withMessage("Interests is not an array"),
+        body('helpCategories').isArray().withMessage("Help categories is not an array"),
+        body('availabilityHours').optional().isInt({ min: 0 }).withMessage("Availability hours is not valid"),
+    ], async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({

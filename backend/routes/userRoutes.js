@@ -1,26 +1,15 @@
 const express = require("express");
 const router = express.Router();
-const { body, query, param, validationResult } = require("express-validator");
+const { body, query,param,validationResult  } = require("express-validator");
 const userService = require("../services/userService");
 
-router.post(
-    "/",
+router.post("/",
     [
-        body("name")
-            .trim()
-            .notEmpty()
-            .withMessage("Name is required")
-            .isLength({ min: 3 })
-            .withMessage("Name must be at least 3 characters long"),
-        body("email").trim().isEmail().withMessage("email is required"),
-        body("password")
-            .trim()
-            .isLength({ min: 6 })
-            .withMessage("Password must be atleast 6 characters Long"),
-        body("role")
-            .isIn(["volunteer", "donor", "admin"])
-            .withMessage("Role must be one of: volunteer, donor, admin"),
-        body("about").optional().trim(),
+    body("userName").trim().notEmpty().withMessage("userName is required").isLength({min: 3}).withMessage("Name must be at least 3 characters long"),
+    body("email").trim().isEmail().withMessage("email is required"),
+    body("password").trim().isLength({ min: 6 }).withMessage("Password must be atleast 6 characters Long"),
+    body("role").isIn(['volunteer','donor','admin']).withMessage("Role must be one of: volunteer, donor, admin"),
+    body("about").optional().trim()
     ],
     async (req, res, next) => {
         const errors = validationResult(req);
@@ -58,7 +47,7 @@ router.post(
 router.get(
     "/",
     [
-        query("name").optional().trim(),
+        query("userName").optional().trim(),
         query("email").optional().isEmail().withMessage("Invalid email format"),
         query("role")
             .optional()
@@ -96,10 +85,43 @@ router.get(
     }
 );
 
-router.get(
-    "/:id",
-    [query("id").notEmpty().withMessage("ID is required")],
-    async (req, res) => {
+router.post("/login", async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        const users = await userService.readUsers({ email });
+        const user = Array.isArray(users) ? users[0] : users;
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found",
+            });
+        }
+        const isMatch = await user.comparePassword(password);
+        if (!isMatch) {
+            return res.status(401).json({
+                success: false,
+                message: "Invalid password",
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            message: "Login Sucessfull",
+            data: user,
+        });
+    } catch (err) {
+        res.status(500).json({
+            success: false,
+            message: "Internal server error",
+            error: err.message,
+        });
+    }
+});
+
+router.get("/:id",
+    [
+        param("id").notEmpty().withMessage("ID is required").isMongoId().withMessage("Invalid ID"),
+    ], async (req, res) => {
         const error = validationResult(req);
         if (!error.isEmpty()) {
             return res.status(400).json({
@@ -108,49 +130,37 @@ router.get(
                 errors: error.array(),
             });
         }
-        res.send(`User ID: ${req.params.id}`);
-        try {
-            const users = await userService.readUsers({ _id: req.params.id });
-            if (users && users.length > 0) {
-                res.status(200).json({
-                    success: true,
-                    message: "User retrieved successfully",
-                    data: users[0],
-                });
-            } else {
-                res.status(404).json({
-                    success: false,
-                    message: "User not found",
-                });
-            }
-        } catch (error) {
-            res.status(500).json({
+    try {
+        const users = await userService.readUsers({ _id: req.params.id });
+        if (users && users.length > 0) {
+            res.status(200).json({
+                success: true,
+                message: "User retrieved successfully",
+                data: users[0],
+            });
+        } else {
+            res.status(404).json({
                 success: false,
-                message: "Internal server error",
-                error: error.message,
+                message: "User not found",
             });
         }
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Internal server error",
+            error: error.message,
+        });
     }
-);
+});
 
 router.put(
     "/:id",
     [
-        body("name")
-            .trim()
-            .notEmpty()
-            .withMessage("Name is required")
-            .isLength({ min: 3 })
-            .withMessage("Name must be at least 3 characters long"),
-        body("email").trim().isEmail().withMessage("Email is required"),
-        body("password")
-            .trim()
-            .isLength({ min: 6 })
-            .withMessage("Password must be atleast 6 characters Long"),
-        body("role")
-            .isIn(["volunteer", "donor", "admin"])
-            .withMessage("Role must be one of: volunteer, donor, admin"),
-        body("about").optional().trim(),
+    body("userName").trim().notEmpty().withMessage("Name is required").isLength({min: 3}).withMessage("Name must be at least 3 characters long"),
+    body("email").trim().isEmail().withMessage("email is required"),
+    body("password").trim().isLength({ min: 6 }).withMessage("Password must be atleast 6 characters Long"),
+    body("role").isIn(['volunteer','donor','admin']).withMessage("Role must be one of: volunteer, donor, admin"),
+    body("about").optional().trim(),
     ],
     async (req, res) => {
         const errors = validationResult(req);
