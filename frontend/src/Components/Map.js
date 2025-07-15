@@ -4,7 +4,7 @@ import "azure-maps-control/dist/atlas.min.css";
 
 /*
 Data jo props mai pass karna hai:
-subscriptionKey -> Azure-api key
+subscriptionKey -> Azure-api key ==> Mail rajat-malhotra0 for the api key and DON'T push it on anuwhere.
 ngo -> Ngo data as an array
 
 I'll be attaching how to use this component at the end of the file.
@@ -127,7 +127,7 @@ function App() {
             <div className="right-panel">
                 <AzureMaps
                     subscriptionKey={
-                        "DodkJ2sUp8Ag5cxJzcqGFn4ozxtRILtvk6kYlLRvKEiBv7QQc2aMJQQJ99BGACYeBjFWujjBAAAgAZMP4CC9"
+                        "PASTE THE KEY HERE"
                     }
                     ngos={data}
                 />
