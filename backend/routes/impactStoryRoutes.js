@@ -6,8 +6,8 @@ const impactStoryService = require("../services/impactStoryService");
 router.post("/",
     [
         body("title").trim().notEmpty().withMessage("Title is required"),
-        body("description").trim().notEmpty().withMessage("Description is required"),
-        body("ngoId").notEmpty().withMessage("NGO ID is required").isMongoId().withMessage("Invalid NGO ID format"),
+        body("content").trim().notEmpty().withMessage("Description is required"),
+        body("createdBy").notEmpty().withMessage("Created by is required").isMongoId().withMessage("Invalid user ID format"),
     ], async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -45,7 +45,8 @@ router.post("/",
 router.get("/",
     [
         query("title").optional().trim(),
-        query("ngoId").optional().isMongoId().withMessage("Invalid NGO ID format"),
+        query("relatedTask").optional().isMongoId().withMessage("Invalid task ID format"),
+        query("createdBy").optional().isMongoId().withMessage("Invalid user ID format"),
     ], async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -115,8 +116,8 @@ router.put("/:id",
     [
         param("id").notEmpty().withMessage("ID is required").isMongoId().withMessage("Invalid ID format"),
         body("title").trim().notEmpty().withMessage("Title is required"),
-        body("description").trim().notEmpty().withMessage("Description is required"),
-        body("ngoId").notEmpty().withMessage("NGO ID is required").isMongoId().withMessage("Invalid NGO ID format"),
+        body("content").trim().notEmpty().withMessage("Content is required"),
+        body("createdBy").notEmpty().withMessage("Created by is required").isMongoId().withMessage("Invalid user ID format"),
     ], async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {

@@ -30,11 +30,8 @@ const userSchema = new mongoose.Schema({
 userSchema.pre("save", async function (next) {
     if (!this.isModified("password")) return next();
     this.password = await bcrypt.hash(this.password, 12);
-    next();
-
-    //Someone add hashing here
-
     this.updatedAt = new Date();
+    next();    
 });
 
 userSchema.methods.comparePassword = async function (candidatePassword) {

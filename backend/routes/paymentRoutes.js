@@ -8,6 +8,7 @@ router.post("/",
         body("amount").isNumeric().withMessage("Amount must be a number"),
         body("currency").isString().withMessage("Currency must be a string"),
         body("paymentMethod").isString().withMessage("Payment method must be a string"),
+        body("transactionId").isString().withMessage("Transaction ID must be a string"),
     ], async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
