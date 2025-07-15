@@ -1,10 +1,14 @@
-import "./App.css";
+import React from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
+import Header from './Components/Header';
+import Content from './Content';
 
 function App() {
     return (
-        <div>
-            <h1>Home page for grace</h1>
-        </div>
+        <Router>
+            <Header />
+            <Content />
+        </Router>
     );
 }
 
