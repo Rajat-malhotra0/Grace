@@ -3,6 +3,11 @@ import HeroSection from "./HeroSection";
 import NgoCarousel from "./NgoCarousel";
 import QuizSection from "./QuizSection";
 import ServiceCarousel from './ServiceCarousel';
+import ImpactStories from "./ImpactStories";
+import OurImpactSection from "./OurImpactSection";
+import FaqSection from "./FaqSection";
+import ContactSection from "./ContactSection";
+
 
 function Home() {
   return (
@@ -11,6 +16,10 @@ function Home() {
       <NgoCarousel />
       <QuizSection />
       <ServiceCarousel />
+      <ImpactStories />
+      <OurImpactSection />
+      <FaqSection />
+      <ContactSection />
     </div>
   );
 }

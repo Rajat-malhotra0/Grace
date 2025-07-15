@@ -1,0 +1,108 @@
+.impact-section {
+  background: #fff;
+  padding: 6rem 2rem;
+  position: relative;
+  text-align: center;
+}
+
+.impact-header-wrapper {
+  position: relative;
+  margin-bottom: 4rem;
+  padding: 2rem;
+}
+
+.impact-heading- {
+  font-size: 5rem;
+  font-family: serif;
+  font-weight: bold;
+  color: #222;
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.3;
+}
+
+.impact-heading- p {
+  font-size: 1.5rem;
+  font-family: serif;
+  color: #222;
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.3;
+}
+.leaf {
+  position: absolute;
+  width: 60px;
+  height: auto;
+  opacity: 0.9;
+}
+
+.leaf-1 {
+  top: -50px;
+  left: 40%;
+  transform: translateX(-50%) scale(1);
+}
+
+.leaf-2 {
+  top: -40px;
+  right: 15%;
+}
+
+.leaf-3 {
+  top: 250px;
+  left: 19%;
+  transform: translateX(-50%) scale(2.5);
+}
+
+.leaf-4 {
+  top: 180px;
+  right: 30%;
+  transform: translateX(-50%) scale(3.5);
+}
+
+.leaf-5 {
+  top: 60px;
+  left: 5%;
+  transform: translateX(-50%) scale(2.25);
+}
+
+.flower-1 {
+  top: 190px;
+  right: 5%;
+  transform: translateX(-50%) scale(3.25);
+}
+.sparkle-1 {
+  top: 120px;
+  left: 32%;
+  transform: translateX(-50%) scale(1.25);
+}
+.sparkle-2 {
+  top: 350px;
+  right: 17%;
+  transform: translateX(-50%) scale(1.9);
+}
+
+.testimonial-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .testimonial-grid {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+
+.testimonial-card {
+  background: #f8f4f2;
+  padding: 2rem;
+  border-radius: 16px;
+  font-family: serif;
+  font-size: 1.5rem;
+  color: #333;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  flex: 1;
+}
