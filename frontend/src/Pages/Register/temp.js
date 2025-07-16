@@ -1,10 +1,3 @@
-/*
-Todo: 
-link the category api to store it, or index the categories there and based on that put the category in the NGO
-Test if the data is going or not
-Make changes for donor and the volunteer section too
-*/
-
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Register.css";
@@ -26,35 +19,47 @@ function Register() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const url =
+        // Determine URL based on user role
+        const apiUrl =
             formData.role === "ngo"
                 ? "http://localhost:3001/api/ngos"
+                : formData.role === "donor"
+                ? "http://localhost:3001/api/donors"
+                : formData.role === "volunteer"
+                ? "http://localhost:3001/api/volunteers"
                 : "http://localhost:3001/api/users";
 
+        // Create payload based on user role
         const payload =
             formData.role === "ngo"
                 ? {
-                      name: formData.name,
-                      registerationId: formData.registrationNumber,
+                      userName: formData.name,
+                      email: formData.email,
+                      password: formData.password,
+                      role: [formData.role],
+                      organizationName: formData.organizationName,
+                      registrationNumber: formData.registrationNumber,
+                      address: formData.address,
+                      contactPerson: formData.contactPerson,
+                      phoneNumber: formData.phoneNumber,
+                      website: formData.website,
                       description: formData.description,
-                      category: formData.focusAreas, // This should be category ObjectId, change it later
-                      location: {
-                          address: formData.address,
-                      },
-                      contact: {
-                          email: formData.email,
-                          phone: formData.phoneNumber,
-                          website: formData.website,
-                      },
-                      isVerified: false,
+                      focusAreas: formData.focusAreas
+                          ? [formData.focusAreas]
+                          : [],
                       isActive: true,
+                      dob: formData.dob,
+                      remindMe: formData.remindMe || false,
+                      termsAccepted: formData.termsAccepted || false,
+                      newsLetter: formData.newsLetter || false,
+                      verificationStatus: "pending",
                   }
                 : {
                       userName: formData.name,
                       email: formData.email,
                       password: formData.password,
                       role: formData.role ? [formData.role] : [],
-                      about: "",
+                      about: formData.about || "",
                       score: 0,
                       isActive: true,
                       dob: formData.dob,
@@ -64,7 +69,7 @@ function Register() {
                   };
 
         try {
-            const response = await axios.post(url, payload);
+            const response = await axios.post(apiUrl, payload);
 
             if (response.status === 201) {
                 alert("Registration successful!");
@@ -95,7 +100,6 @@ function Register() {
                     value={formData.email || ""}
                     required
                 />
-
                 <label>Name</label>
                 <input
                     type="text"
@@ -105,7 +109,6 @@ function Register() {
                     value={formData.name || ""}
                     required
                 />
-
                 <label>Password</label>
                 <input
                     type="password"
@@ -115,7 +118,6 @@ function Register() {
                     value={formData.password || ""}
                     required
                 />
-
                 <label>Confirm Password</label>
                 <input
                     type="password"
@@ -160,6 +162,7 @@ function Register() {
                     </label>
                 </div>
 
+                {/* NGO-specific fields */}
                 {formData.role === "ngo" ? (
                     <>
                         <label>Organization Name</label>
@@ -188,6 +191,16 @@ function Register() {
                             placeholder="Organization Address"
                             onChange={handleChange}
                             value={formData.address || ""}
+                            required
+                        />
+
+                        <label>Contact Person</label>
+                        <input
+                            type="text"
+                            name="contactPerson"
+                            placeholder="Contact Person Name"
+                            onChange={handleChange}
+                            value={formData.contactPerson || ""}
                             required
                         />
 
@@ -220,105 +233,29 @@ function Register() {
                         />
 
                         <label>Focus Areas</label>
-                        <div className="focus-areas-group">
-                            <label>
-                                <input
-                                    type="radio"
-                                    name="focusAreas"
-                                    value="education"
-                                    onChange={handleChange}
-                                    checked={
-                                        formData.focusAreas === "education"
-                                    }
-                                    required
-                                />
-                                Education
-                            </label>
-                            <label>
-                                <input
-                                    type="radio"
-                                    name="focusAreas"
-                                    value="healthcare"
-                                    onChange={handleChange}
-                                    checked={
-                                        formData.focusAreas === "healthcare"
-                                    }
-                                />
-                                Healthcare
-                            </label>
-                            <label>
-                                <input
-                                    type="radio"
-                                    name="focusAreas"
-                                    value="environment"
-                                    onChange={handleChange}
-                                    checked={
-                                        formData.focusAreas === "environment"
-                                    }
-                                />
-                                Environment
-                            </label>
-                            <label>
-                                <input
-                                    type="radio"
-                                    name="focusAreas"
-                                    value="poverty"
-                                    onChange={handleChange}
-                                    checked={formData.focusAreas === "poverty"}
-                                />
-                                Poverty Alleviation
-                            </label>
-                            <label>
-                                <input
-                                    type="radio"
-                                    name="focusAreas"
-                                    value="women-empowerment"
-                                    onChange={handleChange}
-                                    checked={
-                                        formData.focusAreas ===
-                                        "women-empowerment"
-                                    }
-                                />
+                        <select
+                            name="focusAreas"
+                            onChange={handleChange}
+                            value={formData.focusAreas || ""}
+                            required
+                        >
+                            <option value="">Select Focus Area</option>
+                            <option value="education">Education</option>
+                            <option value="healthcare">Healthcare</option>
+                            <option value="environment">Environment</option>
+                            <option value="poverty">Poverty Alleviation</option>
+                            <option value="women-empowerment">
                                 Women Empowerment
-                            </label>
-                            <label>
-                                <input
-                                    type="radio"
-                                    name="focusAreas"
-                                    value="child-welfare"
-                                    onChange={handleChange}
-                                    checked={
-                                        formData.focusAreas === "child-welfare"
-                                    }
-                                />
-                                Child Welfare
-                            </label>
-                            <label>
-                                <input
-                                    type="radio"
-                                    name="focusAreas"
-                                    value="disaster-relief"
-                                    onChange={handleChange}
-                                    checked={
-                                        formData.focusAreas ===
-                                        "disaster-relief"
-                                    }
-                                />
+                            </option>
+                            <option value="child-welfare">Child Welfare</option>
+                            <option value="disaster-relief">
                                 Disaster Relief
-                            </label>
-                            <label>
-                                <input
-                                    type="radio"
-                                    name="focusAreas"
-                                    value="other"
-                                    onChange={handleChange}
-                                    checked={formData.focusAreas === "other"}
-                                />
-                                Other
-                            </label>
-                        </div>
+                            </option>
+                            <option value="other">Other</option>
+                        </select>
                     </>
                 ) : (
+                    // Fields for donor/volunteer
                     <>
                         <label>About Yourself (Optional)</label>
                         <textarea
@@ -376,7 +313,7 @@ function Register() {
             </form>
 
             <span>
-                Already have an account? <Link to="/login">Login</Link>
+                Already have an account: <Link to="/login">login</Link>
             </span>
         </div>
     );

@@ -2,6 +2,8 @@ const mongoose = require("mongoose");
 
 const ngoSchema = new mongoose.Schema({
     name: { type: String, required: true },
+    registerationId: { type: String, default: "" },
+    yearEstablished: { type: Number, default: 0 },
     description: { type: String, default: "" },
     category: {
         type: mongoose.Schema.Types.ObjectId,
@@ -24,6 +26,7 @@ const ngoSchema = new mongoose.Schema({
         phone: { type: String, default: "" },
         website: { type: String, default: "" },
     },
+    otherCauses: { type: String, default: "" },
     isVerified: { type: Boolean, default: false },
     isActive: { type: Boolean, default: true },
     createdAt: { type: Date, default: Date.now, immutable: true },
