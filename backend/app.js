@@ -11,6 +11,7 @@ const ngoRoutes = require("./routes/ngoRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
 const skillSurveyRoutes = require("./routes/skillSurveyRoutes");
 const taskRoutes = require("./routes/taskRoutes");
+const categoryRoutes = require("./routes/categoryRoutes");
 
 const app = express();
 app.use(express.json());
@@ -24,6 +25,7 @@ app.use("/api/skill-surveys", skillSurveyRoutes);
 app.use("/api/donations", donationRoutes);
 app.use("/api/payments", paymentRoutes);
 app.use("/api/impact-stories", impactStoryRoutes);
+app.use("/api/categories", categoryRoutes);
 
 async function run() {
     await connectDB();

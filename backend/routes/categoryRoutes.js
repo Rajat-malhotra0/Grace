@@ -7,7 +7,9 @@ router.post(
     "/",
     [
         body("name").trim().notEmpty().withMessage("Name is required"),
-        body("type").isIn(["task", "ngo", "interest"]).withMessage("Type must be one of: task, ngo, interest"),
+        body("type")
+            .isIn(["task", "ngo", "interest"])
+            .withMessage("Type must be one of: task, ngo, interest"),
         body("description").optional().trim(),
     ],
     async (req, res) => {
@@ -47,7 +49,10 @@ router.get(
     "/",
     [
         query("name").optional().trim(),
-        query("type").optional().isIn(["task", "ngo", "interest"]).withMessage("Type must be one of: task, ngo, interest"),
+        query("type")
+            .optional()
+            .isIn(["task", "ngo", "interest"])
+            .withMessage("Type must be one of: task, ngo, interest"),
     ],
     async (req, res) => {
         const errors = validationResult(req);
@@ -60,6 +65,7 @@ router.get(
         }
         try {
             const filter = req.query;
+            console.log(filter);
             const categories = await categoryService.readCategories(filter);
             res.status(200).json({
                 success: true,
@@ -89,7 +95,9 @@ router.get(
             });
         }
         try {
-            const categories = await categoryService.readCategories({ _id: req.params.id });
+            const categories = await categoryService.readCategories({
+                _id: req.params.id,
+            });
             if (categories && categories.length > 0) {
                 res.status(200).json({
                     success: true,
@@ -117,7 +125,10 @@ router.put(
     [
         param("id").notEmpty().isMongoId().withMessage("Invalid ID format"),
         body("name").optional().trim(),
-        body("type").optional().isIn(["task", "ngo", "interest"]).withMessage("Type must be one of: task, ngo, interest"),
+        body("type")
+            .optional()
+            .isIn(["task", "ngo", "interest"])
+            .withMessage("Type must be one of: task, ngo, interest"),
         body("description").optional().trim(),
     ],
     async (req, res) => {
@@ -130,7 +141,10 @@ router.put(
             });
         }
         try {
-            const category = await categoryService.updateCategory({ _id: req.params.id }, req.body);
+            const category = await categoryService.updateCategory(
+                { _id: req.params.id },
+                req.body
+            );
             if (category) {
                 res.status(200).json({
                     success: true,

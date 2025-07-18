@@ -1,17 +1,32 @@
 /*
 Todo: 
-link the category api to store it, or index the categories there and based on that put the category in the NGO
-Test if the data is going or not
-Make changes for donor and the volunteer section too
+Can make the form a lot more more refined, and needs testing
 */
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./Register.css";
 import axios from "axios";
 
 function Register() {
     const [formData, setFormData] = useState({});
+    const [categories, setCategories] = useState([]);
+
+    useEffect(() => {
+        async function fetchCategories() {
+            try {
+                const response = await axios.get(
+                    "http://localhost:3001/api/categories?type=ngo"
+                );
+                if (response.status === 200) {
+                    setCategories(response.data.data); //A little bit dumb on my side, will change it in the route later to something that makes more sense
+                }
+            } catch (err) {
+                console.log("error fetching categories", err);
+            }
+        }
+        fetchCategories();
+    }, []);
 
     const handleChange = (e) => {
         setFormData((prevData) => ({
@@ -37,7 +52,7 @@ function Register() {
                       name: formData.name,
                       registerationId: formData.registrationNumber,
                       description: formData.description,
-                      category: formData.focusAreas, // This should be category ObjectId, change it later
+                      category: formData.focusAreas, // This should be category ObjectId
                       location: {
                           address: formData.address,
                       },
@@ -221,101 +236,26 @@ function Register() {
 
                         <label>Focus Areas</label>
                         <div className="focus-areas-group">
-                            <label>
-                                <input
-                                    type="radio"
-                                    name="focusAreas"
-                                    value="education"
-                                    onChange={handleChange}
-                                    checked={
-                                        formData.focusAreas === "education"
-                                    }
-                                    required
-                                />
-                                Education
-                            </label>
-                            <label>
-                                <input
-                                    type="radio"
-                                    name="focusAreas"
-                                    value="healthcare"
-                                    onChange={handleChange}
-                                    checked={
-                                        formData.focusAreas === "healthcare"
-                                    }
-                                />
-                                Healthcare
-                            </label>
-                            <label>
-                                <input
-                                    type="radio"
-                                    name="focusAreas"
-                                    value="environment"
-                                    onChange={handleChange}
-                                    checked={
-                                        formData.focusAreas === "environment"
-                                    }
-                                />
-                                Environment
-                            </label>
-                            <label>
-                                <input
-                                    type="radio"
-                                    name="focusAreas"
-                                    value="poverty"
-                                    onChange={handleChange}
-                                    checked={formData.focusAreas === "poverty"}
-                                />
-                                Poverty Alleviation
-                            </label>
-                            <label>
-                                <input
-                                    type="radio"
-                                    name="focusAreas"
-                                    value="women-empowerment"
-                                    onChange={handleChange}
-                                    checked={
-                                        formData.focusAreas ===
-                                        "women-empowerment"
-                                    }
-                                />
-                                Women Empowerment
-                            </label>
-                            <label>
-                                <input
-                                    type="radio"
-                                    name="focusAreas"
-                                    value="child-welfare"
-                                    onChange={handleChange}
-                                    checked={
-                                        formData.focusAreas === "child-welfare"
-                                    }
-                                />
-                                Child Welfare
-                            </label>
-                            <label>
-                                <input
-                                    type="radio"
-                                    name="focusAreas"
-                                    value="disaster-relief"
-                                    onChange={handleChange}
-                                    checked={
-                                        formData.focusAreas ===
-                                        "disaster-relief"
-                                    }
-                                />
-                                Disaster Relief
-                            </label>
-                            <label>
-                                <input
-                                    type="radio"
-                                    name="focusAreas"
-                                    value="other"
-                                    onChange={handleChange}
-                                    checked={formData.focusAreas === "other"}
-                                />
-                                Other
-                            </label>
+                            {categories.length > 0 ? (
+                                categories.map((category) => (
+                                    <label key={category._id}>
+                                        <input
+                                            type="radio"
+                                            name="focusAreas"
+                                            value={category._id}
+                                            onChange={handleChange}
+                                            checked={
+                                                formData.focusAreas ===
+                                                category._id
+                                            }
+                                            required
+                                        />
+                                        {category.name}
+                                    </label>
+                                ))
+                            ) : (
+                                <div>Loading categories...</div>
+                            )}
                         </div>
                     </>
                 ) : (
