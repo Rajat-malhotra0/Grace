@@ -12,10 +12,10 @@ const paymentRoutes = require("./routes/paymentRoutes");
 const skillSurveyRoutes = require("./routes/skillSurveyRoutes");
 const taskRoutes = require("./routes/taskRoutes");
 const categoryRoutes = require("./routes/categoryRoutes");
+const dashboardRoutes = require("./routes/dashboardRoutes");
 
 const app = express();
 app.use(express.json());
-app.use(cors());
 app.use(cors());
 
 app.use("/api/users", userRoutes);
