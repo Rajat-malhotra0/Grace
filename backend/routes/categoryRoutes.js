@@ -27,7 +27,7 @@ router.post(
                 res.status(201).json({
                     success: true,
                     message: "Category created successfully",
-                    data: category,
+                    result: category,
                 });
             } else {
                 res.status(400).json({
@@ -65,12 +65,11 @@ router.get(
         }
         try {
             const filter = req.query;
-            console.log(filter);
             const categories = await categoryService.readCategories(filter);
             res.status(200).json({
                 success: true,
                 message: "Categories retrieved successfully",
-                data: categories,
+                result: categories,
             });
         } catch (error) {
             res.status(500).json({
@@ -102,7 +101,7 @@ router.get(
                 res.status(200).json({
                     success: true,
                     message: "Category retrieved successfully",
-                    data: categories[0],
+                    result: categories[0],
                 });
             } else {
                 res.status(404).json({
@@ -149,7 +148,7 @@ router.put(
                 res.status(200).json({
                     success: true,
                     message: "Category updated successfully",
-                    data: category,
+                    result: category,
                 });
             } else {
                 res.status(404).json({

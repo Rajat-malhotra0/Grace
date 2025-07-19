@@ -19,7 +19,7 @@ function Register() {
                     "http://localhost:3001/api/categories?type=ngo"
                 );
                 if (response.status === 200) {
-                    setCategories(response.data.data); //A little bit dumb on my side, will change it in the route later to something that makes more sense
+                    setCategories(response.data.result);
                 }
             } catch (err) {
                 console.log("error fetching categories", err);

@@ -1,0 +1,26 @@
+{
+  "name": "grace",
+  "version": "1.0.0",
+  "description": "A NGO unifier and support platform",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "cd backend && nodemon app.js",
+    "dev:frontend": "cd frontend && npm start",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rajat-malhotra0/Grace.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Rajat-malhotra0/Grace/issues"
+  },
+  "homepage": "https://github.com/Rajat-malhotra0/Grace#readme",
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "nodemon": "^3.1.0"
+  }
+}
