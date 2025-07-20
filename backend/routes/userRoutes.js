@@ -34,19 +34,19 @@ router.post(
         try {
             const user = await userService.createUser(req.body);
             if (user) {
-                res.status(201).json({
+                return res.status(201).json({
                     success: true,
                     message: "User created successfully",
                     result: user,
                 });
             } else {
-                res.status(400).json({
+                return res.status(400).json({
                     success: false,
                     message: "Failed to create user",
                 });
             }
         } catch (error) {
-            res.status(500).json({
+            return res.status(500).json({
                 success: false,
                 message: "Internal server error",
                 error: error.message,
@@ -81,13 +81,13 @@ router.get(
         try {
             const filter = req.query;
             const users = await userService.readUsers(filter);
-            res.status(200).json({
+            return res.status(200).json({
                 success: true,
                 message: "Users retrieved successfully",
                 result: users,
             });
         } catch (error) {
-            res.status(500).json({
+            return res.status(500).json({
                 success: false,
                 message: "Internal server error",
                 error: error.message,
@@ -115,13 +115,13 @@ router.post("/login", async (req, res) => {
             });
         }
 
-        res.status(200).json({
+        return res.status(200).json({
             success: true,
             message: "Login Sucessfull",
             result: user,
         });
     } catch (err) {
-        res.status(500).json({
+        return res.status(500).json({
             success: false,
             message: "Internal server error",
             error: err.message,
@@ -150,19 +150,19 @@ router.get(
         try {
             const users = await userService.readUsers({ _id: req.params.id });
             if (users && users.length > 0) {
-                res.status(200).json({
+                return res.status(200).json({
                     success: true,
                     message: "User retrieved successfully",
                     result: users[0],
                 });
             } else {
-                res.status(404).json({
+                return res.status(404).json({
                     success: false,
                     message: "User not found",
                 });
             }
         } catch (error) {
-            res.status(500).json({
+            return res.status(500).json({
                 success: false,
                 message: "Internal server error",
                 error: error.message,
@@ -205,19 +205,19 @@ router.put(
                 req.body
             );
             if (user) {
-                res.status(200).json({
+                return res.status(200).json({
                     success: true,
                     message: "User updated successfully",
                     result: user,
                 });
             } else {
-                res.status(404).json({
+                return res.status(404).json({
                     success: false,
                     message: "User not found",
                 });
             }
         } catch (error) {
-            res.status(500).json({
+            return res.status(500).json({
                 success: false,
                 message: "Internal server error",
                 error: error.message,
@@ -240,12 +240,12 @@ router.delete(
         }
         try {
             await userService.deleteUser({ _id: req.params.id });
-            res.status(200).json({
+            return res.status(200).json({
                 success: true,
                 message: "User deleted successfully",
             });
         } catch (error) {
-            res.status(500).json({
+            return res.status(500).json({
                 success: false,
                 message: "Internal server error",
                 error: error.message,

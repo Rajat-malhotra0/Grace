@@ -1,16 +1,21 @@
 /*
 Todo: 
 Can make the form a lot more more refined, and needs testing
+
+Important: I have not tested this code yet, test it as soon as possible and after that remove this comment
+
 */
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import "./Register.css";
 import axios from "axios";
+import { AuthContext } from "../../Context/AuthContext";
 
 function Register() {
     const [formData, setFormData] = useState({});
     const [categories, setCategories] = useState([]);
+    const { register } = useContext(AuthContext);
 
     useEffect(() => {
         async function fetchCategories() {
@@ -41,53 +46,52 @@ function Register() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const url =
-            formData.role === "ngo"
-                ? "http://localhost:3001/api/ngos"
-                : "http://localhost:3001/api/users";
+        // Password confirmation check
+        if (formData.password !== formData.confirmedPassword) {
+            alert("Passwords do not match.");
+            return;
+        }
 
-        const payload =
-            formData.role === "ngo"
-                ? {
-                      name: formData.name,
-                      registerationId: formData.registrationNumber,
-                      description: formData.description,
-                      category: formData.focusAreas, // This should be category ObjectId
-                      location: {
-                          address: formData.address,
-                      },
-                      contact: {
-                          email: formData.email,
-                          phone: formData.phoneNumber,
-                          website: formData.website,
-                      },
-                      isVerified: false,
-                      isActive: true,
-                  }
-                : {
-                      userName: formData.name,
-                      email: formData.email,
-                      password: formData.password,
-                      role: formData.role ? [formData.role] : [],
-                      about: "",
-                      score: 0,
-                      isActive: true,
-                      dob: formData.dob,
-                      remindMe: formData.remindMe || false,
-                      termsAccepted: formData.termsAccepted || false,
-                      newsLetter: formData.newsLetter || false,
-                  };
+        let payload;
+        let isNgo = formData.role === "ngo";
+        if (isNgo) {
+            payload = {
+                userName: formData.name,
+                email: formData.email,
+                password: formData.password,
+                organizationName: formData.organizationName,
+                registrationNumber: formData.registrationNumber,
+                description: formData.description,
+                category: formData.focusAreas,
+                address: formData.address,
+                phoneNumber: formData.phoneNumber,
+                website: formData.website,
+                dob: formData.dob,
+                remindMe: !!formData.remindMe,
+                termsAccepted: formData.termsAccepted ? "true" : "false",
+                newsLetter: !!formData.newsLetter,
+            };
+        } else {
+            payload = {
+                userName: formData.name,
+                email: formData.email,
+                password: formData.password,
+                role: formData.role,
+                dob: formData.dob,
+                about: formData.about,
+                remindMe: !!formData.remindMe,
+                termsAccepted: formData.termsAccepted ? "true" : "false",
+                newsLetter: !!formData.newsLetter,
+            };
+        }
 
-        try {
-            const response = await axios.post(url, payload);
+        const result = await register(payload, isNgo);
 
-            if (response.status === 201) {
-                alert("Registration successful!");
-                console.log(response.data);
-            }
-        } catch (err) {
-            console.log(err);
-            alert("Registration failed. Please try again.");
+        if (result && result.success) {
+            alert("Registration successful!");
+            // Optionally redirect or clear form
+        } else {
+            alert(result?.message || "Registration failed. Please try again.");
         }
     };
 

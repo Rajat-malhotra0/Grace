@@ -31,19 +31,19 @@ router.post(
                 req.body
             );
             if (impactStory) {
-                res.status(201).json({
+                return res.status(201).json({
                     success: true,
                     message: "Impact story created successfully",
                     result: impactStory,
                 });
             } else {
-                res.status(400).json({
+                return res.status(400).json({
                     success: false,
                     message: "Failed to create impact story",
                 });
             }
         } catch (error) {
-            res.status(500).json({
+            return res.status(500).json({
                 success: false,
                 message: "Internal server error",
                 error: error.message,
@@ -79,13 +79,13 @@ router.get(
             const impactStories = await impactStoryService.readImpactStories(
                 filter
             );
-            res.status(200).json({
+            return res.status(200).json({
                 success: true,
                 message: "Impact stories retrieved successfully",
                 result: impactStories,
             });
         } catch (error) {
-            res.status(500).json({
+            return res.status(500).json({
                 success: false,
                 message: "Internal server error",
                 error: error.message,
@@ -117,19 +117,19 @@ router.get(
                 _id: req.params.id,
             });
             if (impactStories && impactStories.length > 0) {
-                res.status(200).json({
+                return res.status(200).json({
                     success: true,
                     message: "Impact story retrieved successfully",
                     result: impactStories[0],
                 });
             } else {
-                res.status(404).json({
+                return res.status(404).json({
                     success: false,
                     message: "Impact story not found",
                 });
             }
         } catch (error) {
-            res.status(500).json({
+            return res.status(500).json({
                 success: false,
                 message: "Internal server error",
                 error: error.message,
@@ -169,19 +169,19 @@ router.put(
                 req.body
             );
             if (impactStory) {
-                res.status(200).json({
+                return res.status(200).json({
                     success: true,
                     message: "Impact story updated successfully",
                     result: impactStory,
                 });
             } else {
-                res.status(404).json({
+                return res.status(404).json({
                     success: false,
                     message: "Impact story not found",
                 });
             }
         } catch (error) {
-            res.status(500).json({
+            return res.status(500).json({
                 success: false,
                 message: "Internal server error",
                 error: error.message,
@@ -210,12 +210,12 @@ router.delete(
         }
         try {
             await impactStoryService.deleteImpactStory({ _id: req.params.id });
-            res.status(200).json({
+            return res.status(200).json({
                 success: true,
                 message: "Impact story deleted successfully",
             });
         } catch (error) {
-            res.status(500).json({
+            return res.status(500).json({
                 success: false,
                 message: "Internal server error",
                 error: error.message,

@@ -1,17 +1,20 @@
-import React from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
-import Header from './Components/Header';
-import Content from './Content';
-import Footer from './Components/Footer';
+import React from "react";
+import { BrowserRouter as Router } from "react-router-dom";
+import Header from "./Components/Header";
+import Content from "./Content";
+import Footer from "./Components/Footer";
+import AuthProvider from "./Context/AuthContext";
 
 function App() {
-  return (
-    <Router>
-      <Header />
-      <Content />
-      <Footer />
-    </Router>
-  );
+    return (
+        <AuthProvider>
+            <Router>
+                <Header />
+                <Content />
+                <Footer />
+            </Router>
+        </AuthProvider>
+    );
 }
 
 export default App;

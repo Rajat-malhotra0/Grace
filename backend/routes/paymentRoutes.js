@@ -27,19 +27,19 @@ router.post(
         try {
             const payment = await paymentService.createPayment(req.body);
             if (payment) {
-                res.status(201).json({
+                return res.status(201).json({
                     success: true,
                     message: "Payment created successfully",
                     result: payment,
                 });
             } else {
-                res.status(400).json({
+                return res.status(400).json({
                     success: false,
                     message: "Failed to create payment",
                 });
             }
         } catch (error) {
-            res.status(500).json({
+            return res.status(500).json({
                 success: false,
                 message: "Internal server error",
                 error: error.message,
@@ -76,13 +76,13 @@ router.get(
         try {
             const filter = req.query;
             const payments = await paymentService.readPayments(filter);
-            res.status(200).json({
+            return res.status(200).json({
                 success: true,
                 message: "Payments retrieved successfully",
                 result: payments,
             });
         } catch (error) {
-            res.status(500).json({
+            return res.status(500).json({
                 success: false,
                 message: "Internal server error",
                 error: error.message,
@@ -114,19 +114,19 @@ router.get(
                 _id: req.params.id,
             });
             if (payments && payments.length > 0) {
-                res.status(200).json({
+                return res.status(200).json({
                     success: true,
                     message: "Payment retrieved successfully",
                     result: payments,
                 });
             } else {
-                res.status(404).json({
+                return res.status(404).json({
                     success: false,
                     message: "Payment not found",
                 });
             }
         } catch (error) {
-            res.status(500).json({
+            return res.status(500).json({
                 success: false,
                 message: "Internal server error",
                 error: error.message,
@@ -171,19 +171,19 @@ router.put(
                 req.body
             );
             if (payment) {
-                res.status(200).json({
+                return res.status(200).json({
                     success: true,
                     message: "Payment updated successfully",
                     result: payment,
                 });
             } else {
-                res.status(404).json({
+                return res.status(404).json({
                     success: false,
                     message: "Payment not found",
                 });
             }
         } catch (error) {
-            res.status(500).json({
+            return res.status(500).json({
                 success: false,
                 message: "Internal server error",
                 error: error.message,
@@ -212,12 +212,12 @@ router.delete(
         }
         try {
             await paymentService.deletePayment({ _id: req.params.id });
-            res.status(200).json({
+            return res.status(200).json({
                 success: true,
                 message: "Payment deleted successfully",
             });
         } catch (error) {
-            res.status(500).json({
+            return res.status(500).json({
                 success: false,
                 message: "Internal server error",
                 error: error.message,

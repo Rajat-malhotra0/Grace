@@ -46,19 +46,19 @@ router.post(
         try {
             const ngo = await ngoService.createNgo(req.body);
             if (ngo) {
-                res.status(201).json({
+                return res.status(201).json({
                     success: true,
                     message: "NGO created successfully",
                     result: ngo,
                 });
             } else {
-                res.status(400).json({
+                return res.status(400).json({
                     success: false,
                     message: "Failed to create NGO",
                 });
             }
         } catch (error) {
-            res.status(500).json({
+            return res.status(500).json({
                 success: false,
                 message: "Internal server error",
                 error: error.message,
@@ -94,13 +94,13 @@ router.get(
         try {
             const filter = req.query;
             const ngos = await ngoService.readNgos(filter);
-            res.status(200).json({
+            return res.status(200).json({
                 success: true,
                 message: "NGOs retrieved successfully",
                 result: ngos,
             });
         } catch (error) {
-            res.status(500).json({
+            return res.status(500).json({
                 success: false,
                 message: "Internal server error",
                 error: error.message,
@@ -124,19 +124,19 @@ router.get(
         try {
             const ngos = await ngoService.readNgos({ _id: req.params.id });
             if (ngos && ngos.length > 0) {
-                res.status(200).json({
+                return res.status(200).json({
                     success: true,
                     message: "NGO retrieved successfully",
                     result: ngos[0],
                 });
             } else {
-                res.status(404).json({
+                return res.status(404).json({
                     success: false,
                     message: "NGO not found",
                 });
             }
         } catch (error) {
-            res.status(500).json({
+            return res.status(500).json({
                 success: false,
                 message: "Internal server error",
                 error: error.message,
@@ -196,19 +196,19 @@ router.put(
                 req.body
             );
             if (ngo) {
-                res.status(200).json({
+                return res.status(200).json({
                     success: true,
                     message: "NGO updated successfully",
                     result: ngo,
                 });
             } else {
-                res.status(404).json({
+                return res.status(404).json({
                     success: false,
                     message: "NGO not found",
                 });
             }
         } catch (error) {
-            res.status(500).json({
+            return res.status(500).json({
                 success: false,
                 message: "Internal server error",
                 error: error.message,
@@ -237,12 +237,12 @@ router.delete(
         }
         try {
             await ngoService.deleteNgo({ _id: req.params.id });
-            res.status(200).json({
+            return res.status(200).json({
                 success: true,
                 message: "NGO deleted successfully",
             });
         } catch (error) {
-            res.status(500).json({
+            return res.status(500).json({
                 success: false,
                 message: "Internal server error",
                 error: error.message,

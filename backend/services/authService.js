@@ -1,39 +1,49 @@
 //Todo:
-// make change in the user model,  we are only going to use one token
-// Make the one token changes here too
+//Cleanup user if NGO creation fails
 
 const User = require("../models/user");
+const NGO = require("../models/ngo");
 const jwt = require("jsonwebtoken");
-const bcrypt = require("bcryptjs");
 
 const tokenSecret = "some_random_text(verrry random)🫦🫦";
 
-async function registerUser(email, password, name, role = ["volunteer"]) {
+async function registerUser(userData) {
     try {
+        const {
+            userName,
+            email,
+            password,
+            role,
+            dob,
+            remindMe,
+            termsAccepted,
+            newsLetter,
+        } = userData;
+
         const existingUser = await User.findOne({ email });
+
         if (existingUser) {
-            throw new Error("Email already in Use");
+            if (existingUser.email === email) {
+                throw new Error("Email already in use");
+            }
         }
-        const hashedPassword = await bcrypt.hash(password, 12);
-        const user = new User({ email, password: hashedPassword, name, role });
+
+        const user = new User({
+            userName,
+            email,
+            password,
+            role: role ? [role] : ["volunteer"],
+            dob: dob ? new Date(dob) : null,
+            remindMe: remindMe || false,
+            termsAccepted: termsAccepted || false,
+            newsLetter: newsLetter || false,
+            isActive: true,
+        });
+
         await user.save();
-        return sanitizeUser(user);
-    } catch (error) {
-        throw error;
-    }
-}
 
-async function loginUser(email, password) {
-    try {
-        const user = await User.findOne({ email });
-        if (!user) throw new Error("User Not Found");
-
-        const isPasswordValid = await bcrypt.compare(password, user.password);
-        if (!isPasswordValid) throw new Error("Invalid Credentials");
-
-        const token = generateToken(user, tokenSecret);
-
-        user.refreshTokens = user.refreshTokens.concat({ token });
+        const token = generateToken(user);
+        user.token = token;
         await user.save();
 
         return {
@@ -45,12 +55,120 @@ async function loginUser(email, password) {
     }
 }
 
+async function registerNGO(userData) {
+    try {
+        const {
+            userName,
+            email,
+            password,
+            organizationName,
+            registrationNumber,
+            description,
+            category,
+            address,
+            phoneNumber,
+            website,
+            dob,
+            remindMe,
+            termsAccepted,
+            newsLetter,
+        } = userData;
+
+        const existingUser = await User.findOne({ email });
+
+        if (existingUser) {
+            throw new Error("Email or Username already in use");
+        }
+
+        const user = new User({
+            userName,
+            email,
+            password,
+            role: ["ngo"],
+            dob: dob ? new Date(dob) : null,
+            remindMe: remindMe || false,
+            termsAccepted: termsAccepted || false,
+            newsLetter: newsLetter || false,
+            isActive: true,
+        });
+        await user.save();
+
+        const ngo = new NGO({
+            user: user._id,
+            name: organizationName,
+            registerationId: registrationNumber,
+            description,
+            category,
+            location: {
+                address: address || "",
+            },
+            contact: {
+                email,
+                phone: phoneNumber || "",
+                website: website || "",
+            },
+            isActive: true,
+        });
+        await ngo.save();
+
+        const token = generateToken(user);
+        user.token = token;
+        await user.save();
+
+        return {
+            user: sanitizeUser(user),
+            ngo: ngo,
+            token,
+        };
+    } catch (error) {
+        // Cleanup user if NGO creation fails
+        if (user && user._id) {
+            await User.findByIdAndDelete(user._id);
+        }
+        throw error;
+    }
+}
+
+async function loginUser(email, password) {
+    try {
+        const user = await User.findOne({ email });
+        if (!user) {
+            throw new Error("User not found");
+        }
+
+        const isPasswordValid = await user.comparePassword(password);
+        if (!isPasswordValid) {
+            throw new Error("Invalid credentials");
+        }
+
+        const token = generateToken(user);
+        user.token = token;
+        await user.save();
+
+        let responseData = {
+            user: sanitizeUser(user),
+            token,
+        };
+
+        if (user.role.includes("ngo")) {
+            const ngo = await NGO.findOne({ user: user._id }).populate(
+                "category"
+            );
+            responseData.ngo = ngo;
+        }
+
+        return responseData;
+    } catch (error) {
+        throw error;
+    }
+}
+
 async function verifyToken(token) {
     try {
         const decoded = jwt.verify(token, tokenSecret);
         const user = await User.findById(decoded.userId);
 
-        if (!user || !user.refreshTokens.some((t) => t.token === token)) {
+        if (!user || user.token !== token || !user.isActive) {
             throw new Error("Invalid token");
         }
 
@@ -60,34 +178,77 @@ async function verifyToken(token) {
     }
 }
 
-async function logoutUser(userId, token) {
+async function logoutUser(userId) {
     try {
         const user = await User.findById(userId);
-        user.refreshTokens = user.refreshTokens.filter(
-            (t) => t.token !== token
-        );
+        if (!user) {
+            throw new Error("User not found");
+        }
+
+        user.token = null;
         await user.save();
+
+        return { message: "Logged out successfully" };
     } catch (error) {
         throw error;
     }
 }
 
-function generateToken(user, secret) {
-    return jwt.sign({ userId: user._id, role: user.role }, secret);
+async function getUserProfile(userId) {
+    try {
+        const user = await User.findById(userId);
+        if (!user) {
+            throw new Error("User not found");
+        }
+
+        let profile = { user: sanitizeUser(user) };
+
+        if (user.role.includes("ngo")) {
+            const ngo = await NGO.findOne({ user: userId }).populate(
+                "category"
+            );
+            profile.ngo = ngo;
+        }
+
+        return profile;
+    } catch (error) {
+        throw error;
+    }
+}
+
+function generateToken(user) {
+    return jwt.sign(
+        {
+            userId: user._id,
+            role: user.role,
+            email: user.email,
+        },
+        tokenSecret
+    );
 }
 
 function sanitizeUser(user) {
     return {
         id: user._id,
+        userName: user.userName,
         email: user.email,
-        name: user.name,
         role: user.role,
+        about: user.about,
+        score: user.score,
+        dob: user.dob,
+        remindMe: user.remindMe,
+        termsAccepted: user.termsAccepted,
+        newsLetter: user.newsLetter,
+        isActive: user.isActive,
+        createdAt: user.createdAt,
     };
 }
 
 module.exports = {
     registerUser,
+    registerNGO,
     loginUser,
     verifyToken,
     logoutUser,
+    getUserProfile,
 };

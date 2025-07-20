@@ -1,11 +1,13 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import axios from "axios";
+import React, { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "./Login.css";
+import { AuthContext } from "../../Context/AuthContext";
 
 function Login() {
     const [formData, setFormData] = useState({});
     const [errors, setErrors] = useState({});
+    const { login } = useContext(AuthContext);
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         setFormData((prevData) => ({
@@ -15,10 +17,7 @@ function Login() {
     };
     const validate = () => {
         const errors = {};
-        const {
-            email = '',
-            password = ''
-        } = formData;
+        const { email = "", password = "" } = formData;
         if (!email.trim()) {
             errors.email = "Email is required";
         } else if (!/\S+@\S+\.\S+/.test(email)) {
@@ -27,31 +26,25 @@ function Login() {
         if (!password.trim()) {
             errors.password = "Password is required";
         } else if (password.length < 8) {
-            errors.password = "Password must be 8 characters long"
+            errors.password = "Password must be 8 characters long";
         }
         return errors;
     };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         const validationErrors = validate();
+
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
             return;
         }
-        const payload = {
-            email: formData.email,
-            password: formData.password,
-        };
 
         try {
-            const response = await axios.post(
-                "http://localhost:3001/api/users/login",
-                payload
-            );
-
-            if (response.status === 200) {
-                alert("logged In");
-                console.log(response.data);
+            const result = await login(formData.email, formData.password);
+            if (result.success) {
+                alert("Logged in successfully");
+                navigate("/");
             }
         } catch (err) {
             console.log(err);
@@ -74,7 +67,7 @@ function Login() {
                             onChange={handleChange}
                             value={formData.email || ""}
                         />
-                        <div style={{ color: 'red' }}>{errors.email}</div>
+                        <div style={{ color: "red" }}>{errors.email}</div>
                     </div>
                     <div className="input-group">
                         <input
@@ -84,7 +77,7 @@ function Login() {
                             onChange={handleChange}
                             value={formData.password || ""}
                         />
-                        <div style={{ color: 'red' }}>{errors.password}</div>
+                        <div style={{ color: "red" }}>{errors.password}</div>
                     </div>
                     <button type="submit">Log In</button>
                 </form>

@@ -1,30 +1,45 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 
-const authMiddleware = async (req,res,next) => {
+const tokenSecret = "some_random_text(verrry random)🫦🫦";
+
+const authMiddleware = async (req, res, next) => {
     try {
-        const authHeader = req.headers['authorization'];
-        const token = authHeader && authHeader.split(' ')[1];
+        const token = req.headers["authorization"];
+        if (!token) {
+            return res.status(401).json({
+                success: false,
+                message: "Access token required",
+            });
+        }
 
-        if (!token) return res.sendStatus(401);
+        const user = await authService.verifyToken(token);
 
-        const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-        const user = await User.findById(decoded.id).select('-password -refreshToken');
-
-        if (!user) return res.sendStatus(401);
+        if (!user || !user.isActive) {
+            return res.status(401).json({
+                success: false,
+                message: "Invalid or expired token",
+            });
+        }
 
         req.user = user;
         next();
     } catch (error) {
-        console.error('Authentication Error : ',err.message);
-        res.sendStatus(403);
+        console.error("Authentication Error:", error.message);
+        res.status(403).json({
+            success: false,
+            message: "Invalid token",
+        });
     }
 };
 
 const roleMiddleware = (roles) => {
-    return (req,res,next) => {
-        if (!roles.includes(req.user.role)){
-            return res.status(403).json({message : 'Forbidden'});
+    return (req, res, next) => {
+        if (!req.user.role.some((role) => roles.includes(role))) {
+            return res.status(403).json({
+                success: false,
+                message: "Insufficient permissions",
+            });
         }
         next();
     };

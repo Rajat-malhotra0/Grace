@@ -24,19 +24,19 @@ router.post(
         try {
             const category = await categoryService.createCategory(req.body);
             if (category) {
-                res.status(201).json({
+                return res.status(201).json({
                     success: true,
                     message: "Category created successfully",
                     result: category,
                 });
             } else {
-                res.status(400).json({
+                return res.status(400).json({
                     success: false,
                     message: "Failed to create category",
                 });
             }
         } catch (error) {
-            res.status(500).json({
+            return res.status(500).json({
                 success: false,
                 message: "Internal server error",
                 error: error.message,
@@ -66,13 +66,13 @@ router.get(
         try {
             const filter = req.query;
             const categories = await categoryService.readCategories(filter);
-            res.status(200).json({
+            return res.status(200).json({
                 success: true,
                 message: "Categories retrieved successfully",
                 result: categories,
             });
         } catch (error) {
-            res.status(500).json({
+            return res.status(500).json({
                 success: false,
                 message: "Internal server error",
                 error: error.message,
@@ -98,19 +98,19 @@ router.get(
                 _id: req.params.id,
             });
             if (categories && categories.length > 0) {
-                res.status(200).json({
+                return res.status(200).json({
                     success: true,
                     message: "Category retrieved successfully",
                     result: categories[0],
                 });
             } else {
-                res.status(404).json({
+                return res.status(404).json({
                     success: false,
                     message: "Category not found",
                 });
             }
         } catch (error) {
-            res.status(500).json({
+            return res.status(500).json({
                 success: false,
                 message: "Internal server error",
                 error: error.message,
@@ -145,19 +145,19 @@ router.put(
                 req.body
             );
             if (category) {
-                res.status(200).json({
+                return res.status(200).json({
                     success: true,
                     message: "Category updated successfully",
                     result: category,
                 });
             } else {
-                res.status(404).json({
+                return res.status(404).json({
                     success: false,
                     message: "Category not found",
                 });
             }
         } catch (error) {
-            res.status(500).json({
+            return res.status(500).json({
                 success: false,
                 message: "Internal server error",
                 error: error.message,
@@ -180,12 +180,12 @@ router.delete(
         }
         try {
             await categoryService.deleteCategory({ _id: req.params.id });
-            res.status(200).json({
+            return res.status(200).json({
                 success: true,
                 message: "Category deleted successfully",
             });
         } catch (error) {
-            res.status(500).json({
+            return res.status(500).json({
                 success: false,
                 message: "Internal server error",
                 error: error.message,
