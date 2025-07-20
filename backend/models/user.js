@@ -10,13 +10,7 @@ const userSchema = new mongoose.Schema({
         enum: ["donor", "volunteer", "admin"],
         default: [],
     },
-    refreshTokens: [
-        {
-            token: { type: String, required: true },
-            issuedAt: { type: Date, default: Date.now },
-            expiresAt: { type: Date, required: true },
-        },
-    ],
+    token: { type: String, default: null },
     about: { type: String, default: "" },
     score: { type: Number, default: 0 },
     dob: { type: Date, default: null },
@@ -31,7 +25,7 @@ userSchema.pre("save", async function (next) {
     if (!this.isModified("password")) return next();
     this.password = await bcrypt.hash(this.password, 12);
     this.updatedAt = new Date();
-    next();    
+    next();
 });
 
 userSchema.methods.comparePassword = async function (candidatePassword) {

@@ -1,0 +1,1280 @@
+[
+    {
+        "id": "q1_cause_area",
+        "questionText": "Welcome! Which broad cause area are you most passionate about?",
+        "answerOptions": [
+            {
+                "answerText": "Environment & Conservation",
+                "nextQuestionId": "q2_env_focus"
+            },
+            {
+                "answerText": "Education & Skill Development",
+                "nextQuestionId": "q2_edu_focus"
+            },
+            {
+                "answerText": "Healthcare & Well-being",
+                "nextQuestionId": "q2_health_focus"
+            },
+            {
+                "answerText": "Community Development & Social Justice",
+                "nextQuestionId": "q2_comm_focus"
+            },
+            {
+                "answerText": "Animal Welfare",
+                "nextQuestionId": "q2_animal_focus"
+            },
+            {
+                "answerText": "Human Rights & Legal Aid",
+                "nextQuestionId": "q2_rights_focus"
+            },
+            {
+                "answerText": "Arts, Culture & Heritage",
+                "nextQuestionId": "q2_arts_focus"
+            },
+            {
+                "answerText": "Disaster Relief & Humanitarian Aid",
+                "nextQuestionId": "q2_disaster_focus"
+            },
+            {
+                "answerText": "Poverty Alleviation & Economic Empowerment",
+                "nextQuestionId": "q2_poverty_focus"
+            },
+            {
+                "answerText": "Scientific Research & Data",
+                "nextQuestionId": "q2_sci_focus"
+            }
+        ]
+    },
+    {
+        "id": "q2_env_focus",
+        "questionText": "Within Environment & Conservation, which specific area excites you most?",
+        "answerOptions": [
+            {
+                "answerText": "Wildlife protection & habitat restoration",
+                "nextQuestionId": "q3_env_wildlife_role"
+            },
+            {
+                "answerText": "Climate change advocacy & policy",
+                "nextQuestionId": "q3_env_climate_role"
+            },
+            {
+                "answerText": "Ocean/Waterbody cleanup & marine conservation",
+                "nextQuestionId": "q3_env_marine_role"
+            },
+            {
+                "answerText": "Sustainable agriculture & local food systems",
+                "nextQuestionId": "q3_env_agri_role"
+            },
+            {
+                "answerText": "Environmental education & public awareness",
+                "nextQuestionId": "q3_env_edu_role"
+            }
+        ]
+    },
+    {
+        "id": "q2_edu_focus",
+        "questionText": "For Education & Skill Development, what type of learning environment do you prefer to support?",
+        "answerOptions": [
+            {
+                "answerText": "Tutoring children (K-12)",
+                "nextQuestionId": "q3_edu_child_subject"
+            },
+            {
+                "answerText": "Adult literacy or GED preparation",
+                "nextQuestionId": "q3_edu_adult_format"
+            },
+            {
+                "answerText": "Digital skills training or STEM education",
+                "nextQuestionId": "q3_edu_tech_level"
+            },
+            {
+                "answerText": "Curriculum development & educational content creation",
+                "nextQuestionId": "q3_edu_curriculum_type"
+            }
+        ]
+    },
+    {
+        "id": "q2_health_focus",
+        "questionText": "In Healthcare & Well-being, what aspect are you most interested in supporting?",
+        "answerOptions": [
+            {
+                "answerText": "Direct patient support & companionship in clinical settings",
+                "nextQuestionId": "q3_health_patient_certification"
+            },
+            {
+                "answerText": "Public health education & community health programs",
+                "nextQuestionId": "q3_health_public_topic"
+            },
+            {
+                "answerText": "Mental health & emotional support",
+                "nextQuestionId": "q3_health_mental_intensity"
+            },
+            {
+                "answerText": "Elderly care & assistance",
+                "nextQuestionId": "q3_health_elderly_task"
+            }
+        ]
+    },
+    {
+        "id": "q2_comm_focus",
+        "questionText": "For Community Development & Social Justice, which specific area appeals to you most?",
+        "answerOptions": [
+            {
+                "answerText": "Supporting individuals experiencing homelessness & housing initiatives",
+                "nextQuestionId": "q3_comm_homeless_direct"
+            },
+            {
+                "answerText": "Child & Youth development (non-academic & recreational)",
+                "nextQuestionId": "q3_comm_youth_activity"
+            },
+            {
+                "answerText": "Promoting gender equality & anti-violence initiatives",
+                "nextQuestionId": "q3_comm_gender_focus"
+            },
+            {
+                "answerText": "General community organizing & grassroots mobilization",
+                "nextQuestionId": "q3_comm_organizing_style"
+            }
+        ]
+    },
+    {
+        "id": "q2_animal_focus",
+        "questionText": "Which animal welfare issue do you care about most?",
+        "answerOptions": [
+            {
+                "answerText": "Animal shelter care (dogs & cats)",
+                "nextQuestionId": "q3_animal_shelter_direct"
+            },
+            {
+                "answerText": "Wildlife rescue & rehabilitation (non-domesticated animals)",
+                "nextQuestionId": "q3_animal_wildlife_handling"
+            },
+            {
+                "answerText": "Advocacy for animal rights & policy change",
+                "nextQuestionId": "q3_animal_advocacy_method"
+            },
+            {
+                "answerText": "Fostering animals in your home (short or long-term)",
+                "nextQuestionId": "q3_animal_fostering_preparedness"
+            }
+        ]
+    },
+    {
+        "id": "q2_rights_focus",
+        "questionText": "Which human rights focus resonates most with you?",
+        "answerOptions": [
+            {
+                "answerText": "Refugee & Immigrant support (resettlement, language)",
+                "nextQuestionId": "q3_rights_refugee_type"
+            },
+            {
+                "answerText": "Anti-trafficking efforts (awareness, survivor support)",
+                "nextQuestionId": "q3_rights_trafficking_task"
+            },
+            {
+                "answerText": "Legal advocacy & pro bono services (requiring legal background)",
+                "nextQuestionId": "q3_rights_legal_group"
+            },
+            {
+                "answerText": "Promoting indigenous rights or other specific marginalized groups",
+                "nextQuestionId": "q3_rights_indigenous_engagement"
+            }
+        ]
+    },
+    {
+        "id": "q2_arts_focus",
+        "questionText": "For Arts, Culture & Heritage, what kind of role do you prefer?",
+        "answerOptions": [
+            {
+                "answerText": "Teaching/facilitating creative skills",
+                "nextQuestionId": "q3_arts_teaching_medium"
+            },
+            {
+                "answerText": "Event planning & execution",
+                "nextQuestionId": "q3_arts_event_type"
+            },
+            {
+                "answerText": "Digital archiving & content creation",
+                "nextQuestionId": "q3_arts_archiving_focus"
+            },
+            {
+                "answerText": "Performance outreach & community engagement",
+                "nextQuestionId": "q3_arts_outreach_audience"
+            }
+        ]
+    },
+    {
+        "id": "q2_disaster_focus",
+        "questionText": "In Disaster Relief & Humanitarian Aid, how do you prefer to contribute?",
+        "answerOptions": [
+            {
+                "answerText": "On-ground logistics & distribution",
+                "nextQuestionId": "q3_disaster_ground_skill"
+            },
+            {
+                "answerText": "Remote coordination & data management",
+                "nextQuestionId": "q3_disaster_remote_task"
+            },
+            {
+                "answerText": "Fundraising & resource mobilization",
+                "nextQuestionId": "q3_disaster_fundraising_method"
+            },
+            {
+                "answerText": "Medical aid or mental health first aid",
+                "nextQuestionId": "q3_disaster_medical_role"
+            }
+        ]
+    },
+    {
+        "id": "q2_poverty_focus",
+        "questionText": "Which poverty alleviation approach appeals to you?",
+        "answerOptions": [
+            {
+                "answerText": "Food security programs",
+                "nextQuestionId": "q3_poverty_food_activity"
+            },
+            {
+                "answerText": "Employment & vocational training",
+                "nextQuestionId": "q3_poverty_training_sector"
+            },
+            {
+                "answerText": "Housing initiatives",
+                "nextQuestionId": "q3_poverty_housing_role"
+            },
+            {
+                "answerText": "Social entrepreneurship & micro-finance",
+                "nextQuestionId": "q3_poverty_entrepreneur_support"
+            }
+        ]
+    },
+    {
+        "id": "q2_sci_focus",
+        "questionText": "Which scientific research area interests you?",
+        "answerOptions": [
+            {
+                "answerText": "Environmental data analysis",
+                "nextQuestionId": "q3_sci_env_data_type"
+            },
+            {
+                "answerText": "Medical research",
+                "nextQuestionId": "q3_sci_med_focus"
+            },
+            {
+                "answerText": "Social impact studies",
+                "nextQuestionId": "q3_sci_social_theme"
+            },
+            {
+                "answerText": "Citizen science projects",
+                "nextQuestionId": "q3_sci_citizen_domain"
+            }
+        ]
+    },
+    {
+        "id": "q3_env_wildlife_role",
+        "questionText": "What wildlife activity appeals to you most?",
+        "answerOptions": [
+            {
+                "answerText": "Field research & data collection",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Habitat restoration & planting",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Animal rescue operations (direct handling)",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Public education about wildlife protection",
+                "nextQuestionId": "q4_common_availability"
+            }
+        ]
+    },
+    {
+        "id": "q3_env_climate_role",
+        "questionText": "What's your preferred way to advance climate action?",
+        "answerOptions": [
+            {
+                "answerText": "Policy analysis & legislative lobbying",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Renewable energy project support (technical/admin)",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Organizing awareness campaigns & events",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Community workshops on sustainable practices",
+                "nextQuestionId": "q4_common_availability"
+            }
+        ]
+    },
+    {
+        "id": "q3_env_marine_role",
+        "questionText": "How do you want to support ocean health?",
+        "answerOptions": [
+            {
+                "answerText": "Beach/river cleanups (physically active)",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Marine data collection & monitoring",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Policy advocacy for plastic reduction",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Coral reef restoration or coastal habitat work",
+                "nextQuestionId": "q4_common_availability"
+            }
+        ]
+    },
+    {
+        "id": "q3_env_agri_role",
+        "questionText": "What kind of sustainable agriculture task suits you?",
+        "answerOptions": [
+            {
+                "answerText": "Hands-on permaculture design & planting",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Farmer training & educational support",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Food supply-chain audits & research",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Community garden management & support",
+                "nextQuestionId": "q4_common_availability"
+            }
+        ]
+    },
+    {
+        "id": "q3_env_edu_role",
+        "questionText": "What's your preferred teaching style for environmental education?",
+        "answerOptions": [
+            {
+                "answerText": "Interactive workshops for diverse groups",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Formal presentations to specific audiences",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "One-on-one mentoring on sustainable living",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Creating digital content (videos, articles) for outreach",
+                "nextQuestionId": "q4_common_availability"
+            }
+        ]
+    },
+    {
+        "id": "q3_edu_child_subject",
+        "questionText": "What age group (K-12) and subject area do you prefer to teach/tutor?",
+        "answerOptions": [
+            {
+                "answerText": "Early childhood (3-6) - general subjects",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Primary school (7-11) - Math/Language Arts",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Secondary school (12-17) - Science/Humanities",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Special Needs Education (with relevant experience)",
+                "nextQuestionId": "q4_common_availability"
+            }
+        ]
+    },
+    {
+        "id": "q3_edu_adult_format",
+        "questionText": "Do you prefer one-on-one tutoring for adult literacy, or assisting in a classroom setting?",
+        "answerOptions": [
+            {
+                "answerText": "One-on-one tutoring (requiring patience & empathy).",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Assisting in a classroom (supportive, organizational role).",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Developing educational materials for adult learners.",
+                "nextQuestionId": "q4_common_availability"
+            }
+        ]
+    },
+    {
+        "id": "q3_edu_tech_level",
+        "questionText": "Which digital skill set are you strongest in for teaching?",
+        "answerOptions": [
+            {
+                "answerText": "Basic computer literacy & internet usage",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Programming & advanced tech skills (e.g., Python, web design)",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Robotics mentoring or STEM project guidance",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Online safety & media literacy",
+                "nextQuestionId": "q4_common_availability"
+            }
+        ]
+    },
+    {
+        "id": "q3_edu_curriculum_type",
+        "questionText": "Which subject do you want to develop curriculum for?",
+        "answerOptions": [
+            {
+                "answerText": "Mathematics or Language Arts",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Science or Social Studies",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Vocational or Life Skills",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Digital/Tech Education",
+                "nextQuestionId": "q4_common_availability"
+            }
+        ]
+    },
+    {
+        "id": "q3_health_patient_certification",
+        "questionText": "Do you have medical certifications (e.g., First Aid, RN, EMT) or prefer non-clinical patient support?",
+        "answerOptions": [
+            {
+                "answerText": "Yes, I'm a certified medical professional and want to use my skills.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "No, I'm looking for non-clinical roles (e.g., administrative, patient companionship, info desk).",
+                "nextQuestionId": "q4_common_availability"
+            }
+        ]
+    },
+    {
+        "id": "q3_health_public_topic",
+        "questionText": "Which public health topic are you knowledgeable/passionate about, and how do you prefer to educate?",
+        "answerOptions": [
+            {
+                "answerText": "Nutrition & exercise (workshops, community gardens)",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Disease prevention & hygiene campaigns (presentations, materials)",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Maternal health or child health education",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Community health screenings & events",
+                "nextQuestionId": "q4_common_availability"
+            }
+        ]
+    },
+    {
+        "id": "q3_health_mental_intensity",
+        "questionText": "Mental health roles can be intensive. Are you prepared for crisis/peer support (with training) or prefer advocacy to reduce stigma?",
+        "answerOptions": [
+            {
+                "answerText": "Prepared for intensive crisis/peer support (requiring extensive training).",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Prefer advocacy, public speaking, or administrative roles (reducing stigma).",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Art therapy or creative expression support for mental wellness.",
+                "nextQuestionId": "q4_common_availability"
+            }
+        ]
+    },
+    {
+        "id": "q3_health_elderly_task",
+        "questionText": "For elderly care, do you prefer providing companionship/social visits or assisting with practical tasks (errands, meals, light housekeeping)?",
+        "answerOptions": [
+            {
+                "answerText": "Companionship & social visits (one-on-one or group).",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Assisting with practical tasks (requires valid driver's license for transport if needed).",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Organizing activities (games, arts & crafts, exercise programs).",
+                "nextQuestionId": "q4_common_availability"
+            }
+        ]
+    },
+    {
+        "id": "q3_comm_homeless_direct",
+        "questionText": "When assisting people experiencing homelessness, do you prefer direct service at shelters (food, intake) or street outreach in various environments?",
+        "answerOptions": [
+            {
+                "answerText": "Direct service at shelters (serving food, sorting donations).",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Street outreach (comfortable approaching strangers).",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Administrative/facility support for shelters.",
+                "nextQuestionId": "q4_common_availability"
+            }
+        ]
+    },
+    {
+        "id": "q3_comm_youth_activity",
+        "questionText": "For children & youth development, are you interested in sports coaching/recreational activities or mentorship/role modeling (often long-term)?",
+        "answerOptions": [
+            {
+                "answerText": "Sports coaching or recreational activities.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Mentorship & being a positive role model (long-term commitment).",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "After-school program support (homework help, supervision).",
+                "nextQuestionId": "q4_common_availability"
+            }
+        ]
+    },
+    {
+        "id": "q3_comm_gender_focus",
+        "questionText": "Which gender equality issue concerns you most, and how would you like to contribute?",
+        "answerOptions": [
+            {
+                "answerText": "Workplace equality (mentoring, training workshops).",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Education access (addressing barriers).",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Violence prevention & support services.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Policy advocacy for gender rights.",
+                "nextQuestionId": "q4_common_availability"
+            }
+        ]
+    },
+    {
+        "id": "q3_comm_organizing_style",
+        "questionText": "How would you describe your community organizing style?",
+        "answerOptions": [
+            {
+                "answerText": "Online organizing & social media campaigns.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Grassroots, face-to-face organizing & community meetings.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Researching community needs & developing programs.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Facilitating workshops & training sessions.",
+                "nextQuestionId": "q4_common_availability"
+            }
+        ]
+    },
+    {
+        "id": "q3_animal_shelter_direct",
+        "questionText": "For shelter animals, are you comfortable with direct handling (walking, socializing, feeding) and potentially messy cleaning tasks?",
+        "answerOptions": [
+            {
+                "answerText": "Yes, comfortable with direct care and cleaning.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Prefer administrative, laundry, or adoption coordination roles.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Facility maintenance (general repairs, landscaping).",
+                "nextQuestionId": "q4_common_availability"
+            }
+        ]
+    },
+    {
+        "id": "q3_animal_wildlife_handling",
+        "questionText": "Wildlife rehabilitation involves rigorous cleaning and handling non-domesticated animals. Are you comfortable with this non-cuddly approach?",
+        "answerOptions": [
+            {
+                "answerText": "Yes, I understand it's about rehabilitation and release.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "I'd prefer educational docent roles or administrative roles at a wildlife center.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Veterinary or animal care training for wildlife (if applicable).",
+                "nextQuestionId": "q4_common_availability"
+            }
+        ]
+    },
+    {
+        "id": "q3_animal_advocacy_method",
+        "questionText": "How would you like to advocate for animal rights?",
+        "answerOptions": [
+            {
+                "answerText": "Public awareness campaigns (social media, events).",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Policy lobbying & legislative efforts.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Educational workshops for various age groups.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Farm-animal welfare inspections or sanctuary care.",
+                "nextQuestionId": "q4_common_availability"
+            }
+        ]
+    },
+    {
+        "id": "q3_animal_fostering_preparedness",
+        "questionText": "Fostering requires a stable home environment and preparedness for potential medical/behavioral challenges. Are you ready for this commitment?",
+        "answerOptions": [
+            {
+                "answerText": "Yes, my home is ready and I'm prepared for challenges (e.g., medical, behavioral issues).",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "I'd prefer to foster healthy, well-adjusted animals only.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "I'd prefer other forms of support, not fostering.",
+                "nextQuestionId": "q4_common_availability"
+            }
+        ]
+    },
+    {
+        "id": "q3_rights_refugee_type",
+        "questionText": "For refugee/immigrant support, do you prefer language support (ESL, translation) or resettlement logistics (housing, job search)?",
+        "answerOptions": [
+            {
+                "answerText": "Language support (ESL tutoring, translation, cultural integration).",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Resettlement logistics (finding housing, job support, navigating services).",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Youth mentoring or after-school help for refugee children.",
+                "nextQuestionId": "q4_common_availability"
+            }
+        ]
+    },
+    {
+        "id": "q3_rights_trafficking_task",
+        "questionText": "Which anti-trafficking task are you comfortable with?",
+        "answerOptions": [
+            {
+                "answerText": "Survivor support & direct services.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Awareness campaigns & public education.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Research & data analysis on trafficking patterns.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Law enforcement liaison (if you have relevant background).",
+                "nextQuestionId": "q4_common_availability"
+            }
+        ]
+    },
+    {
+        "id": "q3_rights_legal_group",
+        "questionText": "Which group's legal rights are you most interested in advocating for?",
+        "answerOptions": [
+            {
+                "answerText": "Refugees & asylum seekers.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Indigenous peoples' rights.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Women & children's rights.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "LGBTQ+ communities' rights.",
+                "nextQuestionId": "q4_common_availability"
+            }
+        ]
+    },
+    {
+        "id": "q3_rights_indigenous_engagement",
+        "questionText": "How would you like to engage with indigenous rights issues?",
+        "answerOptions": [
+            {
+                "answerText": "Direct community engagement & support.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Cultural preservation initiatives.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Advocacy for land rights & environmental justice.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Educational workshops & awareness building.",
+                "nextQuestionId": "q4_common_availability"
+            }
+        ]
+    },
+    {
+        "id": "q3_arts_teaching_medium",
+        "questionText": "What art medium are you most comfortable teaching or facilitating?",
+        "answerOptions": [
+            {
+                "answerText": "Painting & drawing / Visual arts.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Music (instrument, vocal, theory).",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Dance or theatrical performance.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Digital arts (e.g., graphic design, video editing).",
+                "nextQuestionId": "q4_common_availability"
+            }
+        ]
+    },
+    {
+        "id": "q3_arts_event_type",
+        "questionText": "Which type of arts event organization appeals to you?",
+        "answerOptions": [
+            {
+                "answerText": "Exhibitions or gallery events.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Festivals or large public events.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Workshops or educational events.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Fundraisers for arts programs.",
+                "nextQuestionId": "q4_common_availability"
+            }
+        ]
+    },
+    {
+        "id": "q3_arts_archiving_focus",
+        "questionText": "Which digital archiving focus interests you?",
+        "answerOptions": [
+            {
+                "answerText": "Photography collections & visual assets.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Oral histories & audio recordings.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Manuscript preservation & digital conversion.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Web content & digital media preservation.",
+                "nextQuestionId": "q4_common_availability"
+            }
+        ]
+    },
+    {
+        "id": "q3_arts_outreach_audience",
+        "questionText": "Which audience do you prefer for performance outreach?",
+        "answerOptions": [
+            {
+                "answerText": "Schools & youth programs.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Hospitals & care facilities.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Community centers & local groups.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Online viewers & digital audiences.",
+                "nextQuestionId": "q4_common_availability"
+            }
+        ]
+    },
+    {
+        "id": "q3_disaster_ground_skill",
+        "questionText": "Which skill can you offer for on-ground disaster logistics?",
+        "answerOptions": [
+            {
+                "answerText": "Supply chain management & procurement.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Transport coordination & driving (with valid license).",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Warehouse management & inventory.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Field communications & reporting.",
+                "nextQuestionId": "q4_common_availability"
+            }
+        ]
+    },
+    {
+        "id": "q3_disaster_remote_task",
+        "questionText": "Which remote coordination task appeals to you?",
+        "answerOptions": [
+            {
+                "answerText": "Resource mapping & needs assessment.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Volunteer dispatch & scheduling.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Data management & information sharing.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Partner liaison & communication.",
+                "nextQuestionId": "q4_common_availability"
+            }
+        ]
+    },
+    {
+        "id": "q3_disaster_fundraising_method",
+        "questionText": "Which fundraising method do you prefer for disaster relief?",
+        "answerOptions": [
+            {
+                "answerText": "Online campaigns & social media outreach.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Grant writing for emergency funds.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Corporate partnerships & sponsorships.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Event planning for fundraising galas.",
+                "nextQuestionId": "q4_common_availability"
+            }
+        ]
+    },
+    {
+        "id": "q3_disaster_medical_role",
+        "questionText": "Which medical aid role fits your background?",
+        "answerOptions": [
+            {
+                "answerText": "Triage nursing or direct clinical care (with certification).",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Field medic or emergency response (with experience).",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Pharmacy coordination or medical supply management.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Mental health first aid & psychological support.",
+                "nextQuestionId": "q4_common_availability"
+            }
+        ]
+    },
+    {
+        "id": "q3_poverty_food_activity",
+        "questionText": "Which food security activity appeals to you?",
+        "answerOptions": [
+            {
+                "answerText": "Community garden development & maintenance.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Food bank sorting & distribution.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Nutrition education & cooking classes.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Advocacy & policy for food access.",
+                "nextQuestionId": "q4_common_availability"
+            }
+        ]
+    },
+    {
+        "id": "q3_poverty_training_sector",
+        "questionText": "Which sector's employment training can you contribute to?",
+        "answerOptions": [
+            {
+                "answerText": "Hospitality & customer service.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "IT & digital skills.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Construction trades & manual skills.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Green jobs & sustainability skills.",
+                "nextQuestionId": "q4_common_availability"
+            }
+        ]
+    },
+    {
+        "id": "q3_poverty_housing_role",
+        "questionText": "Which housing initiative role interests you?",
+        "answerOptions": [
+            {
+                "answerText": "Construction volunteer (building/repairing homes).",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Family support liaison & resettlement assistance.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Fundraising for affordable housing projects.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Policy advocacy for housing rights.",
+                "nextQuestionId": "q4_common_availability"
+            }
+        ]
+    },
+    {
+        "id": "q3_poverty_entrepreneur_support",
+        "questionText": "Which support role appeals to you in social entrepreneurship?",
+        "answerOptions": [
+            {
+                "answerText": "Business mentoring for aspiring entrepreneurs.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Micro-loan review & administration.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Marketing & sales support for social enterprises.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Impact measurement & evaluation for programs.",
+                "nextQuestionId": "q4_common_availability"
+            }
+        ]
+    },
+    {
+        "id": "q3_sci_env_data_type",
+        "questionText": "Which type of environmental data are you skilled in analyzing?",
+        "answerOptions": [
+            {
+                "answerText": "Air quality & pollution data.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Biodiversity counts & species tracking.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Water samples & hydrological data.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Satellite imagery & geospatial data.",
+                "nextQuestionId": "q4_common_availability"
+            }
+        ]
+    },
+    {
+        "id": "q3_sci_med_focus",
+        "questionText": "Which medical research focus interests you?",
+        "answerOptions": [
+            {
+                "answerText": "Clinical trials & patient data.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Epidemiology & public health studies.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Genomics & biological data analysis.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Health surveys & patient outcomes.",
+                "nextQuestionId": "q4_common_availability"
+            }
+        ]
+    },
+    {
+        "id": "q3_sci_social_theme",
+        "questionText": "Which social impact study theme appeals to you?",
+        "answerOptions": [
+            {
+                "answerText": "Education outcomes & learning effectiveness.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Health interventions & community well-being.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Economic empowerment & poverty reduction.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Policy evaluation & social program effectiveness.",
+                "nextQuestionId": "q4_common_availability"
+            }
+        ]
+    },
+    {
+        "id": "q3_sci_citizen_domain",
+        "questionText": "Which citizen science domain are you interested in?",
+        "answerOptions": [
+            {
+                "answerText": "Astronomy (e.g., star gazing, cosmic research).",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Wildlife tracking & biodiversity monitoring.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Weather monitoring & climate data collection.",
+                "nextQuestionId": "q4_common_availability"
+            },
+            {
+                "answerText": "Water quality testing & environmental sampling.",
+                "nextQuestionId": "q4_common_availability"
+            }
+        ]
+    },
+    {
+        "id": "q4_common_availability",
+        "questionText": "How many hours per week can you consistently commit, and what is your preferred volunteer duration?",
+        "answerOptions": [
+            {
+                "answerText": "1-5 hrs/week, Short-term (weeks to a few months).",
+                "nextQuestionId": "q5_common_location"
+            },
+            {
+                "answerText": "6-10 hrs/week, Medium-term (several months to a year).",
+                "nextQuestionId": "q5_common_location"
+            },
+            {
+                "answerText": "11-20+ hrs/week, Long-term (1+ years commitment).",
+                "nextQuestionId": "q5_common_location"
+            },
+            {
+                "answerText": "Flexible/Ad-hoc (occasional events, one-time tasks).",
+                "nextQuestionId": "q5_common_location"
+            }
+        ]
+    },
+    {
+        "id": "q5_common_location",
+        "questionText": "Do you prefer remote or on-site volunteering? Are you willing to travel (local, domestic, international)?",
+        "answerOptions": [
+            {
+                "answerText": "Remote only (digital tasks from anywhere).",
+                "nextQuestionId": "q6_common_impact"
+            },
+            {
+                "answerText": "On-site, local only (under 30 min commute).",
+                "nextQuestionId": "q6_common_impact"
+            },
+            {
+                "answerText": "On-site, willing to travel domestically (regional trips).",
+                "nextQuestionId": "q6_common_impact"
+            },
+            {
+                "answerText": "Open to international travel and diverse environments.",
+                "nextQuestionId": "q6_common_impact"
+            }
+        ]
+    },
+    {
+        "id": "q6_common_impact",
+        "questionText": "How do you most want to see the impact of your volunteering efforts manifest?",
+        "answerOptions": [
+            {
+                "answerText": "Directly helping individuals or small groups.",
+                "nextQuestionId": "q7_common_challenge_tolerance"
+            },
+            {
+                "answerText": "Contributing to larger systemic change or policy.",
+                "nextQuestionId": "q7_common_challenge_tolerance"
+            },
+            {
+                "answerText": "Raising awareness and educating the broader public.",
+                "nextQuestionId": "q7_common_challenge_tolerance"
+            },
+            {
+                "answerText": "Through measurable data analysis and project outcomes.",
+                "nextQuestionId": "q7_common_challenge_tolerance"
+            }
+        ]
+    },
+    {
+        "id": "q7_common_challenge_tolerance",
+        "questionText": "How comfortable are you with working in challenging situations (e.g., high-pressure, emotionally sensitive, physically demanding, diverse cultural settings)?",
+        "answerOptions": [
+            {
+                "answerText": "Very comfortable; I thrive in dynamic, complex environments.",
+                "nextQuestionId": "q8_common_skills"
+            },
+            {
+                "answerText": "Moderately comfortable; I adapt well with guidance and support.",
+                "nextQuestionId": "q8_common_skills"
+            },
+            {
+                "answerText": "Somewhat comfortable; prefer calmer, more structured settings.",
+                "nextQuestionId": "q8_common_skills"
+            },
+            {
+                "answerText": "Prefer to avoid highly challenging or stressful situations.",
+                "nextQuestionId": "q8_common_skills"
+            }
+        ]
+    },
+    {
+        "id": "q8_common_skills",
+        "questionText": "Beyond your cause-specific interests, what general skills do you enjoy applying or want to develop?",
+        "answerOptions": [
+            {
+                "answerText": "Analytical & Problem-Solving (research, data analysis, strategic thinking).",
+                "nextQuestionId": "q9_common_work_style"
+            },
+            {
+                "answerText": "Interpersonal & Empathetic (listening, counseling, cross-cultural communication).",
+                "nextQuestionId": "q9_common_work_style"
+            },
+            {
+                "answerText": "Technical & Digital (coding, web development, software management, cybersecurity).",
+                "nextQuestionId": "q9_common_work_style"
+            },
+            {
+                "answerText": "Creative & Artistic (writing, graphic design, photography, videography, music).",
+                "nextQuestionId": "q9_common_work_style"
+            },
+            {
+                "answerText": "Logistical & Organizational (event planning, scheduling, resource management, project management).",
+                "nextQuestionId": "q9_common_work_style"
+            }
+        ]
+    },
+    {
+        "id": "q9_common_work_style",
+        "questionText": "Do you prefer working independently, as part of a team, or in a leadership/mentoring capacity?",
+        "answerOptions": [
+            {
+                "answerText": "Independent work with clear goals.",
+                "nextQuestionId": "q10_final_comments"
+            },
+            {
+                "answerText": "Collaborative team environment.",
+                "nextQuestionId": "q10_final_comments"
+            },
+            {
+                "answerText": "Leadership or mentoring new volunteers.",
+                "nextQuestionId": "q10_final_comments"
+            },
+            {
+                "answerText": "Flexible mix of independent and team tasks.",
+                "nextQuestionId": "q10_final_comments"
+            }
+        ]
+    },
+    {
+        "id": "q10_final_comments",
+        "questionText": "Thank you for your answers! Do you have any final comments, specific accessibility needs, or a preferred start date we should know?",
+        "answerOptions": [
+            {
+                "answerText": "Are you actively looking for NGOs to work with",
+                "nextQuestionId": null
+            },
+            {
+                "answerText": "No, I'm just exploring.",
+                "nextQuestionId": null
+            }
+        ]
+    }
+]

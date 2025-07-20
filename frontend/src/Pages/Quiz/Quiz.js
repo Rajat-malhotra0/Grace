@@ -1,80 +1,62 @@
 import React, { useState } from "react";
+import questionsFile from "../../data/quiz_questions.json";
 import "./Quiz.css";
 
 function Quiz() {
-    const questions = [
-        {
-            questionText: "What cause are you most passionate about?",
-            answerOptions: [
-                { answerText: "Environmental Protection" },
-                { answerText: "Education" },
-                { answerText: "Healthcare" },
-                { answerText: "Animal Welfare" },
-            ],
-        },
-        {
-            questionText: "How do you prefer to contribute?",
-            answerOptions: [
-                { answerText: "Volunteering my time" },
-                { answerText: "Donating money" },
-                { answerText: "Donating goods" },
-                { answerText: "Spreading awareness" },
-            ],
-        },
-        {
-            questionText: "What kind of impact do you want to make?",
-            answerOptions: [
-                { answerText: "Local community impact" },
-                { answerText: "Global impact" },
-                { answerText: "Emergency relief" },
-                { answerText: "Long-term development" },
-            ],
-        },
-        {
-            questionText: "Which skill would you like to use?",
-            answerOptions: [
-                { answerText: "Teaching or mentoring" },
-                { answerText: "Event organization" },
-                { answerText: "Manual labor (e.g., building, cleaning)" },
-                { answerText: "Technical skills (e.g., web development)" },
-            ],
-        },
-    ];
-
+    const [questions] = useState(questionsFile);
     const [showStart, setShowStart] = useState(true);
     const [showQuiz, setShowQuiz] = useState(false);
     const [showResults, setShowResults] = useState(false);
-    const [currentQuestion, setCurrentQuestion] = useState(0);
+    const [currentQuestionId, setCurrentQuestionId] = useState("q1_cause_area");
     const [answers, setAnswers] = useState([]);
+    const [questionCount, setQuestionCount] = useState(0);
+    const maxQuestions = 10;
+
+    const findQuestionById = (id) => {
+        return questions.find((q) => q.id === id);
+    };
 
     const handleStartQuiz = () => {
         setShowStart(false);
         setShowQuiz(true);
     };
 
-    const handleAnswerOptionClick = (answer) => {
-        setAnswers([...answers, answer]);
+    const handleAnswerOptionClick = (answerOption) => {
+        const newAnswers = [
+            ...answers,
+            {
+                questionId: currentQuestionId,
+                answer: answerOption.answerText,
+            },
+        ];
+        setAnswers(newAnswers);
 
-        const nextQuestion = currentQuestion + 1;
-        if (nextQuestion < questions.length) {
-            setCurrentQuestion(nextQuestion);
-        } else {
+        const newQuestionCount = questionCount + 1;
+        setQuestionCount(newQuestionCount);
+
+        if (!answerOption.nextQuestionId || newQuestionCount >= maxQuestions) {
             setShowQuiz(false);
             setShowResults(true);
+            console.log(newAnswers);
+        } else {
+            setCurrentQuestionId(answerOption.nextQuestionId);
         }
     };
 
     const handleRestartQuiz = () => {
         setShowResults(false);
         setShowStart(true);
-        setCurrentQuestion(0);
+        setCurrentQuestionId("q1_cause_area");
         setAnswers([]);
+        setQuestionCount(0);
     };
+
+    const currentQuestion = findQuestionById(currentQuestionId);
 
     return (
         <div className="quiz-page">
             <div className="quiz-card">
-                {showStart && (
+                {showStart ? (
                     <div className="start-screen">
                         <h1>Ready for the Challenge?</h1>
                         <p>
@@ -83,9 +65,7 @@ function Quiz() {
                         </p>
                         <button onClick={handleStartQuiz}>Start Quiz</button>
                     </div>
-                )}
-
-                {showResults && (
+                ) : showResults ? (
                     <div className="results-screen">
                         <h1>Thank You!</h1>
                         <p>
@@ -96,27 +76,25 @@ function Quiz() {
                             Restart Quiz
                         </button>
                     </div>
-                )}
-
-                {showQuiz && (
+                ) : showQuiz && currentQuestion ? (
                     <div className="quiz-screen">
                         <div className="question-section">
                             <div className="question-count">
-                                <span>Question {currentQuestion + 1}</span>/
-                                {questions.length}
+                                <span>Question {questionCount + 1}</span>/
+                                {maxQuestions}
                             </div>
                             <div className="question-text">
-                                {questions[currentQuestion].questionText}
+                                {currentQuestion.questionText}
                             </div>
                         </div>
                         <div className="answer-section">
-                            {questions[currentQuestion].answerOptions.map(
+                            {currentQuestion.answerOptions.map(
                                 (answerOption, index) => (
                                     <button
                                         key={index}
                                         onClick={() =>
                                             handleAnswerOptionClick(
-                                                answerOption.answerText
+                                                answerOption
                                             )
                                         }
                                     >
@@ -126,7 +104,7 @@ function Quiz() {
                             )}
                         </div>
                     </div>
-                )}
+                ) : null}
             </div>
         </div>
     );

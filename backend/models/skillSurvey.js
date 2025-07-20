@@ -7,6 +7,7 @@ const skillSurveySchema = new mongoose.Schema({
         required: true,
         unique: true,
     },
+    answers: { type: [] },
     skills: [{ type: String }],
     interests: [{ type: mongoose.Schema.Types.ObjectId, ref: "category" }],
     helpCategories: [{ type: mongoose.Schema.Types.ObjectId, ref: "category" }],
