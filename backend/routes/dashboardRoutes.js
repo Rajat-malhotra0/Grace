@@ -2,7 +2,9 @@ const express = require('express');
 const router = express.Router();
 const NGO = require('../models/ngo');
 const Task = require('../models/task');
-const authenticateAdmin  = require('../middleware/authMiddleware');
+const { authMiddleware, roleMiddleware } = require('../middleware/authMiddleware');
+
+const authenticateAdmin = [authMiddleware, roleMiddleware(['admin'])];
 
 
 router.get('/adminSumm', authenticateAdmin, async (req, res) => {
