@@ -35,19 +35,19 @@ router.post(
         try {
             const task = await taskService.createTask(req.body);
             if (task) {
-                res.status(201).json({
+                return res.status(201).json({
                     success: true,
                     message: "Task created successfully",
                     result: task,
                 });
             } else {
-                res.status(400).json({
+                return res.status(400).json({
                     success: false,
                     message: "Failed to create task",
                 });
             }
         } catch (error) {
-            res.status(500).json({
+            return res.status(500).json({
                 success: false,
                 message: "Internal server error",
                 error: error.message,
@@ -83,13 +83,13 @@ router.get(
         try {
             const filter = req.query;
             const tasks = await taskService.readTasks(filter);
-            res.status(200).json({
+            return res.status(200).json({
                 success: true,
                 message: "Tasks retrieved successfully",
                 result: tasks,
             });
         } catch (error) {
-            res.status(500).json({
+            return res.status(500).json({
                 success: false,
                 message: "Internal server error",
                 error: error.message,
@@ -106,11 +106,11 @@ router.get(
             .isMongoId()
             .withMessage("Invalid ID format"),
     ],
-    async (req, res, next) => {
+    async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return next({
-                status: 400,
+            return res.status(400).json({
+                success: false,
                 message: "Validation errors",
                 errors: errors.array(),
             });
@@ -118,19 +118,19 @@ router.get(
         try {
             const tasks = await taskService.readTasks({ _id: req.params.id });
             if (tasks && tasks.length > 0) {
-                res.status(200).json({
+                return res.status(200).json({
                     success: true,
                     message: "Task retrieved successfully",
                     result: tasks,
                 });
             } else {
-                res.status(404).json({
+                return res.status(404).json({
                     success: false,
                     message: "Task not found",
                 });
             }
         } catch (error) {
-            res.status(500).json({
+            return res.status(500).json({
                 success: false,
                 message: "Internal server error",
                 error: error.message,
@@ -178,19 +178,19 @@ router.put(
                 req.body
             );
             if (task) {
-                res.status(200).json({
+                return res.status(200).json({
                     success: true,
                     message: "Task updated successfully",
                     result: task,
                 });
             } else {
-                res.status(404).json({
+                return res.status(404).json({
                     success: false,
                     message: "Task not found",
                 });
             }
         } catch (error) {
-            res.status(500).json({
+            return res.status(500).json({
                 success: false,
                 message: "Internal server error",
                 error: error.message,
@@ -219,12 +219,12 @@ router.delete(
         }
         try {
             await taskService.deleteTask({ _id: req.params.id });
-            res.status(200).json({
+            return res.status(200).json({
                 success: true,
                 message: "Task deleted successfully",
             });
         } catch (error) {
-            res.status(500).json({
+            return res.status(500).json({
                 success: false,
                 message: "Internal server error",
                 error: error.message,

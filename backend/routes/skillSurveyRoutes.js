@@ -39,19 +39,19 @@ router.post(
                 req.body
             );
             if (skillSurvey) {
-                res.status(201).json({
+                return res.status(201).json({
                     success: true,
                     message: "Skill survey created successfully",
                     result: skillSurvey,
                 });
             } else {
-                res.status(400).json({
+                return res.status(400).json({
                     success: false,
                     message: "Failed to create skill survey",
                 });
             }
         } catch (error) {
-            res.status(500).json({
+            return res.status(500).json({
                 success: false,
                 message: "Internal server error",
                 error: error.message,
@@ -94,13 +94,13 @@ router.get(
             const skillSurveys = await skillSurveyService.readSkillSurveys(
                 filter
             );
-            res.status(200).json({
+            return res.status(200).json({
                 success: true,
                 message: "Skill surveys retrieved successfully",
                 result: skillSurveys,
             });
         } catch (error) {
-            res.status(500).json({
+            return res.status(500).json({
                 success: false,
                 message: "Internal server error",
                 error: error.message,
@@ -132,19 +132,19 @@ router.get(
                 _id: req.params.id,
             });
             if (skillSurveys && skillSurveys.length > 0) {
-                res.status(200).json({
+                return res.status(200).json({
                     success: true,
                     message: "Skill survey retrieved successfully",
                     result: skillSurveys,
                 });
             } else {
-                res.status(404).json({
+                return res.status(404).json({
                     success: false,
                     message: "Skill survey not found",
                 });
             }
         } catch (error) {
-            res.status(500).json({
+            return res.status(500).json({
                 success: false,
                 message: "Internal server error",
                 error: error.message,
@@ -186,19 +186,19 @@ router.put(
                 req.body
             );
             if (skillSurvey) {
-                res.status(200).json({
+                return res.status(200).json({
                     success: true,
                     message: "Skill survey updated successfully",
                     result: skillSurvey,
                 });
             } else {
-                res.status(404).json({
+                return res.status(404).json({
                     success: false,
                     message: "Skill survey not found",
                 });
             }
         } catch (error) {
-            res.status(500).json({
+            return res.status(500).json({
                 success: false,
                 message: "Internal server error",
                 error: error.message,
@@ -227,12 +227,12 @@ router.delete(
         }
         try {
             await skillSurveyService.deleteSkillSurvey({ _id: req.params.id });
-            res.status(200).json({
+            return res.status(200).json({
                 success: true,
                 message: "Skill survey deleted successfully",
             });
         } catch (error) {
-            res.status(500).json({
+            return res.status(500).json({
                 success: false,
                 message: "Internal server error",
                 error: error.message,

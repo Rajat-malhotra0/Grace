@@ -1,62 +1,152 @@
 const express = require("express");
 const router = express.Router();
+const { body, validationResult } = require("express-validator");
 const authService = require("../services/authService");
-const authMiddleware = require("../middleware/authMiddleware");
-const { route } = require("./donationRoutes");
+const { authMiddleware } = require("../middleware/authMiddleware");
 
-router.post('/register',async (req,res) => {
-    try {
-        const user = await authService.registerUser(req.body);
-        res.status(201).json({ success : true, data : user });
-    } catch (error) {
-        res.status(400).json({ success : false , error : error.message });
+router.post(
+    "/register",
+    [
+        body("userName").trim().notEmpty().withMessage("Username is required"),
+        body("email").isEmail().withMessage("Valid email is required"),
+        body("password")
+            .isLength({ min: 6 })
+            .withMessage("Password must be at least 6 characters"),
+        body("termsAccepted")
+            .equals("true")
+            .withMessage("Terms must be accepted"),
+    ],
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({
+                success: false,
+                message: "Validation errors",
+                errors: errors.array(),
+            });
+        }
+
+        try {
+            const result = await authService.registerUser(req.body);
+            return res.status(201).json({
+                success: true,
+                message: "User registered successfully",
+                result: result,
+            });
+        } catch (error) {
+            return res.status(400).json({
+                success: false,
+                message: error.message,
+            });
+        }
     }
-});
+);
 
-router.post('/login',async (req,res) => {
-    try {
-        const { email , password } = req.body;
-        const { user , accessToken , refreshToken } = await authService.loginUser(email, password);
+router.post(
+    "/register-ngo",
+    [
+        body("userName").trim().notEmpty().withMessage("Username is required"),
+        body("email").isEmail().withMessage("Valid email is required"),
+        body("password")
+            .isLength({ min: 6 })
+            .withMessage("Password must be at least 6 characters"),
+        body("organizationName")
+            .trim()
+            .notEmpty()
+            .withMessage("Organization name is required"),
+        body("category").isMongoId().withMessage("Valid category is required"),
+        body("termsAccepted")
+            .equals("true")
+            .withMessage("Terms must be accepted"),
+    ],
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({
+                success: false,
+                message: "Validation errors",
+                errors: errors.array(),
+            });
+        }
 
-        res.cookie('refreshToken',refreshToken,{
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            maxAge: 1 * 60 * 60 * 1000,
-        });
-
-        res.json({
-            success : true,
-            data : {user,accessToken}
-        });
-    } catch (error) {
-        res.status(401),json({success : false, error : error.message})
+        try {
+            const result = await authService.registerNGO(req.body);
+            return res.status(201).json({
+                success: true,
+                message: "NGO registered successfully",
+                result: result,
+            });
+        } catch (error) {
+            return res.status(400).json({
+                success: false,
+                message: error.message,
+            });
+        }
     }
-});
+);
 
-router.post('/refresh',async (req,res) => {
-    const refreshToken = req.cookies.refreshToken;
-    if (!refreshToken) return res.sendStatus(401);
+router.post(
+    "/login",
+    [
+        body("email").isEmail().withMessage("Valid email is required"),
+        body("password").notEmpty().withMessage("Password is required"),
+    ],
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({
+                success: false,
+                message: "Validation errors",
+                errors: errors.array(),
+            });
+        }
 
-    try {
-        const accessToken = await authService.refreshAccessToken(refreshToken);
-        res.json({success : true, accessToken});F    
-    } catch (error) {
-        res.sendStatus(403);
-    }  
-});
+        try {
+            const { email, password } = req.body;
+            const result = await authService.loginUser(email, password);
 
-router.post('/logout', authMiddleware, async (req,res) => {
+            return res.json({
+                success: true,
+                message: "Login successful",
+                result: result,
+            });
+        } catch (error) {
+            return res.status(401).json({
+                success: false,
+                message: error.message,
+            });
+        }
+    }
+);
+
+router.post("/logout", authMiddleware, async (req, res) => {
     try {
         await authService.logoutUser(req.user.id);
-        res.clearCookie('refreshToken');
-        res.json({success : true});
+        return res.json({
+            success: true,
+            message: "Logged out successfully",
+        });
     } catch (error) {
-        res.status(500).json({success : false , error : error.message})
+        return res.status(500).json({
+            success: false,
+            message: error.message,
+        });
     }
 });
 
-router.get('/me', authMiddleware, async (req,res) => {
-    res.json({success : true, data : req.user});
+router.get("/profile", authMiddleware, async (req, res) => {
+    try {
+        const profile = await authService.getUserProfile(req.user.id);
+        return res.json({
+            success: true,
+            result: profile,
+        });
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+    }
 });
 
 module.exports = router;

@@ -1,6 +1,12 @@
 const mongoose = require("mongoose");
 
 const ngoSchema = new mongoose.Schema({
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "user",
+        required: true,
+        unique: true
+    },
     name: { type: String, required: true },
     registerationId: { type: String, default: "" },
     yearEstablished: { type: Number, default: 0 },

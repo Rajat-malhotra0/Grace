@@ -37,19 +37,19 @@ router.post(
         try {
             const donation = await donationService.createDonation(req.body);
             if (donation) {
-                res.status(201).json({
+                return res.status(201).json({
                     success: true,
                     message: "Donation created successfully",
                     result: donation,
                 });
             } else {
-                res.status(400).json({
+                return res.status(400).json({
                     success: false,
                     message: "Failed to create donation",
                 });
             }
         } catch (error) {
-            res.status(500).json({
+            return res.status(500).json({
                 success: false,
                 message: "Internal server error",
                 error: error.message,
@@ -86,13 +86,13 @@ router.get(
         try {
             const filter = req.query;
             const donations = await donationService.readDonations(filter);
-            res.status(200).json({
+            return res.status(200).json({
                 success: true,
                 message: "Donations retrieved successfully",
                 result: donations,
             });
         } catch (error) {
-            res.status(500).json({
+            return res.status(500).json({
                 success: false,
                 message: "Internal server error",
                 error: error.message,
@@ -124,19 +124,19 @@ router.get(
                 _id: req.params.id,
             });
             if (donations && donations.length > 0) {
-                res.status(200).json({
+                return res.status(200).json({
                     success: true,
                     message: "Donation retrieved successfully",
                     result: donations[0],
                 });
             } else {
-                res.status(404).json({
+                return res.status(404).json({
                     success: false,
                     message: "Donation not found",
                 });
             }
         } catch (error) {
-            res.status(500).json({
+            return res.status(500).json({
                 success: false,
                 message: "Internal server error",
                 error: error.message,
@@ -181,19 +181,19 @@ router.put(
                 req.body
             );
             if (donation) {
-                res.status(200).json({
+                return res.status(200).json({
                     success: true,
                     message: "Donation updated successfully",
                     result: donation,
                 });
             } else {
-                res.status(404).json({
+                return res.status(404).json({
                     success: false,
                     message: "Donation not found",
                 });
             }
         } catch (error) {
-            res.status(500).json({
+            return res.status(500).json({
                 success: false,
                 message: "Internal server error",
                 error: error.message,
@@ -222,12 +222,12 @@ router.delete(
         }
         try {
             await donationService.deleteDonation({ _id: req.params.id });
-            res.status(200).json({
+            return res.status(200).json({
                 success: true,
                 message: "Donation deleted successfully",
             });
         } catch (error) {
-            res.status(500).json({
+            return res.status(500).json({
                 success: false,
                 message: "Internal server error",
                 error: error.message,

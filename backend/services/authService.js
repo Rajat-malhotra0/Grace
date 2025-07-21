@@ -1,89 +1,254 @@
-const User = require('../models/user');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
+//Todo:
+//Cleanup user if NGO creation fails
 
-class authService {
-    constructor(){
-    this.accessTokenSecret = process.env.ACCESS_TOKEN_SECRET;
-    this.refreshTokenSecret = process.env.REFRESH_TOKEN_SECRET;
-    this.accessTokenExpiry = '15m';
-    this.refreshTokenExpiry = '1h';
-    }
-    async registerUser(email,password,name,role = 'volunteer') {
-        try {
-            const existingUser = await User.findOne({email});
-            if(existingUser){
-                throw new Error('Email already in Use');
+const User = require("../models/user");
+const NGO = require("../models/ngo");
+const jwt = require("jsonwebtoken");
+
+const tokenSecret = "some_random_text(verrry random)🫦🫦";
+
+async function registerUser(userData) {
+    try {
+        const {
+            userName,
+            email,
+            password,
+            role,
+            dob,
+            remindMe,
+            termsAccepted,
+            newsLetter,
+        } = userData;
+
+        const existingUser = await User.findOne({ email });
+
+        if (existingUser) {
+            if (existingUser.email === email) {
+                throw new Error("Email already in use");
             }
-            const hashedPassword = await bcrypt.hash(password,12);
-            const user = new User({email,password:hashedPassword,name,role});
-            await user.save();
-            return this.sanitizeUser(user);
-        } catch (error) {
-            throw error;
         }
-    }
 
-    async loginUser(email,password){
-        try {
-            const user = await User.findOne({email});
-            if(!user) throw new Error('User Not Found');
+        const user = new User({
+            userName,
+            email,
+            password,
+            role: role ? [role] : ["volunteer"],
+            dob: dob ? new Date(dob) : null,
+            remindMe: remindMe || false,
+            termsAccepted: termsAccepted || false,
+            newsLetter: newsLetter || false,
+            isActive: true,
+        });
 
-            const password = await bcrypt.compare(password,user.password);
-            if(!password) throw new Error('Invalid Credentials');
+        await user.save();
 
-            const accessToken = this.generateToken(user,this.accessTokenSecret,this.accessTokenExpiry);
-            const refreshToken = this.generateToken(user,this.refreshTokenSecret,this.refreshTokenExpiry);
-            user.refreshTokens = user.refreshTokens.concat({token : refreshToken});
-            await user.save();
+        const token = generateToken(user);
+        user.token = token;
+        await user.save();
 
-            return {
-                user: this.sanitizeUser(user), accessToken,refreshToken
-            };
-        } catch (error) {
-            throw error;
-        }
-    }
-
-    async refreshAccessToken(refreshToken) {
-        try {
-            const decoded = jwt.verify(refreshToken,this.refreshTokenSecret);
-            const user = await User.findById(decoded.userId);
-
-            if(!user || !user.refreshTokens.some(token => token.token ===refreshToken)){
-                throw new Error("Invalid refresh token");
-                return this.generateToken(user,this.accessToken,this.accessTokenExpiry);
-            }
-        } catch (error) {
-            throw error;
-        }
-    }
-
-    async logoutUser(userId,refreshToken){
-        try {
-            const user = await User.findById(userId);
-            user.refreshTokens = user.refreshTokens.filter(token => token.token === refreshToken);
-            await user.save();
-        } catch (error) {
-            throw error;
-        }
-    }
-
-    generateToken(user,secret,expiresIn){
-        return jwt.sign(
-            {userId : user._id,role : user.role},
-            secret,
-            {expiresIn});
-    };
-
-    sanitizeUser(user){
         return {
-        id : user._id,
-        email : user.email,
-        name : user.name,
-        role : user.role
+            user: sanitizeUser(user),
+            token,
         };
+    } catch (error) {
+        throw error;
     }
 }
 
-module.exports = new authService();
+async function registerNGO(userData) {
+    try {
+        const {
+            userName,
+            email,
+            password,
+            organizationName,
+            registrationNumber,
+            description,
+            category,
+            address,
+            phoneNumber,
+            website,
+            dob,
+            remindMe,
+            termsAccepted,
+            newsLetter,
+        } = userData;
+
+        const existingUser = await User.findOne({ email });
+
+        if (existingUser) {
+            throw new Error("Email or Username already in use");
+        }
+
+        const user = new User({
+            userName,
+            email,
+            password,
+            role: ["ngo"],
+            dob: dob ? new Date(dob) : null,
+            remindMe: remindMe || false,
+            termsAccepted: termsAccepted || false,
+            newsLetter: newsLetter || false,
+            isActive: true,
+        });
+        await user.save();
+
+        const ngo = new NGO({
+            user: user._id,
+            name: organizationName,
+            registerationId: registrationNumber,
+            description,
+            category,
+            location: {
+                address: address || "",
+            },
+            contact: {
+                email,
+                phone: phoneNumber || "",
+                website: website || "",
+            },
+            isActive: true,
+        });
+        await ngo.save();
+
+        const token = generateToken(user);
+        user.token = token;
+        await user.save();
+
+        return {
+            user: sanitizeUser(user),
+            ngo: ngo,
+            token,
+        };
+    } catch (error) {
+        // Cleanup user if NGO creation fails
+        if (user && user._id) {
+            await User.findByIdAndDelete(user._id);
+        }
+        throw error;
+    }
+}
+
+async function loginUser(email, password) {
+    try {
+        const user = await User.findOne({ email });
+        if (!user) {
+            throw new Error("User not found");
+        }
+
+        const isPasswordValid = await user.comparePassword(password);
+        if (!isPasswordValid) {
+            throw new Error("Invalid credentials");
+        }
+
+        const token = generateToken(user);
+        user.token = token;
+        await user.save();
+
+        let responseData = {
+            user: sanitizeUser(user),
+            token,
+        };
+
+        if (user.role.includes("ngo")) {
+            const ngo = await NGO.findOne({ user: user._id }).populate(
+                "category"
+            );
+            responseData.ngo = ngo;
+        }
+
+        return responseData;
+    } catch (error) {
+        throw error;
+    }
+}
+
+async function verifyToken(token) {
+    try {
+        const decoded = jwt.verify(token, tokenSecret);
+        const user = await User.findById(decoded.userId);
+
+        if (!user || user.token !== token || !user.isActive) {
+            throw new Error("Invalid token");
+        }
+
+        return sanitizeUser(user);
+    } catch (error) {
+        throw error;
+    }
+}
+
+async function logoutUser(userId) {
+    try {
+        const user = await User.findById(userId);
+        if (!user) {
+            throw new Error("User not found");
+        }
+
+        user.token = null;
+        await user.save();
+
+        return { message: "Logged out successfully" };
+    } catch (error) {
+        throw error;
+    }
+}
+
+async function getUserProfile(userId) {
+    try {
+        const user = await User.findById(userId);
+        if (!user) {
+            throw new Error("User not found");
+        }
+
+        let profile = { user: sanitizeUser(user) };
+
+        if (user.role.includes("ngo")) {
+            const ngo = await NGO.findOne({ user: userId }).populate(
+                "category"
+            );
+            profile.ngo = ngo;
+        }
+
+        return profile;
+    } catch (error) {
+        throw error;
+    }
+}
+
+function generateToken(user) {
+    return jwt.sign(
+        {
+            userId: user._id,
+            role: user.role,
+            email: user.email,
+        },
+        tokenSecret
+    );
+}
+
+function sanitizeUser(user) {
+    return {
+        id: user._id,
+        userName: user.userName,
+        email: user.email,
+        role: user.role,
+        about: user.about,
+        score: user.score,
+        dob: user.dob,
+        remindMe: user.remindMe,
+        termsAccepted: user.termsAccepted,
+        newsLetter: user.newsLetter,
+        isActive: user.isActive,
+        createdAt: user.createdAt,
+    };
+}
+
+module.exports = {
+    registerUser,
+    registerNGO,
+    loginUser,
+    verifyToken,
+    logoutUser,
+    getUserProfile,
+};
