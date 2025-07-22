@@ -6,6 +6,7 @@ import Service from "./Pages/Service/Services";
 import Quiz from "./Pages/Quiz/Quiz";
 import Register from "./Pages/Register/Register";
 import Login from "./Pages/Login/Login";
+import Profile from "./Pages/Profile/Profile";
 function Content() {
     return (
         <Routes>
@@ -15,6 +16,7 @@ function Content() {
             <Route path="/Quiz" element={<Quiz />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/profile" element={<Profile />} />
         </Routes>
     );
 }

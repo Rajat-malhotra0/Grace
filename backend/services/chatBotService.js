@@ -1,10 +1,13 @@
-const dotenv = require('dotenv');
+const dotenv = require("dotenv");
 dotenv.config();
 
-const { QdrantVectorStore } = require('@langchain/qdrant');
-const { GoogleGenerativeAIEmbeddings, ChatGoogleGenerativeAI } = require('@langchain/google-genai');
-const { Document } = require('@langchain/core/documents');
-const { PromptTemplate } = require('@langchain/core/prompts');
+const { QdrantVectorStore } = require("@langchain/qdrant");
+const {
+    GoogleGenerativeAIEmbeddings,
+    ChatGoogleGenerativeAI,
+} = require("@langchain/google-genai");
+const { Document } = require("@langchain/core/documents");
+const { PromptTemplate } = require("@langchain/core/prompts");
 
 const collectionName = 'help_articles';
 
@@ -14,14 +17,14 @@ if (!process.env.GEMINI_API_KEY) {
 }
 
 const embeddings = new GoogleGenerativeAIEmbeddings({
-  apiKey: process.env.GEMINI_API_KEY,
-  model: 'embedding-001',
+    apiKey: process.env.GEMINI_API_KEY,
+    model: "embedding-001",
 });
 
 const chatModel = new ChatGoogleGenerativeAI({
-  apiKey: process.env.GEMINI_API_KEY,
-  model: 'gemini-2.0-flash',
-  temperature: 0,
+    apiKey: process.env.GEMINI_API_KEY,
+    model: "gemini-2.0-flash",
+    temperature: 0,
 });
 
 let vectorStore = null;
@@ -50,14 +53,13 @@ async function initializeVectorStore() {
 }
 
 async function addArticles(articles) {
-  
     if (!vectorStore) {
-      await initializeVectorStore();
+        await initializeVectorStore();
     }
-    
+
     if (!vectorStore) {
-      console.warn('Qdrant not available, articles not stored');
-      return;
+        console.warn("Qdrant not available, articles not stored");
+        return;
     }
   try {
     const docs = articles.map((article, index) => new Document({
@@ -75,51 +77,61 @@ async function addArticles(articles) {
 
 async function searchArticles(query, limit = 3) {
     if (!vectorStore) {
-      console.warn('Using fallback knowledge - no database connection');
-      return getFallbackContent(query);
+        console.warn("Using fallback knowledge - no database connection");
+        return getFallbackContent(query);
     }
     try {
-      return await vectorStore.similaritySearch(query, limit);
+        return await vectorStore.similaritySearch(query, limit);
     } catch (error) {
-      console.error('Error during similarity search:', error.message);
-      return getFallbackContent(query);
+        console.error("Error during similarity search:", error.message);
+        return getFallbackContent(query);
     }
 }
 
 async function getFallbackContent(query) {
-  const queryLower = query.toLowerCase();
-  const fallbackArticles = [];
-  if (queryLower.includes('task') || queryLower.includes('create task')) {
-    fallbackArticles.push(new Document({
-      pageContent: "To create a task, go to the Tasks page and click 'Create Task'. Fill in the details and submit.",
-      metadata: { source: 'Fallback Help', category: 'tasks' },
-    }));
-  }
-  if (queryLower.includes('ngo') || queryLower.includes('location')) {
-    fallbackArticles.push(new Document({
-      pageContent: "View NGO locations on the Map page. Click any marker for details.",
-      metadata: { source: 'Fallback Help', category: 'navigation' },
-    }));
-  }
-  if (queryLower.includes('donation') || queryLower.includes('report')) {
-    fallbackArticles.push(new Document({ 
-      pageContent: "View donation reports in Analytics. Select date range and click 'Generate Report'.",
-      metadata: { source: 'Fallback Help', category: 'analytics' },
-    })); 
-  }
-  if (fallbackArticles.length === 0) {
-    fallbackArticles.push(
-      new Document({
-        pageContent: "I'm here to help with your NGO dashboard questions! You can create tasks, view NGO locations, manage NGOs, and access reports through the dashboard.",
-        metadata: { source: 'Fallback Help', category: 'general' },
-      })
-    );
-  }
-  return fallbackArticles;
+    const queryLower = query.toLowerCase();
+    const fallbackArticles = [];
+    if (queryLower.includes("task") || queryLower.includes("create task")) {
+        fallbackArticles.push(
+            new Document({
+                pageContent:
+                    "To create a task, go to the Tasks page and click 'Create Task'. Fill in the details and submit.",
+                metadata: { source: "Fallback Help", category: "tasks" },
+            })
+        );
+    }
+    if (queryLower.includes("ngo") || queryLower.includes("location")) {
+        fallbackArticles.push(
+            new Document({
+                pageContent:
+                    "View NGO locations on the Map page. Click any marker for details.",
+                metadata: { source: "Fallback Help", category: "navigation" },
+            })
+        );
+    }
+    if (queryLower.includes("donation") || queryLower.includes("report")) {
+        fallbackArticles.push(
+            new Document({
+                pageContent:
+                    "View donation reports in Analytics. Select date range and click 'Generate Report'.",
+                metadata: { source: "Fallback Help", category: "analytics" },
+            })
+        );
+    }
+    if (fallbackArticles.length === 0) {
+        fallbackArticles.push(
+            new Document({
+                pageContent:
+                    "I'm here to help with your NGO dashboard questions! You can create tasks, view NGO locations, manage NGOs, and access reports through the dashboard.",
+                metadata: { source: "Fallback Help", category: "general" },
+            })
+        );
+    }
+    return fallbackArticles;
 }
 
 async function generateAnswer(query, contextDocs) {
-  const contextText = contextDocs.map(doc => doc.pageContent).join('\n\n');
+    const contextText = contextDocs.map((doc) => doc.pageContent).join("\n\n");
 
   try {
     const prompt = `
@@ -151,46 +163,58 @@ async function getChatbotResponse(query) {
     const similarDocs = await searchArticles(query);
     const answer = await generateAnswer(query, similarDocs);
 
-    return {
-      answer,
-      sources: similarDocs.map(doc => doc.metadata.source).filter(Boolean),
-      foundDocs: similarDocs.length,
-    };
-  } catch (err) {
-    console.error('Chatbot flow error:', err.message);
-    return {
-      answer: "I'm here to help with your NGO dashboard questions! You can create tasks, view NGO locations, manage NGOs, and access reports through the dashboard.",
-      sources: [],
-      foundDocs: 0,
-    };
-  }
+        return {
+            answer,
+            sources: similarDocs
+                .map((doc) => doc.metadata.source)
+                .filter(Boolean),
+            foundDocs: similarDocs.length,
+        };
+    } catch (err) {
+        console.error("Chatbot flow error:", err.message);
+        return {
+            answer: "I'm here to help with your NGO dashboard questions! You can create tasks, view NGO locations, manage NGOs, and access reports through the dashboard.",
+            sources: [],
+            foundDocs: 0,
+        };
+    }
 }
 
 async function setupKnowledgeBase() {
-  const articles = [
-    {
-      content: "To create a task, go to the Tasks page and click 'Create Task'. Fill in the details and submit.",
-      metadata: { source: 'User Guide Section 3.2', category: 'tasks' },
-    },
-    {
-      content: "View NGO locations on the Map page. Click any marker for details.",
-      metadata: { source: 'User Guide Section 5.1', category: 'navigation' },
-    },
-    {
-      content: "To add a new NGO, go to NGO Management and click 'Add NGO'. Fill in name, location, and contact info.",
-      metadata: { source: 'User Guide Section 2.1', category: 'ngo' },
-    },
-    {
-      content: "View donation reports in Analytics. Select date range and click 'Generate Report'.",
-      metadata: { source: 'User Guide Section 4.3', category: 'analytics' },
-    },
-  ];
+    const articles = [
+        {
+            content:
+                "To create a task, go to the Tasks page and click 'Create Task'. Fill in the details and submit.",
+            metadata: { source: "User Guide Section 3.2", category: "tasks" },
+        },
+        {
+            content:
+                "View NGO locations on the Map page. Click any marker for details.",
+            metadata: {
+                source: "User Guide Section 5.1",
+                category: "navigation",
+            },
+        },
+        {
+            content:
+                "To add a new NGO, go to NGO Management and click 'Add NGO'. Fill in name, location, and contact info.",
+            metadata: { source: "User Guide Section 2.1", category: "ngo" },
+        },
+        {
+            content:
+                "View donation reports in Analytics. Select date range and click 'Generate Report'.",
+            metadata: {
+                source: "User Guide Section 4.3",
+                category: "analytics",
+            },
+        },
+    ];
 
   return await addArticles(articles);
 }
 module.exports = {
-  initializeVectorStore,
-  setupKnowledgeBase,
-  getChatbotResponse,
-  addArticles
+    initializeVectorStore,
+    setupKnowledgeBase,
+    getChatbotResponse,
+    addArticles,
 };

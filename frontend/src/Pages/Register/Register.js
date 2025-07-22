@@ -46,7 +46,6 @@ function Register() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Password confirmation check
         if (formData.password !== formData.confirmedPassword) {
             alert("Passwords do not match.");
             return;
@@ -89,7 +88,6 @@ function Register() {
 
         if (result && result.success) {
             alert("Registration successful!");
-            // Optionally redirect or clear form
         } else {
             alert(result?.message || "Registration failed. Please try again.");
         }
