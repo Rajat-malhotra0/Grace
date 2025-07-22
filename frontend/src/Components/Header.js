@@ -1,11 +1,13 @@
 //reusable header section
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import Button from "./Button";
 import "./Header.css";
+import { AuthContext } from "../Context/AuthContext";
 
 function Header() {
     const [scrolled, setScrolled] = useState(false);
+    const { isAuthenticated, user } = useContext(AuthContext);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -27,9 +29,21 @@ function Header() {
                 </nav>
 
                 <div className="nav-button">
-                    <Link to="/register">
-                        <Button text="Get Started" />
-                    </Link>
+                    {isAuthenticated ? (
+                        <div className="user-menu">
+                            <Link to="/profile">
+                                <Button
+                                    text={`Welcome, ${
+                                        user?.userName || "User"
+                                    }`}
+                                />
+                            </Link>
+                        </div>
+                    ) : (
+                        <Link to="/register">
+                            <Button text="Get Started" />
+                        </Link>
+                    )}
                 </div>
             </div>
         </header>
