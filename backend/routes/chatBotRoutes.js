@@ -5,25 +5,30 @@ const chatBotService = require('../services/chatBotService');
 router.post('/chat', async (req, res) => {
   try {
     const { message } = req.body;
-    if (!message) {
-      return res.status(400).json({ error: 'Message is required' });
+    if (!message || typeof message !== 'string' || message.trim().length === 0) {
+      return res.status(400).json({ error: 'Valid message is required' });
+    }
+    
+    if (message.length > 500) {
+      return res.status(400).json({ error: 'Message too long. Please keep it under 500 characters.' });
     }
 
-    const result = await chatBotService.getChatbotResponse(message);
-    console.log('Service result:', result);
+    const result = await chatBotService.getChatbotResponse(message.trim());
     
     const responseData = { 
       response: result.answer, 
-      sources: result.sources, 
+      sources: result.sources || ['AI Assistant'], 
       relevantDocs: result.foundDocs,
       timestamp: new Date().toISOString()
     };
     
-    console.log('Sending response:', responseData);
     res.json(responseData);
   } catch (error) {
     console.error('Route error:', error);
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ 
+      error: 'Internal server error. Please try again later.',
+      timestamp: new Date().toISOString()
+    });
   }
 });
 
