@@ -155,12 +155,9 @@ Answer clearly and concisely. If the answer is not in context, say: "I don't hav
 }
 
 async function getChatbotResponse(query) {
-    try {
-        console.log("Getting chatbot response for query:", query);
-        const similarDocs = await searchArticles(query);
-        console.log("Found similar docs:", similarDocs.length);
-        const answer = await generateAnswer(query, similarDocs);
-        console.log("Generated answer:", answer);
+  try {
+    const similarDocs = await searchArticles(query);
+    const answer = await generateAnswer(query, similarDocs);
 
         return {
             answer,
