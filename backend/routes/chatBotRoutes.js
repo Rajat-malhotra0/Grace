@@ -1,38 +1,65 @@
 const express = require('express');
 const router = express.Router();
+const {body, query, param, validationResult} = require('express-validator');
 const chatBotService = require('../services/chatBotService');
 
-router.post('/chat', async (req, res) => {
-  try {
-    const { message } = req.body;
-    if (!message || typeof message !== 'string' || message.trim().length === 0) {
-      return res.status(400).json({ error: 'Valid message is required' });
+router.post('/chat',
+  [
+    body('message')
+      .notEmpty()
+      .withMessage('Message is required')
+      .isString()
+      .withMessage('Message must be a string')
+      .isLength({ max: 500 })
+  ], async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ 
+        success: false,
+        message: 'Validation errors',
+        errors: errors.array() 
+      });
     }
-    
-    if (message.length > 500) {
-      return res.status(400).json({ error: 'Message too long. Please keep it under 500 characters.' });
-    }
+    try {
+      const { message } = req.body;
+      if (message.length > 500) {
+        return res.status(400).json({ error: 'Message too long. Please keep it under 500 characters.' });
+      }
 
-    const result = await chatBotService.getChatbotResponse(message.trim());
-    
-    const responseData = { 
-      response: result.answer, 
-      sources: result.sources || ['AI Assistant'], 
-      relevantDocs: result.foundDocs,
-      timestamp: new Date().toISOString()
-    };
-    
-    res.json(responseData);
-  } catch (error) {
-    console.error('Route error:', error);
-    res.status(500).json({ 
-      error: 'Internal server error. Please try again later.',
-      timestamp: new Date().toISOString()
-    });
-  }
+      const result = await chatBotService.getChatbotResponse(message.trim());
+      
+      const responseData = { 
+        response: result.answer, 
+        sources: result.sources || ['AI Assistant'], 
+        relevantDocs: result.foundDocs,
+        timestamp: new Date().toISOString()
+      };
+      
+      res.json(responseData);
+    } catch (error) {
+      console.error('Route error:', error);
+      res.status(500).json({ 
+        error: 'Internal server error. Please try again later.',
+        timestamp: new Date().toISOString()
+      });
+    }
 });
 
-router.post('/init', async (req, res) => {
+router.post('/init',
+  [
+    body('force')
+      .optional()
+      .isBoolean()
+      .withMessage('Force must be a boolean value')
+  ], async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()){
+      return res.status(400).json({
+        success: false,
+        message: 'Validation errors',
+        errors: errors.array()
+      });
+    }
   try {
     await chatBotService.setupKnowledgeBase();
     res.json({ 
@@ -45,7 +72,20 @@ router.post('/init', async (req, res) => {
   }
 });
 
-router.post('/add-document', async (req, res) => {
+router.post('/add-document',
+  [
+    body('content')
+      .notEmpty()
+      .withMessage('Content is required')
+  ], async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({
+      success: false,
+      message: 'Validation errors',
+      errors: errors.array()
+    });
+  }
   try {
     const { content, metadata } = req.body;
     if (!content) {
