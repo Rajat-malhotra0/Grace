@@ -14,7 +14,6 @@ const paymentRoutes = require("./routes/paymentRoutes");
 const skillSurveyRoutes = require("./routes/skillSurveyRoutes");
 const taskRoutes = require("./routes/taskRoutes");
 const categoryRoutes = require("./routes/categoryRoutes");
-const dashboardRoutes = require("./routes/dashboardRoutes");
 const chatBotRoutes = require("./routes/chatBotRoutes");
 
 const app = express();
@@ -30,7 +29,6 @@ app.use("/api/donations", donationRoutes);
 app.use("/api/payments", paymentRoutes);
 app.use("/api/impact-stories", impactStoryRoutes);
 app.use("/api/categories", categoryRoutes);
-app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/chatbot", chatBotRoutes);
 
 async function run() {
@@ -38,7 +36,6 @@ async function run() {
         await connectDB();
         console.log("Connected to MongoDB");
 
-        // Initialize chatbot vector store
         await chatBotService.initializeVectorStore();
         console.log("Chatbot vector store initialized");
 
