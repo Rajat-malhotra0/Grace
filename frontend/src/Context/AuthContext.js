@@ -6,14 +6,16 @@ export const AuthContext = React.createContext();
 function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
     const [ngo, setNgo] = useState(null);
-    const [token, setToken] = useState(localStorage.getItem("token"));
+    const [token, setToken] = useState(null);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     useEffect(() => {
         if (token) {
             axios.defaults.headers.common["Authorization"] = token;
+            setIsAuthenticated(true);
         } else {
             delete axios.defaults.headers.common["Authorization"];
+            setIsAuthenticated(false);
         }
     }, [token]);
 
@@ -22,32 +24,38 @@ function AuthProvider({ children }) {
     }, []);
 
     async function initializeAuth() {
-        const storedToken = localStorage.getItem("token");
-        const storedUser = localStorage.getItem("user");
-        const storedNgo = localStorage.getItem("ngo");
+        try {
+            const storedToken = localStorage.getItem("token");
+            const storedUser = localStorage.getItem("user");
+            const storedNgo = localStorage.getItem("ngo");
 
-        if (storedToken && storedUser) {
-            try {
-                const response = await axios.get(
-                    "http://localhost:3001/api/auth/profile"
-                );
+            if (storedToken && storedUser) {
+                try {
+                    const response = await axios.get(
+                        "http://localhost:3001/api/auth/profile",
+                        {
+                            headers: {
+                                Authorization: storedToken,
+                            },
+                        }
+                    );
 
-                if (response.data.success) {
-                    setToken(storedToken);
-                    setUser(JSON.parse(storedUser));
-                    if (storedNgo) {
-                        setNgo(JSON.parse(storedNgo));
+                    if (response.data.success) {
+                        setToken(storedToken);
+                        setUser(JSON.parse(storedUser));
+                        if (storedNgo) {
+                            setNgo(JSON.parse(storedNgo));
+                        }
+                        setIsAuthenticated(true);
+                    } else {
+                        clearAuth();
                     }
-                    setIsAuthenticated(true);
-                } else {
-                    clearAuth();
+                } catch (error) {
+                    console.error("Token verification failed:", error);
                 }
-            } catch (error) {
-                console.error("Token verification failed:", error);
-                clearAuth();
             }
-        } else {
-            clearAuth();
+        } catch (error) {
+            console.error("Auth initialization error:", error);
         }
     }
 

@@ -56,6 +56,7 @@ async function registerUser(userData) {
 }
 
 async function registerNGO(userData) {
+    let user;
     try {
         const {
             userName,

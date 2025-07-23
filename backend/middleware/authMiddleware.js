@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
+const authService = require("../services/authService");
 
 const tokenSecret = "some_random_text(verrry random)🫦🫦";
 
