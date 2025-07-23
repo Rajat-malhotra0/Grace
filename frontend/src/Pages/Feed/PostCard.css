@@ -1,0 +1,205 @@
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap");
+
+:root {
+  --font-serif: "Playfair Display", serif;
+  --color-text: #2e2e2e;
+  --color-card: #ffffff;
+  --color-accent: #f9f9f9;
+  --border-radius: 0.75rem;
+  --transition: all 0.3s ease;
+}
+
+.post-card {
+  background: var(--color-card);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: var(--transition);
+  break-inside: avoid;
+  margin-bottom: 1rem;
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.post-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.post-card.small .post-media {
+  height: 200px;
+}
+
+.post-card.medium .post-media {
+  height: 300px;
+}
+
+.post-card.large .post-media {
+  height: 400px;
+}
+
+.post-media {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background: var(--color-accent);
+}
+
+.post-image,
+.post-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: var(--transition);
+  display: block;
+}
+
+.post-card:hover .post-image,
+.post-card:hover .post-video {
+  transform: scale(1.05);
+}
+
+.video-play-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  opacity: 0.9;
+  transition: var(--transition);
+}
+
+.post-card:hover .video-play-icon {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
+.post-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent, rgba(0,0,0,0.7));
+  padding: 2rem 1rem 1rem;
+  transform: translateY(100%);
+  transition: var(--transition);
+  opacity: 0;
+}
+
+.post-card:hover .post-overlay {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.post-user {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.user-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid white;
+}
+
+.user-info h4 {
+  font-family: var(--font-serif);
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin: 0;
+  color: white;
+}
+
+.user-role {
+  font-family: var(--font-serif);
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 400;
+}
+
+.post-caption {
+  font-family: var(--font-serif);
+  font-size: 0.85rem;
+  line-height: 1.4;
+  margin: 0 0 0.5rem 0;
+  color: white;
+  font-weight: 400;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.post-time {
+  font-family: var(--font-serif);
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 400;
+}
+
+.post-stats {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  display: flex;
+  gap: 0.5rem;
+  opacity: 0;
+  transition: var(--transition);
+}
+
+.post-card:hover .post-stats {
+  opacity: 1;
+}
+
+.stat {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--border-radius);
+  font-family: var(--font-serif);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-text);
+  backdrop-filter: blur(10px);
+}
+
+.post-card.video:hover .post-video {
+  animation: videoHover 0.5s ease-in-out;
+}
+
+@keyframes videoHover {
+  0% { filter: brightness(1); }
+  50% { filter: brightness(1.1); }
+  100% { filter: brightness(1); }
+}
+
+.post-card:focus {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.post-card.loading {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@media (max-width: 768px) {
+  .post-media {
+    height: 250px;
+  }
+}
+
+@media (max-width: 480px) {
+  .post-overlay {
+    padding: 1.5rem 1rem 1rem;
+  }
+}

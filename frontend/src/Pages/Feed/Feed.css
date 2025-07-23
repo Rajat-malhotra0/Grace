@@ -1,0 +1,23 @@
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap");
+
+:root {
+  --font-serif: "Playfair Display", serif;
+  --color-text: #2e2e2e;
+  --color-bg: #fdfdfd;
+}
+
+.graceful-feed {
+  min-height: 100vh;
+  background: var(--color-bg);
+  font-family: var(--font-serif);
+  color: var(--color-text);
+  padding: 2rem;
+  padding-top: 6rem;
+}
+
+@media (max-width: 768px) {
+  .graceful-feed {
+    padding: 1rem;
+    padding-top: 5rem;
+  }
+}
