@@ -1,17 +1,37 @@
 /*
 Todo: 
-link the category api to store it, or index the categories there and based on that put the category in the NGO
-Test if the data is going or not
-Make changes for donor and the volunteer section too
+Can make the form a lot more more refined, and needs testing
+
+Important: I have not tested this code yet, test it as soon as possible and after that remove this comment
+
 */
 
-import React, { useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import "./Register.css";
 import axios from "axios";
+import { AuthContext } from "../../Context/AuthContext";
 
 function Register() {
     const [formData, setFormData] = useState({});
+    const [categories, setCategories] = useState([]);
+    const { register } = useContext(AuthContext);
+
+    useEffect(() => {
+        async function fetchCategories() {
+            try {
+                const response = await axios.get(
+                    "http://localhost:3001/api/categories?type=ngo"
+                );
+                if (response.status === 200) {
+                    setCategories(response.data.result);
+                }
+            } catch (err) {
+                console.log("error fetching categories", err);
+            }
+        }
+        fetchCategories();
+    }, []);
 
     const handleChange = (e) => {
         setFormData((prevData) => ({
@@ -26,53 +46,52 @@ function Register() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const url =
-            formData.role === "ngo"
-                ? "http://localhost:3001/api/ngos"
-                : "http://localhost:3001/api/users";
+        // Password confirmation check
+        if (formData.password !== formData.confirmedPassword) {
+            alert("Passwords do not match.");
+            return;
+        }
 
-        const payload =
-            formData.role === "ngo"
-                ? {
-                      name: formData.name,
-                      registerationId: formData.registrationNumber,
-                      description: formData.description,
-                      category: formData.focusAreas, // This should be category ObjectId, change it later
-                      location: {
-                          address: formData.address,
-                      },
-                      contact: {
-                          email: formData.email,
-                          phone: formData.phoneNumber,
-                          website: formData.website,
-                      },
-                      isVerified: false,
-                      isActive: true,
-                  }
-                : {
-                      userName: formData.name,
-                      email: formData.email,
-                      password: formData.password,
-                      role: formData.role ? [formData.role] : [],
-                      about: "",
-                      score: 0,
-                      isActive: true,
-                      dob: formData.dob,
-                      remindMe: formData.remindMe || false,
-                      termsAccepted: formData.termsAccepted || false,
-                      newsLetter: formData.newsLetter || false,
-                  };
+        let payload;
+        let isNgo = formData.role === "ngo";
+        if (isNgo) {
+            payload = {
+                userName: formData.name,
+                email: formData.email,
+                password: formData.password,
+                organizationName: formData.organizationName,
+                registrationNumber: formData.registrationNumber,
+                description: formData.description,
+                category: formData.focusAreas,
+                address: formData.address,
+                phoneNumber: formData.phoneNumber,
+                website: formData.website,
+                dob: formData.dob,
+                remindMe: !!formData.remindMe,
+                termsAccepted: formData.termsAccepted ? "true" : "false",
+                newsLetter: !!formData.newsLetter,
+            };
+        } else {
+            payload = {
+                userName: formData.name,
+                email: formData.email,
+                password: formData.password,
+                role: formData.role,
+                dob: formData.dob,
+                about: formData.about,
+                remindMe: !!formData.remindMe,
+                termsAccepted: formData.termsAccepted ? "true" : "false",
+                newsLetter: !!formData.newsLetter,
+            };
+        }
 
-        try {
-            const response = await axios.post(url, payload);
+        const result = await register(payload, isNgo);
 
-            if (response.status === 201) {
-                alert("Registration successful!");
-                console.log(response.data);
-            }
-        } catch (err) {
-            console.log(err);
-            alert("Registration failed. Please try again.");
+        if (result && result.success) {
+            alert("Registration successful!");
+            // Optionally redirect or clear form
+        } else {
+            alert(result?.message || "Registration failed. Please try again.");
         }
     };
 
@@ -82,7 +101,7 @@ function Register() {
                 Hi there! we are so happy, you found us.
                 <br />
                 You're just a few steps away from joining our community of
-                changemakers
+                changemakers.
             </p>
             <span>Create an account</span>
             <form onSubmit={handleSubmit}>
@@ -221,101 +240,26 @@ function Register() {
 
                         <label>Focus Areas</label>
                         <div className="focus-areas-group">
-                            <label>
-                                <input
-                                    type="radio"
-                                    name="focusAreas"
-                                    value="education"
-                                    onChange={handleChange}
-                                    checked={
-                                        formData.focusAreas === "education"
-                                    }
-                                    required
-                                />
-                                Education
-                            </label>
-                            <label>
-                                <input
-                                    type="radio"
-                                    name="focusAreas"
-                                    value="healthcare"
-                                    onChange={handleChange}
-                                    checked={
-                                        formData.focusAreas === "healthcare"
-                                    }
-                                />
-                                Healthcare
-                            </label>
-                            <label>
-                                <input
-                                    type="radio"
-                                    name="focusAreas"
-                                    value="environment"
-                                    onChange={handleChange}
-                                    checked={
-                                        formData.focusAreas === "environment"
-                                    }
-                                />
-                                Environment
-                            </label>
-                            <label>
-                                <input
-                                    type="radio"
-                                    name="focusAreas"
-                                    value="poverty"
-                                    onChange={handleChange}
-                                    checked={formData.focusAreas === "poverty"}
-                                />
-                                Poverty Alleviation
-                            </label>
-                            <label>
-                                <input
-                                    type="radio"
-                                    name="focusAreas"
-                                    value="women-empowerment"
-                                    onChange={handleChange}
-                                    checked={
-                                        formData.focusAreas ===
-                                        "women-empowerment"
-                                    }
-                                />
-                                Women Empowerment
-                            </label>
-                            <label>
-                                <input
-                                    type="radio"
-                                    name="focusAreas"
-                                    value="child-welfare"
-                                    onChange={handleChange}
-                                    checked={
-                                        formData.focusAreas === "child-welfare"
-                                    }
-                                />
-                                Child Welfare
-                            </label>
-                            <label>
-                                <input
-                                    type="radio"
-                                    name="focusAreas"
-                                    value="disaster-relief"
-                                    onChange={handleChange}
-                                    checked={
-                                        formData.focusAreas ===
-                                        "disaster-relief"
-                                    }
-                                />
-                                Disaster Relief
-                            </label>
-                            <label>
-                                <input
-                                    type="radio"
-                                    name="focusAreas"
-                                    value="other"
-                                    onChange={handleChange}
-                                    checked={formData.focusAreas === "other"}
-                                />
-                                Other
-                            </label>
+                            {categories.length > 0 ? (
+                                categories.map((category) => (
+                                    <label key={category._id}>
+                                        <input
+                                            type="radio"
+                                            name="focusAreas"
+                                            value={category._id}
+                                            onChange={handleChange}
+                                            checked={
+                                                formData.focusAreas ===
+                                                category._id
+                                            }
+                                            required
+                                        />
+                                        {category.name}
+                                    </label>
+                                ))
+                            ) : (
+                                <div>Loading categories...</div>
+                            )}
                         </div>
                     </>
                 ) : (

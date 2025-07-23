@@ -1,17 +1,31 @@
 const express = require("express");
 const router = express.Router();
-const { body, query,param, validationResult } = require("express-validator");
+const { body, query, param, validationResult } = require("express-validator");
 const skillSurveyService = require("../services/skillSurveyService");
 
 router.post(
     "/",
     [
-        body('user').notEmpty().withMessage("User ID is required").isMongoId().withMessage("Invalid User ID format"),
-        body('skills').isArray().withMessage("Skills is not an array"),
-        body('interests').optional().isArray().withMessage("Interests is not an array"),
-        body('helpCategories').optional().isArray().withMessage("Help categories is not an array"),
-        body('availabilityHours').optional().isInt({ min: 0 }).withMessage("Availability hours is not valid"),
-    ], async (req, res) => {
+        body("user")
+            .notEmpty()
+            .withMessage("User ID is required")
+            .isMongoId()
+            .withMessage("Invalid User ID format"),
+        body("skills").isArray().withMessage("Skills is not an array"),
+        body("interests")
+            .optional()
+            .isArray()
+            .withMessage("Interests is not an array"),
+        body("helpCategories")
+            .optional()
+            .isArray()
+            .withMessage("Help categories is not an array"),
+        body("availabilityHours")
+            .optional()
+            .isInt({ min: 0 })
+            .withMessage("Availability hours is not valid"),
+    ],
+    async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({
@@ -25,19 +39,19 @@ router.post(
                 req.body
             );
             if (skillSurvey) {
-                res.status(201).json({
+                return res.status(201).json({
                     success: true,
                     message: "Skill survey created successfully",
-                    data: skillSurvey,
+                    result: skillSurvey,
                 });
             } else {
-                res.status(400).json({
+                return res.status(400).json({
                     success: false,
                     message: "Failed to create skill survey",
                 });
             }
         } catch (error) {
-            res.status(500).json({
+            return res.status(500).json({
                 success: false,
                 message: "Internal server error",
                 error: error.message,
@@ -49,11 +63,24 @@ router.post(
 router.get(
     "/",
     [
-        query("user").optional().isMongoId().withMessage("Invalid User ID format"),
-        query("skills").optional().isArray().withMessage("Skills must be an array"),
-        query("interests").optional().isArray().withMessage("Interests must be an array"),
-        query("helpCategories").optional().isArray().withMessage("Help categories must be an array"),
-    ], async (req, res) => {
+        query("user")
+            .optional()
+            .isMongoId()
+            .withMessage("Invalid User ID format"),
+        query("skills")
+            .optional()
+            .isArray()
+            .withMessage("Skills must be an array"),
+        query("interests")
+            .optional()
+            .isArray()
+            .withMessage("Interests must be an array"),
+        query("helpCategories")
+            .optional()
+            .isArray()
+            .withMessage("Help categories must be an array"),
+    ],
+    async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({
@@ -67,13 +94,13 @@ router.get(
             const skillSurveys = await skillSurveyService.readSkillSurveys(
                 filter
             );
-            res.status(200).json({
+            return res.status(200).json({
                 success: true,
                 message: "Skill surveys retrieved successfully",
-                data: skillSurveys,
+                result: skillSurveys,
             });
         } catch (error) {
-            res.status(500).json({
+            return res.status(500).json({
                 success: false,
                 message: "Internal server error",
                 error: error.message,
@@ -105,19 +132,19 @@ router.get(
                 _id: req.params.id,
             });
             if (skillSurveys && skillSurveys.length > 0) {
-                res.status(200).json({
+                return res.status(200).json({
                     success: true,
                     message: "Skill survey retrieved successfully",
-                    data: skillSurveys,
+                    result: skillSurveys,
                 });
             } else {
-                res.status(404).json({
+                return res.status(404).json({
                     success: false,
                     message: "Skill survey not found",
                 });
             }
         } catch (error) {
-            res.status(500).json({
+            return res.status(500).json({
                 success: false,
                 message: "Internal server error",
                 error: error.message,
@@ -129,12 +156,22 @@ router.get(
 router.put(
     "/:id",
     [
-        body('user').notEmpty().withMessage("User ID is required").isMongoId().withMessage("Invalid User ID format"),
-        body('skills').isArray().withMessage("Skills is not an array"),
-        body('interests').isArray().withMessage("Interests is not an array"),
-        body('helpCategories').isArray().withMessage("Help categories is not an array"),
-        body('availabilityHours').optional().isInt({ min: 0 }).withMessage("Availability hours is not valid"),
-    ], async (req, res) => {
+        body("user")
+            .notEmpty()
+            .withMessage("User ID is required")
+            .isMongoId()
+            .withMessage("Invalid User ID format"),
+        body("skills").isArray().withMessage("Skills is not an array"),
+        body("interests").isArray().withMessage("Interests is not an array"),
+        body("helpCategories")
+            .isArray()
+            .withMessage("Help categories is not an array"),
+        body("availabilityHours")
+            .optional()
+            .isInt({ min: 0 })
+            .withMessage("Availability hours is not valid"),
+    ],
+    async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({
@@ -149,19 +186,19 @@ router.put(
                 req.body
             );
             if (skillSurvey) {
-                res.status(200).json({
+                return res.status(200).json({
                     success: true,
                     message: "Skill survey updated successfully",
-                    data: skillSurvey,
+                    result: skillSurvey,
                 });
             } else {
-                res.status(404).json({
+                return res.status(404).json({
                     success: false,
                     message: "Skill survey not found",
                 });
             }
         } catch (error) {
-            res.status(500).json({
+            return res.status(500).json({
                 success: false,
                 message: "Internal server error",
                 error: error.message,
@@ -190,12 +227,12 @@ router.delete(
         }
         try {
             await skillSurveyService.deleteSkillSurvey({ _id: req.params.id });
-            res.status(200).json({
+            return res.status(200).json({
                 success: true,
                 message: "Skill survey deleted successfully",
             });
         } catch (error) {
-            res.status(500).json({
+            return res.status(500).json({
                 success: false,
                 message: "Internal server error",
                 error: error.message,

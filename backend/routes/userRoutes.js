@@ -1,15 +1,26 @@
 const express = require("express");
 const router = express.Router();
-const { body, query,param,validationResult  } = require("express-validator");
+const { body, query, param, validationResult } = require("express-validator");
 const userService = require("../services/userService");
 
-router.post("/",
+router.post(
+    "/",
     [
-    body("userName").trim().notEmpty().withMessage("userName is required").isLength({min: 3}).withMessage("Name must be at least 3 characters long"),
-    body("email").trim().isEmail().withMessage("email is required"),
-    body("password").trim().isLength({ min: 6 }).withMessage("Password must be atleast 6 characters Long"),
-    body("role").isIn(['volunteer','donor','admin']).withMessage("Role must be one of: volunteer, donor, admin"),
-    body("about").optional().trim()
+        body("userName")
+            .trim()
+            .notEmpty()
+            .withMessage("userName is required")
+            .isLength({ min: 3 })
+            .withMessage("Name must be at least 3 characters long"),
+        body("email").trim().isEmail().withMessage("email is required"),
+        body("password")
+            .trim()
+            .isLength({ min: 6 })
+            .withMessage("Password must be atleast 6 characters Long"),
+        body("role")
+            .isIn(["volunteer", "donor", "admin"])
+            .withMessage("Role must be one of: volunteer, donor, admin"),
+        body("about").optional().trim(),
     ],
     async (req, res, next) => {
         const errors = validationResult(req);
@@ -23,19 +34,19 @@ router.post("/",
         try {
             const user = await userService.createUser(req.body);
             if (user) {
-                res.status(201).json({
+                return res.status(201).json({
                     success: true,
                     message: "User created successfully",
-                    data: user,
+                    result: user,
                 });
             } else {
-                res.status(400).json({
+                return res.status(400).json({
                     success: false,
                     message: "Failed to create user",
                 });
             }
         } catch (error) {
-            res.status(500).json({
+            return res.status(500).json({
                 success: false,
                 message: "Internal server error",
                 error: error.message,
@@ -70,13 +81,13 @@ router.get(
         try {
             const filter = req.query;
             const users = await userService.readUsers(filter);
-            res.status(200).json({
+            return res.status(200).json({
                 success: true,
                 message: "Users retrieved successfully",
-                data: users,
+                result: users,
             });
         } catch (error) {
-            res.status(500).json({
+            return res.status(500).json({
                 success: false,
                 message: "Internal server error",
                 error: error.message,
@@ -104,13 +115,13 @@ router.post("/login", async (req, res) => {
             });
         }
 
-        res.status(200).json({
+        return res.status(200).json({
             success: true,
             message: "Login Sucessfull",
-            data: user,
+            result: user,
         });
     } catch (err) {
-        res.status(500).json({
+        return res.status(500).json({
             success: false,
             message: "Internal server error",
             error: err.message,
@@ -118,10 +129,16 @@ router.post("/login", async (req, res) => {
     }
 });
 
-router.get("/:id",
+router.get(
+    "/:id",
     [
-        param("id").notEmpty().withMessage("ID is required").isMongoId().withMessage("Invalid ID"),
-    ], async (req, res) => {
+        param("id")
+            .notEmpty()
+            .withMessage("ID is required")
+            .isMongoId()
+            .withMessage("Invalid ID"),
+    ],
+    async (req, res) => {
         const error = validationResult(req);
         if (!error.isEmpty()) {
             return res.status(400).json({
@@ -130,37 +147,48 @@ router.get("/:id",
                 errors: error.array(),
             });
         }
-    try {
-        const users = await userService.readUsers({ _id: req.params.id });
-        if (users && users.length > 0) {
-            res.status(200).json({
-                success: true,
-                message: "User retrieved successfully",
-                data: users[0],
-            });
-        } else {
-            res.status(404).json({
+        try {
+            const users = await userService.readUsers({ _id: req.params.id });
+            if (users && users.length > 0) {
+                return res.status(200).json({
+                    success: true,
+                    message: "User retrieved successfully",
+                    result: users[0],
+                });
+            } else {
+                return res.status(404).json({
+                    success: false,
+                    message: "User not found",
+                });
+            }
+        } catch (error) {
+            return res.status(500).json({
                 success: false,
-                message: "User not found",
+                message: "Internal server error",
+                error: error.message,
             });
         }
-    } catch (error) {
-        res.status(500).json({
-            success: false,
-            message: "Internal server error",
-            error: error.message,
-        });
     }
-});
+);
 
 router.put(
     "/:id",
     [
-    body("userName").trim().notEmpty().withMessage("Name is required").isLength({min: 3}).withMessage("Name must be at least 3 characters long"),
-    body("email").trim().isEmail().withMessage("email is required"),
-    body("password").trim().isLength({ min: 6 }).withMessage("Password must be atleast 6 characters Long"),
-    body("role").isIn(['volunteer','donor','admin']).withMessage("Role must be one of: volunteer, donor, admin"),
-    body("about").optional().trim(),
+        body("userName")
+            .trim()
+            .notEmpty()
+            .withMessage("Name is required")
+            .isLength({ min: 3 })
+            .withMessage("Name must be at least 3 characters long"),
+        body("email").trim().isEmail().withMessage("email is required"),
+        body("password")
+            .trim()
+            .isLength({ min: 6 })
+            .withMessage("Password must be atleast 6 characters Long"),
+        body("role")
+            .isIn(["volunteer", "donor", "admin"])
+            .withMessage("Role must be one of: volunteer, donor, admin"),
+        body("about").optional().trim(),
     ],
     async (req, res) => {
         const errors = validationResult(req);
@@ -177,19 +205,19 @@ router.put(
                 req.body
             );
             if (user) {
-                res.status(200).json({
+                return res.status(200).json({
                     success: true,
                     message: "User updated successfully",
-                    data: user,
+                    result: user,
                 });
             } else {
-                res.status(404).json({
+                return res.status(404).json({
                     success: false,
                     message: "User not found",
                 });
             }
         } catch (error) {
-            res.status(500).json({
+            return res.status(500).json({
                 success: false,
                 message: "Internal server error",
                 error: error.message,
@@ -212,12 +240,12 @@ router.delete(
         }
         try {
             await userService.deleteUser({ _id: req.params.id });
-            res.status(200).json({
+            return res.status(200).json({
                 success: true,
                 message: "User deleted successfully",
             });
         } catch (error) {
-            res.status(500).json({
+            return res.status(500).json({
                 success: false,
                 message: "Internal server error",
                 error: error.message,

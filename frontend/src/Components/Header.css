@@ -16,7 +16,7 @@
 }
 
 .grace-header.scrolled {
-  background-color: white;
+  background-color: rgb(255, 255, 255);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
 }
 
@@ -48,7 +48,7 @@
   font-family: var(--font-serif);
   margin: 0 1rem;
   text-decoration: none;
-  color: white;
+  color: rgb(6, 5, 5);
   font-size: 1rem;
   transition: color 0.3s ease;
 }
@@ -63,9 +63,9 @@
 
 /* Button style (imported separately, but you can also keep it here) */
 .grace-button {
-  border: 1px solid white;
+  border: 1px solid rgb(16, 15, 15);
   background: transparent;
-  color: white;
+  color: rgb(23, 19, 19);
   padding: 0.5rem 1rem;
   text-transform: uppercase;
   font-size: 0.875rem;

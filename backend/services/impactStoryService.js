@@ -1,10 +1,13 @@
 const ImpactStory = require("../models/impactStory");
 const { GoogleGenAI } = require("@google/genai");
+const dotenv = require("dotenv");
+
+dotenv.config();
 
 async function createImpactStory(data) {
     try {
         const ai = new GoogleGenAI({
-            apiKey: "", //Will save in env file later, put yours here
+            apiKey: process.env.GEMINI_API_KEY,
         });
 
         const aiResponse = await ai.models.generateContent({
