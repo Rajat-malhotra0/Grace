@@ -13,10 +13,8 @@ router.post(
             .isLength({ min: 3 })
             .withMessage("Name must be at least 3 characters long"),
         body("category")
-            .notEmpty()
-            .withMessage("Category is required")
-            .isMongoId()
-            .withMessage("Invalid category ID format"),
+            .isArray({ min: 1 })
+            .withMessage("At least one category is required"),
         body("location.address")
             .trim()
             .notEmpty()

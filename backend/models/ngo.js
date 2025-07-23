@@ -11,11 +11,11 @@ const ngoSchema = new mongoose.Schema({
     registerationId: { type: String, default: "" },
     yearEstablished: { type: Number, default: 0 },
     description: { type: String, default: "" },
-    category: {
+    category: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "category",
         required: true,
-    },
+    }],
     location: {
         address: { type: String, default: "" },
         city: { type: String, default: "" },

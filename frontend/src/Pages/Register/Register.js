@@ -34,13 +34,29 @@ function Register() {
     }, []);
 
     const handleChange = (e) => {
-        setFormData((prevData) => ({
-            ...prevData,
-            [e.target.name]:
-                e.target.type === "checkbox"
-                    ? e.target.checked
-                    : e.target.value,
-        }));
+        if (e.target.name === "focusAreas") {
+            const selectedValue = e.target.value;
+            if (selectedValue && selectedValue !== "") {
+                setFormData((prevData) => {
+                    const currentAreas = prevData.focusAreas || [];
+                    if (!currentAreas.includes(selectedValue)) {
+                        return {
+                            ...prevData,
+                            focusAreas: [...currentAreas, selectedValue],
+                        };
+                    }
+                    // return prevData;
+                });
+            }
+        } else {
+            setFormData((prevData) => ({
+                ...prevData,
+                [e.target.name]:
+                    e.target.type === "checkbox"
+                        ? e.target.checked
+                        : e.target.value,
+            }));
+        }
     };
 
     const handleSubmit = async (e) => {
@@ -237,28 +253,74 @@ function Register() {
                         />
 
                         <label>Focus Areas</label>
-                        <div className="focus-areas-group">
-                            {categories.length > 0 ? (
-                                categories.map((category) => (
-                                    <label key={category._id}>
-                                        <input
-                                            type="radio"
-                                            name="focusAreas"
-                                            value={category._id}
-                                            onChange={handleChange}
-                                            checked={
-                                                formData.focusAreas ===
-                                                category._id
-                                            }
-                                            required
-                                        />
-                                        {category.name}
-                                    </label>
-                                ))
-                            ) : (
-                                <div>Loading categories...</div>
-                            )}
-                        </div>
+                        <select
+                            className="styled-select"
+                            name="focusAreas"
+                            onChange={handleChange}
+                            value=""
+                            required={
+                                !(
+                                    Array.isArray(formData.focusAreas) &&
+                                    formData.focusAreas.length > 0
+                                )
+                            }
+                        >
+                            <option value="" disabled>
+                                {categories.length === 0
+                                    ? "Loading categories..."
+                                    : "Select a focus area"}
+                            </option>
+                            {categories.map((category) => (
+                                <option
+                                    key={category._id}
+                                    value={category._id}
+                                    disabled={
+                                        Array.isArray(formData.focusAreas) &&
+                                        formData.focusAreas.includes(
+                                            category._id
+                                        )
+                                    }
+                                >
+                                    {category.name}
+                                </option>
+                            ))}
+                        </select>
+
+                        {Array.isArray(formData.focusAreas) &&
+                        formData.focusAreas.length > 0 ? (
+                            <div className="selected-categories-list">
+                                {formData.focusAreas.map((catId) => {
+                                    const cat = categories.find(
+                                        (c) => c._id === catId
+                                    );
+                                    return (
+                                        <span
+                                            className="selected-category-chip"
+                                            key={catId}
+                                        >
+                                            {cat ? cat.name : catId}
+                                            <button
+                                                type="button"
+                                                className="remove-category-btn"
+                                                onClick={() => {
+                                                    setFormData((prev) => ({
+                                                        ...prev,
+                                                        focusAreas:
+                                                            prev.focusAreas.filter(
+                                                                (id) =>
+                                                                    id !== catId
+                                                            ),
+                                                    }));
+                                                }}
+                                                aria-label="Remove"
+                                            >
+                                                ×
+                                            </button>
+                                        </span>
+                                    );
+                                })}
+                            </div>
+                        ) : null}
                     </>
                 ) : (
                     <>
