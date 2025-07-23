@@ -1,5 +1,18 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap");
 
+.wide-toast {
+    width: 450px !important; /* Overrides the default width of 320px */
+}
+
+.Toastify__toast .my-custom-progress-bar {
+    background: #1b4b0f !important;
+}
+
+.Toastify__toast .Toastify__progress-bar-track {
+    background: #05270b !important; /* Light gray background */
+    height: 4px !important; /* Optional: adjust height */
+}
+
 /* This is the main container for the page */
 .register-page-container {
     display: flex;

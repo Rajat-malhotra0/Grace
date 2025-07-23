@@ -10,6 +10,16 @@ const userSchema = new mongoose.Schema({
         enum: ["donor", "volunteer", "admin", "ngo"],
         default: [],
     },
+    location: {
+        address: { type: String, default: "" },
+        city: { type: String, default: "" },
+        state: { type: String, default: "" },
+        pincode: { type: String, default: "" },
+        coordinates: {
+            latitude: { type: Number },
+            longitude: { type: Number },
+        },
+    },
     token: { type: String, default: null },
     about: { type: String, default: "" },
     score: { type: Number, default: 0 },

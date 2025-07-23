@@ -5,28 +5,19 @@ const ngoSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "user",
         required: true,
-        unique: true
+        unique: true,
     },
     name: { type: String, required: true },
     registerationId: { type: String, default: "" },
     yearEstablished: { type: Number, default: 0 },
     description: { type: String, default: "" },
-    category: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "category",
-        required: true,
-    }],
-    location: {
-        address: { type: String, default: "" },
-        city: { type: String, default: "" },
-        state: { type: String, default: "" },
-        pincode: { type: String, default: "" },
-        coordinates: {
-            //Probably from google maps
-            latitude: { type: Number },
-            longitude: { type: Number },
+    category: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "category",
+            required: true,
         },
-    },
+    ],
     contact: {
         email: { type: String, required: true },
         phone: { type: String, default: "" },

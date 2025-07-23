@@ -11,6 +11,8 @@ import { Link } from "react-router-dom";
 import "./Register.css";
 import axios from "axios";
 import { AuthContext } from "../../Context/AuthContext";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/ReactToastify.css";
 
 function Register() {
     const [formData, setFormData] = useState({});
@@ -32,6 +34,81 @@ function Register() {
         }
         fetchCategories();
     }, []);
+
+    // const toastVolunteerMessageSuccess = ({ name }) => (
+    //     <div>
+    //         <p>
+    //             Thank you for registering with grace. we're thrilled to welcome
+    //             you into this growing network of changemakers. A memeber of our
+    //             team will be in touch with shortly to verify your information
+    //             and help set up your public profile on the platform. In the
+    //             meantime, feel free to explore Grace and start organising your
+    //             day to day tast with ease.
+    //         </p>
+    //         <p>
+    //             want to share your work with us right away? (Mail us at:
+    //             teamgrace@gmail.com)
+    //         </p>
+    //     </div>
+    // );
+
+    // Updated component with styles for a light theme
+    const RegistrationToast = () => (
+    <div>
+        <p
+            style={{
+                margin: 0,
+                lineHeight: "1.6",
+                color: "#2c2c2c",
+                fontFamily: '"Crimson Text", serif',
+                fontSize: "1rem",
+                fontWeight: "400",
+                letterSpacing: "0.3px",
+            }}
+        >
+            Thank you for registering with <strong style={{ fontWeight: "600", color: "#1a1a1a" }}>Grace</strong>! We're
+            thrilled to welcome you to this growing network of changemakers.
+            <br />
+            <br />A member of our team will be in touch shortly to verify
+            your information and help set up your public profile. In the
+            meantime, feel free to explore the platform and start organizing
+            your day-to-day tasks with ease.
+        </p>
+        <div
+            style={{
+                marginTop: "18px",
+                borderTop: "1px solid #e1e1e1",
+                paddingTop: "12px",
+            }}
+        >
+            <p style={{ 
+                margin: 0, 
+                fontSize: "0.9rem", 
+                color: "#555555",
+                fontFamily: '"Crimson Text", serif',
+                lineHeight: "1.5",
+                letterSpacing: "0.2px",
+            }}>
+                Want to share your work with us right away?
+                <br />
+                Email us at:{" "}
+                <a
+                    href="mailto:teamgrace@gmail.com"
+                    style={{
+                        color: "#2c5530",
+                        textDecoration: "none",
+                        fontWeight: "600",
+                        fontFamily: '"Crimson Text", serif',
+                        borderBottom: "1px solid #2c5530",
+                        transition: "all 0.2s ease",
+                    }}
+                >
+                    teamgrace@gmail.com
+                </a>
+            </p>
+        </div>
+    </div>
+    );
 
     const handleChange = (e) => {
         if (e.target.name === "focusAreas") {
@@ -78,7 +155,6 @@ function Register() {
                 registrationNumber: formData.registrationNumber,
                 description: formData.description,
                 category: formData.focusAreas,
-                address: formData.address,
                 phoneNumber: formData.phoneNumber,
                 website: formData.website,
                 dob: formData.dob,
@@ -92,6 +168,13 @@ function Register() {
                 email: formData.email,
                 password: formData.password,
                 role: formData.role,
+                location: {
+                    address: formData.address,
+                    city: formData.city,
+                    state: formData.state,
+                    pincode: formData.pincode,
+                    // coordinates: { latitude: ..., longitude: ... } // we'll add it later
+                },
                 dob: formData.dob,
                 about: formData.about,
                 remindMe: !!formData.remindMe,
@@ -99,11 +182,24 @@ function Register() {
                 newsLetter: !!formData.newsLetter,
             };
         }
+        console.log(payload);
 
         const result = await register(payload, isNgo);
 
         if (result && result.success) {
-            alert("Registration successful!");
+            // toast.success("Thank you for registering with Grace");
+            toast.success(<RegistrationToast />, {
+                position: "top-right", // Positioned at the top-right corne // Using the light theme
+                className: "wide-toast", // Applying the custom class for more width
+                progressClassName: "my-custom-progress-bar",
+                
+                // progressStyle: { background: "#237d0d" },
+                autoClose: 10000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+            });
         } else {
             alert(result?.message || "Registration failed. Please try again.");
         }
@@ -193,6 +289,45 @@ function Register() {
                     </label>
                 </div>
 
+                <label>Address</label>
+                <textarea
+                    name="address"
+                    placeholder="Address"
+                    onChange={handleChange}
+                    value={formData.address || ""}
+                    required
+                />
+
+                <label>City</label>
+                <input
+                    type="text"
+                    name="city"
+                    placeholder="City"
+                    onChange={handleChange}
+                    value={formData.city || ""}
+                    required
+                />
+
+                <label>State</label>
+                <input
+                    type="text"
+                    name="state"
+                    placeholder="State"
+                    onChange={handleChange}
+                    value={formData.state || ""}
+                    required
+                />
+
+                <label>Pincode</label>
+                <input
+                    type="text"
+                    name="pincode"
+                    placeholder="Pincode"
+                    onChange={handleChange}
+                    value={formData.pincode || ""}
+                    required
+                />
+
                 {formData.role === "ngo" ? (
                     <>
                         <label>Organization Name</label>
@@ -212,15 +347,6 @@ function Register() {
                             placeholder="NGO Registration Number"
                             onChange={handleChange}
                             value={formData.registrationNumber || ""}
-                            required
-                        />
-
-                        <label>Address</label>
-                        <textarea
-                            name="address"
-                            placeholder="Organization Address"
-                            onChange={handleChange}
-                            value={formData.address || ""}
                             required
                         />
 
@@ -382,6 +508,7 @@ function Register() {
             <span>
                 Already have an account? <Link to="/login">Login</Link>
             </span>
+            <ToastContainer position="top-right" />
         </div>
     );
 }
