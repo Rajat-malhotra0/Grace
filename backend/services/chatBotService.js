@@ -9,7 +9,12 @@ const {
 const { Document } = require("@langchain/core/documents");
 const { PromptTemplate } = require("@langchain/core/prompts");
 
-const collectionName = "help_articles";
+const collectionName = 'help_articles';
+
+if (!process.env.GEMINI_API_KEY) {
+  console.error('Missing GEMINI_API_KEY in environment variables');
+  process.exit(1);
+}
 
 const embeddings = new GoogleGenerativeAIEmbeddings({
     apiKey: process.env.GEMINI_API_KEY,
@@ -23,22 +28,28 @@ const chatModel = new ChatGoogleGenerativeAI({
 });
 
 let vectorStore = null;
+let isInitialized = false;
 
 async function initializeVectorStore() {
-    try {
-        vectorStore = new QdrantVectorStore(embeddings, {
-            url: process.env.QDRANT_URL,
-            apiKey: process.env.QDRANT_API_KEY,
-            collectionName: collectionName,
-            checkCompatibility: false,
-        });
-
-        console.log("Successfully connected to Qdrant");
-    } catch (error) {
-        console.warn("Could not connect to Qdrant:", error.message);
-        console.warn("Chatbot will use fallback responses only");
-        vectorStore = null;
+  if (isInitialized) return;
+  try {
+    if (!process.env.QDRANT_URL || !process.env.QDRANT_API_KEY) {
+      console.error('Missing QDRANT_URL or QDRANT_API_KEY in environment variables');
+      return;
     }
+    vectorStore = new QdrantVectorStore(embeddings, {
+      url: process.env.QDRANT_URL,
+      apiKey: process.env.QDRANT_API_KEY,
+      collectionName: collectionName,
+      checkCompatibility: false,
+    });
+    
+    console.log('Successfully connected to Qdrant');
+    isInitialized = true;
+  } catch (error) {
+    console.warn('Could not connect to Qdrant:', error.message);
+    vectorStore = null;
+  }
 }
 
 async function addArticles(articles) {
@@ -50,19 +61,18 @@ async function addArticles(articles) {
         console.warn("Qdrant not available, articles not stored");
         return;
     }
-    try {
-        const docs = articles.map(
-            (article, index) =>
-                new Document({
-                    pageContent: article.content,
-                    metadata: { ...article.metadata, id: index.toString() },
-                })
-        );
-        await vectorStore.addDocuments(docs);
-        console.log("Articles added to Qdrant");
-    } catch (error) {
-        console.error("Error adding articles:", error.message);
-    }
+  try {
+    const docs = articles.map((article, index) => new Document({
+      pageContent: article.content,
+      metadata: { ...article.metadata, id: index.toString() },
+    }));
+    await vectorStore.addDocuments(docs);
+    console.log('Articles added to Qdrant');
+    return true;
+  } catch (error) {
+    console.error('Error adding articles:', error.message);
+    return false;
+  }
 }
 
 async function searchArticles(query, limit = 3) {
@@ -123,41 +133,35 @@ async function getFallbackContent(query) {
 async function generateAnswer(query, contextDocs) {
     const contextText = contextDocs.map((doc) => doc.pageContent).join("\n\n");
 
-    const promptTemplate = PromptTemplate.fromTemplate(`
-You are a helpful assistant for an NGO dashboard.
+  try {
+    const prompt = `
+You are an NGO dashboard assistant. Answer based on this context:
+${contextText}
 
-Context:
-{context}
+Question: ${query}
 
-User Question:
-{question}
+Respond concisely and helpfully. If the context doesn't contain the answer, use your knowledge about NGO dashboard functionality.
+`;
 
-Answer clearly and concisely. If the answer is not in context, say: "I don't have information about that. Please contact support."
-`);
-
-    try {
-        const finalPrompt = await promptTemplate.format({
-            context: contextText,
-            question: query,
-        });
-
-        const response = await chatModel.invoke(finalPrompt);
-        return response.content;
-    } catch (error) {
-        console.error("Error generating response:", error.message);
-
-        if (contextDocs.length > 0) {
-            return contextDocs[0].pageContent;
-        }
-
-        return "I'm having some technical issues right now, but I'd be happy to help! You can create tasks from the Tasks page, view NGO locations on the Map, or check donation reports in Analytics. Please contact support if you need more specific help.";
-    }
+    const response = await chatModel.invoke(prompt);
+    return response.content || "I couldn't generate a response. Please try again.";
+  } catch (error) {
+    console.error('Response generation failed:', error.message);
+    return contextDocs[0]?.pageContent || getFallbackContent(query)[0].pageContent;
+  }
 }
 
 async function getChatbotResponse(query) {
-    try {
-        const similarDocs = await searchArticles(query);
-        const answer = await generateAnswer(query, similarDocs);
+  if (!query || typeof query !== 'string' || query.trim() === '') {
+    return {
+      answer: "Please provide a valid question.",
+      sources: [],
+      foundDocs: 0,
+    };
+  }
+  try {
+    const similarDocs = await searchArticles(query);
+    const answer = await generateAnswer(query, similarDocs);
 
         return {
             answer,
@@ -206,7 +210,7 @@ async function setupKnowledgeBase() {
         },
     ];
 
-    await addArticles(articles);
+  return await addArticles(articles);
 }
 module.exports = {
     initializeVectorStore,
