@@ -1,9 +1,6 @@
 /*
 Todo: 
 Can make the form a lot more more refined, and needs testing
-
-Important: I have not tested this code yet, test it as soon as possible and after that remove this comment
-
 */
 
 import React, { useEffect, useState, useContext } from "react";
@@ -15,7 +12,11 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/ReactToastify.css";
 
 function Register() {
-    const [formData, setFormData] = useState({});
+    const [formData, setFormData] = useState({
+        remindMe: false,
+        termsAccepted: false,
+        newsLetter: false,
+    });
     const [categories, setCategories] = useState([]);
     const { register } = useContext(AuthContext);
 
@@ -35,79 +36,126 @@ function Register() {
         fetchCategories();
     }, []);
 
-    // const toastVolunteerMessageSuccess = ({ name }) => (
-    //     <div>
-    //         <p>
-    //             Thank you for registering with grace. we're thrilled to welcome
-    //             you into this growing network of changemakers. A memeber of our
-    //             team will be in touch with shortly to verify your information
-    //             and help set up your public profile on the platform. In the
-    //             meantime, feel free to explore Grace and start organising your
-    //             day to day tast with ease.
-    //         </p>
-    //         <p>
-    //             want to share your work with us right away? (Mail us at:
-    //             teamgrace@gmail.com)
-    //         </p>
-    //     </div>
-    // );
-
-    // Updated component with styles for a light theme
-    const RegistrationToast = () => (
-    <div>
-        <p
-            style={{
-                margin: 0,
-                lineHeight: "1.6",
-                color: "#2c2c2c",
-                fontFamily: '"Crimson Text", serif',
-                fontSize: "1rem",
-                fontWeight: "400",
-                letterSpacing: "0.3px",
-            }}
-        >
-            Thank you for registering with <strong style={{ fontWeight: "600", color: "#1a1a1a" }}>Grace</strong>! We're
-            thrilled to welcome you to this growing network of changemakers.
-            <br />
-            <br />A member of our team will be in touch shortly to verify
-            your information and help set up your public profile. In the
-            meantime, feel free to explore the platform and start organizing
-            your day-to-day tasks with ease.
-        </p>
-        <div
-            style={{
-                marginTop: "18px",
-                borderTop: "1px solid #e1e1e1",
-                paddingTop: "12px",
-            }}
-        >
-            <p style={{ 
-                margin: 0, 
-                fontSize: "0.9rem", 
-                color: "#555555",
-                fontFamily: '"Crimson Text", serif',
-                lineHeight: "1.5",
-                letterSpacing: "0.2px",
-            }}>
-                Want to share your work with us right away?
+    const NgoRegistrationToast = () => (
+        <div>
+            <p
+                style={{
+                    margin: 0,
+                    lineHeight: "1.6",
+                    color: "#2c2c2c",
+                    fontFamily: '"Crimson Text", serif',
+                    fontSize: "1rem",
+                    fontWeight: "400",
+                    letterSpacing: "0.3px",
+                }}
+            >
+                Thank you for registering with{" "}
+                <strong style={{ fontWeight: "600", color: "#1a1a1a" }}>
+                    Grace
+                </strong>
+                ! We're thrilled to welcome you to this growing network of
+                changemakers.
                 <br />
-                Email us at:{" "}
-                <a
-                    href="mailto:teamgrace@gmail.com"
+                <br />A member of our team will be in touch shortly to verify
+                your information and help set up your public profile. In the
+                meantime, feel free to explore the platform and start organizing
+                your day-to-day tasks with ease.
+            </p>
+            <div
+                style={{
+                    marginTop: "18px",
+                    borderTop: "1px solid #e1e1e1",
+                    paddingTop: "12px",
+                }}
+            >
+                <p
                     style={{
-                        color: "#2c5530",
-                        textDecoration: "none",
-                        fontWeight: "600",
+                        margin: 0,
+                        fontSize: "0.9rem",
+                        color: "#555555",
                         fontFamily: '"Crimson Text", serif',
-                        borderBottom: "1px solid #2c5530",
-                        transition: "all 0.2s ease",
+                        lineHeight: "1.5",
+                        letterSpacing: "0.2px",
                     }}
                 >
-                    teamgrace@gmail.com
-                </a>
-            </p>
+                    Want to share your work with us right away?
+                    <br />
+                    Email us at:{" "}
+                    <a
+                        href="mailto:teamgrace@gmail.com"
+                        style={{
+                            color: "#2c5530",
+                            textDecoration: "none",
+                            fontWeight: "600",
+                            fontFamily: '"Crimson Text", serif',
+                            borderBottom: "1px solid #2c5530",
+                            transition: "all 0.2s ease",
+                        }}
+                    >
+                        teamgrace@gmail.com
+                    </a>
+                </p>
+            </div>
         </div>
-    </div>
+    );
+
+    const VolunteerRegistrationToast = () => (
+        <div>
+            <p
+                style={{
+                    margin: 0,
+                    lineHeight: "1.6",
+                    color: "#2c2c2c",
+                    fontFamily: '"Crimson Text", serif',
+                    fontSize: "1rem",
+                    fontWeight: "400",
+                    letterSpacing: "0.3px",
+                }}
+            >
+                Welcome to{" "}
+                <strong style={{ fontWeight: "600", color: "#1a1a1a" }}>
+                    Grace
+                </strong>
+                !
+                <br />
+                <br />
+                Your registration is received. We'll contact you soon to help
+                set up your profile.
+            </p>
+            <div
+                style={{
+                    marginTop: "18px",
+                    borderTop: "1px solid #e1e1e1",
+                    paddingTop: "12px",
+                }}
+            >
+                <p
+                    style={{
+                        margin: 0,
+                        fontSize: "0.9rem",
+                        color: "#555555",
+                        fontFamily: '"Crimson Text", serif',
+                        lineHeight: "1.5",
+                        letterSpacing: "0.2px",
+                    }}
+                >
+                    Questions? Email:{" "}
+                    <a
+                        href="mailto:teamgrace@gmail.com"
+                        style={{
+                            color: "#2c5530",
+                            textDecoration: "none",
+                            fontWeight: "600",
+                            fontFamily: '"Crimson Text", serif',
+                            borderBottom: "1px solid #2c5530",
+                            transition: "all 0.2s ease",
+                        }}
+                    >
+                        teamgrace@gmail.com
+                    </a>
+                </p>
+            </div>
+        </div>
     );
 
     const handleChange = (e) => {
@@ -122,7 +170,6 @@ function Register() {
                             focusAreas: [...currentAreas, selectedValue],
                         };
                     }
-                    // return prevData;
                 });
             }
         } else {
@@ -144,62 +191,77 @@ function Register() {
             return;
         }
 
-        let payload;
+        let payload = {
+            userName: formData.name,
+            email: formData.email,
+            password: formData.password,
+            dob: formData.dob,
+            remindMe: formData.remindMe,
+            termsAccepted: formData.termsAccepted,
+            newsLetter: formData.newsLetter,
+            role: formData.role,
+            location: {
+                address: formData.address,
+                city: formData.city,
+                state: formData.state,
+                pincode: formData.pincode,
+                // coordinates: { latitude: ..., longitude: ... } // add later if needed
+            },
+        };
+
         let isNgo = formData.role === "ngo";
         if (isNgo) {
             payload = {
-                userName: formData.name,
-                email: formData.email,
-                password: formData.password,
                 organizationName: formData.organizationName,
                 registrationNumber: formData.registrationNumber,
                 description: formData.description,
                 category: formData.focusAreas,
                 phoneNumber: formData.phoneNumber,
                 website: formData.website,
-                dob: formData.dob,
-                remindMe: !!formData.remindMe,
-                termsAccepted: formData.termsAccepted ? "true" : "false",
-                newsLetter: !!formData.newsLetter,
             };
-        } else {
+        } else if (formData.role === "volunteer") {
             payload = {
-                userName: formData.name,
-                email: formData.email,
-                password: formData.password,
-                role: formData.role,
-                location: {
-                    address: formData.address,
-                    city: formData.city,
-                    state: formData.state,
-                    pincode: formData.pincode,
-                    // coordinates: { latitude: ..., longitude: ... } // we'll add it later
+                volunteerType: formData.volunteerType,
+                organization: {
+                    name: formData.organizationName,
+                    address: formData.organizationAddress,
+                    city: formData.organizationCity,
+                    state: formData.organizationState,
+                    department: formData.organizationDepartment,
+                    role: formData.organizationPersonRole,
                 },
-                dob: formData.dob,
                 about: formData.about,
-                remindMe: !!formData.remindMe,
-                termsAccepted: formData.termsAccepted ? "true" : "false",
-                newsLetter: !!formData.newsLetter,
             };
         }
+
         console.log(payload);
 
         const result = await register(payload, isNgo);
 
         if (result && result.success) {
-            // toast.success("Thank you for registering with Grace");
-            toast.success(<RegistrationToast />, {
-                position: "top-right", // Positioned at the top-right corne // Using the light theme
-                className: "wide-toast", // Applying the custom class for more width
-                progressClassName: "my-custom-progress-bar",
-                
-                // progressStyle: { background: "#237d0d" },
-                autoClose: 10000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-            });
+            if (isNgo) {
+                toast.success(<NgoRegistrationToast />, {
+                    position: "top-right",
+                    className: "wide-toast",
+                    progressClassName: "my-custom-progress-bar",
+                    autoClose: 10000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                });
+            } else {
+                toast.success(<VolunteerRegistrationToast />, {
+                    position: "top-right",
+                    className: "wide-toast",
+                    progressClassName: "my-custom-progress-bar",
+                    autoClose: 10000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                });
+            }
         } else {
             alert(result?.message || "Registration failed. Please try again.");
         }
@@ -448,8 +510,174 @@ function Register() {
                             </div>
                         ) : null}
                     </>
-                ) : (
+                ) : formData.role === "volunteer" ? (
                     <>
+                        <label>How would you like to volunteer with us: </label>
+                        <label>
+                            <input
+                                type="radio"
+                                name="volunteerType"
+                                value="individual"
+                                onChange={handleChange}
+                                checked={
+                                    formData.volunteerType === "individual"
+                                }
+                            />
+                            As an individual
+                        </label>
+
+                        <label>
+                            <input
+                                type="radio"
+                                name="volunteerType"
+                                value="school"
+                                onChange={handleChange}
+                                checked={formData.volunteerType === "school"}
+                            />
+                            As a school partnership
+                        </label>
+
+                        <label>
+                            <input
+                                type="radio"
+                                name="volunteerType"
+                                value="corporate"
+                                onChange={handleChange}
+                                checked={formData.volunteerType === "corporate"}
+                            />
+                            As a corporate partnership
+                        </label>
+
+                        <label>
+                            <input
+                                type="radio"
+                                name="volunteerType"
+                                value="intern"
+                                onChange={handleChange}
+                                checked={formData.volunteerType === "intern"}
+                            />
+                            For an internship
+                        </label>
+
+                        <label>
+                            <input
+                                type="radio"
+                                name="volunteerType"
+                                value="carrer"
+                                onChange={handleChange}
+                                checked={formData.volunteerType === "carrer"}
+                            />
+                            AS a carrer
+                        </label>
+
+                        {formData.volunteerType === "school" ? (
+                            <>
+                                <label>School Name</label>
+                                <input
+                                    type="text"
+                                    name="organizationName"
+                                    placeholder="Organization Name"
+                                    onChange={handleChange}
+                                    value={formData.organizationName || ""}
+                                    required
+                                />
+
+                                <label>School Address</label>
+                                <textarea
+                                    name="organizationAddress"
+                                    placeholder="Address"
+                                    onChange={handleChange}
+                                    value={formData.organizationAddress || ""}
+                                    required
+                                />
+
+                                <label>City</label>
+                                <input
+                                    type="text"
+                                    name="organizationCity"
+                                    placeholder="City"
+                                    onChange={handleChange}
+                                    value={formData.organizationCity || ""}
+                                    required
+                                />
+
+                                <label>State</label>
+                                <input
+                                    type="text"
+                                    name="organizationState"
+                                    placeholder="State"
+                                    onChange={handleChange}
+                                    value={formData.organizationState || ""}
+                                    required
+                                />
+                            </>
+                        ) : formData.volunteerType === "corporate" ? (
+                            <>
+                                <input
+                                    type="text"
+                                    name="organizationName"
+                                    placeholder="Organization Name"
+                                    onChange={handleChange}
+                                    value={formData.organizationName || ""}
+                                    required
+                                />
+                                <label>Company Address</label>
+                                <textarea
+                                    name="organizationAddress"
+                                    placeholder="Address"
+                                    onChange={handleChange}
+                                    value={formData.organizationAddress || ""}
+                                    required
+                                />
+
+                                <label>City</label>
+                                <input
+                                    type="text"
+                                    name="organizationCity"
+                                    placeholder="City"
+                                    onChange={handleChange}
+                                    value={formData.organizationCity || ""}
+                                    required
+                                />
+
+                                <label>State</label>
+                                <input
+                                    type="text"
+                                    name="organizationState"
+                                    placeholder="State"
+                                    onChange={handleChange}
+                                    value={formData.organizationState || ""}
+                                    required
+                                />
+
+                                <label>Department/Team Name</label>
+                                <input
+                                    type="text"
+                                    name="organizationDepartment"
+                                    placeholder="Department"
+                                    onChange={handleChange}
+                                    value={
+                                        formData.organizationDepartment || ""
+                                    }
+                                    required
+                                />
+
+                                <label>Your Designation / Role</label>
+                                <input
+                                    type="text"
+                                    name="organizationPersonRole"
+                                    placeholder="Role"
+                                    onChange={handleChange}
+                                    value={
+                                        formData.organizationPersonRole || ""
+                                    }
+                                    required
+                                />
+                            </>
+                        ) : (
+                            <></>
+                        )}
+
                         <label>About Yourself (Optional)</label>
                         <textarea
                             name="about"
@@ -458,6 +686,9 @@ function Register() {
                             value={formData.about || ""}
                         />
                     </>
+                ) : (
+                    //This will be for donor specific
+                    <></>
                 )}
 
                 <label>
