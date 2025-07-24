@@ -23,7 +23,7 @@ const services = [
     title: "The Grace App",
     description: "We Handle the Tasks, You Focus on the Good",
     details:
-      "Our intelligent app simplifies NGO operations — from inventory and event planning to volunteer and donor management. You focus on creating change; we’ll take care of the details.",
+      "Our intelligent app simplifies NGO operations — from inventory and event planning to volunteer and donor management. You focus on creating change; we'll take care of the details.",
     bgColor: "bg-pink",
     image: graceAppImg,
     buttonText: "Explore the App",
@@ -31,7 +31,7 @@ const services = [
   {
     id: "volunteer",
     title: "Volunteer Matching",
-    description: "Find Where You’re Meant to Help",
+    description: "Find Where You're Meant to Help",
     details:
       "We connect individuals with volunteering opportunities that suit their time, skills, and causes they care about — creating impact that feels personal and purposeful.",
     bgColor: "bg-purple",
@@ -53,10 +53,20 @@ const services = [
     title: "The Need Marketplace",
     description: " Give What Matters Most",
     details:
-      "NGOs list the specific items they need — from school supplies to equipment — and donors like you step in. Once donated, our volunteers ensure it’s delivered directly to those in need",
+      "NGOs list the specific items they need — from school supplies to equipment — and donors like you step in. Once donated, our volunteers ensure it's delivered directly to those in need",
     bgColor: "bg-emerald",
     image: needsMarketImg,
     buttonText: "Visit Marketplace",
+  },
+  {
+    id: "engagement",
+    title: "Engagement Insights",
+    description: "Track Community Impact & Performance",
+    details:
+      "Get detailed analytics on post performance, user engagement, and community interaction. See which content resonates most with your audience and track your social impact in real-time.",
+    bgColor: "bg-red",
+    image: graceAppImg,
+    buttonText: "View Insights",
   },
 ];
 
@@ -83,6 +93,9 @@ const ServiceCarousel = () => {
         break;
       case "needsMarket":
         navigate("/marketplace");
+        break;
+      case "engagement":
+        navigate("/engagement");
         break;
       default:
         console.log("No navigation defined for this service");
