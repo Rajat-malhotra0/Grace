@@ -36,7 +36,7 @@ function Register() {
         fetchCategories();
     }, []);
 
-    const RegistrationToast = () => (
+    const NgoRegistrationToast = () => (
         <div>
             <p
                 style={{
@@ -81,6 +81,65 @@ function Register() {
                     Want to share your work with us right away?
                     <br />
                     Email us at:{" "}
+                    <a
+                        href="mailto:teamgrace@gmail.com"
+                        style={{
+                            color: "#2c5530",
+                            textDecoration: "none",
+                            fontWeight: "600",
+                            fontFamily: '"Crimson Text", serif',
+                            borderBottom: "1px solid #2c5530",
+                            transition: "all 0.2s ease",
+                        }}
+                    >
+                        teamgrace@gmail.com
+                    </a>
+                </p>
+            </div>
+        </div>
+    );
+
+    const VolunteerRegistrationToast = () => (
+        <div>
+            <p
+                style={{
+                    margin: 0,
+                    lineHeight: "1.6",
+                    color: "#2c2c2c",
+                    fontFamily: '"Crimson Text", serif',
+                    fontSize: "1rem",
+                    fontWeight: "400",
+                    letterSpacing: "0.3px",
+                }}
+            >
+                Welcome to{" "}
+                <strong style={{ fontWeight: "600", color: "#1a1a1a" }}>
+                    Grace
+                </strong>
+                !
+                <br />
+                <br />
+                Your registration is received. We'll contact you soon to help
+                set up your profile.
+            </p>
+            <div
+                style={{
+                    marginTop: "18px",
+                    borderTop: "1px solid #e1e1e1",
+                    paddingTop: "12px",
+                }}
+            >
+                <p
+                    style={{
+                        margin: 0,
+                        fontSize: "0.9rem",
+                        color: "#555555",
+                        fontFamily: '"Crimson Text", serif',
+                        lineHeight: "1.5",
+                        letterSpacing: "0.2px",
+                    }}
+                >
+                    Questions? Email:{" "}
                     <a
                         href="mailto:teamgrace@gmail.com"
                         style={{
@@ -180,16 +239,29 @@ function Register() {
         const result = await register(payload, isNgo);
 
         if (result && result.success) {
-            toast.success(<RegistrationToast />, {
-                position: "top-right",
-                className: "wide-toast",
-                progressClassName: "my-custom-progress-bar",
-                autoClose: 10000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-            });
+            if (isNgo) {
+                toast.success(<NgoRegistrationToast />, {
+                    position: "top-right",
+                    className: "wide-toast",
+                    progressClassName: "my-custom-progress-bar",
+                    autoClose: 10000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                });
+            } else {
+                toast.success(<VolunteerRegistrationToast />, {
+                    position: "top-right",
+                    className: "wide-toast",
+                    progressClassName: "my-custom-progress-bar",
+                    autoClose: 10000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                });
+            }
         } else {
             alert(result?.message || "Registration failed. Please try again.");
         }
