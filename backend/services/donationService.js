@@ -4,7 +4,7 @@ async function createDonation(data) {
     try {
         const donation = new Donation(data);
         await donation.save();
-        return donation;
+        return donation.populate('user', 'userName email role');
     } catch (error) {
         console.error("Error creating donation:", error);
     }
@@ -14,6 +14,7 @@ async function readDonations(filter = {}) {
     try {
         const donations = await Donation.find(filter);
         return donations;
+
     } catch (error) {
         console.error("Error reading donations:", error);
     }

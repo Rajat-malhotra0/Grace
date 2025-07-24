@@ -1,7 +1,20 @@
 import React from "react";
 import "./PostCard.css";
 
-function PostCard({ post, onPostClick, formatTimeAgo }) {
+function PostCard({ post, onPostClick, onLike, onShare, formatTimeAgo }) {
+  const handleLikeClick = (e) => {
+    e.stopPropagation();
+    onLike(post.id || post._id);
+  };
+  const handleShareClick = (e) => {
+    e.stopPropagation();
+    onShare(post.id || post._id);
+  };
+  const likesCount = post.likes?.length || post.likes || 0;
+  const commentsCount = post.comments?.length || post.comments || 0;
+  const sharesCount = post.shares?.length || post.shares || 0;
+  const isLiked = post.isLiked || (post.likes && Array.isArray(post.likes) && post.likes.length > 0);
+
   return (
     <div 
       className={`post-card ${post.type} ${post.size || 'medium'}`}
@@ -36,24 +49,38 @@ function PostCard({ post, onPostClick, formatTimeAgo }) {
       <div className="post-overlay">
         <div className="post-user">
           <img 
-            src={post.user.avatar} 
-            alt={post.user.name} 
+            src={post.user?.avatar || 'https://via.placeholder.com/40x40?text=U'} 
+            alt={post.user?.name || post.user?.userName || 'Unknown User'} 
             className="user-avatar"
           />
           <div className="user-info">
-            <h4>{post.user.name}</h4>
-            <span className="user-role">{post.user.role}</span>
+            <h4>{post.user?.name || post.user?.userName || 'Unknown User'}</h4>
+            <span className="user-role">{post.user?.role || 'Member'}</span>
           </div>
         </div>
         
         <p className="post-caption">{post.caption}</p>
-        <span className="post-time">{formatTimeAgo(post.timestamp)}</span>
+        <span className="post-time">
+          {formatTimeAgo(post.timestamp || new Date(post.createdAt))}
+        </span>
       </div>
       
       <div className="post-stats">
-        <span className="stat">❤️ {post.likes}</span>
-        <span className="stat">💬 {post.comments}</span>
-        <span className="stat">🔄 {post.shares}</span>
+        <span 
+          className={`stat ${isLiked ? 'liked' : ''}`} 
+          onClick={handleLikeClick}
+          style={{ cursor: 'pointer' }}
+        >
+          {isLiked ? '❤️' : '♡'} {likesCount}
+        </span>
+        <span className="stat">💬 {commentsCount}</span>
+        <span 
+          className="stat" 
+          onClick={handleShareClick}
+          style={{ cursor: 'pointer' }}
+        >
+          🔄 {sharesCount}
+        </span>
       </div>
     </div>
   );
