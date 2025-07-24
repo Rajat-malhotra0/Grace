@@ -10,6 +10,15 @@ const userSchema = new mongoose.Schema({
         enum: ["donor", "volunteer", "admin", "ngo"],
         default: [],
     },
+    volunteerType: { type: String, default: "" },
+    organization: {
+        name: { type: String, default: "" },
+        address: { type: String, default: "" },
+        city: { type: String, default: "" },
+        state: { type: String, default: "" },
+        department: { type: String, default: "" },
+        role: { type: String, default: "" },
+    },
     location: {
         address: { type: String, default: "" },
         city: { type: String, default: "" },
