@@ -66,7 +66,7 @@ async function addCategories() {
                 );
             }
         }
-
+ 
         console.log("Category addition process completed");
     } catch (error) {
         console.error("Error connecting to database:", error.message);
