@@ -36,7 +36,6 @@ function AzureMaps(props) {
             try {
                 const userLoc = await getLocation();
                 userLocation = [userLoc.lon, userLoc.lat];
-                console.log(userLocation);
             } catch (error) {}
             map = new atlas.Map(mapRef.current, {
                 authOptions: {

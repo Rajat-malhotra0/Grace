@@ -54,7 +54,7 @@ async function createImpactStory(data) {
         await impactStory.save();
         return impactStory;
     } catch (error) {
-        console.error("Error creating impact story:", error);
+        throw error;
     }
 }
 
@@ -63,7 +63,7 @@ async function readImpactStories(filter = {}) {
         const impactStories = await ImpactStory.find(filter);
         return impactStories;
     } catch (error) {
-        console.error("Error reading impact stories:", error);
+        throw error;
     }
 }
 
@@ -74,7 +74,7 @@ async function updateImpactStory(filter = {}, data = {}) {
         });
         return impactStory;
     } catch (error) {
-        console.error("Error updating impact story:", error);
+        throw error;
     }
 }
 
@@ -82,7 +82,7 @@ async function deleteImpactStory(filter = {}) {
     try {
         await ImpactStory.deleteOne(filter);
     } catch (error) {
-        console.error("Error deleting impact story:", error);
+        throw error;
     }
 }
 

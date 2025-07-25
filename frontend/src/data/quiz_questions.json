@@ -5,43 +5,73 @@
         "answerOptions": [
             {
                 "answerText": "Environment & Conservation",
-                "nextQuestionId": "q2_env_focus"
+                "nextQuestionId": "q2_env_focus",
+                "inferredInformation": {
+                    "interests": ["Environment & Conservation"]
+                }
             },
             {
                 "answerText": "Education & Skill Development",
-                "nextQuestionId": "q2_edu_focus"
+                "nextQuestionId": "q2_edu_focus",
+                "inferredInformation": {
+                    "interests": ["Education & Skill Development"]
+                }
             },
             {
                 "answerText": "Healthcare & Well-being",
-                "nextQuestionId": "q2_health_focus"
+                "nextQuestionId": "q2_health_focus",
+                "inferredInformation": {
+                    "interests": ["Healthcare & Well-being"]
+                }
             },
             {
                 "answerText": "Community Development & Social Justice",
-                "nextQuestionId": "q2_comm_focus"
+                "nextQuestionId": "q2_comm_focus",
+                "inferredInformation": {
+                    "interests": ["Community Development & Social Justice"]
+                }
             },
             {
                 "answerText": "Animal Welfare",
-                "nextQuestionId": "q2_animal_focus"
+                "nextQuestionId": "q2_animal_focus",
+                "inferredInformation": {
+                    "interests": ["Animal Welfare"]
+                }
             },
             {
                 "answerText": "Human Rights & Legal Aid",
-                "nextQuestionId": "q2_rights_focus"
+                "nextQuestionId": "q2_rights_focus",
+                "inferredInformation": {
+                    "interests": ["Human Rights & Legal Aid"]
+                }
             },
             {
                 "answerText": "Arts, Culture & Heritage",
-                "nextQuestionId": "q2_arts_focus"
+                "nextQuestionId": "q2_arts_focus",
+                "inferredInformation": {
+                    "interests": ["Arts, Culture & Heritage"]
+                }
             },
             {
                 "answerText": "Disaster Relief & Humanitarian Aid",
-                "nextQuestionId": "q2_disaster_focus"
+                "nextQuestionId": "q2_disaster_focus",
+                "inferredInformation": {
+                    "interests": ["Disaster Relief & Humanitarian Aid"]
+                }
             },
             {
                 "answerText": "Poverty Alleviation & Economic Empowerment",
-                "nextQuestionId": "q2_poverty_focus"
+                "nextQuestionId": "q2_poverty_focus",
+                "inferredInformation": {
+                    "interests": ["Poverty Alleviation & Economic Empowerment"]
+                }
             },
             {
                 "answerText": "Scientific Research & Data",
-                "nextQuestionId": "q2_sci_focus"
+                "nextQuestionId": "q2_sci_focus",
+                "inferredInformation": {
+                    "interests": ["Scientific Research & Data"]
+                }
             }
         ]
     },
@@ -51,23 +81,38 @@
         "answerOptions": [
             {
                 "answerText": "Wildlife protection & habitat restoration",
-                "nextQuestionId": "q3_env_wildlife_role"
+                "nextQuestionId": "q3_env_wildlife_role",
+                "inferredInformation": {
+                    "skills": ["Wildlife Protection", "Habitat Restoration"]
+                }
             },
             {
                 "answerText": "Climate change advocacy & policy",
-                "nextQuestionId": "q3_env_climate_role"
+                "nextQuestionId": "q3_env_climate_role",
+                "inferredInformation": {
+                    "skills": ["Advocacy", "Policy Analysis", "Climate Change"]
+                }
             },
             {
                 "answerText": "Ocean/Waterbody cleanup & marine conservation",
-                "nextQuestionId": "q3_env_marine_role"
+                "nextQuestionId": "q3_env_marine_role",
+                "inferredInformation": {
+                    "skills": ["Marine Conservation", "Field Work"]
+                }
             },
             {
                 "answerText": "Sustainable agriculture & local food systems",
-                "nextQuestionId": "q3_env_agri_role"
+                "nextQuestionId": "q3_env_agri_role",
+                "inferredInformation": {
+                    "skills": ["Sustainable Agriculture", "Food Systems"]
+                }
             },
             {
                 "answerText": "Environmental education & public awareness",
-                "nextQuestionId": "q3_env_edu_role"
+                "nextQuestionId": "q3_env_edu_role",
+                "inferredInformation": {
+                    "skills": ["Environmental Education", "Public Speaking"]
+                }
             }
         ]
     },
@@ -77,19 +122,31 @@
         "answerOptions": [
             {
                 "answerText": "Tutoring children (K-12)",
-                "nextQuestionId": "q3_edu_child_subject"
+                "nextQuestionId": "q3_edu_child_subject",
+                "inferredInformation": {
+                    "skills": ["Tutoring", "Child Development", "Teaching"]
+                }
             },
             {
                 "answerText": "Adult literacy or GED preparation",
-                "nextQuestionId": "q3_edu_adult_format"
+                "nextQuestionId": "q3_edu_adult_format",
+                "inferredInformation": {
+                    "skills": ["Adult Education", "Tutoring"]
+                }
             },
             {
                 "answerText": "Digital skills training or STEM education",
-                "nextQuestionId": "q3_edu_tech_level"
+                "nextQuestionId": "q3_edu_tech_level",
+                "inferredInformation": {
+                    "skills": ["Digital Literacy", "STEM Education", "Training"]
+                }
             },
             {
                 "answerText": "Curriculum development & educational content creation",
-                "nextQuestionId": "q3_edu_curriculum_type"
+                "nextQuestionId": "q3_edu_curriculum_type",
+                "inferredInformation": {
+                    "skills": ["Curriculum Development", "Content Creation"]
+                }
             }
         ]
     },
@@ -99,19 +156,35 @@
         "answerOptions": [
             {
                 "answerText": "Direct patient support & companionship in clinical settings",
-                "nextQuestionId": "q3_health_patient_certification"
+                "nextQuestionId": "q3_health_patient_certification",
+                "inferredInformation": {
+                    "skills": ["Patient Support", "Companionship"]
+                }
             },
             {
                 "answerText": "Public health education & community health programs",
-                "nextQuestionId": "q3_health_public_topic"
+                "nextQuestionId": "q3_health_public_topic",
+                "inferredInformation": {
+                    "skills": [
+                        "Public Health",
+                        "Community Outreach",
+                        "Education"
+                    ]
+                }
             },
             {
                 "answerText": "Mental health & emotional support",
-                "nextQuestionId": "q3_health_mental_intensity"
+                "nextQuestionId": "q3_health_mental_intensity",
+                "inferredInformation": {
+                    "skills": ["Mental Health Support", "Emotional Support"]
+                }
             },
             {
                 "answerText": "Elderly care & assistance",
-                "nextQuestionId": "q3_health_elderly_task"
+                "nextQuestionId": "q3_health_elderly_task",
+                "inferredInformation": {
+                    "skills": ["Elderly Care", "Assistance"]
+                }
             }
         ]
     },
@@ -121,19 +194,31 @@
         "answerOptions": [
             {
                 "answerText": "Supporting individuals experiencing homelessness & housing initiatives",
-                "nextQuestionId": "q3_comm_homeless_direct"
+                "nextQuestionId": "q3_comm_homeless_direct",
+                "inferredInformation": {
+                    "skills": ["Homelessness Support", "Housing Initiatives"]
+                }
             },
             {
                 "answerText": "Child & Youth development (non-academic & recreational)",
-                "nextQuestionId": "q3_comm_youth_activity"
+                "nextQuestionId": "q3_comm_youth_activity",
+                "inferredInformation": {
+                    "skills": ["Youth Development", "Mentoring"]
+                }
             },
             {
                 "answerText": "Promoting gender equality & anti-violence initiatives",
-                "nextQuestionId": "q3_comm_gender_focus"
+                "nextQuestionId": "q3_comm_gender_focus",
+                "inferredInformation": {
+                    "skills": ["Gender Equality", "Advocacy"]
+                }
             },
             {
                 "answerText": "General community organizing & grassroots mobilization",
-                "nextQuestionId": "q3_comm_organizing_style"
+                "nextQuestionId": "q3_comm_organizing_style",
+                "inferredInformation": {
+                    "skills": ["Community Organizing", "Mobilization"]
+                }
             }
         ]
     },
@@ -143,19 +228,31 @@
         "answerOptions": [
             {
                 "answerText": "Animal shelter care (dogs & cats)",
-                "nextQuestionId": "q3_animal_shelter_direct"
+                "nextQuestionId": "q3_animal_shelter_direct",
+                "inferredInformation": {
+                    "skills": ["Animal Shelter Care", "Animal Handling"]
+                }
             },
             {
                 "answerText": "Wildlife rescue & rehabilitation (non-domesticated animals)",
-                "nextQuestionId": "q3_animal_wildlife_handling"
+                "nextQuestionId": "q3_animal_wildlife_handling",
+                "inferredInformation": {
+                    "skills": ["Wildlife Rescue", "Animal Rehabilitation"]
+                }
             },
             {
                 "answerText": "Advocacy for animal rights & policy change",
-                "nextQuestionId": "q3_animal_advocacy_method"
+                "nextQuestionId": "q3_animal_advocacy_method",
+                "inferredInformation": {
+                    "skills": ["Animal Rights Advocacy", "Policy"]
+                }
             },
             {
                 "answerText": "Fostering animals in your home (short or long-term)",
-                "nextQuestionId": "q3_animal_fostering_preparedness"
+                "nextQuestionId": "q3_animal_fostering_preparedness",
+                "inferredInformation": {
+                    "skills": ["Animal Fostering"]
+                }
             }
         ]
     },
@@ -165,19 +262,31 @@
         "answerOptions": [
             {
                 "answerText": "Refugee & Immigrant support (resettlement, language)",
-                "nextQuestionId": "q3_rights_refugee_type"
+                "nextQuestionId": "q3_rights_refugee_type",
+                "inferredInformation": {
+                    "skills": ["Refugee Support", "Immigrant Support", "ESL"]
+                }
             },
             {
                 "answerText": "Anti-trafficking efforts (awareness, survivor support)",
-                "nextQuestionId": "q3_rights_trafficking_task"
+                "nextQuestionId": "q3_rights_trafficking_task",
+                "inferredInformation": {
+                    "skills": ["Anti-trafficking", "Survivor Support"]
+                }
             },
             {
                 "answerText": "Legal advocacy & pro bono services (requiring legal background)",
-                "nextQuestionId": "q3_rights_legal_group"
+                "nextQuestionId": "q3_rights_legal_group",
+                "inferredInformation": {
+                    "skills": ["Legal Advocacy", "Pro Bono"]
+                }
             },
             {
                 "answerText": "Promoting indigenous rights or other specific marginalized groups",
-                "nextQuestionId": "q3_rights_indigenous_engagement"
+                "nextQuestionId": "q3_rights_indigenous_engagement",
+                "inferredInformation": {
+                    "skills": ["Indigenous Rights", "Advocacy"]
+                }
             }
         ]
     },
@@ -187,19 +296,35 @@
         "answerOptions": [
             {
                 "answerText": "Teaching/facilitating creative skills",
-                "nextQuestionId": "q3_arts_teaching_medium"
+                "nextQuestionId": "q3_arts_teaching_medium",
+                "inferredInformation": {
+                    "skills": [
+                        "Teaching",
+                        "Art Facilitation",
+                        "Creative Skills"
+                    ]
+                }
             },
             {
                 "answerText": "Event planning & execution",
-                "nextQuestionId": "q3_arts_event_type"
+                "nextQuestionId": "q3_arts_event_type",
+                "inferredInformation": {
+                    "skills": ["Event Planning", "Event Management"]
+                }
             },
             {
                 "answerText": "Digital archiving & content creation",
-                "nextQuestionId": "q3_arts_archiving_focus"
+                "nextQuestionId": "q3_arts_archiving_focus",
+                "inferredInformation": {
+                    "skills": ["Digital Archiving", "Content Creation"]
+                }
             },
             {
                 "answerText": "Performance outreach & community engagement",
-                "nextQuestionId": "q3_arts_outreach_audience"
+                "nextQuestionId": "q3_arts_outreach_audience",
+                "inferredInformation": {
+                    "skills": ["Performance", "Community Engagement"]
+                }
             }
         ]
     },
@@ -209,19 +334,31 @@
         "answerOptions": [
             {
                 "answerText": "On-ground logistics & distribution",
-                "nextQuestionId": "q3_disaster_ground_skill"
+                "nextQuestionId": "q3_disaster_ground_skill",
+                "inferredInformation": {
+                    "skills": ["Logistics", "Distribution"]
+                }
             },
             {
                 "answerText": "Remote coordination & data management",
-                "nextQuestionId": "q3_disaster_remote_task"
+                "nextQuestionId": "q3_disaster_remote_task",
+                "inferredInformation": {
+                    "skills": ["Remote Coordination", "Data Management"]
+                }
             },
             {
                 "answerText": "Fundraising & resource mobilization",
-                "nextQuestionId": "q3_disaster_fundraising_method"
+                "nextQuestionId": "q3_disaster_fundraising_method",
+                "inferredInformation": {
+                    "skills": ["Fundraising", "Resource Mobilization"]
+                }
             },
             {
                 "answerText": "Medical aid or mental health first aid",
-                "nextQuestionId": "q3_disaster_medical_role"
+                "nextQuestionId": "q3_disaster_medical_role",
+                "inferredInformation": {
+                    "skills": ["Medical Aid", "Mental Health First Aid"]
+                }
             }
         ]
     },
@@ -231,19 +368,31 @@
         "answerOptions": [
             {
                 "answerText": "Food security programs",
-                "nextQuestionId": "q3_poverty_food_activity"
+                "nextQuestionId": "q3_poverty_food_activity",
+                "inferredInformation": {
+                    "skills": ["Food Security"]
+                }
             },
             {
                 "answerText": "Employment & vocational training",
-                "nextQuestionId": "q3_poverty_training_sector"
+                "nextQuestionId": "q3_poverty_training_sector",
+                "inferredInformation": {
+                    "skills": ["Employment Training", "Vocational Training"]
+                }
             },
             {
                 "answerText": "Housing initiatives",
-                "nextQuestionId": "q3_poverty_housing_role"
+                "nextQuestionId": "q3_poverty_housing_role",
+                "inferredInformation": {
+                    "skills": ["Housing Initiatives"]
+                }
             },
             {
                 "answerText": "Social entrepreneurship & micro-finance",
-                "nextQuestionId": "q3_poverty_entrepreneur_support"
+                "nextQuestionId": "q3_poverty_entrepreneur_support",
+                "inferredInformation": {
+                    "skills": ["Social Entrepreneurship", "Micro-finance"]
+                }
             }
         ]
     },
@@ -253,19 +402,31 @@
         "answerOptions": [
             {
                 "answerText": "Environmental data analysis",
-                "nextQuestionId": "q3_sci_env_data_type"
+                "nextQuestionId": "q3_sci_env_data_type",
+                "inferredInformation": {
+                    "skills": ["Data Analysis", "Environmental Science"]
+                }
             },
             {
                 "answerText": "Medical research",
-                "nextQuestionId": "q3_sci_med_focus"
+                "nextQuestionId": "q3_sci_med_focus",
+                "inferredInformation": {
+                    "skills": ["Medical Research"]
+                }
             },
             {
                 "answerText": "Social impact studies",
-                "nextQuestionId": "q3_sci_social_theme"
+                "nextQuestionId": "q3_sci_social_theme",
+                "inferredInformation": {
+                    "skills": ["Social Impact Analysis", "Research"]
+                }
             },
             {
                 "answerText": "Citizen science projects",
-                "nextQuestionId": "q3_sci_citizen_domain"
+                "nextQuestionId": "q3_sci_citizen_domain",
+                "inferredInformation": {
+                    "skills": ["Citizen Science"]
+                }
             }
         ]
     },
@@ -275,19 +436,31 @@
         "answerOptions": [
             {
                 "answerText": "Field research & data collection",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Field Research", "Data Collection"]
+                }
             },
             {
                 "answerText": "Habitat restoration & planting",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Habitat Restoration", "Planting"]
+                }
             },
             {
                 "answerText": "Animal rescue operations (direct handling)",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Animal Rescue", "Direct Animal Handling"]
+                }
             },
             {
                 "answerText": "Public education about wildlife protection",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Public Speaking", "Education"]
+                }
             }
         ]
     },
@@ -297,19 +470,31 @@
         "answerOptions": [
             {
                 "answerText": "Policy analysis & legislative lobbying",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Policy Analysis", "Lobbying"]
+                }
             },
             {
                 "answerText": "Renewable energy project support (technical/admin)",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Project Support", "Administration"]
+                }
             },
             {
                 "answerText": "Organizing awareness campaigns & events",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Campaigning", "Event Organization"]
+                }
             },
             {
                 "answerText": "Community workshops on sustainable practices",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Workshop Facilitation", "Education"]
+                }
             }
         ]
     },
@@ -319,19 +504,31 @@
         "answerOptions": [
             {
                 "answerText": "Beach/river cleanups (physically active)",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Field Work", "Manual Labor"]
+                }
             },
             {
                 "answerText": "Marine data collection & monitoring",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Data Collection", "Monitoring"]
+                }
             },
             {
                 "answerText": "Policy advocacy for plastic reduction",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Advocacy", "Policy"]
+                }
             },
             {
                 "answerText": "Coral reef restoration or coastal habitat work",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Habitat Restoration", "Marine Biology"]
+                }
             }
         ]
     },
@@ -341,19 +538,31 @@
         "answerOptions": [
             {
                 "answerText": "Hands-on permaculture design & planting",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Permaculture", "Planting"]
+                }
             },
             {
                 "answerText": "Farmer training & educational support",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Training", "Education"]
+                }
             },
             {
                 "answerText": "Food supply-chain audits & research",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Auditing", "Research"]
+                }
             },
             {
                 "answerText": "Community garden management & support",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Garden Management", "Community Support"]
+                }
             }
         ]
     },
@@ -363,19 +572,31 @@
         "answerOptions": [
             {
                 "answerText": "Interactive workshops for diverse groups",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Workshop Facilitation"]
+                }
             },
             {
                 "answerText": "Formal presentations to specific audiences",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Public Speaking", "Presenting"]
+                }
             },
             {
                 "answerText": "One-on-one mentoring on sustainable living",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Mentoring"]
+                }
             },
             {
                 "answerText": "Creating digital content (videos, articles) for outreach",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Content Creation", "Digital Media"]
+                }
             }
         ]
     },
@@ -385,19 +606,31 @@
         "answerOptions": [
             {
                 "answerText": "Early childhood (3-6) - general subjects",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Early Childhood Education", "Teaching"]
+                }
             },
             {
                 "answerText": "Primary school (7-11) - Math/Language Arts",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Primary Education", "Tutoring"]
+                }
             },
             {
                 "answerText": "Secondary school (12-17) - Science/Humanities",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Secondary Education", "Tutoring"]
+                }
             },
             {
                 "answerText": "Special Needs Education (with relevant experience)",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Special Needs Education"]
+                }
             }
         ]
     },
@@ -407,15 +640,24 @@
         "answerOptions": [
             {
                 "answerText": "One-on-one tutoring (requiring patience & empathy).",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Tutoring", "Mentoring"]
+                }
             },
             {
                 "answerText": "Assisting in a classroom (supportive, organizational role).",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Classroom Assistance", "Organizational Skills"]
+                }
             },
             {
                 "answerText": "Developing educational materials for adult learners.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Content Creation", "Curriculum Development"]
+                }
             }
         ]
     },
@@ -425,19 +667,35 @@
         "answerOptions": [
             {
                 "answerText": "Basic computer literacy & internet usage",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Digital Literacy", "Training"]
+                }
             },
             {
                 "answerText": "Programming & advanced tech skills (e.g., Python, web design)",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": [
+                        "Programming",
+                        "Web Development",
+                        "Advanced Tech"
+                    ]
+                }
             },
             {
                 "answerText": "Robotics mentoring or STEM project guidance",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Robotics", "STEM", "Mentoring"]
+                }
             },
             {
                 "answerText": "Online safety & media literacy",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Media Literacy", "Online Safety"]
+                }
             }
         ]
     },
@@ -447,19 +705,39 @@
         "answerOptions": [
             {
                 "answerText": "Mathematics or Language Arts",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": [
+                        "Curriculum Development",
+                        "Mathematics",
+                        "Language Arts"
+                    ]
+                }
             },
             {
                 "answerText": "Science or Social Studies",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": [
+                        "Curriculum Development",
+                        "Science",
+                        "Social Studies"
+                    ]
+                }
             },
             {
                 "answerText": "Vocational or Life Skills",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Curriculum Development", "Vocational Training"]
+                }
             },
             {
                 "answerText": "Digital/Tech Education",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Curriculum Development", "Digital Education"]
+                }
             }
         ]
     },
@@ -469,11 +747,17 @@
         "answerOptions": [
             {
                 "answerText": "Yes, I'm a certified medical professional and want to use my skills.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Medical Professional", "Certified"]
+                }
             },
             {
                 "answerText": "No, I'm looking for non-clinical roles (e.g., administrative, patient companionship, info desk).",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Administration", "Patient Companionship"]
+                }
             }
         ]
     },
@@ -483,19 +767,31 @@
         "answerOptions": [
             {
                 "answerText": "Nutrition & exercise (workshops, community gardens)",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Nutrition", "Exercise", "Workshop Facilitation"]
+                }
             },
             {
                 "answerText": "Disease prevention & hygiene campaigns (presentations, materials)",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Disease Prevention", "Public Health Campaigns"]
+                }
             },
             {
                 "answerText": "Maternal health or child health education",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Maternal Health", "Child Health", "Education"]
+                }
             },
             {
                 "answerText": "Community health screenings & events",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Health Screenings", "Event Management"]
+                }
             }
         ]
     },
@@ -505,15 +801,24 @@
         "answerOptions": [
             {
                 "answerText": "Prepared for intensive crisis/peer support (requiring extensive training).",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Crisis Support", "Peer Support"]
+                }
             },
             {
                 "answerText": "Prefer advocacy, public speaking, or administrative roles (reducing stigma).",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Advocacy", "Public Speaking"]
+                }
             },
             {
                 "answerText": "Art therapy or creative expression support for mental wellness.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Art Therapy", "Creative Expression"]
+                }
             }
         ]
     },
@@ -523,15 +828,24 @@
         "answerOptions": [
             {
                 "answerText": "Companionship & social visits (one-on-one or group).",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Companionship", "Social Support"]
+                }
             },
             {
                 "answerText": "Assisting with practical tasks (requires valid driver's license for transport if needed).",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Practical Assistance", "Elderly Care"]
+                }
             },
             {
                 "answerText": "Organizing activities (games, arts & crafts, exercise programs).",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Activity Coordination", "Event Planning"]
+                }
             }
         ]
     },
@@ -541,15 +855,24 @@
         "answerOptions": [
             {
                 "answerText": "Direct service at shelters (serving food, sorting donations).",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Direct Service", "Shelter Support"]
+                }
             },
             {
                 "answerText": "Street outreach (comfortable approaching strangers).",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Street Outreach", "Community Engagement"]
+                }
             },
             {
                 "answerText": "Administrative/facility support for shelters.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Administration", "Facility Support"]
+                }
             }
         ]
     },
@@ -559,15 +882,24 @@
         "answerOptions": [
             {
                 "answerText": "Sports coaching or recreational activities.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Sports Coaching", "Recreation"]
+                }
             },
             {
                 "answerText": "Mentorship & being a positive role model (long-term commitment).",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Mentoring", "Role Modeling"]
+                }
             },
             {
                 "answerText": "After-school program support (homework help, supervision).",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["After-school Support", "Tutoring"]
+                }
             }
         ]
     },
@@ -577,19 +909,31 @@
         "answerOptions": [
             {
                 "answerText": "Workplace equality (mentoring, training workshops).",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Mentoring", "Workshop Facilitation"]
+                }
             },
             {
                 "answerText": "Education access (addressing barriers).",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Advocacy", "Education"]
+                }
             },
             {
                 "answerText": "Violence prevention & support services.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Violence Prevention", "Support Services"]
+                }
             },
             {
                 "answerText": "Policy advocacy for gender rights.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Policy", "Advocacy"]
+                }
             }
         ]
     },
@@ -599,19 +943,31 @@
         "answerOptions": [
             {
                 "answerText": "Online organizing & social media campaigns.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Digital Campaigning", "Social Media"]
+                }
             },
             {
                 "answerText": "Grassroots, face-to-face organizing & community meetings.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Grassroots Organizing", "Community Meetings"]
+                }
             },
             {
                 "answerText": "Researching community needs & developing programs.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Research", "Program Development"]
+                }
             },
             {
                 "answerText": "Facilitating workshops & training sessions.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Workshop Facilitation", "Training"]
+                }
             }
         ]
     },
@@ -621,15 +977,24 @@
         "answerOptions": [
             {
                 "answerText": "Yes, comfortable with direct care and cleaning.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Direct Animal Care", "Cleaning"]
+                }
             },
             {
                 "answerText": "Prefer administrative, laundry, or adoption coordination roles.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Administration", "Adoption Coordination"]
+                }
             },
             {
                 "answerText": "Facility maintenance (general repairs, landscaping).",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Facility Maintenance", "Repairs"]
+                }
             }
         ]
     },
@@ -639,15 +1004,24 @@
         "answerOptions": [
             {
                 "answerText": "Yes, I understand it's about rehabilitation and release.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Wildlife Rehabilitation", "Animal Handling"]
+                }
             },
             {
                 "answerText": "I'd prefer educational docent roles or administrative roles at a wildlife center.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Education", "Administration"]
+                }
             },
             {
                 "answerText": "Veterinary or animal care training for wildlife (if applicable).",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Veterinary Support", "Animal Care"]
+                }
             }
         ]
     },
@@ -657,19 +1031,35 @@
         "answerOptions": [
             {
                 "answerText": "Public awareness campaigns (social media, events).",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": [
+                        "Public Awareness",
+                        "Social Media",
+                        "Event Planning"
+                    ]
+                }
             },
             {
                 "answerText": "Policy lobbying & legislative efforts.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Policy", "Lobbying", "Advocacy"]
+                }
             },
             {
                 "answerText": "Educational workshops for various age groups.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Education", "Workshop Facilitation"]
+                }
             },
             {
                 "answerText": "Farm-animal welfare inspections or sanctuary care.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Animal Welfare", "Sanctuary Care"]
+                }
             }
         ]
     },
@@ -679,15 +1069,22 @@
         "answerOptions": [
             {
                 "answerText": "Yes, my home is ready and I'm prepared for challenges (e.g., medical, behavioral issues).",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Animal Fostering", "Special Needs Animal Care"]
+                }
             },
             {
                 "answerText": "I'd prefer to foster healthy, well-adjusted animals only.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Animal Fostering"]
+                }
             },
             {
                 "answerText": "I'd prefer other forms of support, not fostering.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {}
             }
         ]
     },
@@ -697,15 +1094,28 @@
         "answerOptions": [
             {
                 "answerText": "Language support (ESL tutoring, translation, cultural integration).",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["ESL", "Translation", "Tutoring"]
+                }
             },
             {
                 "answerText": "Resettlement logistics (finding housing, job support, navigating services).",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": [
+                        "Resettlement Support",
+                        "Logistics",
+                        "Job Support"
+                    ]
+                }
             },
             {
                 "answerText": "Youth mentoring or after-school help for refugee children.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Mentoring", "Youth Support", "Tutoring"]
+                }
             }
         ]
     },
@@ -715,19 +1125,31 @@
         "answerOptions": [
             {
                 "answerText": "Survivor support & direct services.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Survivor Support", "Direct Service"]
+                }
             },
             {
                 "answerText": "Awareness campaigns & public education.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Public Awareness", "Education"]
+                }
             },
             {
                 "answerText": "Research & data analysis on trafficking patterns.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Research", "Data Analysis"]
+                }
             },
             {
                 "answerText": "Law enforcement liaison (if you have relevant background).",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Law Enforcement Liaison"]
+                }
             }
         ]
     },
@@ -737,19 +1159,35 @@
         "answerOptions": [
             {
                 "answerText": "Refugees & asylum seekers.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Legal Advocacy", "Refugee Rights"]
+                }
             },
             {
                 "answerText": "Indigenous peoples' rights.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Legal Advocacy", "Indigenous Rights"]
+                }
             },
             {
                 "answerText": "Women & children's rights.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": [
+                        "Legal Advocacy",
+                        "Women's Rights",
+                        "Children's Rights"
+                    ]
+                }
             },
             {
                 "answerText": "LGBTQ+ communities' rights.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Legal Advocacy", "LGBTQ+ Rights"]
+                }
             }
         ]
     },
@@ -759,19 +1197,35 @@
         "answerOptions": [
             {
                 "answerText": "Direct community engagement & support.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Community Engagement", "Direct Support"]
+                }
             },
             {
                 "answerText": "Cultural preservation initiatives.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Cultural Preservation"]
+                }
             },
             {
                 "answerText": "Advocacy for land rights & environmental justice.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": [
+                        "Advocacy",
+                        "Land Rights",
+                        "Environmental Justice"
+                    ]
+                }
             },
             {
                 "answerText": "Educational workshops & awareness building.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Education", "Workshop Facilitation"]
+                }
             }
         ]
     },
@@ -781,19 +1235,39 @@
         "answerOptions": [
             {
                 "answerText": "Painting & drawing / Visual arts.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Art Instruction", "Visual Arts"]
+                }
             },
             {
                 "answerText": "Music (instrument, vocal, theory).",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": [
+                        "Music Instruction",
+                        "Vocal Coaching",
+                        "Music Theory"
+                    ]
+                }
             },
             {
                 "answerText": "Dance or theatrical performance.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Dance Instruction", "Theater Arts"]
+                }
             },
             {
                 "answerText": "Digital arts (e.g., graphic design, video editing).",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": [
+                        "Digital Arts",
+                        "Graphic Design",
+                        "Video Editing"
+                    ]
+                }
             }
         ]
     },
@@ -803,19 +1277,31 @@
         "answerOptions": [
             {
                 "answerText": "Exhibitions or gallery events.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Event Planning", "Gallery Management"]
+                }
             },
             {
                 "answerText": "Festivals or large public events.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Event Planning", "Festival Organization"]
+                }
             },
             {
                 "answerText": "Workshops or educational events.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Event Planning", "Workshop Facilitation"]
+                }
             },
             {
                 "answerText": "Fundraisers for arts programs.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Event Planning", "Fundraising"]
+                }
             }
         ]
     },
@@ -825,19 +1311,43 @@
         "answerOptions": [
             {
                 "answerText": "Photography collections & visual assets.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": [
+                        "Digital Archiving",
+                        "Photography",
+                        "Asset Management"
+                    ]
+                }
             },
             {
                 "answerText": "Oral histories & audio recordings.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": [
+                        "Digital Archiving",
+                        "Audio Recording",
+                        "Oral History"
+                    ]
+                }
             },
             {
                 "answerText": "Manuscript preservation & digital conversion.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": [
+                        "Digital Archiving",
+                        "Preservation",
+                        "Digitization"
+                    ]
+                }
             },
             {
                 "answerText": "Web content & digital media preservation.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Digital Archiving", "Web Preservation"]
+                }
             }
         ]
     },
@@ -847,19 +1357,31 @@
         "answerOptions": [
             {
                 "answerText": "Schools & youth programs.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Performance Outreach", "Youth Engagement"]
+                }
             },
             {
                 "answerText": "Hospitals & care facilities.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Performance Outreach", "Therapeutic Arts"]
+                }
             },
             {
                 "answerText": "Community centers & local groups.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Performance Outreach", "Community Arts"]
+                }
             },
             {
                 "answerText": "Online viewers & digital audiences.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Digital Performance", "Online Engagement"]
+                }
             }
         ]
     },
@@ -869,19 +1391,31 @@
         "answerOptions": [
             {
                 "answerText": "Supply chain management & procurement.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Supply Chain Management", "Procurement"]
+                }
             },
             {
                 "answerText": "Transport coordination & driving (with valid license).",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Transport Coordination", "Driving"]
+                }
             },
             {
                 "answerText": "Warehouse management & inventory.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Warehouse Management", "Inventory Control"]
+                }
             },
             {
                 "answerText": "Field communications & reporting.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Field Communications", "Reporting"]
+                }
             }
         ]
     },
@@ -891,19 +1425,31 @@
         "answerOptions": [
             {
                 "answerText": "Resource mapping & needs assessment.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Resource Mapping", "Needs Assessment"]
+                }
             },
             {
                 "answerText": "Volunteer dispatch & scheduling.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Volunteer Coordination", "Scheduling"]
+                }
             },
             {
                 "answerText": "Data management & information sharing.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Data Management", "Information Management"]
+                }
             },
             {
                 "answerText": "Partner liaison & communication.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Partner Relations", "Communication"]
+                }
             }
         ]
     },
@@ -913,19 +1459,34 @@
         "answerOptions": [
             {
                 "answerText": "Online campaigns & social media outreach.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": [
+                        "Digital Fundraising",
+                        "Social Media Campaigning"
+                    ]
+                }
             },
             {
                 "answerText": "Grant writing for emergency funds.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Grant Writing"]
+                }
             },
             {
                 "answerText": "Corporate partnerships & sponsorships.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Corporate Partnerships", "Sponsorships"]
+                }
             },
             {
                 "answerText": "Event planning for fundraising galas.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Event Planning", "Fundraising Events"]
+                }
             }
         ]
     },
@@ -935,19 +1496,34 @@
         "answerOptions": [
             {
                 "answerText": "Triage nursing or direct clinical care (with certification).",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Triage", "Nursing", "Clinical Care"]
+                }
             },
             {
                 "answerText": "Field medic or emergency response (with experience).",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Emergency Response", "Field Medic"]
+                }
             },
             {
                 "answerText": "Pharmacy coordination or medical supply management.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Pharmacy", "Medical Supply Management"]
+                }
             },
             {
                 "answerText": "Mental health first aid & psychological support.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": [
+                        "Mental Health First Aid",
+                        "Psychological Support"
+                    ]
+                }
             }
         ]
     },
@@ -957,19 +1533,31 @@
         "answerOptions": [
             {
                 "answerText": "Community garden development & maintenance.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Gardening", "Community Development"]
+                }
             },
             {
                 "answerText": "Food bank sorting & distribution.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Logistics", "Distribution"]
+                }
             },
             {
                 "answerText": "Nutrition education & cooking classes.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Nutrition Education", "Teaching"]
+                }
             },
             {
                 "answerText": "Advocacy & policy for food access.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Advocacy", "Policy"]
+                }
             }
         ]
     },
@@ -979,19 +1567,31 @@
         "answerOptions": [
             {
                 "answerText": "Hospitality & customer service.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Training", "Hospitality", "Customer Service"]
+                }
             },
             {
                 "answerText": "IT & digital skills.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["IT Training", "Digital Skills"]
+                }
             },
             {
                 "answerText": "Construction trades & manual skills.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Construction", "Manual Skills", "Trades"]
+                }
             },
             {
                 "answerText": "Green jobs & sustainability skills.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Sustainability", "Green Jobs"]
+                }
             }
         ]
     },
@@ -1001,19 +1601,31 @@
         "answerOptions": [
             {
                 "answerText": "Construction volunteer (building/repairing homes).",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Construction", "Building"]
+                }
             },
             {
                 "answerText": "Family support liaison & resettlement assistance.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Family Support", "Resettlement"]
+                }
             },
             {
                 "answerText": "Fundraising for affordable housing projects.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Fundraising"]
+                }
             },
             {
                 "answerText": "Policy advocacy for housing rights.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Policy", "Advocacy"]
+                }
             }
         ]
     },
@@ -1023,19 +1635,35 @@
         "answerOptions": [
             {
                 "answerText": "Business mentoring for aspiring entrepreneurs.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Business Mentoring", "Entrepreneurship"]
+                }
             },
             {
                 "answerText": "Micro-loan review & administration.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Finance", "Administration"]
+                }
             },
             {
                 "answerText": "Marketing & sales support for social enterprises.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Marketing", "Sales"]
+                }
             },
             {
                 "answerText": "Impact measurement & evaluation for programs.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": [
+                        "Impact Measurement",
+                        "Evaluation",
+                        "Data Analysis"
+                    ]
+                }
             }
         ]
     },
@@ -1045,19 +1673,35 @@
         "answerOptions": [
             {
                 "answerText": "Air quality & pollution data.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Data Analysis", "Air Quality"]
+                }
             },
             {
                 "answerText": "Biodiversity counts & species tracking.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": [
+                        "Data Analysis",
+                        "Biodiversity",
+                        "Species Tracking"
+                    ]
+                }
             },
             {
                 "answerText": "Water samples & hydrological data.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Data Analysis", "Hydrology"]
+                }
             },
             {
                 "answerText": "Satellite imagery & geospatial data.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Data Analysis", "Geospatial Data", "GIS"]
+                }
             }
         ]
     },
@@ -1067,19 +1711,31 @@
         "answerOptions": [
             {
                 "answerText": "Clinical trials & patient data.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Clinical Trials", "Patient Data"]
+                }
             },
             {
                 "answerText": "Epidemiology & public health studies.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Epidemiology", "Public Health"]
+                }
             },
             {
                 "answerText": "Genomics & biological data analysis.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Genomics", "Bioinformatics"]
+                }
             },
             {
                 "answerText": "Health surveys & patient outcomes.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Health Surveys", "Patient Outcomes"]
+                }
             }
         ]
     },
@@ -1089,19 +1745,31 @@
         "answerOptions": [
             {
                 "answerText": "Education outcomes & learning effectiveness.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Social Impact", "Education Research"]
+                }
             },
             {
                 "answerText": "Health interventions & community well-being.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Social Impact", "Health Research"]
+                }
             },
             {
                 "answerText": "Economic empowerment & poverty reduction.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Social Impact", "Economic Research"]
+                }
             },
             {
                 "answerText": "Policy evaluation & social program effectiveness.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Social Impact", "Policy Evaluation"]
+                }
             }
         ]
     },
@@ -1111,19 +1779,35 @@
         "answerOptions": [
             {
                 "answerText": "Astronomy (e.g., star gazing, cosmic research).",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Citizen Science", "Astronomy"]
+                }
             },
             {
                 "answerText": "Wildlife tracking & biodiversity monitoring.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": [
+                        "Citizen Science",
+                        "Wildlife Tracking",
+                        "Biodiversity"
+                    ]
+                }
             },
             {
                 "answerText": "Weather monitoring & climate data collection.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Citizen Science", "Climate Data"]
+                }
             },
             {
                 "answerText": "Water quality testing & environmental sampling.",
-                "nextQuestionId": "q4_common_availability"
+                "nextQuestionId": "q4_common_availability",
+                "inferredInformation": {
+                    "skills": ["Citizen Science", "Water Quality Testing"]
+                }
             }
         ]
     },
@@ -1133,19 +1817,35 @@
         "answerOptions": [
             {
                 "answerText": "1-5 hrs/week, Short-term (weeks to a few months).",
-                "nextQuestionId": "q5_common_location"
+                "nextQuestionId": "q5_common_location",
+                "inferredInformation": {
+                    "availabilityHours": 5,
+                    "commitmentLevel": "short-term"
+                }
             },
             {
                 "answerText": "6-10 hrs/week, Medium-term (several months to a year).",
-                "nextQuestionId": "q5_common_location"
+                "nextQuestionId": "q5_common_location",
+                "inferredInformation": {
+                    "availabilityHours": 10,
+                    "commitmentLevel": "medium-term"
+                }
             },
             {
                 "answerText": "11-20+ hrs/week, Long-term (1+ years commitment).",
-                "nextQuestionId": "q5_common_location"
+                "nextQuestionId": "q5_common_location",
+                "inferredInformation": {
+                    "availabilityHours": 20,
+                    "commitmentLevel": "long-term"
+                }
             },
             {
                 "answerText": "Flexible/Ad-hoc (occasional events, one-time tasks).",
-                "nextQuestionId": "q5_common_location"
+                "nextQuestionId": "q5_common_location",
+                "inferredInformation": {
+                    "availabilityHours": 3,
+                    "commitmentLevel": "event-based"
+                }
             }
         ]
     },
@@ -1155,19 +1855,33 @@
         "answerOptions": [
             {
                 "answerText": "Remote only (digital tasks from anywhere).",
-                "nextQuestionId": "q6_common_impact"
+                "nextQuestionId": "q6_common_impact",
+                "inferredInformation": {
+                    "volunteerType": "remote"
+                }
             },
             {
                 "answerText": "On-site, local only (under 30 min commute).",
-                "nextQuestionId": "q6_common_impact"
+                "nextQuestionId": "q6_common_impact",
+                "inferredInformation": {
+                    "volunteerType": "on-site"
+                }
             },
             {
                 "answerText": "On-site, willing to travel domestically (regional trips).",
-                "nextQuestionId": "q6_common_impact"
+                "nextQuestionId": "q6_common_impact",
+                "inferredInformation": {
+                    "volunteerType": "on-site",
+                    "travelWillingness": "domestic"
+                }
             },
             {
                 "answerText": "Open to international travel and diverse environments.",
-                "nextQuestionId": "q6_common_impact"
+                "nextQuestionId": "q6_common_impact",
+                "inferredInformation": {
+                    "volunteerType": "on-site",
+                    "travelWillingness": "international"
+                }
             }
         ]
     },
@@ -1177,19 +1891,31 @@
         "answerOptions": [
             {
                 "answerText": "Directly helping individuals or small groups.",
-                "nextQuestionId": "q7_common_challenge_tolerance"
+                "nextQuestionId": "q7_common_challenge_tolerance",
+                "inferredInformation": {
+                    "motivation": ["direct-impact"]
+                }
             },
             {
                 "answerText": "Contributing to larger systemic change or policy.",
-                "nextQuestionId": "q7_common_challenge_tolerance"
+                "nextQuestionId": "q7_common_challenge_tolerance",
+                "inferredInformation": {
+                    "motivation": ["systemic-change"]
+                }
             },
             {
                 "answerText": "Raising awareness and educating the broader public.",
-                "nextQuestionId": "q7_common_challenge_tolerance"
+                "nextQuestionId": "q7_common_challenge_tolerance",
+                "inferredInformation": {
+                    "motivation": ["awareness-raising"]
+                }
             },
             {
                 "answerText": "Through measurable data analysis and project outcomes.",
-                "nextQuestionId": "q7_common_challenge_tolerance"
+                "nextQuestionId": "q7_common_challenge_tolerance",
+                "inferredInformation": {
+                    "motivation": ["data-driven"]
+                }
             }
         ]
     },
@@ -1199,19 +1925,31 @@
         "answerOptions": [
             {
                 "answerText": "Very comfortable; I thrive in dynamic, complex environments.",
-                "nextQuestionId": "q8_common_skills"
+                "nextQuestionId": "q8_common_skills",
+                "inferredInformation": {
+                    "workStyle": ["dynamic-environment"]
+                }
             },
             {
                 "answerText": "Moderately comfortable; I adapt well with guidance and support.",
-                "nextQuestionId": "q8_common_skills"
+                "nextQuestionId": "q8_common_skills",
+                "inferredInformation": {
+                    "workStyle": ["adaptable"]
+                }
             },
             {
                 "answerText": "Somewhat comfortable; prefer calmer, more structured settings.",
-                "nextQuestionId": "q8_common_skills"
+                "nextQuestionId": "q8_common_skills",
+                "inferredInformation": {
+                    "workStyle": ["structured-environment"]
+                }
             },
             {
                 "answerText": "Prefer to avoid highly challenging or stressful situations.",
-                "nextQuestionId": "q8_common_skills"
+                "nextQuestionId": "q8_common_skills",
+                "inferredInformation": {
+                    "workStyle": ["low-stress-environment"]
+                }
             }
         ]
     },
@@ -1221,23 +1959,47 @@
         "answerOptions": [
             {
                 "answerText": "Analytical & Problem-Solving (research, data analysis, strategic thinking).",
-                "nextQuestionId": "q9_common_work_style"
+                "nextQuestionId": "q9_common_work_style",
+                "inferredInformation": {
+                    "skills": [
+                        "Analysis",
+                        "Problem-Solving",
+                        "Research",
+                        "Strategy"
+                    ]
+                }
             },
             {
                 "answerText": "Interpersonal & Empathetic (listening, counseling, cross-cultural communication).",
-                "nextQuestionId": "q9_common_work_style"
+                "nextQuestionId": "q9_common_work_style",
+                "inferredInformation": {
+                    "skills": ["Communication", "Empathy", "Counseling"]
+                }
             },
             {
                 "answerText": "Technical & Digital (coding, web development, software management, cybersecurity).",
-                "nextQuestionId": "q9_common_work_style"
+                "nextQuestionId": "q9_common_work_style",
+                "inferredInformation": {
+                    "skills": ["Coding", "Web Development", "IT Management"]
+                }
             },
             {
                 "answerText": "Creative & Artistic (writing, graphic design, photography, videography, music).",
-                "nextQuestionId": "q9_common_work_style"
+                "nextQuestionId": "q9_common_work_style",
+                "inferredInformation": {
+                    "skills": ["Writing", "Graphic Design", "Creative"]
+                }
             },
             {
                 "answerText": "Logistical & Organizational (event planning, scheduling, resource management, project management).",
-                "nextQuestionId": "q9_common_work_style"
+                "nextQuestionId": "q9_common_work_style",
+                "inferredInformation": {
+                    "skills": [
+                        "Event Planning",
+                        "Logistics",
+                        "Project Management"
+                    ]
+                }
             }
         ]
     },
@@ -1247,19 +2009,31 @@
         "answerOptions": [
             {
                 "answerText": "Independent work with clear goals.",
-                "nextQuestionId": "q10_final_comments"
+                "nextQuestionId": "q10_final_comments",
+                "inferredInformation": {
+                    "workStyle": ["independent"]
+                }
             },
             {
                 "answerText": "Collaborative team environment.",
-                "nextQuestionId": "q10_final_comments"
+                "nextQuestionId": "q10_final_comments",
+                "inferredInformation": {
+                    "workStyle": ["team-based"]
+                }
             },
             {
                 "answerText": "Leadership or mentoring new volunteers.",
-                "nextQuestionId": "q10_final_comments"
+                "nextQuestionId": "q10_final_comments",
+                "inferredInformation": {
+                    "workStyle": ["leadership", "mentoring"]
+                }
             },
             {
                 "answerText": "Flexible mix of independent and team tasks.",
-                "nextQuestionId": "q10_final_comments"
+                "nextQuestionId": "q10_final_comments",
+                "inferredInformation": {
+                    "workStyle": ["flexible"]
+                }
             }
         ]
     },
@@ -1269,11 +2043,17 @@
         "answerOptions": [
             {
                 "answerText": "Are you actively looking for NGOs to work with",
-                "nextQuestionId": null
+                "nextQuestionId": null,
+                "inferredInformation": {
+                    "intent": "active"
+                }
             },
             {
                 "answerText": "No, I'm just exploring.",
-                "nextQuestionId": null
+                "nextQuestionId": null,
+                "inferredInformation": {
+                    "intent": "exploring"
+                }
             }
         ]
     }

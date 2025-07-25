@@ -15,12 +15,14 @@ const skillSurveyRoutes = require("./routes/skillSurveyRoutes");
 const taskRoutes = require("./routes/taskRoutes");
 const categoryRoutes = require("./routes/categoryRoutes");
 const chatBotRoutes = require("./routes/chatBotRoutes");
-
+const quizRoutes = require("./routes/quizRoutes");
+const ngoRecommendationRoutes = require("./routes/ngoRecommendationRoutes");
 const app = express();
 app.use(express.json());
 app.use(cors());
 
 app.use("/api/auth", authRoutes);
+app.use("/api/ngosRecommendations", ngoRecommendationRoutes);
 app.use("/api/categories", categoryRoutes);
 app.use("/api/chatbot", chatBotRoutes);
 app.use("/api/donations", donationRoutes);
@@ -30,6 +32,11 @@ app.use("/api/payments", paymentRoutes);
 app.use("/api/skill-surveys", skillSurveyRoutes);
 app.use("/api/tasks", taskRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/quiz", quizRoutes);
+
+app.get("/api/test", (req, res) => {
+    res.json({ message: "Backend is working!" });
+});
 
 async function run() {
     try {

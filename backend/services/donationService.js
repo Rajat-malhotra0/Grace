@@ -6,7 +6,7 @@ async function createDonation(data) {
         await donation.save();
         return donation;
     } catch (error) {
-        console.error("Error creating donation:", error);
+        throw error;
     }
 }
 
@@ -15,7 +15,7 @@ async function readDonations(filter = {}) {
         const donations = await Donation.find(filter);
         return donations;
     } catch (error) {
-        console.error("Error reading donations:", error);
+        throw error;
     }
 }
 
@@ -26,7 +26,7 @@ async function updateDonation(filter = {}, data = {}) {
         });
         return donation;
     } catch (error) {
-        console.error("Error updating donation:", error);
+        throw error;
     }
 }
 
@@ -34,7 +34,7 @@ async function deleteDonation(filter = {}) {
     try {
         await Donation.deleteOne(filter);
     } catch (error) {
-        console.error("Error deleting donation:", error);
+        throw error;
     }
 }
 

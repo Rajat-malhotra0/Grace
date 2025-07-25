@@ -11,7 +11,6 @@ const { Document } = require("@langchain/core/documents");
 const collectionName = "help_articles";
 
 if (!process.env.GEMINI_API_KEY) {
-    console.error("Missing GEMINI_API_KEY in environment variables");
     process.exit(1);
 }
 

@@ -6,7 +6,7 @@ async function createUser(data) {
         await user.save();
         return user;
     } catch (error) {
-        console.error("Error creating user:", error);
+        throw error;
     }
 }
 
@@ -15,7 +15,7 @@ async function readUsers(filter = {}) {
         const users = await User.find(filter);
         return users;
     } catch (error) {
-        console.error("Error reading users:", error);
+        throw error;
     }
 }
 
@@ -26,7 +26,7 @@ async function updateUser(filter = {}, data = {}) {
         });
         return user;
     } catch (error) {
-        console.error("Error updating user:", error);
+        throw error;
     }
 }
 
@@ -34,7 +34,7 @@ async function deleteUser(filter = {}) {
     try {
         await User.deleteOne(filter);
     } catch (error) {
-        console.error("Error deleting user by filter:", error);
+        throw error;
     }
 }
 

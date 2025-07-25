@@ -6,7 +6,7 @@ async function createPayment(data) {
         await payment.save();
         return payment;
     } catch (error) {
-        console.error("Error creating payment:", error);
+        throw error;
     }
 }
 
@@ -15,7 +15,7 @@ async function readPayments(filter = {}) {
         const payments = await Payment.find(filter);
         return payments;
     } catch (error) {
-        console.error("Error reading payments:", error);
+        throw error;
     }
 }
 
@@ -26,7 +26,7 @@ async function updatePayment(filter = {}, data = {}) {
         });
         return payment;
     } catch (error) {
-        console.error("Error updating payment:", error);
+        throw error;
     }
 }
 
@@ -34,7 +34,7 @@ async function deletePayment(filter = {}) {
     try {
         await Payment.deleteOne(filter);
     } catch (error) {
-        console.error("Error deleting payment:", error);
+        throw error;
     }
 }
 

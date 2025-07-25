@@ -6,7 +6,7 @@ async function createNgo(data) {
         await ngo.save();
         return ngo;
     } catch (error) {
-        console.error("Error creating NGO:", error);
+        throw error;
     }
 }
 
@@ -15,7 +15,7 @@ async function readNgos(filter = {}) {
         const ngos = await Ngo.find(filter);
         return ngos;
     } catch (error) {
-        console.error("Error reading NGOs:", error);
+        throw error;
     }
 }
 
@@ -26,7 +26,7 @@ async function updateNgo(filter = {}, data = {}) {
         });
         return ngo;
     } catch (error) {
-        console.error("Error updating NGO:", error);
+        throw error;
     }
 }
 
@@ -34,7 +34,7 @@ async function deleteNgo(filter = {}) {
     try {
         await Ngo.deleteOne(filter);
     } catch (error) {
-        console.error("Error deleting NGO:", error);
+        throw error;
     }
 }
 

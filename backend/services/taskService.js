@@ -6,7 +6,7 @@ async function createTask(data) {
         await task.save();
         return task;
     } catch (error) {
-        console.error("Error creating task:", error);
+        throw error;
     }
 }
 
@@ -15,7 +15,7 @@ async function readTasks(filter = {}) {
         const tasks = await Task.find(filter);
         return tasks;
     } catch (error) {
-        console.error("Error reading tasks:", error);
+        throw error;
     }
 }
 
@@ -26,7 +26,7 @@ async function updateTask(filter = {}, data = {}) {
         });
         return task;
     } catch (error) {
-        console.error("Error updating task:", error);
+        throw error;
     }
 }
 
@@ -34,7 +34,7 @@ async function deleteTask(filter = {}) {
     try {
         await Task.deleteOne(filter);
     } catch (error) {
-        console.error("Error deleting task:", error);
+        throw error;
     }
 }
 

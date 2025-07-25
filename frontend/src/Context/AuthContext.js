@@ -51,11 +51,11 @@ function AuthProvider({ children }) {
                         clearAuth();
                     }
                 } catch (error) {
-                    console.error("Token verification failed:", error);
+                    // Token verification failed
                 }
             }
         } catch (error) {
-            console.error("Auth initialization error:", error);
+            // Auth initialization error
         }
     }
 
@@ -105,7 +105,6 @@ function AuthProvider({ children }) {
                 };
             }
         } catch (error) {
-            console.error("Login error:", error);
             return {
                 success: false,
                 message: "Login failed",
@@ -147,7 +146,6 @@ function AuthProvider({ children }) {
                 };
             }
         } catch (error) {
-            console.error("Registration error:", error);
             return {
                 success: false,
                 message: "Registration failed",
@@ -161,7 +159,7 @@ function AuthProvider({ children }) {
                 await axios.post("http://localhost:3001/api/auth/logout");
             }
         } catch (error) {
-            console.log("Logout error: ", error);
+            // Logout error
         } finally {
             clearAuth();
         }

@@ -6,7 +6,6 @@ async function createCategory(data) {
         await category.save();
         return category;
     } catch (error) {
-        console.error("Error creating category:", error);
         throw error;
     }
 }
@@ -16,7 +15,6 @@ async function readCategories(filter = {}) {
         const categories = await Category.find(filter);
         return categories;
     } catch (error) {
-        console.error("Error reading categories:", error);
         throw error;
     }
 }
@@ -28,7 +26,6 @@ async function updateCategory(filter = {}, data = {}) {
         });
         return category;
     } catch (error) {
-        console.error("Error updating category:", error);
         throw error;
     }
 }
@@ -37,7 +34,6 @@ async function deleteCategory(filter = {}) {
     try {
         await Category.deleteOne(filter);
     } catch (error) {
-        console.error("Error deleting category:", error);
         throw error;
     }
 }

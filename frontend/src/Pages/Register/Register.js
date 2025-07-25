@@ -30,7 +30,7 @@ function Register() {
                     setCategories(response.data.result);
                 }
             } catch (err) {
-                console.log("error fetching categories", err);
+                // Error fetching categories
             }
         }
         fetchCategories();
@@ -191,7 +191,7 @@ function Register() {
             return;
         }
 
-        let payload = {
+        let basePayload = {
             userName: formData.name,
             email: formData.email,
             password: formData.password,
@@ -210,8 +210,10 @@ function Register() {
         };
 
         let isNgo = formData.role === "ngo";
+        let payload;
         if (isNgo) {
             payload = {
+                ...basePayload,
                 organizationName: formData.organizationName,
                 registrationNumber: formData.registrationNumber,
                 description: formData.description,
@@ -221,6 +223,8 @@ function Register() {
             };
         } else if (formData.role === "volunteer") {
             payload = {
+                ...basePayload,
+
                 volunteerType: formData.volunteerType,
                 organization: {
                     name: formData.organizationName,
@@ -232,10 +236,11 @@ function Register() {
                 },
                 about: formData.about,
             };
+        } else {
+            payload = basePayload;
         }
 
         console.log(payload);
-
         const result = await register(payload, isNgo);
 
         if (result && result.success) {

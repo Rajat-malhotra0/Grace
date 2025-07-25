@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import "./NgoCarousel.css";
 import NgoCard from "./NgoCard";
 import ngoData from "./MockNgoData";
-import Button from '../../Components/Button';
 
 const filterCategories = [
   "All",

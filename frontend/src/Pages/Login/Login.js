@@ -47,7 +47,7 @@ function Login() {
                 navigate("/");
             }
         } catch (err) {
-            console.log(err);
+            // Login error
         }
     };
 

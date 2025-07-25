@@ -236,6 +236,8 @@ function generateToken(user) {
 
 function sanitizeUser(user) {
     return {
+        //Clean up this dual id thing later
+        _id: user._id,
         id: user._id,
         userName: user.userName,
         email: user.email,
@@ -258,4 +260,6 @@ module.exports = {
     verifyToken,
     logoutUser,
     getUserProfile,
+    generateToken,
+    sanitizeUser,
 };
