@@ -25,7 +25,7 @@ const services = [
       "Our intelligent app simplifies NGO operations — from inventory and event planning to volunteer and donor management. You focus on creating change; we’ll take care of the details.",
     bgColor: "bg-pink",
     image: graceAppImg,
-    buttonText: "Explore the App",
+    buttonText: "Learn more",
   },
   {
     id: "volunteer",

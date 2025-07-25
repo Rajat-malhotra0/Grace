@@ -135,3 +135,11 @@
     font-size: 1.5rem;
   }
 }
+
+.particles-wrapper {
+  position: absolute;
+  inset: 0;
+  z-index: 5; /* matches black-bg's original z-index */
+  pointer-events: none; /* allows interaction with hover areas */
+  background-color: black;
+}
