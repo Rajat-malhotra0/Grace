@@ -278,7 +278,7 @@ function Register() {
                 Hi there! we are so happy, you found us.
                 <br />
                 You're just a few steps away from joining our community of
-                changemakers
+                changemakers.
             </p>
             <span>Create an account</span>
             <form onSubmit={handleSubmit}>

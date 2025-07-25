@@ -1,5 +1,5 @@
 /* Volunteer Analytics Dashboard Styles */
-.service-page {
+.volunteer-page {
   min-height: 100vh;
   background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
   font-family: 'Playfair Display', serif;
@@ -7,7 +7,7 @@
   padding: 2rem;
 }
 
-.service-header {
+.volunteer-header {
   text-align: center;
   margin-bottom: 3rem;
   padding: 2rem 0;
@@ -16,7 +16,7 @@
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
-.service-header h1 {
+.volunteer-header h1 {
   font-size: 2.5rem;
   font-weight: 700;
   color: #222;
@@ -24,7 +24,7 @@
   font-family: 'Playfair Display', serif;
 }
 
-.service-header p {
+.volunteer-header p {
   font-size: 1.1rem;
   color: #555;
   margin-bottom: 1.5rem;
@@ -62,7 +62,6 @@
   outline: none;
 }
 
-/* Loading State */
 .loading-container {
   display: flex;
   flex-direction: column;
@@ -87,7 +86,6 @@
   100% { transform: rotate(360deg); }
 }
 
-/* Metrics Overview */
 .metrics-overview {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -125,7 +123,6 @@
   font-family: 'Playfair Display', serif;
 }
 
-/* Insight Sections */
 .insight-section {
   background: white;
   margin-bottom: 2.5rem;
@@ -145,7 +142,6 @@
   font-family: 'Playfair Display', serif;
 }
 
-/* Most Engaged Roles */
 .roles-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -199,7 +195,6 @@
   transition: width 0.5s ease;
 }
 
-/* Volunteer Origins */
 .origins-container {
   padding: 2rem;
 }
@@ -244,7 +239,6 @@
   transition: width 0.5s ease;
 }
 
-/* Repeat Volunteers Table */
 .repeat-volunteers-table {
   padding: 2rem;
 }
@@ -314,7 +308,6 @@
   color: #92400e;
 }
 
-/* Availability Stats */
 .availability-stats {
   display: grid;
   grid-template-columns: 1fr 2fr;
@@ -374,7 +367,6 @@
   transition: width 0.5s ease;
 }
 
-/* Quiz Stats */
 .quiz-stats {
   padding: 2rem;
 }
@@ -450,13 +442,13 @@
   border-color: #222;
 }
 
-/* Responsive Design */
+
 @media (max-width: 768px) {
-  .service-page {
+  .volunteer-page {
     padding: 1rem;
   }
-  
-  .service-header h1 {
+
+  .volunteer-header h1 {
     font-size: 2rem;
   }
   
@@ -491,7 +483,7 @@
 }
 
 @media (max-width: 480px) {
-  .service-header {
+  .volunteer-header {
     padding: 1rem;
   }
   
