@@ -11,6 +11,13 @@ function UploadModal({
 }) {
   if (!show) return null;
 
+  console.log('UploadModal rendered:', { 
+    show, 
+    hasPreview: !!newPost.preview, 
+    caption: newPost.caption,
+    hasOnSubmit: !!onSubmit 
+  });
+
   return (
     <div className="upload-overlay" onClick={onClose}>
       <div className="upload-modal" onClick={(e) => e.stopPropagation()}>
@@ -54,33 +61,31 @@ function UploadModal({
                   className="preview-image"
                 />
               )}
-            </div>
-          )}
-
-          {newPost.preview && (
-            <div className="caption-area">
-              <textarea
-                placeholder="Write a caption for your post..."
-                value={newPost.caption}
-                onChange={onCaptionChange}
-                className="caption-input"
-                rows="4"
-              />
               
-              <div className="upload-actions">
-                <button 
-                  className="cancel-btn"
-                  onClick={onClose}
-                >
-                  Cancel
-                </button>
-                <button 
-                  className="post-btn"
-                  onClick={onSubmit}
-                  disabled={!newPost.caption.trim()}
-                >
-                  Share Post
-                </button>
+              <div className="caption-area">
+                <textarea
+                  placeholder="Write a caption for your post..."
+                  value={newPost.caption}
+                  onChange={onCaptionChange}
+                  className="caption-input"
+                  rows="4"
+                />
+                
+                <div className="upload-actions">
+                  <button 
+                    className="cancel-btn"
+                    onClick={onClose}
+                  >
+                    Cancel
+                  </button>
+                  <button 
+                    className="post-btn"
+                    onClick={onSubmit}
+                    disabled={!newPost.preview}
+                  >
+                    Share Post
+                  </button>
+                </div>
               </div>
             </div>
           )}

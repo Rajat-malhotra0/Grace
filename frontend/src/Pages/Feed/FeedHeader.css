@@ -3,12 +3,13 @@
 :root {
   --font-serif: "Playfair Display", serif;
   --color-text: #2e2e2e;
-  --color-text-light: #555;
+  --color-text-light: #666;
   --color-card: #ffffff;
-  --color-primary: #333;
-  --color-primary-hover: #444;
+  --color-primary: #8B4513;
+  --color-primary-hover: #A0522D;
   --border-radius: 0.75rem;
   --transition: all 0.3s ease;
+  --shadow-light: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .feed-header {
@@ -17,7 +18,7 @@
   padding: 2rem 0;
   background: var(--color-card);
   border-radius: var(--border-radius);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-light);
 }
 
 .feed-header h1 {

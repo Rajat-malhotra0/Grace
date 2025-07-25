@@ -3,10 +3,10 @@
 :root {
   --font-serif: "Playfair Display", serif;
   --color-text: #2e2e2e;
-  --color-text-light: #555;
+  --color-text-light: #666;
   --color-card: #ffffff;
-  --color-primary: #333;
-  --color-primary-hover: #444;
+  --color-primary: #8B4513;
+  --color-primary-hover: #A0522D;
   --color-accent: #f9f9f9;
   --border-radius: 0.75rem;
   --transition: all 0.3s ease;
@@ -32,10 +32,12 @@
   border-radius: var(--border-radius);
   max-width: 600px;
   width: 100%;
-  max-height: 80vh;
-  overflow: hidden;
+  max-height: 90vh;
+  overflow-y: auto;
   position: relative;
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
 }
 
 .upload-header {
@@ -116,23 +118,34 @@
 
 .upload-preview {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
+  margin-top: 1rem;
+}
+
+.upload-preview-section {
+  margin-top: 30px;
+  padding: 0 30px 40px 30px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .preview-image,
 .preview-video {
   max-width: 100%;
-  max-height: 300px;
+  max-height: 250px;
   border-radius: 0.5rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .caption-area {
   margin-top: 2rem;
+  margin-bottom: 1rem;
 }
 
 .caption-input {
-  width: 100%;
+  width: 90%;
   min-height: 100px;
   padding: 1rem;
   border: 1px solid var(--color-accent);
@@ -142,7 +155,7 @@
   color: var(--color-text);
   background: var(--color-card);
   resize: vertical;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .caption-input:focus {
@@ -160,6 +173,10 @@
   display: flex;
   gap: 1rem;
   justify-content: flex-end;
+  margin-top: 1rem;
+  padding: 1rem 0;
+  border-top: 1px solid var(--color-accent);
+  margin-bottom: 0;
 }
 
 .cancel-btn,

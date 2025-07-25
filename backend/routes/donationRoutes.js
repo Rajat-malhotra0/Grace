@@ -85,7 +85,7 @@ router.get(
         }
         try {
             const filter = req.query;
-            const donations = await donationService.readDonations(filter);
+            const donations = await donationService.readDonations(filter).sort({ createdAt: -1 });
             return res.status(200).json({
                 success: true,
                 message: "Donations retrieved successfully",

@@ -3,17 +3,22 @@
 :root {
   --font-serif: "Playfair Display", serif;
   --color-text: #2e2e2e;
+  --color-text-light: #666;
   --color-card: #ffffff;
   --color-accent: #f9f9f9;
+  --color-primary: #8B4513;
+  --color-primary-hover: #A0522D;
   --border-radius: 0.75rem;
   --transition: all 0.3s ease;
+  --shadow-light: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-medium: 0 4px 20px rgba(0, 0, 0, 0.12);
 }
 
 .post-card {
   background: var(--color-card);
   border-radius: var(--border-radius);
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-light);
   cursor: pointer;
   transition: var(--transition);
   break-inside: avoid;
@@ -25,7 +30,7 @@
 
 .post-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow-medium);
 }
 
 .post-card.small .post-media {
@@ -202,4 +207,22 @@
   .post-overlay {
     padding: 1.5rem 1rem 1rem;
   }
+}
+
+.stat.liked {
+  color: #e74c3c;
+  font-weight: 600;
+}
+
+.stat.liked:hover {
+  color: #c0392b;
+}
+
+.stat {
+  transition: var(--transition);
+}
+
+.stat:hover {
+  color: #333;
+  transform: scale(1.05);
 }
