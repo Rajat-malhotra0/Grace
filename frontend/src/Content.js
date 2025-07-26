@@ -10,6 +10,8 @@ import GraceFeed from "./Pages/Feed/Feed";
 import Marketplace from "./Pages/Marketplace/Marketplace";
 import Donations from "./Pages/Donations/Donations";
 import Engagement from "./Pages/Engagement/Engagement";
+import Volunteer from "./Pages/volunteer/volunteer";
+import ImpactStories from "./Pages/Home/ImpactStories";
 function Content() {
     return (
         <Routes>
@@ -23,6 +25,8 @@ function Content() {
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path = "/volunteer" element ={<Volunteer />} />
+            <Route path = "/impact-stories" element ={<ImpactStories/>} /> 
         </Routes>
     );
 }

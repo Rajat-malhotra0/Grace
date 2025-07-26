@@ -1,7 +1,7 @@
 .grace-button {
   padding: 0.75rem 1.5rem;
   background-color: #222;
-  color: white;
+  color: rgb(255, 255, 255);
   font-weight: bold;
   border: none;
   border-radius: 1rem;
@@ -10,7 +10,7 @@
 }
 
 .grace-button:hover {
-  background-color: #555;
+  background-color: #ffd5d5;
 }
 
 .btn-outline {

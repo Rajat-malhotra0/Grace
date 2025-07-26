@@ -41,7 +41,7 @@
 .dark-overlay {
   position: absolute;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0);
   z-index: 10;
 }
 
@@ -109,6 +109,7 @@
   font-weight: 400;
   letter-spacing: 0.1em;
   margin-bottom: 1.5rem;
+  color: white;
 }
 
 .hero-hover-subtext {
@@ -117,6 +118,7 @@
   font-weight: 300;
   opacity: 0.9;
   letter-spacing: 0.03em;
+  color:white;
 }
 
 /* Mobile responsive */

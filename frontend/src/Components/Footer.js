@@ -10,7 +10,7 @@ function Footer() {
         <ul className="footer-links">
           <li><Link to="/about">About Us</Link></li>
           <li><Link to="/volunteer">Volunteer</Link></li>
-          <li><Link to="/donate">Donate</Link></li>
+          <li><Link to="/donations">Donations</Link></li>
           <li><Link to="/grace-app">Grace App</Link></li>
           <li><Link to="/register-ngo">Register NGO</Link></li>
           <li><Link to="/quiz">Quiz</Link></li>
