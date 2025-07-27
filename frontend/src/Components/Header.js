@@ -12,7 +12,7 @@ function Header() {
 
     const handleServicesClick = (e) => {
         e.preventDefault();
-        if (location.pathname === '/') {
+        if (location.pathname === "/") {
             const servicesSection = document.querySelector(".service-section");
             if (servicesSection) {
                 servicesSection.scrollIntoView({
@@ -20,9 +20,10 @@ function Header() {
                 });
             }
         } else {
-            navigate('/');
+            navigate("/");
             setTimeout(() => {
-                const servicesSection = document.querySelector(".service-section");
+                const servicesSection =
+                    document.querySelector(".service-section");
                 if (servicesSection) {
                     servicesSection.scrollIntoView({
                         behavior: "smooth",
@@ -48,8 +49,8 @@ function Header() {
                 <nav className="nav-links">
                     <Link to="/">Home</Link>
                     <Link to="/about">Who are we?</Link>
-                    <Link 
-                        id="services-link" 
+                    <Link
+                        id="services-link"
                         to="#"
                         onClick={handleServicesClick}
                     >
@@ -58,19 +59,15 @@ function Header() {
                     <Link to="/feed">Feed</Link>
                 </nav>
 
-                <div className="nav-button">
+                <div className="nav-actions">
                     {isAuthenticated ? (
-                        <div className="user-menu">
-                            <Link to="/profile">
-                                <Button
-                                    text={`Welcome, ${
-                                        user?.userName || "User"
-                                    }`}
-                                />
-                            </Link>
-                        </div>
+                        <Link to="/profile" className="user-menu">
+                            <Button
+                                text={`Welcome, ${user?.userName || "User"}`}
+                            />
+                        </Link>
                     ) : (
-                        <Link to="/register">
+                        <Link to="/register" className="nav-button">
                             <Button text="Get Started" />
                         </Link>
                     )}

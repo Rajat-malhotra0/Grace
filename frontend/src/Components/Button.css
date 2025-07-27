@@ -1,20 +1,21 @@
 .grace-button {
-  padding: 0.75rem 1.5rem;
-  background-color: #222;
-  color: rgb(255, 255, 255);
-  font-weight: bold;
-  border: none;
-  border-radius: 1rem;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+    margin: 0; /* This overrides the browser's default margin */
+    padding: 0.75rem 1.5rem;
+    background-color: #222;
+    color: rgb(255, 255, 255);
+    font-weight: bold;
+    border: none;
+    border-radius: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 .grace-button:hover {
-  background-color: #ffd5d5;
+    background-color: #ffd5d5;
 }
 
 .btn-outline {
-  background-color: transparent;
-  border: 2px solid white;
-  color: white;
+    background-color: transparent;
+    border: 2px solid white;
+    color: white;
 }
