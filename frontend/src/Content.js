@@ -18,7 +18,7 @@ function Content() {
             <Route path="/feed" element={<GraceFeed />} />
             <Route path="/Quiz" element={<Quiz />} />
             <Route path="/marketplace" element={<Marketplace />} />
-            <Route path="/donations" element={<Donation />} />
+            <Route path="/donate" element={<Donation />} />
             <Route path="/engagement" element={<Engagement />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />

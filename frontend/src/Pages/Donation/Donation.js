@@ -4,82 +4,54 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Context/AuthContext";
 import { toast } from "react-toastify";
 import "./Donation.css";
+import DonationModal from "../../Components/DonationModal"; // Import the modal
 
 const Donations = () => {
     const { user, isAuthenticated, isAuthLoading } = useContext(AuthContext);
     const navigate = useNavigate();
 
+    const [ngos, setNgos] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [donationAmount, setDonationAmount] = useState(500);
+    const [selectedNgo, setSelectedNgo] = useState(null);
 
     useEffect(() => {
+        // This effect handles the initial auth check and page loading state
         if (isAuthLoading) {
-            return;
+            return; // Wait until auth check is complete
         }
+        // Page is ready once auth check is done
+        setLoading(false);
+    }, [isAuthLoading]);
 
+    useEffect(() => {
+        // This effect fetches the list of NGOs when the component mounts
+        const fetchNgos = async () => {
+            try {
+                const response = await axios.get(
+                    "http://localhost:3001/api/ngos"
+                );
+                setNgos(response.data.result);
+            } catch (error) {
+                console.error("Failed to fetch NGOs:", error);
+                toast.error("Could not load the list of NGOs.");
+            }
+        };
+
+        fetchNgos();
+    }, []); // Runs once
+
+    const handleDonateClick = (ngo) => {
+        // Check for authentication before opening the modal
         if (!isAuthenticated) {
             toast.info("Please log in to make a donation.");
             navigate("/login");
-        }
-        setLoading(false);
-    }, [isAuthenticated, navigate, isAuthLoading]);
-
-   
-    const handleDonate = async () => {
-        if (!isAuthenticated || !user) {
-            toast.error("You must be logged in to donate.");
-            navigate("/login");
             return;
         }
+        setSelectedNgo(ngo);
+    };
 
-        try {
-            const orderResponse = await axios.post(
-                "http://localhost:3001/api/payments/create-order",
-                {
-                    amount: donationAmount,
-                }
-            );
-            const order = orderResponse.data;
-
-            const options = {
-                key: process.env.REACT_APP_RAZORPAY_KEY_ID,
-                amount: order.amount,
-                currency: order.currency,
-                name: "Grace",
-                description: "Donation to a good cause",
-                order_id: order.id,
-                handler: async function (response) {
-                    try {
-                        const verificationResponse = await axios.post(
-                            "http://localhost:3001/api/payments/verify-payment",
-                            {
-                                ...response,
-                                amount: order.amount,
-                                user: user._id,
-                            }
-                        );
-                        toast.success(verificationResponse.data.message);
-                    } catch (error) {
-                        toast.error(
-                            "Payment verification failed. Please contact support."
-                        );
-                    }
-                },
-                prefill: {
-                    name: user.name,
-                    email: user.email,
-                },
-                theme: {
-                    color: "#222222",
-                },
-            };
-
-            const rzp = new window.Razorpay(options);
-            rzp.open();
-        } catch (error) {
-            console.error("Donation failed:", error);
-            toast.error("Donation failed. Please try again.");
-        }
+    const handleCloseModal = () => {
+        setSelectedNgo(null);
     };
 
     if (isAuthLoading || loading) {
@@ -89,35 +61,40 @@ const Donations = () => {
     return (
         <div className="donations-page">
             <div className="donations-header">
-                <h1>Make a Difference</h1>
+                <h1>Find a Cause to Support</h1>
                 <p>
-                    Your contribution fuels our mission and creates lasting
-                    change.
+                    Browse our directory of trusted NGOs and make a direct
+                    impact.
                 </p>
             </div>
 
-            <div className="donations-content-grid">
-                <div className="donation-form-card">
-                    <h3>Give with Heart</h3>
-                    <p>
-                        Every donation, big or small, helps us continue our
-                        work.
-                    </p>
-                    <div className="donation-input-group">
-                        <span className="currency-symbol">₹</span>
-                        <input
-                            type="number"
-                            value={donationAmount}
-                            onChange={(e) => setDonationAmount(e.target.value)}
-                            placeholder="500"
-                            className="donation-input"
-                        />
-                    </div>
-                    <button onClick={handleDonate} className="donation-button">
-                        Donate Now
-                    </button>
-                </div>
+            <div className="ngo-list-container">
+                {ngos.length > 0 ? (
+                    ngos.map((ngo) => (
+                        <div key={ngo._id} className="ngo-list-item">
+                            <div className="ngo-list-info">
+                                <h3>{ngo.name}</h3>
+                                <p>{ngo.description}</p>
+                            </div>
+                            <div className="ngo-list-action">
+                                <button
+                                    onClick={() => handleDonateClick(ngo)}
+                                    className="donation-button"
+                                >
+                                    Donate
+                                </button>
+                            </div>
+                        </div>
+                    ))
+                ) : (
+                    <p>No NGOs found.</p>
+                )}
             </div>
+
+            {/* Conditionally render the modal when an NGO is selected */}
+            {selectedNgo && (
+                <DonationModal ngo={selectedNgo} onClose={handleCloseModal} />
+            )}
         </div>
     );
 };

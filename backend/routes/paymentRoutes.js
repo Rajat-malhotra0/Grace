@@ -41,7 +41,8 @@ router.post("/verify-payment", async (req, res) => {
         razorpay_payment_id,
         razorpay_signature,
         amount,
-        user, // Assuming you send the user ID from the frontend
+        user,
+        ngoId // Assuming you send the user ID from the frontend
     } = req.body;
 
     // As requested, skipping signature verification.
@@ -50,6 +51,7 @@ router.post("/verify-payment", async (req, res) => {
     try {
         const paymentData = {
             user,
+            ngo: ngoId,
             amount: amount / 100, // Convert back to rupees
             currency: "INR",
             status: "completed",

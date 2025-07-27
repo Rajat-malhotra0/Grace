@@ -1,6 +1,6 @@
 /* --- Page Layout & Theme --- */
 .donations-page {
-    background: #f8f9fa;
+    background: #f8f9fa; /* Light gray page background */
     min-height: 100vh;
     font-family: "Poppins", sans-serif;
 }
@@ -14,16 +14,13 @@
     color: #666;
 }
 
-/* --- Page Header --- */
+/* --- Page Header (Unchanged) --- */
 .donations-header {
-    background: linear-gradient(
-        135deg,
-        #333 0%,
-        #111 100%
-    ); /* Changed to black gradient */
+    background: linear-gradient(135deg, #333 0%, #111 100%);
     color: white;
     padding: 4rem 2rem;
     text-align: center;
+    margin-bottom: -4rem; /* Allows the list to overlap slightly */
 }
 
 .donations-header h1 {
@@ -40,76 +37,43 @@
     margin: 0 auto;
 }
 
-/* --- Main Content Grid --- */
-.donations-content-grid {
-    max-width: 600px;
-    margin: -3rem auto 2rem auto;
-    padding: 0 1rem;
+/* --- NGO List Container (NEW STYLES) --- */
+.ngo-list-container {
+    max-width: 900px; /* Controls the width of the content */
+    margin: 0 auto;
+    padding: 6rem 1rem 4rem 1rem; /* Top padding creates space from header */
     position: relative;
     z-index: 10;
+    display: grid;
+    gap: 2rem; /* Space between each NGO item */
 }
 
-/* --- Donation Form Card --- */
-.donation-form-card {
+/* --- Individual NGO Item (NEW STYLES) --- */
+.ngo-list-item {
     background: #ffffff;
     border-radius: 12px;
     padding: 2.5rem;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-    text-align: center;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.07);
+    display: flex;
+    flex-direction: column; /* Stacks info and button vertically */
+    gap: 1.5rem; /* Space between info and button */
 }
 
-.donation-form-card h3 {
+/* --- NGO Info Section (NEW STYLES) --- */
+.ngo-list-info h3 {
     font-family: "Playfair Display", serif;
     font-size: 2rem;
-    color: #333;
-    margin: 0 0 0.5rem 0;
+    color: #222;
+    margin: 0 0 0.75rem 0;
 }
 
-.donation-form-card p {
-    color: #666;
-    margin-bottom: 2rem;
-}
-
-.donation-input-group {
-    display: flex;
-    align-items: center;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    margin-bottom: 1.5rem;
-    transition: border-color 0.3s, box-shadow 0.3s;
-}
-
-.donation-input-group:focus-within {
-    border-color: #333; /* Changed to dark grey */
-    box-shadow: 0 0 0 3px rgba(51, 51, 51, 0.1); /* Changed to dark grey shadow */
-}
-
-.currency-symbol {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #333; /* Changed to dark grey */
-    padding: 0 1rem;
-}
-
-.donation-input {
-    flex-grow: 1;
-    border: none;
-    outline: none;
-    padding: 1rem 0.5rem;
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: #333;
-    background: transparent;
-    width: 100%;
-    -moz-appearance: textfield;
-}
-
-.donation-input::-webkit-outer-spin-button,
-.donation-input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
+.ngo-list-info p {
+    color: #555;
+    line-height: 1.7;
     margin: 0;
 }
 
+/* --- Donation Button (EXISTING STYLES, UNCHANGED) --- */
 .donation-button {
     width: 100%;
     padding: 1rem;
@@ -121,6 +85,7 @@
     font-weight: 600;
     cursor: pointer;
     transition: background-color 0.3s, transform 0.2s;
+    margin-top: auto; /* Pushes button to bottom if content heights vary */
 }
 
 .donation-button:hover {
