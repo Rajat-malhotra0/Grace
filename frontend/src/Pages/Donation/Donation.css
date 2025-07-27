@@ -1,0 +1,129 @@
+/* --- Page Layout & Theme --- */
+.donations-page {
+    background: #f8f9fa;
+    min-height: 100vh;
+    font-family: "Poppins", sans-serif;
+}
+
+.loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+    font-size: 1.2rem;
+    color: #666;
+}
+
+/* --- Page Header --- */
+.donations-header {
+    background: linear-gradient(
+        135deg,
+        #333 0%,
+        #111 100%
+    ); /* Changed to black gradient */
+    color: white;
+    padding: 4rem 2rem;
+    text-align: center;
+}
+
+.donations-header h1 {
+    font-family: "Playfair Display", serif;
+    font-size: 3rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem 0;
+}
+
+.donations-header p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* --- Main Content Grid --- */
+.donations-content-grid {
+    max-width: 600px;
+    margin: -3rem auto 2rem auto;
+    padding: 0 1rem;
+    position: relative;
+    z-index: 10;
+}
+
+/* --- Donation Form Card --- */
+.donation-form-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 2.5rem;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    text-align: center;
+}
+
+.donation-form-card h3 {
+    font-family: "Playfair Display", serif;
+    font-size: 2rem;
+    color: #333;
+    margin: 0 0 0.5rem 0;
+}
+
+.donation-form-card p {
+    color: #666;
+    margin-bottom: 2rem;
+}
+
+.donation-input-group {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.donation-input-group:focus-within {
+    border-color: #333; /* Changed to dark grey */
+    box-shadow: 0 0 0 3px rgba(51, 51, 51, 0.1); /* Changed to dark grey shadow */
+}
+
+.currency-symbol {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #333; /* Changed to dark grey */
+    padding: 0 1rem;
+}
+
+.donation-input {
+    flex-grow: 1;
+    border: none;
+    outline: none;
+    padding: 1rem 0.5rem;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #333;
+    background: transparent;
+    width: 100%;
+    -moz-appearance: textfield;
+}
+
+.donation-input::-webkit-outer-spin-button,
+.donation-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.donation-button {
+    width: 100%;
+    padding: 1rem;
+    background-color: #222;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.donation-button:hover {
+    background-color: #000;
+    transform: translateY(-2px);
+}

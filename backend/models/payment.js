@@ -10,6 +10,9 @@ const paymentSchema = new mongoose.Schema({
         default: "pending",
     },
     transactionId: { type: String, unique: true },
+    razorpay_order_id: { type: String },
+    razorpay_payment_id: { type: String },
+    razorpay_signature: { type: String },
     createdAt: { type: Date, default: Date.now, immutable: true },
 });
 
