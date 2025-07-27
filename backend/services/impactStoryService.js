@@ -67,6 +67,14 @@ async function readImpactStories(filter = {}) {
     }
 }
 
+async function readLatestImpactStories(count = 3) {
+    const latestStories = await ImpactStory.find({})
+        .sort("-createdAt")
+        .limit(count);
+
+    return latestStories;
+}
+
 async function updateImpactStory(filter = {}, data = {}) {
     try {
         const impactStory = await ImpactStory.findOneAndUpdate(filter, data, {
@@ -89,6 +97,7 @@ async function deleteImpactStory(filter = {}) {
 module.exports = {
     createImpactStory,
     readImpactStories,
+    readLatestImpactStories,
     updateImpactStory,
     deleteImpactStory,
 };

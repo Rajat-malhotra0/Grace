@@ -20,13 +20,13 @@ function Content() {
             <Route path="/feed" element={<GraceFeed />} />
             <Route path="/Quiz" element={<Quiz />} />
             <Route path="/marketplace" element={<Marketplace />} />
-            <Route path="/donate" element={<Donation />} />
+            <Route path="/donation" element={<Donation />} />
             <Route path="/engagement" element={<Engagement />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="/profile" element={<Profile />} />
-            <Route path = "/volunteer" element ={<Volunteer />} />
-            <Route path = "/impact-stories" element ={<ImpactStories/>} /> 
+            <Route path="/volunteer" element={<Volunteer />} />
+            <Route path="/impact-stories" element={<ImpactStories />} />
         </Routes>
     );
 }

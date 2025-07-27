@@ -7,7 +7,7 @@ import "./Donation.css";
 import DonationModal from "../../Components/DonationModal"; // Import the modal
 
 const Donations = () => {
-    const { user, isAuthenticated, isAuthLoading } = useContext(AuthContext);
+    const { isAuthenticated, isAuthLoading } = useContext(AuthContext);
     const navigate = useNavigate();
 
     const [ngos, setNgos] = useState([]);

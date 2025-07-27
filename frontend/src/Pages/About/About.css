@@ -30,7 +30,7 @@ div {
     color: #000000b3;
 }
 
-div h2 {
+.about-header h2 {
     font-size: 2rem;
     margin-bottom: 0.6rem;
     border-bottom: 2px solid #14171865;
@@ -38,7 +38,7 @@ div h2 {
     color: #000000d9;
 }
 
-div p {
+.about-page p {
     font-size: 1.1rem;
     color: #000000d1;
 }
