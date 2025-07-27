@@ -44,12 +44,18 @@ function Volunteer() {
     const now = Date.now();
 
     const totalVolunteers = volunteers.length;
-    const activeVolunteers = volunteers.filter(v => 
-      (now - new Date(v.updatedAt || v.createdAt).getTime()) < days
-    ).length;
-    const newVolunteers = volunteers.filter(v => 
-      (now - new Date(v.createdAt).getTime()) < days
-    ).length;
+
+    const activeVolunteers = volunteers.filter(v => {
+      const updatedAtDate = new Date(v.updatedAt || v.createdAt);
+      const diff = isNaN(updatedAtDate.getTime()) ? Infinity : (now - updatedAtDate.getTime());
+      return diff < days;
+    }).length;
+
+    const newVolunteers = volunteers.filter(v => {
+      const createdAtDate = new Date(v.createdAt);
+      const diff = isNaN(createdAtDate.getTime()) ? Infinity : (now - createdAtDate.getTime());
+      return diff < days;
+    }).length;
 
     const roleStats = {};
     tasks.forEach(task => {
@@ -64,14 +70,21 @@ function Volunteer() {
       }
     });
 
+    const maxTotalHours = Math.max(...Object.values(roleStats).map(r => r.hours), 1); // avoid division by zero
+
     const topRoles = Object.entries(roleStats)
-      .map(([category, stats]) => ({
-        category,
-        volunteerCount: stats.volunteers.size,
-        totalHours: stats.hours,
-        completedTasks: stats.tasks,
-        avgHours: stats.hours / stats.volunteers.size || 0
-      }))
+      .map(([category, stats]) => {
+        const avgHours = stats.hours / stats.volunteers.size || 0;
+        const engagementScore = (stats.hours / maxTotalHours) * 100; // engagement as % of max hours
+        return {
+          category,
+          volunteerCount: stats.volunteers.size,
+          totalHours: stats.hours,
+          completedTasks: stats.tasks,
+          avgHours,
+          engagementScore
+        };
+      })
       .sort((a, b) => b.totalHours - a.totalHours)
       .slice(0, 6);
 
@@ -85,7 +98,7 @@ function Volunteer() {
       .map(([location, count]) => ({
         location,
         count,
-        percentage: ((count / totalVolunteers) * 100).toFixed(1)
+        percentage: totalVolunteers > 0 ? ((count / totalVolunteers) * 100).toFixed(1) : "0.0"
       }))
       .sort((a, b) => b.count - a.count)
       .slice(0, 8);
@@ -103,7 +116,7 @@ function Volunteer() {
         const hours = tasks
           .filter(t => t.assignedTo === id)
           .reduce((sum, t) => sum + (t.actualMinutes || 0), 0) / 60;
-        
+
         return volunteer ? {
           name: volunteer.userName || "Unknown",
           taskCount,
@@ -116,17 +129,17 @@ function Volunteer() {
       .sort((a, b) => b.taskCount - a.taskCount)
       .slice(0, 8);
 
-    const avgHours = surveys.length > 0 
-      ? surveys.reduce((sum, s) => sum + (s.availabilityHours || 0), 0) / surveys.length 
+    const avgHours = surveys.length > 0
+      ? surveys.reduce((sum, s) => sum + (s.availabilityHours || 0), 0) / surveys.length
       : 0;
 
     const hourRanges = {};
     surveys.forEach(s => {
       const hours = s.availabilityHours || 0;
-      const range = hours === 0 ? "0" : 
-                    hours <= 5 ? "1-5" :
-                    hours <= 10 ? "6-10" :
-                    hours <= 20 ? "11-20" : "20+";
+      const range = hours === 0 ? "0" :
+        hours <= 5 ? "1-5" :
+          hours <= 10 ? "6-10" :
+            hours <= 20 ? "11-20" : "20+";
       hourRanges[range] = (hourRanges[range] || 0) + 1;
     });
 
@@ -137,7 +150,7 @@ function Volunteer() {
       (s.interests || []).forEach(interest => interests[interest] = (interests[interest] || 0) + 1);
     });
 
-    const retentionRate = totalVolunteers > 0 
+    const retentionRate = totalVolunteers > 0
       ? ((topVolunteers.filter(v => v.isRepeat).length / totalVolunteers) * 100).toFixed(1)
       : 0;
 
@@ -179,7 +192,7 @@ function Volunteer() {
       <div className="volunteer-header">
         <h1>Volunteer Analytics Dashboard</h1>
         <p>Comprehensive insights into volunteer engagement, origins, and matching effectiveness</p>
-        
+
         <div className="time-filter">
           <label>Time Period:</label>
           <select value={timePeriod} onChange={(e) => setTimePeriod(e.target.value)}>
@@ -218,14 +231,14 @@ function Volunteer() {
               <h4>{role.category}</h4>
               <div className="role-stats">
                 <p><strong>{role.volunteerCount}</strong> volunteers</p>
-                <p><strong>{role.totalHours.toFixed(1)}</strong> total hours</p>
+                <p><strong>{(role.totalHours ?? 0).toFixed(1)}</strong> total hours</p>
                 <p><strong>{role.completedTasks}</strong> tasks completed</p>
-                <p><strong>{role.avgHours.toFixed(1)}</strong> avg hours/volunteer</p>
+                <p><strong>{(role.avgHours ?? 0).toFixed(1)}</strong> avg hours/volunteer</p>
               </div>
               <div className="engagement-bar">
-                <div 
-                  className="engagement-fill" 
-                  style={{width: `${Math.min(role.engagementScore / 100 * 100, 100)}%`}}
+                <div
+                  className="engagement-fill"
+                  style={{ width: `${Math.min(role.engagementScore ?? 0, 100)}%` }}
                 ></div>
               </div>
             </div>
@@ -244,9 +257,9 @@ function Volunteer() {
                   <span className="count">{origin.count} volunteers ({origin.percentage}%)</span>
                 </div>
                 <div className="origin-bar">
-                  <div 
-                    className="origin-fill" 
-                    style={{width: `${origin.percentage}%`}}
+                  <div
+                    className="origin-fill"
+                    style={{ width: `${origin.percentage}%` }}
                   ></div>
                 </div>
               </div>
@@ -269,7 +282,7 @@ function Volunteer() {
             <div key={index} className="table-row">
               <span className="volunteer-name">{volunteer.name}</span>
               <span className="task-count">{volunteer.taskCount}</span>
-              <span className="total-hours">{volunteer.hours.toFixed(1)}h</span>
+              <span className="total-hours">{(volunteer.hours ?? 0).toFixed(1)}h</span>
               <span className="join-date">{new Date(volunteer.joinDate).toLocaleDateString()}</span>
               <span className={`status ${volunteer.isRepeat ? 'repeat' : 'new'}`}>
                 {volunteer.isRepeat ? 'Repeat' : 'New'}
@@ -285,19 +298,19 @@ function Volunteer() {
           <div className="availability-overview">
             <h4>Overview</h4>
             <p>Total Survey Responses: <strong>{data.availability.totalSurveys}</strong></p>
-            <p>Average Hours Available: <strong>{data.availability.avgHours.toFixed(1)} hours/week</strong></p>
+            <p>Average Hours Available: <strong>{(data.availability.avgHours ?? 0).toFixed(1)} hours/week</strong></p>
           </div>
-          
+
           <div className="availability-distribution">
             <h4>Hours Distribution</h4>
-            {Object.entries(data.availability.hourRanges).map(([range, count]) => (
+            {Object.entries(data.availability.hourRanges || {}).map(([range, count]) => (
               <div key={range} className="availability-item">
                 <span className="range">{range} hours</span>
                 <span className="count">{count} volunteers</span>
                 <div className="availability-bar">
-                  <div 
+                  <div
                     className="availability-fill"
-                    style={{width: `${(count / data.availability.totalSurveys * 100)}%`}}
+                    style={{ width: `${(count / (data.availability.totalSurveys || 1) * 100)}%` }}
                   ></div>
                 </div>
               </div>
@@ -319,13 +332,13 @@ function Volunteer() {
               <span className="large-number">{data.matching.totalMatches}</span>
             </div>
           </div>
-          
+
           <div className="skills-interests">
             <div className="skills-section">
               <h4>Popular Skills</h4>
               <div className="skill-tags">
-                {Object.entries(data.matching.skills)
-                  .sort(([,a], [,b]) => b - a)
+                {Object.entries(data.matching.skills || {})
+                  .sort(([, a], [, b]) => b - a)
                   .slice(0, 8)
                   .map(([skill, count]) => (
                     <span key={skill} className="skill-tag">
@@ -334,12 +347,12 @@ function Volunteer() {
                   ))}
               </div>
             </div>
-            
+
             <div className="interests-section">
               <h4>Common Interests</h4>
               <div className="interest-tags">
-                {Object.entries(data.matching.interests)
-                  .sort(([,a], [,b]) => b - a)
+                {Object.entries(data.matching.interests || {})
+                  .sort(([, a], [, b]) => b - a)
                   .slice(0, 8)
                   .map(([interest, count]) => (
                     <span key={interest} className="interest-tag">
@@ -354,4 +367,5 @@ function Volunteer() {
     </div>
   );
 }
+
 export default Volunteer;
