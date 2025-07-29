@@ -1,0 +1,46 @@
+/* .css file for the main file of GraceApp, consists of the styling of that particular page */
+
+.grace-app-page {
+  max-width: 800px;
+  margin: 3rem auto;
+  padding: 0 1em;
+  font-family: serif;
+  color: #000000d9;
+  line-height : 1.6;
+  background: #fcfcfc;
+
+  /* border-radius: 8px; */
+  /* box-shadow: 0 2px 8px rgb(255, 255, 255); */ 
+}
+
+.grace-app-title {
+  color: #007acc9a;
+  text-align: center;
+  margin-top: 8rem;
+  margin-bottom: 2rem;
+}
+
+.grace-app-section-title {
+  margin-top: 1.5em;
+  color: #000000d9;
+}
+
+.grace-app-list {
+  padding-left: 1.5em;
+  margin-bottom: 1em;
+  color: #000000d9;
+}
+
+.grace-app-coming-soon {
+  background: #f9f7e8;
+  padding: 12px;
+  border-radius: 6px;
+  margin-top: 20px;
+  color: #000000d9;
+}
+
+.grace-app-coming-soon-title {
+  color: #2e5aac;
+  margin-bottom: 0.5em;
+  color: #000000d9;
+}
