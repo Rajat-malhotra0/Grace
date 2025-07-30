@@ -1,37 +1,55 @@
-@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Roboto:wght@400;500&display=swap");
 
 :root {
     --font-serif: "Playfair Display", serif;
+    --font-sans: "Roboto", sans-serif;
     --color-text: #333;
     --color-text-light: #555;
-    --color-text-lighter: #666;
     --color-bg: #f9fafb;
     --color-card: #ffffff;
     --color-primary: #222;
     --color-primary-hover: #444;
+    --color-border: #e5e7eb;
+    --border-radius: 0.75rem;
+    --box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    --transition-speed: 0.3s;
 }
 
+/* --- General Setup --- */
 .quiz-page {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     background: var(--color-bg);
-    font-family: var(--font-serif);
+    font-family: var(--font-sans);
     padding: 2rem 1rem;
 }
 
 .quiz-card {
     background-color: var(--color-card);
-    border-radius: 1rem;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
     padding: 3rem;
     max-width: 650px;
     width: 100%;
     text-align: center;
-    transition: all 0.3s ease-in-out;
+    transition: all var(--transition-speed) ease-in-out;
+    animation: fadeIn 0.5s ease-in-out;
 }
 
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* --- Typography --- */
 .start-screen h1,
 .results-screen h1 {
     font-family: var(--font-serif);
@@ -44,27 +62,28 @@
 
 .start-screen p,
 .results-screen p {
-    font-family: var(--font-serif);
-    font-size: 1.25rem;
+    font-family: var(--font-sans);
+    font-size: 1.2rem;
     color: var(--color-text-light);
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
     line-height: 1.6;
     max-width: 90%;
     margin-left: auto;
     margin-right: auto;
 }
 
+/* --- Buttons --- */
 .quiz-card button {
     background-color: var(--color-primary);
     color: white;
-    border: none;
+    border: 2px solid transparent;
     border-radius: 0.5rem;
     padding: 1rem 2rem;
     font-size: 1rem;
-    font-weight: 600;
-    font-family: var(--font-serif);
+    font-weight: 500;
+    font-family: var(--font-sans);
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all var(--transition-speed) ease;
     display: block;
     width: 100%;
     margin-top: 0.75rem;
@@ -72,27 +91,37 @@
     letter-spacing: 0.025em;
 }
 
-.quiz-card button:hover {
-    background-color: var(--color-primary-hover);
+.quiz-card button:not(.primary-button):hover {
+    background-color: var(--color-card);
+    color: var(--color-primary);
+    border-color: var(--color-primary);
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(34, 34, 34, 0.15);
 }
 
+.quiz-card button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+/* --- Quiz Screen --- */
 .quiz-screen {
-    display: flex;
-    flex-direction: column;
+    animation: fadeIn 0.3s ease-in-out;
 }
 
 .question-section {
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
 }
 
 .question-count {
-    font-family: var(--font-serif);
-    font-size: 1rem;
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
     color: var(--color-text-light);
     margin-bottom: 1rem;
     font-weight: 500;
+    display: inline-block;
+    background: #f3f4f6;
+    padding: 0.25rem 0.75rem;
+    border-radius: 99px;
 }
 
 .question-text {
@@ -100,7 +129,6 @@
     font-size: 1.75rem;
     font-weight: 600;
     color: var(--color-text);
-    margin-bottom: 2rem;
     line-height: 1.4;
 }
 
@@ -110,7 +138,72 @@
     gap: 0.75rem;
 }
 
-/* Mobile responsiveness */
+/* --- Results Screen --- */
+.aggregated-data-preview {
+    background-color: #f9fafb;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    text-align: left;
+}
+
+.aggregated-data-preview h3 {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    color: var(--color-text);
+    text-align: center;
+}
+
+.aggregated-data-preview p {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    color: var(--color-text-light);
+    margin-bottom: 0.75rem;
+    max-width: 100%;
+}
+
+.aggregated-data-preview strong {
+    color: var(--color-text);
+    font-weight: 500;
+}
+
+.results-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.results-actions .primary-button {
+    background-color: var(--color-primary);
+}
+
+.results-actions .primary-button:hover {
+    background-color: var(--color-primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(34, 34, 34, 0.15);
+}
+
+.results-actions .secondary-button {
+    background-color: var(--color-card);
+    color: var(--color-primary);
+    border: 2px solid var(--color-border);
+}
+
+.results-actions .secondary-button:hover {
+    background-color: #f3f4f6;
+    border-color: #d1d5db;
+}
+
+/* --- Mobile Responsiveness --- */
+@media (min-width: 640px) {
+    .results-actions {
+        flex-direction: row;
+    }
+}
+
 @media (max-width: 768px) {
     .quiz-page {
         padding: 1rem;
@@ -146,6 +239,6 @@
 
     .start-screen p,
     .results-screen p {
-        font-size: 1.125rem;
+        font-size: 1.1rem;
     }
 }

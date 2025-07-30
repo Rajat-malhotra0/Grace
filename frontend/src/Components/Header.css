@@ -1,104 +1,158 @@
 @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&display=swap");
 
 :root {
-  --font-serif: "Playfair Display", serif;
+    --font-serif: "Playfair Display", serif;
 }
 
 /* Sticky header */
 .grace-header {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  padding: 1.2rem 0;
-  color: black;
-  background: transparent;
-  transition: background-color 0.4s ease;
-  z-index: 1000;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: transparent;
+    transition: background-color 0.4s ease;
+    z-index: 1000;
+    height: 80px;
 }
 
 .grace-header.scrolled {
-  background-color: rgb(255, 255, 255);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.196);
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Header inner container */
+/* Header inner container --- USING CSS GRID --- */
 .header-container {
-  max-width: 1200px;
-  margin-bottom: 1px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between; 
-  padding: 0 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    height: 100%;
+    padding: 0 2rem;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: auto 1fr auto; /* Column for Logo | Nav (fills space) | Actions */
+    align-items: center; /* Vertically centers everything in the grid */
 }
 
 /* Logo text */
 .logo {
-  font-family: var(--font-serif);
-  font-size: 2rem;
-  font-weight: 400;
-  color: rgb(0, 0, 0);
-  transition: color 0.4s ease;
-}
-
-.grace-header.scrolled .logo {
-  color: black;
+    font-family: var(--font-serif);
+    font-size: 2rem;
+    font-weight: 400;
+    color: rgb(0, 0, 0);
 }
 
 /* Navigation links */
-.nav-links a {
-  font-family: var(--font-serif);
-  margin: 0 1rem;
-  text-decoration: none;
-  color: rgb(3, 3, 3);
-  font-size: 1rem;
-  transition: color 0.3s ease;
+.nav-links {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center the links within their grid area */
+    gap: 1rem;
 }
 
-.grace-header.scrolled .nav-links a {
-  color: black;
+.nav-links a {
+    display: flex;
+    align-items: center;
+    font-family: var(--font-serif);
+    text-decoration: none;
+    color: rgb(3, 3, 3);
+    font-size: 1rem;
+    transition: color 0.3s ease;
+    padding: 0 1rem;
 }
 
 .nav-links a:hover {
-  color: #888;
+    color: #888;
 }
 
-/* Button style (imported separately, but you can also keep it here) */
-.grace-button {
-  border: 1px solid rgb(255, 255, 255);
-  background: transparent;
-  color: rgb(23, 19, 19);
-  padding: 0.5rem 1rem;
-  text-transform: uppercase;
-  font-size: 0.875rem;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  transition: all 0.3s ease;
+/* Actions section (button) */
+.nav-actions {
+    display: flex;
+    justify-content: flex-end; /* Align button to the far right */
 }
 
-.grace-button:hover {
-  background: white;
-  color: black;
+.nav-button,
+.user-menu {
+    display: flex;
+    align-items: center;
+    text-decoration: none; /* Add this line */
+}
+
+.user-menu > a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+/* Header-specific button override */
+.grace-header .grace-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgb(23, 19, 19);
+    background: transparent;
+    color: rgb(23, 19, 19);
+    padding: 0.5rem 1rem;
+    text-transform: uppercase;
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border-radius: 15px; /* Changed this from 0 */
+}
+
+.grace-header .grace-button:hover {
+    background: black;
+    color: white;
 }
 
 .grace-header.scrolled .grace-button {
-  border-color: black;
-  color: black;
+    border-color: black;
+    color: black;
 }
 
 .grace-header.scrolled .grace-button:hover {
-  background: black;
-  color: white;
+    background: black;
+    color: white;
 }
 
+/* Profile picture styles */
 .nav-profile img.profile-picture {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid rgba(255, 255, 255, 0.615);
-  transition: border-color 0.3s ease;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(255, 255, 255, 0.615);
+    transition: border-color 0.3s ease;
 }
 
 .grace-header.scrolled .nav-profile img.profile-picture {
-  border-color: black;
+    border-color: black;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .header-container {
+        padding: 0 1rem;
+        grid-template-columns: auto 1fr; /* On small screens, maybe stack the button */
+    }
+
+    .nav-links {
+        gap: 0;
+        justify-content: flex-start;
+        padding-left: 1rem;
+    }
+
+    .nav-links a {
+        margin: 0 0.5rem;
+        font-size: 0.9rem;
+    }
+
+    .nav-actions {
+        grid-column: 1 / -1; /* Example for stacking: make it full width */
+        justify-content: center;
+    }
+
+    .logo {
+        font-size: 1.5rem;
+    }
 }

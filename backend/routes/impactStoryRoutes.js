@@ -76,6 +76,8 @@ router.get(
         }
         try {
             const filter = req.query;
+            const limit = req.query.limit || 10;
+            const sort = req.query.sort || "-createdAt";
             const impactStories = await impactStoryService.readImpactStories(
                 filter
             );
@@ -93,6 +95,29 @@ router.get(
         }
     }
 );
+
+router.get("/latest/:count", async (req, res) => {
+    try {
+        count = req.params.count;
+
+        const latestStories = await impactStoryService.readLatestImpactStories(
+            count
+        );
+
+        return res.status(200).json({
+            success: true,
+            message: `Latest ${latestStories.length} impact stories retrieved successfully.`,
+            result: latestStories,
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success: false,
+            message: "Internal server error",
+            error: error.message,
+        });
+    }
+});
 
 router.get(
     "/:id",

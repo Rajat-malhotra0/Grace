@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const paymentSchema = new mongoose.Schema({
     user: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
+    ngo: { type: mongoose.Schema.Types.ObjectId, ref: "ngo" },
     amount: { type: Number, required: true },
     currency: { type: String, default: "INR" },
     status: {
@@ -10,6 +11,9 @@ const paymentSchema = new mongoose.Schema({
         default: "pending",
     },
     transactionId: { type: String, unique: true },
+    razorpay_order_id: { type: String },
+    razorpay_payment_id: { type: String },
+    razorpay_signature: { type: String },
     createdAt: { type: Date, default: Date.now, immutable: true },
 });
 

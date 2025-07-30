@@ -8,6 +8,7 @@ function AuthProvider({ children }) {
     const [ngo, setNgo] = useState(null);
     const [token, setToken] = useState(null);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isAuthLoading, setIsAuthLoading] = useState(true);
 
     useEffect(() => {
         if (token) {
@@ -24,6 +25,7 @@ function AuthProvider({ children }) {
     }, []);
 
     async function initializeAuth() {
+        setIsAuthLoading(true);
         try {
             const storedToken = localStorage.getItem("token");
             const storedUser = localStorage.getItem("user");
@@ -52,10 +54,13 @@ function AuthProvider({ children }) {
                     }
                 } catch (error) {
                     // Token verification failed
+                    clearAuth();
                 }
             }
         } catch (error) {
             // Auth initialization error
+        } finally {
+            setIsAuthLoading(false);
         }
     }
 
@@ -170,6 +175,7 @@ function AuthProvider({ children }) {
         ngo,
         token,
         isAuthenticated,
+        isAuthLoading,
         login,
         register,
         logout,
