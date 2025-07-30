@@ -102,12 +102,93 @@ async function getFallbackContent(query) {
             })
         );
     }
-    if (queryLower.includes("ngo") || queryLower.includes("location")) {
+    if (queryLower.includes("failure") || queryLower.includes("error")) {
+        fallbackArticles.push(
+            new Document({
+                pageContent:
+                    "If you encounter a failure or error, please check the following:",
+                metadata: { source: "Fallback Help", category: "troubleshooting" },
+            })
+        );
+    }
+    if (queryLower.includes("about us") || queryLower.includes("who we are")) {
+        fallbackArticles.push(
+            new Document({
+                pageContent:
+                    "We are a non-profit organization dedicated to helping NGOs manage their tasks and resources effectively.",
+                metadata: { source: "Fallback Help", category: "about" },
+            })
+        );
+    }
+    if (queryLower.includes("volunteer") || queryLower.includes("get involved")) {
+        fallbackArticles.push(
+            new Document({
+                pageContent:
+                    "To get involved as a volunteer, visit the Volunteer page and fill out the application form.",
+                metadata: { source: "Fallback Help", category: "volunteer" },
+            })
+        );
+    }
+    if (queryLower.includes("marketplace") || queryLower.includes("donate")) {
+        fallbackArticles.push(
+            new Document({
+                pageContent:
+                    "Visit the Marketplace page to view available items for donation. Click 'Donate' to contribute.",
+                metadata: { source: "Fallback Help", category: "marketplace" },
+            })
+        );
+    }
+    if (queryLower.includes("login") || queryLower.includes("sign up")) {
+        fallbackArticles.push(
+            new Document({
+                pageContent:
+                    "To login, go to the Login page and enter your credentials. If you don't have an account, click 'Sign Up' to create one.",
+                metadata: { source: "Fallback Help", category: "authentication" },
+            })
+        );
+    }
+    if (queryLower.includes("dashboard") || queryLower.includes("home")) {
+        fallbackArticles.push(
+            new Document({
+                pageContent:
+                    "The Dashboard is your home page where you can see an overview of tasks, recent activities, and NGO locations.",
+                metadata: { source: "Fallback Help", category: "dashboard" },
+            })
+        );
+    }
+    if (queryLower.includes("services") || queryLower.includes("features") ) {
+        fallbackArticles.push(
+            new Document({
+                pageContent:
+                    "Our platform offers a variety of services including task management, NGO mapping, and donation tracking.",
+                metadata: { source: "Fallback Help", category: "services" },
+            })
+        );
+    }
+    if (queryLower.includes("ngo") || queryLower.includes("location") || queryLower.includes("map")) {
         fallbackArticles.push(
             new Document({
                 pageContent:
                     "View NGO locations on the Map page. Click any marker for details.",
                 metadata: { source: "Fallback Help", category: "navigation" },
+            })
+        );
+    }
+    if (queryLower.includes("feed") || queryLower.includes("recent activities")) {
+        fallbackArticles.push(
+            new Document({
+                pageContent:
+                    "The Feed page shows recent activities and updates from NGOs. You can filter by date or NGO.",
+                metadata: { source: "Fallback Help", category: "feed" },
+            })
+        );
+    }
+    if (queryLower.includes("add ngo") || queryLower.includes("manage ngo")) {
+        fallbackArticles.push(
+            new Document({
+                pageContent:
+                    "To add a new NGO, go to NGO Management and click 'Add NGO'. Fill in name, location, and contact info.",
+                metadata: { source: "Fallback Help", category: "ngo" },
             })
         );
     }
@@ -119,6 +200,15 @@ async function getFallbackContent(query) {
                 metadata: { source: "Fallback Help", category: "analytics" },
             })
         );
+    }
+    if (queryLower.includes("help") || queryLower.includes("support")) {
+        fallbackArticles.push(
+            new Document({
+                pageContent:
+                    "For help and support, you can visit our Help Center or contact support@ngo.org.",
+                metadata: { source: "Fallback Help", category: "support" },
+            })
+        )
     }
     if (fallbackArticles.length === 0) {
         fallbackArticles.push(
