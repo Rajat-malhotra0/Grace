@@ -10,8 +10,9 @@ import GraceFeed from "./Pages/Feed/Feed";
 import Marketplace from "./Pages/Marketplace/Marketplace";
 import Donation from "./Pages/Donation/Donation";
 import Engagement from "./Pages/Engagement/Engagement";
-import Volunteer from "./Pages/volunteer/volunteer";
+import Volunteer from "./Pages/Volunteer/Volunteer";
 import ImpactStories from "./Pages/Home/ImpactStories";
+import GraceApp from "./Pages/Grace_App/Grace_App";
 function Content() {
     return (
         <Routes>
@@ -25,8 +26,9 @@ function Content() {
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="/profile" element={<Profile />} />
-            <Route path="/volunteer" element={<Volunteer />} />
-            <Route path="/impact-stories" element={<ImpactStories />} />
+            <Route path = "/volunteer" element ={<Volunteer />} />
+            <Route path = "/impact-stories" element ={<ImpactStories/>} /> 
+            <Route path = "/grace-app" element = {<GraceApp/>} />
         </Routes>
     );
 }
