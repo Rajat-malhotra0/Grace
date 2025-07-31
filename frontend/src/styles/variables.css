@@ -1,0 +1,210 @@
+/* Global CSS Variables for Grace Application */
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap");
+
+:root {
+    /* Color Palette */
+    --color-primary: #667eea;
+    --color-primary-dark: #5a67d8;
+    --color-primary-light: #a4cafe;
+
+    --color-secondary: #48bb78;
+    --color-secondary-dark: #38a169;
+    --color-secondary-light: #9ae6b4;
+
+    --color-accent: #ed8936;
+    --color-accent-dark: #dd6b20;
+    --color-accent-light: #fbb043;
+
+    --color-danger: #f56565;
+    --color-danger-dark: #e53e3e;
+    --color-danger-light: #fc8181;
+
+    --color-warning: #ed8936;
+    --color-warning-dark: #dd6b20;
+    --color-warning-light: #fbb043;
+
+    --color-info: #4299e1;
+    --color-info-dark: #3182ce;
+    --color-info-light: #63b3ed;
+
+    --color-success: #48bb78;
+    --color-success-dark: #38a169;
+    --color-success-light: #68d391;
+
+    /* Text Colors */
+    --color-text-primary: #2d3748;
+    --color-text-secondary: #4a5568;
+    --color-text-muted: #718096;
+    --color-text-light: #a0aec0;
+    --color-text-white: #ffffff;
+
+    /* Background Colors */
+    --color-bg-primary: #f7fafc;
+    --color-bg-secondary: #edf2f7;
+    --color-bg-tertiary: #e2e8f0;
+    --color-white: #ffffff;
+    --color-black: #1a202c;
+
+    /* Border Colors */
+    --color-border: #e2e8f0;
+    --color-border-light: #f1f5f9;
+    --color-border-dark: #cbd5e0;
+
+    /* Gradient Colors */
+    --gradient-primary: linear-gradient(
+        135deg,
+        var(--color-primary) 0%,
+        var(--color-primary-dark) 100%
+    );
+    --gradient-secondary: linear-gradient(
+        135deg,
+        var(--color-secondary) 0%,
+        var(--color-secondary-dark) 100%
+    );
+    --gradient-warm: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --gradient-cool: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+
+    /* Typography */
+    --font-serif: "Playfair Display", serif;
+    --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        sans-serif;
+
+    --font-size-xs: 0.75rem;
+    --font-size-sm: 0.875rem;
+    --font-size-base: 1rem;
+    --font-size-lg: 1.125rem;
+    --font-size-xl: 1.25rem;
+    --font-size-2xl: 1.5rem;
+    --font-size-3xl: 1.875rem;
+    --font-size-4xl: 2.25rem;
+    --font-size-5xl: 3rem;
+
+    --font-weight-normal: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+
+    --line-height-tight: 1.2;
+    --line-height-normal: 1.5;
+    --line-height-relaxed: 1.6;
+
+    /* Spacing */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    --spacing-2xl: 3rem;
+    --spacing-3xl: 4rem;
+
+    /* Border Radius */
+    --radius-sm: 0.25rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
+    --radius-xl: 1rem;
+    --radius-2xl: 1.5rem;
+    --radius-full: 9999px;
+
+    /* Shadows */
+    --shadow-xs: 0 0 0 1px rgba(0, 0, 0, 0.05);
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+        0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+        0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+        0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+
+    /* Transitions */
+    --transition-fast: 0.15s ease-in-out;
+    --transition-normal: 0.2s ease-in-out;
+    --transition-slow: 0.3s ease-in-out;
+
+    /* Z-index */
+    --z-dropdown: 1000;
+    --z-sticky: 1020;
+    --z-fixed: 1030;
+    --z-modal-backdrop: 1040;
+    --z-modal: 1050;
+    --z-popover: 1060;
+    --z-tooltip: 1070;
+}
+
+/* Dark mode support (optional) */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color-text-primary: #f7fafc;
+        --color-text-secondary: #e2e8f0;
+        --color-text-muted: #a0aec0;
+        --color-bg-primary: #1a202c;
+        --color-bg-secondary: #2d3748;
+        --color-white: #2d3748;
+        --color-border: #4a5568;
+        --color-border-light: #2d3748;
+    }
+}
+
+/* Global utility classes */
+.text-primary {
+    color: var(--color-primary);
+}
+.text-secondary {
+    color: var(--color-secondary);
+}
+.text-muted {
+    color: var(--color-text-muted);
+}
+.text-white {
+    color: var(--color-text-white);
+}
+
+.bg-primary {
+    background-color: var(--color-primary);
+}
+.bg-secondary {
+    background-color: var(--color-secondary);
+}
+.bg-white {
+    background-color: var(--color-white);
+}
+
+.font-serif {
+    font-family: var(--font-serif);
+}
+.font-sans {
+    font-family: var(--font-sans);
+}
+
+.rounded-sm {
+    border-radius: var(--radius-sm);
+}
+.rounded-md {
+    border-radius: var(--radius-md);
+}
+.rounded-lg {
+    border-radius: var(--radius-lg);
+}
+.rounded-xl {
+    border-radius: var(--radius-xl);
+}
+
+.shadow-sm {
+    box-shadow: var(--shadow-sm);
+}
+.shadow-md {
+    box-shadow: var(--shadow-md);
+}
+.shadow-lg {
+    box-shadow: var(--shadow-lg);
+}
+
+.transition {
+    transition: var(--transition-normal);
+}
+.transition-fast {
+    transition: var(--transition-fast);
+}
+.transition-slow {
+    transition: var(--transition-slow);
+}

@@ -7,10 +7,10 @@ import Register from "./Pages/Register/Register";
 import Login from "./Pages/Login/Login";
 import Profile from "./Pages/Profile/Profile";
 import GraceFeed from "./Pages/Feed/Feed";
-import Marketplace from "./Pages/Marketplace/Marketplace";
+import Marketplace from "./Pages/MarketplaceInsights/Marketplace";
 import Donation from "./Pages/Donation/Donation";
 import Engagement from "./Pages/Engagement/Engagement";
-import Volunteer from "./Pages/Volunteer/Volunteer";
+import Volunteer from "./Pages/VolunteerInsights/volunteer";
 import ImpactStories from "./Pages/Home/ImpactStories";
 import GraceApp from "./Pages/Grace_App/Grace_App";
 function Content() {
@@ -26,9 +26,9 @@ function Content() {
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="/profile" element={<Profile />} />
-            <Route path = "/volunteer" element ={<Volunteer />} />
-            <Route path = "/impact-stories" element ={<ImpactStories/>} /> 
-            <Route path = "/grace-app" element = {<GraceApp/>} />
+            <Route path="/volunteer" element={<Volunteer />} />
+            <Route path="/impact-stories" element={<ImpactStories />} />
+            <Route path="/grace-app" element={<GraceApp />} />
         </Routes>
     );
 }
