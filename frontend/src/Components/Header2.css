@@ -1,0 +1,36 @@
+.grace-header.dark-text .logo {
+    color: #333 !important;
+}
+
+.grace-header.dark-text .nav-links a {
+    color: #333 !important;
+}
+
+.grace-header.dark-text .nav-links a:hover {
+    color: #666 !important;
+}
+
+.grace-header.dark-text .grace-button {
+    border-color: #333 !important;
+    color: #333 !important;
+}
+
+.grace-header.dark-text .grace-button:hover {
+    background: #333 !important;
+    color: white !important;
+}
+
+.grace-header.dark-text .nav-profile img.profile-picture {
+    border-color: #333 !important;
+}
+
+/* Additional styles for when header has background (scrolled or non-homepage) */
+.grace-header.dark-text {
+    background-color: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(10px);
+}
+
+.grace-header.dark-text.scrolled {
+    background-color: rgb(255, 255, 255) !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+}

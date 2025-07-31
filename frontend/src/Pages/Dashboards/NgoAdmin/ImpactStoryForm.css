@@ -1,0 +1,104 @@
+/* AdminImpactStoryForm.css */
+
+.impact-story-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.impact-story-container {
+  display: flex;
+  
+  background-color: #f0f8f7;
+  border-radius: 1rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  font-family: 'Segoe UI', sans-serif;
+  margin: 3rem 13rem 2.1rem 13rem;
+}
+
+.impact-left-panel {
+  flex: 1;
+  background-color: #d0f0ec;
+  border-top-left-radius: 1rem;
+  border-bottom-left-radius: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.impact-illustration {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 1rem;
+}
+
+
+.welcome-text h1 {
+  font-size: 3rem;
+  letter-spacing: 4px;
+  color: white;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+}
+
+.impact-right-panel {
+  flex: 1;
+  background-color: #fdfdfd;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.form-header {
+  font-size: 1.5rem;
+  color: #222;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+input,
+textarea {
+  padding: 0.8rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 1rem;
+  outline: none;
+  width: 100%;
+}
+
+textarea {
+  resize: vertical;
+}
+
+.generate-btn,
+.post-btn {
+  padding: 0.8rem;
+  border: none;
+  border-radius: 25px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.generate-btn {
+  background-color: #26a69a;
+  color: white;
+}
+
+.generate-btn:hover {
+  background-color: #2bbbad;
+}
+
+.post-btn {
+  background-color: #7e57c2;
+  color: white;
+}
+
+.post-btn:hover {
+  background-color: #673ab7;
+}

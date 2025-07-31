@@ -1,29 +1,23 @@
-// src/Pages/Dashboards/Ngo/NgoDashboard.js
 import React from "react";
+import Sidebar from "../../../Components/Sidebar";
+import Banner from "../../../Components/Banner";
+import TaskSection from "./TaskSection";
+import InventoryLog from "./InventoryLog";
 import "./NgoTeamDashboard.css";
+import ReportIssueForm from "./ReportIssueForm";
 
-import ProfileHeader from "./ProfileHeader";
-// import Overview from "./Overview";
-// import Inventory from "./Inventory";
-// import Events from "./Events";
-// import Tasks from "./Tasks";
-// import Volunteers from "./Volunteers";
-
-const NgoDashboard = () => {
-    return (
-        <div className="ngo-dashboard">
-            <ProfileHeader />
-
-            {/* <Overview />
-
-      <div className="ngo-grid">
-        <Inventory />
-        <Events />
-        <Tasks />
-        <Volunteers /> */}
-            {/* </div> */}
-        </div>
-    );
+const NgoTeamDashboard = () => {
+  return (
+    <div>
+      <Sidebar />
+      <div className="ngo-team-dashboard-main-container">
+        <Banner />
+        <TaskSection />
+        <InventoryLog />
+        <ReportIssueForm />
+      </div>
+    </div>
+  );
 };
 
-export default NgoDashboard;
+export default NgoTeamDashboard;

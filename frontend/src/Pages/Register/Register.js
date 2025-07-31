@@ -572,7 +572,7 @@ function Register() {
                                 onChange={handleChange}
                                 checked={formData.volunteerType === "carrer"}
                             />
-                            AS a carrer
+                            As a career
                         </label>
 
                         {formData.volunteerType === "school" ? (

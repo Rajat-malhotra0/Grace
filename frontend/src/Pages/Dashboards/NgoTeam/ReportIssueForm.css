@@ -1,0 +1,65 @@
+.report-form-card {
+  color: rgb(255, 253, 253);
+  padding: 2.5rem 2rem;
+  background: rgb(100, 20, 20);
+  border-radius: 2rem;
+  
+  margin: 0.01rem 10rem 5rem 15rem;
+}
+
+.report-form-card h3 {
+  font-size: 2.5rem;
+  font-family: serif;
+  margin-bottom: 1rem;
+}
+
+.report-subtext {
+  font-family: serif;
+  font-size: 1.4rem;
+  margin-bottom: 2rem;
+  opacity: 0.9;
+}
+
+.report-form-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.report-form-card input,
+.report-form-card select,
+.report-form-card textarea {
+  padding: 0.8rem 1rem;
+  border-radius: 0.75rem;
+  border: none;
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+.report-form-card textarea {
+  resize: vertical;
+  min-height: 120px;
+  font-family: serif;
+}
+
+.report-form-card label {
+  font-weight: bold;
+  font-size: 1rem;
+  font-family: serif;
+}
+
+.report-form-card button {
+  background: rgb(209, 208, 208);
+  color: #222;
+  font-weight: bold;
+  padding: 0.9rem 2rem;
+  border-radius: 1.5rem;
+  border: none;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: background 0.3s ease;
+}
+
+.report-form-card button:hover {
+  background: #717171;
+}
