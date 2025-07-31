@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const GraceFeed = require('./models/graceFeed');
-const User = require('./models/user');
+const GraceFeed = require('../models/graceFeed');
+const User = require('../models/user');
 require('dotenv').config();
 
 // Sample user data

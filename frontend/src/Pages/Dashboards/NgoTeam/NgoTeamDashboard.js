@@ -10,20 +10,20 @@ import ProfileHeader from "./ProfileHeader";
 // import Volunteers from "./Volunteers";
 
 const NgoDashboard = () => {
-  return (
-    <div className="ngo-dashboard">
-      <ProfileHeader />
+    return (
+        <div className="ngo-dashboard">
+            <ProfileHeader />
 
-      {/* <Overview />
+            {/* <Overview />
 
       <div className="ngo-grid">
         <Inventory />
         <Events />
         <Tasks />
         <Volunteers /> */}
-      {/* </div> */}
-    </div>
-  );
+            {/* </div> */}
+        </div>
+    );
 };
 
-export default NgoTeamDashboard;
+export default NgoDashboard;
