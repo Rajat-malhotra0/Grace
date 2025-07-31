@@ -1,3 +1,4 @@
+
 .about-page {
     max-width: 800px;
     margin: 3rem auto;
@@ -8,14 +9,11 @@
     background: #fcfcfc;
 }
 
-.about-header{
-    margin-bottom: 2rem;
-}
-
 .about-header {
     text-align: center;
     margin-top: 8rem;
     color: #007acc9a;
+    margin-bottom: 2rem;
 }
 
 .about-header h1 {
