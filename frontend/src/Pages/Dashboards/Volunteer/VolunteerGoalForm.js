@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Target, Bell, BellOff } from "lucide-react";
 import "./VolunteerGoal.css";
 
 const VolunteerGoalForm = ({ onSubmit }) => {
@@ -12,7 +13,10 @@ const VolunteerGoalForm = ({ onSubmit }) => {
 
   return (
     <div className="goal-form-container">
-      <h2>Edit your 2025 Volunteering Goal</h2>
+      <div className="goal-header">
+        <Target className="goal-icon" size={24} />
+        <h2>Edit your 2025 Volunteering Goal</h2>
+      </div>
       <p>How many volunteering activities do you want to do in 2025?</p>
       <form onSubmit={handleSubmit}>
         <input
@@ -21,8 +25,10 @@ const VolunteerGoalForm = ({ onSubmit }) => {
           onChange={(e) => setGoal(e.target.value)}
           required
           min="1"
+          placeholder="Enter your goal"
         />
-        <label>
+        <label className="notification-label">
+          {notify ? <Bell size={16} /> : <BellOff size={16} />}
           <input
             type="checkbox"
             checked={notify}
@@ -30,7 +36,10 @@ const VolunteerGoalForm = ({ onSubmit }) => {
           />
           Keep me motivated with progress updates
         </label>
-        <button type="submit">Set Volunteering Goal</button>
+        <button type="submit">
+          <Target size={16} />
+          Set Volunteering Goal
+        </button>
       </form>
     </div>
   );

@@ -11,6 +11,10 @@
 .section-header {
   text-align: center;
   margin-bottom: 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
 }
 
 .section-header h2 {
@@ -18,13 +22,18 @@
   font-size: 4.5rem;
   font-weight: 700;
   color: #222;
+  margin: 0;
+  display: block;
+  width: 100%;
 }
 
 .section-header p {
   font-family: serif;
   font-size: 1.8rem;
   color: #555;
-  margin-top: 0.5rem;
+  margin: 0;
+  display: block;
+  width: 100%;
 }
 
 .service-tabs {
@@ -71,6 +80,9 @@
 }
 .bg-emerald {
   background-color: #013d29;
+}
+.bg-red {
+  background-color: #8b0000;
 }
 
 .service-card {
@@ -148,6 +160,7 @@
 .service-btn:hover {
   background: #f0f0f0;
 }
+
 .service-image-box {
   flex: 1;
   display: flex;
