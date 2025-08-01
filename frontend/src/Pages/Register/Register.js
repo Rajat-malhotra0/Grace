@@ -560,19 +560,6 @@ function Register() {
             <span>
                 Already have an account? <Link to="/login">Login</Link>
             </span>
-            {/* <ToastContainer
-                position="top-right"
-                autoClose={8000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                enableMultiContainer={false}
-                containerId="main-toast-container"
-            /> */}
         </div>
     );
 }

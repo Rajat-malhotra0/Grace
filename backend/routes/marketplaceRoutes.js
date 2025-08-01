@@ -1,0 +1,102 @@
+const marketplaceService = require("../services/marketplaceService");
+const { body, validationResult } = require("express-validator");
+const express = require("express");
+const router = express.Router();
+
+router.post(
+    "/",
+    [
+        body("name").notEmpty().withMessage("Name is required"),
+        body("description").notEmpty().withMessage("Description is required"),
+        body("quantity").isNumeric().withMessage("Quantity must be a number"),
+    ],
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
+        try {
+            const marketplaceItem =
+                await marketplaceService.createMarketplaceItem(req.body);
+            return res.status(201).json(marketplaceItem);
+        } catch (error) {
+            console.error(error); // Log the error for debugging
+            return res.status(500).json({ error: "Internal server error" });
+        }
+    }
+);
+
+router.get("/", async (req, res) => {
+    try {
+        const marketplaceItems = await marketplaceService.getMarketplaceItems();
+        return res.status(200).json(marketplaceItems);
+    } catch (error) {
+        return res.status(500).json({ error: "Internal server error" });
+    }
+});
+
+router.get("/:id", async (req, res) => {
+    const { id } = req.params;
+    try {
+        const marketplaceItem = await marketplaceService.getMarketplaceItemById(
+            id
+        );
+        if (!marketplaceItem) {
+            return res.status(404).json({ error: "Item not found" });
+        }
+        return res.status(200).json(marketplaceItem);
+    } catch (error) {
+        return res.status(500).json({ error: "Internal server error" });
+    }
+});
+
+router.put(
+    "/:id",
+    [
+        body("name").optional().notEmpty().withMessage("Name cannot be empty"),
+        body("description")
+            .optional()
+            .notEmpty()
+            .withMessage("Description cannot be empty"),
+        body("price")
+            .optional()
+            .isNumeric()
+            .withMessage("Price must be a number"),
+    ],
+    async (req, res) => {
+        const { id } = req.params;
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
+        try {
+            const updatedItem = await marketplaceService.updateMarketplaceItem(
+                id,
+                req.body
+            );
+            if (!updatedItem) {
+                return res.status(404).json({ error: "Item not found" });
+            }
+            return res.status(200).json(updatedItem);
+        } catch (error) {
+            return res.status(500).json({ error: "Internal server error" });
+        }
+    }
+);
+
+router.delete("/:id", async (req, res) => {
+    const { id } = req.params;
+    try {
+        const deletedItem = await marketplaceService.deleteMarketplaceItem(id);
+        if (!deletedItem) {
+            return res.status(404).json({ error: "Item not found" });
+        }
+        return res.status(200).json({ message: "Item deleted successfully" });
+    } catch (error) {
+        return res.status(500).json({ error: "Internal server error" });
+    }
+});
+
+module.exports = router;

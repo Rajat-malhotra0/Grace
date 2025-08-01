@@ -18,7 +18,7 @@ const chatBotRoutes = require("./routes/chatBotRoutes");
 const quizRoutes = require("./routes/quizRoutes");
 const ngoRecommendationRoutes = require("./routes/ngoRecommendationRoutes");
 const graceFeedRoutes = require("./routes/GraceFeedRoutes");
-
+const marketplaceRoutes = require("./routes/marketplaceRoutes");
 
 const app = express();
 app.use(express.json());
@@ -43,6 +43,7 @@ app.use("/api/skill-surveys", skillSurveyRoutes);
 app.use("/api/tasks", taskRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/quiz", quizRoutes);
+app.use("/api/marketplace", marketplaceRoutes);
 
 app.get("/api/test", (req, res) => {
     res.json({ message: "Backend is working!" });

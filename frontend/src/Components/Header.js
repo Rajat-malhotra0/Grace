@@ -15,16 +15,12 @@ function Header() {
     // Dark text when: scrolled OR not on homepage
     const useDarkText = scrolled || location.pathname !== "/";
 
-    // Determine user type and dashboard route
     const getUserDashboardRoute = () => {
-        // If NGO data exists, it's an NGO
         if (ngo) {
-            return "/dashboard/ngo-team"; // Updated path for NGO Team Dashboard
+            return "/dashboard/ngo-team";
         }
 
-        // Check user role from the user object with proper array handling
         if (user?.role && Array.isArray(user.role) && user.role.length > 0) {
-            // Check for specific roles in order of priority
             if (user.role.some((role) => role.toLowerCase() === "ngomember")) {
                 return "/dashboard/ngo-team";
             } else if (
