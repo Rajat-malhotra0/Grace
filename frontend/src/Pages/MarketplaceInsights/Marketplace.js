@@ -126,121 +126,6 @@ const Marketplace = () => {
         ],
     });
 
-    const [urgentNeeds] = useState({
-        needs: [
-            {
-                id: 1,
-                item: "School Supplies",
-                category: "Education",
-                postedDate: "2024-01-15",
-                fulfilledDate: "2024-01-18",
-                fulfillmentTime: 3,
-                status: "fulfilled",
-                ngo: "Education First NGO",
-                fulfilledBy: "John Smith",
-            },
-            {
-                id: 2,
-                item: "Medical Equipment",
-                category: "Healthcare",
-                postedDate: "2024-01-10",
-                fulfilledDate: "2024-01-12",
-                fulfillmentTime: 2,
-                status: "fulfilled",
-                ngo: "Health Care NGO",
-                fulfilledBy: "Sarah Johnson",
-            },
-            {
-                id: 3,
-                item: "Food Packages",
-                category: "Hunger Relief",
-                postedDate: "2024-01-20",
-                fulfilledDate: "2024-01-22",
-                fulfillmentTime: 2,
-                status: "fulfilled",
-                ngo: "Feed the Hungry",
-                fulfilledBy: "Mike Chen",
-            },
-            {
-                id: 4,
-                item: "Winter Clothes",
-                category: "Clothing",
-                postedDate: "2024-01-05",
-                fulfilledDate: "2024-01-06",
-                fulfillmentTime: 1,
-                status: "fulfilled",
-                ngo: "Warm Hearts NGO",
-                fulfilledBy: "Sarah Johnson",
-            },
-            {
-                id: 5,
-                item: "Books for Library",
-                category: "Education",
-                postedDate: "2024-01-25",
-                fulfilledDate: null,
-                fulfillmentTime: null,
-                status: "pending",
-                ngo: "Community Library",
-                fulfilledBy: null,
-            },
-            {
-                id: 6,
-                item: "Laptops",
-                category: "Technology",
-                postedDate: "2024-01-22",
-                fulfilledDate: "2024-01-23",
-                fulfillmentTime: 1,
-                status: "fulfilled",
-                ngo: "Tech for All",
-                fulfilledBy: "John Smith",
-            },
-            {
-                id: 7,
-                item: "Baby Formula",
-                category: "Healthcare",
-                postedDate: "2025-07-20",
-                fulfilledDate: null,
-                fulfillmentTime: null,
-                status: "pending",
-                ngo: "Mother & Child Care",
-                fulfilledBy: null,
-            },
-            {
-                id: 8,
-                item: "Sports Equipment",
-                category: "Recreation",
-                postedDate: "2025-07-15",
-                fulfilledDate: null,
-                fulfillmentTime: null,
-                status: "pending",
-                ngo: "Youth Sports Club",
-                fulfilledBy: null,
-            },
-            {
-                id: 9,
-                item: "Office Supplies",
-                category: "Administrative",
-                postedDate: "2025-07-12",
-                fulfilledDate: "2025-07-15",
-                fulfillmentTime: 3,
-                status: "fulfilled",
-                ngo: "Community Center",
-                fulfilledBy: "Mike Chen",
-            },
-            {
-                id: 10,
-                item: "First Aid Kits",
-                category: "Healthcare",
-                postedDate: "2025-07-08",
-                fulfilledDate: "2025-07-09",
-                fulfillmentTime: 1,
-                status: "fulfilled",
-                ngo: "Emergency Response",
-                fulfilledBy: "Sarah Johnson",
-            },
-        ],
-    });
-
     const stats = (() => {
         const allNeeds = sampleData.needs;
         const fulfilledNeeds = allNeeds.filter(
@@ -332,15 +217,13 @@ const Marketplace = () => {
         };
     })();
 
-    // DataTable columns configuration for unfulfilled needs
     const unfulfilledColumns = [
         {
             name: "Item",
             selector: (row) => row.item,
             sortable: true,
             width: "20%",
-                        center: true,
-
+            center: true,
         },
         {
             name: "Category",
@@ -350,16 +233,14 @@ const Marketplace = () => {
                 <span className="category-badge">{row.category}</span>
             ),
             width: "20%",
-                        center: true,
-
+            center: true,
         },
         {
             name: "NGO",
             selector: (row) => row.ngo,
             sortable: true,
             width: "20%",
-                        center: true,
-
+            center: true,
         },
         {
             name: "Days Waiting",
@@ -509,14 +390,12 @@ const Marketplace = () => {
                         }))}
                         title="Average Days to Fulfill"
                         color={[
-                            "#2d3748", // dark gray
-                            "#4a5568", // medium gray
-                            "#718096", // light gray
-                            "#a0aec0", // lighter gray
-                            "#cbd5e0", // very light gray
-                            "#e2e8f0", // pale gray
-                            "#f7fafc", // almost white
-                            "#ffffff", // white
+                            "#2563eb",
+                            "#7c3aed",
+                            "#dc2626",
+                            "#ea580c",
+                            "#16a34a",
+                            "#0891b2",
                         ]}
                         height={320}
                     />
@@ -536,12 +415,12 @@ const Marketplace = () => {
                                 }))}
                             title="Contributors by Impact"
                             colors={[
-                                "#2d3748", // dark gray
-                                "#4a5568", // medium gray
-                                "#718096", // light gray
-                                "#a0aec0", // lighter gray
-                                "#cbd5e0", // very light gray
-                                "#e2e8f0", // pale gray
+                                "#2563eb",
+                                "#7c3aed",
+                                "#dc2626",
+                                "#ea580c",
+                                "#16a34a",
+                                "#0891b2",
                             ]}
                             height={320}
                         />
@@ -587,7 +466,7 @@ const Marketplace = () => {
                             { label: "Week 5", value: 25 },
                         ]}
                         title="Weekly Marketplace Activity - Needs Fulfilled"
-                        color="#4a5568" // medium gray
+                        color="#2563eb"
                         height={320}
                     />
                 </div>

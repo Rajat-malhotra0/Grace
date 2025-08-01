@@ -28,7 +28,6 @@ ChartJS.register(
     Filler
 );
 
-// Default chart options
 const defaultOptions = {
     responsive: true,
     maintainAspectRatio: false,
@@ -53,7 +52,6 @@ const defaultOptions = {
     },
 };
 
-// BarChart Component
 export const BarChart = ({
     data,
     title,
@@ -67,7 +65,7 @@ export const BarChart = ({
             {
                 label: title || "Data",
                 data: data.map((item) => item.count || item.value),
-                backgroundColor: Array.isArray(color) ? color : color,
+                backgroundColor: color,
                 borderColor: Array.isArray(color)
                     ? color.map((c) => c + "80")
                     : color + "80",
@@ -114,7 +112,6 @@ export const BarChart = ({
     );
 };
 
-// LineChart Component
 export const LineChart = ({
     data,
     title,
@@ -132,7 +129,7 @@ export const LineChart = ({
                 backgroundColor: color + "20",
                 borderWidth: 3,
                 fill: true,
-                tension: curved ? 0.4 : 0,
+                tension: curved ? 0.2 : 0,
                 pointBackgroundColor: color,
                 pointBorderColor: "#fff",
                 pointBorderWidth: 2,
@@ -178,7 +175,6 @@ export const LineChart = ({
     );
 };
 
-// DonutChart Component
 export const DonutChart = ({
     data,
     title,
@@ -211,7 +207,7 @@ export const DonutChart = ({
                 padding: 20,
             },
         },
-        cutout: "60%", // Makes it a donut chart
+        cutout: "60%",
     };
 
     return (
@@ -221,7 +217,7 @@ export const DonutChart = ({
     );
 };
 
-// PieChart Component
+
 export const PieChart = ({
     data,
     title,
@@ -263,7 +259,6 @@ export const PieChart = ({
     );
 };
 
-// Main ChartJS export with all chart types
 const Charts = {
     BarChart,
     LineChart,
