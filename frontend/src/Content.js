@@ -13,6 +13,13 @@ import Engagement from "./Pages/Engagement/Engagement";
 import Volunteer from "./Pages/VolunteerInsights/volunteer";
 import ImpactStories from "./Pages/Home/ImpactStories";
 import GraceApp from "./Pages/Grace_App/Grace_App";
+import NgoTeamDashboard from "./Pages/Dashboards/NgoTeam/NgoTeamDashboard";
+import VolunteerDashboard from "./Pages/Dashboards/Volunteer/VolunteerDashboard";
+// Import other dashboards as needed
+import Achievements from "./Pages/Dashboards/NgoTeam/Achievements";
+import Settings from "./Pages/Dashboards/NgoTeam/Settings";
+import Notifications from "./Pages/Dashboards/NgoTeam/Notifications";
+
 function Content() {
     return (
         <Routes>
@@ -29,6 +36,21 @@ function Content() {
             <Route path="/volunteer" element={<Volunteer />} />
             <Route path="/impact-stories" element={<ImpactStories />} />
             <Route path="/grace-app" element={<GraceApp />} />
+            <Route path="/dashboard/ngo-team" element={<NgoTeamDashboard />} />
+            <Route
+                path="/dashboard/volunteer"
+                element={<VolunteerDashboard />}
+            />
+            {/* <Route path="/dashboard/donor" element={<DonorDashboard />} /> */}
+            <Route
+                path="/dashboard/ngo-team/achievements"
+                element={<Achievements />}
+            />
+            <Route path="/dashboard/ngo-team/settings" element={<Settings />} />
+            <Route
+                path="/dashboard/ngo-team/notifications"
+                element={<Notifications />}
+            />
         </Routes>
     );
 }

@@ -9,13 +9,13 @@
 }
 
 .marketplace-header {
-    background: linear-gradient(135deg, #000 0%, #333 100%);
+    background: linear-gradient(135deg, #1a1a1a 0%, #333333 100%);
     color: white;
     padding: 4rem 2rem;
     text-align: center;
     border-radius: 12px;
     margin-bottom: 3rem;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
 }
 
 .marketplace-header h1 {
@@ -69,15 +69,16 @@
     background: white;
     padding: 25px;
     border-radius: 12px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     text-align: center;
-    transition: transform 0.2s ease;
-    border-left: 4px solid #2563eb;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: 2px solid #f0f0f0;
 }
 
 .metric-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    border-color: #333;
 }
 
 .metric-card h3 {
@@ -92,7 +93,7 @@
 .metric-value {
     font-size: 2.5rem;
     font-weight: 700;
-    color: #1e40af;
+    color: #1a1a1a;
     display: block;
     font-family: "Poppins", sans-serif;
 }
@@ -103,16 +104,17 @@
     border-radius: 12px;
     padding: 30px;
     margin-bottom: 30px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid #f0f0f0;
 }
 
 .insight-section h2 {
     margin: 0 0 25px 0;
-    color: #333;
+    color: #1a1a1a;
     font-size: 1.5rem;
     font-weight: 600;
     font-family: "Playfair Display", serif;
-    border-bottom: 3px solid #2563eb;
+    border-bottom: 2px solid #e0e0e0;
     padding-bottom: 10px;
 }
 
@@ -137,40 +139,43 @@
 }
 
 .contributor-card {
-    background: linear-gradient(135deg, #f8f9fa 0%, #fff 100%);
-    border: 1px solid #eee;
+    background: linear-gradient(135deg, #fafafa 0%, #ffffff 100%);
+    border: 2px solid #f0f0f0;
     border-radius: 12px;
     padding: 20px;
     text-align: center;
     position: relative;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    border-left: 4px solid #7c3aed;
+    transition: transform 0.2s ease, box-shadow 0.2s ease,
+        border-color 0.2s ease;
 }
 
 .contributor-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    border-color: #333;
 }
 
 .contributor-rank {
     position: absolute;
-    top: -10px;
-    right: -10px;
-    background: #7c3aed;
+    top: -12px;
+    right: -12px;
+    background: #333;
     color: white;
-    width: 30px;
-    height: 30px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: 700;
-    font-size: 0.8rem;
+    font-size: 0.85rem;
+    border: 2px solid white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .contributor-card h4 {
     margin: 0 0 15px 0;
-    color: #333;
+    color: #1a1a1a;
     font-size: 1.1rem;
     font-family: "Playfair Display", serif;
 }
@@ -186,7 +191,7 @@
 }
 
 .contributor-stats strong {
-    color: #1e40af;
+    color: #1a1a1a;
     font-weight: 600;
 }
 
@@ -194,8 +199,9 @@
 .datatable-container {
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     background: white;
+    border: 1px solid #f0f0f0;
 }
 
 /* DataTable Styling */
@@ -379,9 +385,9 @@
 }
 
 .datatable-container .rdt_Pagination button:hover:not(:disabled) {
-    background: #2563eb;
+    background: #333;
     color: white;
-    border-color: #2563eb;
+    border-color: #333;
 }
 
 .datatable-container .rdt_Pagination button:disabled {

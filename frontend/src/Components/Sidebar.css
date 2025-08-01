@@ -1,0 +1,74 @@
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 220px;
+  background-color: #111;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.5rem 1rem;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar-header {
+    text-align: center; 
+}
+.sidebar-header .app-name {
+  font-family: serif;
+  font-weight: bold;
+  font-size: 3rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  text-align: center ;
+}
+
+.sidebar-section {
+    text-align: center;
+}
+
+.sidebar-section a {
+  font-family: serif;
+  display: block;
+  color: #cfcccc;
+  margin: 0.9rem 0;
+  text-decoration: none;
+  font-size: 1.5rem;
+  transition: color 0.2s ease;
+  text-align: center;
+}
+
+.sidebar-section a:hover {
+  color: #fff;
+}
+
+.sidebar-profile {
+  display: flex;
+  align-items: center;
+  margin-top: 19rem;
+}
+
+.sidebar-profile .profile-pic {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 0.6rem;
+  margin-bottom: 3rem;
+}
+
+.sidebar-profile .profile-name {
+  font-size: 0.95rem;
+  font-weight: 500;
+  font-family: serif;
+  margin-bottom: 3rem;
+  color: #aaa8a8;
+}
+
+.sidebar-profile .profile-name:hover {
+  color: #fff;
+}
+

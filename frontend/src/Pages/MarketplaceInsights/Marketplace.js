@@ -390,12 +390,12 @@ const Marketplace = () => {
                         }))}
                         title="Average Days to Fulfill"
                         color={[
-                            "#2563eb",
-                            "#7c3aed",
-                            "#dc2626",
-                            "#ea580c",
-                            "#16a34a",
-                            "#0891b2",
+                            "#1a1a1a",
+                            "#333333",
+                            "#4d4d4d",
+                            "#666666",
+                            "#808080",
+                            "#999999",
                         ]}
                         height={320}
                     />
@@ -415,12 +415,12 @@ const Marketplace = () => {
                                 }))}
                             title="Contributors by Impact"
                             colors={[
-                                "#2563eb",
-                                "#7c3aed",
-                                "#dc2626",
-                                "#ea580c",
-                                "#16a34a",
-                                "#0891b2",
+                                "#1a1a1a",
+                                "#333333",
+                                "#4d4d4d",
+                                "#666666",
+                                "#808080",
+                                "#999999",
                             ]}
                             height={320}
                         />
@@ -466,7 +466,7 @@ const Marketplace = () => {
                             { label: "Week 5", value: 25 },
                         ]}
                         title="Weekly Marketplace Activity - Needs Fulfilled"
-                        color="#2563eb"
+                        color="#333333"
                         height={320}
                     />
                 </div>
