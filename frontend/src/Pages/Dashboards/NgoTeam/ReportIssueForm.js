@@ -25,59 +25,95 @@ const ReportIssueForm = () => {
     <div className="report-form-card">
       <h3>Report an Issue</h3>
       <p className="report-subtext">
-        Let us know about any problem your NGO is facing.
+        <em>Let us know about any problem your NGO is facing.</em>
       </p>
       <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="title"
-          placeholder="Report Title (e.g., Volunteer No-Show)"
-          value={formData.title}
-          onChange={handleChange}
-        />
+        <div className="form-group">
+          <label htmlFor="title">Report Title</label>
+          <input
+            type="text"
+            id="title"
+            name="title"
+            placeholder="e.g., Volunteer No-Show"
+            value={formData.title}
+            onChange={handleChange}
+            required
+          />
+        </div>
 
-        <select name="category" value={formData.category} onChange={handleChange}>
-          <option value="">Select Category</option>
-          <option value="Technical Issue">Technical Issue</option>
-          <option value="Volunteer Management">Volunteer Management</option>
-          <option value="Donor Communication">Donor Communication</option>
-          <option value="Inventory Problem">Inventory Problem</option>
-          <option value="Event/Logistics">Event/Logistics</option>
-          <option value="Internal Operations">Internal Operations</option>
-          <option value="Other">Other</option>
-        </select>
+        <div className="form-group">
+          <label htmlFor="category">Category</label>
+          <select
+            id="category"
+            name="category"
+            value={formData.category}
+            onChange={handleChange}
+            required
+          >
+            <option value="">Select Category</option>
+            <option value="Technical Issue">Technical Issue</option>
+            <option value="Volunteer Management">Volunteer Management</option>
+            <option value="Donor Communication">Donor Communication</option>
+            <option value="Inventory Problem">Inventory Problem</option>
+            <option value="Event/Logistics">Event/Logistics</option>
+            <option value="Internal Operations">Internal Operations</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
 
-        <select name="urgency" value={formData.urgency} onChange={handleChange}>
-          <option value="">Select Urgency Level</option>
-          <option value="Low">Low</option>
-          <option value="Medium">Medium</option>
-          <option value="High">High</option>
-          <option value="Critical">Critical</option>
-        </select>
+        <div className="form-group urgency-select">
+          <label htmlFor="urgency">Urgency Level</label>
+          <select
+            id="urgency"
+            name="urgency"
+            value={formData.urgency}
+            onChange={handleChange}
+            required
+          >
+            <option value="">Select Urgency Level</option>
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+            <option value="Critical">Critical</option>
+          </select>
+        </div>
 
-        <textarea
-          name="description"
-          rows="5"
-          placeholder="Describe the issue in detail..."
-          value={formData.description}
-          onChange={handleChange}
-        ></textarea>
+        <div className="form-group">
+          <label htmlFor="description">Description</label>
+          <textarea
+            id="description"
+            name="description"
+            rows="5"
+            placeholder="Describe the issue in detail..."
+            value={formData.description}
+            onChange={handleChange}
+            required
+          ></textarea>
+        </div>
 
-        <label>Date of Incident</label>
-        <input
-          type="date"
-          name="date"
-          value={formData.date}
-          onChange={handleChange}
-        />
+        <div className="form-group">
+          <label htmlFor="date">Date of Incident</label>
+          <input
+            type="date"
+            id="date"
+            name="date"
+            value={formData.date}
+            onChange={handleChange}
+            required
+          />
+        </div>
 
-        <input
-          type="text"
-          name="contactPerson"
-          placeholder="Contact Person (optional)"
-          value={formData.contactPerson}
-          onChange={handleChange}
-        />
+        <div className="form-group">
+          <label htmlFor="contactPerson">Contact Person</label>
+          <input
+            type="text"
+            id="contactPerson"
+            name="contactPerson"
+            placeholder="Contact Person (optional)"
+            value={formData.contactPerson}
+            onChange={handleChange}
+          />
+        </div>
 
         <button type="submit">Submit Report</button>
       </form>

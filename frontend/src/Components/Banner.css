@@ -33,46 +33,46 @@
   opacity: 0.9;
 }
 
-.leaf-1 {
+.leaf-1- {
   top: -15px;
   left: 25%;
   transform: translateX(-50%) scale(1);
 }
 
-.leaf-2 {
+.leaf-2- {
   top: 40px;
   right: 17%;
 }
 
-.leaf-3 {
+.leaf-3- {
   top: 950px;
   left: 15%;
   transform: translateX(-50%) scale(2.5);
 }
 
-.leaf-4 {
+.leaf-4- {
   top: 300px;
   right: 60%;
   transform: translateX(-50%) scale(3.5);
 }
 
-.leaf-5 {
+.leaf-5- {
   top: 150px;
   left: 15%;
   transform: translateX(-50%) scale(2.25);
 }
 
-.flower-1 {
+.flower-1- {
   top: 190px;
   right: 5%;
   transform: translateX(-50%) scale(3.25);
 }
-.sparkle-1 {
+.sparkle-1- {
   top: 120px;
   left: 32%;
   transform: translateX(-50%) scale(1.25);
 }
-.sparkle-2 {
+.sparkle-2- {
   top: 240px;
   right: 20%;
   transform: translateX(-50%) scale(0.8);

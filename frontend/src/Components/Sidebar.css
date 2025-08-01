@@ -14,7 +14,7 @@
 }
 
 .sidebar-header {
-    text-align: center; 
+  text-align: center;
 }
 .sidebar-header .app-name {
   font-family: serif;
@@ -23,11 +23,11 @@
   font-weight: 600;
   margin-bottom: 1rem;
   margin-top: 1rem;
-  text-align: center ;
+  text-align: center;
 }
 
 .sidebar-section {
-    text-align: center;
+  text-align: center;
 }
 
 .sidebar-section a {
@@ -48,7 +48,16 @@
 .sidebar-profile {
   display: flex;
   align-items: center;
-  margin-top: 19rem;
+  gap: 0.75rem;
+  padding: 1rem;
+  text-decoration: none;
+  color: inherit;
+  transition: background-color 0.3s ease;
+  border-radius: 0.5rem;
+}
+
+.sidebar-profile:hover {
+  background-color: rgba(0, 0, 0, 0.05);
 }
 
 .sidebar-profile .profile-pic {
@@ -71,4 +80,3 @@
 .sidebar-profile .profile-name:hover {
   color: #fff;
 }
-
