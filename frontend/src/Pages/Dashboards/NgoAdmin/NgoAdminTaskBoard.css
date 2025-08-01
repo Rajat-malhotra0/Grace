@@ -1,0 +1,128 @@
+/* Wrapper */
+.task-board-container {
+  padding: 2rem;
+}
+
+.task-section {
+  background-color: #f7f7f7;
+  padding: 1rem;
+  border-radius: 10px;
+  min-width: 250px;
+  flex: 1;
+  max-width: 300px;
+  margin-top: 0.01rem;
+}
+
+/* Flex layout for columns */
+.task-section-list {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* Dropdown & Employee Name */
+.task-section select {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 5px;
+}
+
+.employee-name {
+  margin-top: 0.5rem;
+  font-weight: bold;
+}
+
+/* Task Card */
+.task-card {
+  background-color: white;
+  padding: 0.75rem;
+  margin-top: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.task-card input[type='text'],
+.task-card textarea {
+  width: 100%;
+  margin-bottom: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 4px;
+}
+
+.task-card textarea {
+  resize: none;
+}
+
+/* Priority Dropdown */
+.task-card select {
+  margin-bottom: 0.5rem;
+  padding: 4px;
+  border-radius: 4px;
+}
+
+/* Task Card Footer */
+.task-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Add Task / Assign Buttons */
+.add-task-btn,
+.assign-tasks-btn {
+  margin-top: 1rem;
+  width: 100%;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.add-task-btn {
+  background-color: #e0e0e0;
+}
+
+.assign-tasks-btn {
+  background-color: #080808;
+  color: white;
+}
+
+/* Success Message */
+.success-message {
+  color: green;
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
+/* Add Section */
+.add-section-button {
+  padding: 1rem;
+  background-color: #ddd;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+.task-board-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.task-board-header h2 {
+  font-family: serif;
+  font-size: 3rem;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 0.01rem;
+  margin-top : 0.01rem;
+}
+  
+
+.task-board-header p {
+  font-family: serif;
+  font-size: 1rem;
+  color: #555;
+  margin-top: 0.01rem;
+  margin-bottom: 0.01rem;
+}

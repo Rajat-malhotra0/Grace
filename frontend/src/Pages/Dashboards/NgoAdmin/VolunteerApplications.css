@@ -1,0 +1,98 @@
+/* AdminVolunteerApplications.css */
+.application-log-wrapper {
+  padding-left: 220px; 
+  padding-right: 1rem;
+  padding-top: 1rem;
+}
+
+.volunteer-applications-section {
+  padding: 2rem;
+  background-color: #f7f7f7;
+  min-height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.volunteer-applications-section h2 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.filters input[type='text'],
+.filters select {
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  flex: 1;
+  min-width: 200px;
+}
+
+.applications-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.applications-table th,
+.applications-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+  font-size: 0.95rem;
+}
+
+.applications-table th {
+  background-color: #f0f0f0;
+  font-weight: 600;
+  color: #444;
+}
+
+.applications-table td {
+  background-color: #fff;
+  color: #333;
+}
+
+.applications-table tr:hover {
+  background-color: #fafafa;
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.actions button {
+  padding: 0.4rem 0.8rem;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.actions button.contact {
+  background-color: #28a745;
+  color: white;
+}
+
+.actions button.shortlist {
+  background-color: #007bff;
+  color: white;
+}
+
+.actions button:hover {
+  opacity: 0.9;
+}

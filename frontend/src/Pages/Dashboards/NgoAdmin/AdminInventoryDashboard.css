@@ -1,0 +1,57 @@
+.inventory-dashboard {
+  padding: 2rem;
+  background-color: #f9f9f9;
+}
+
+.section-title {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+.inventory-card {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  padding: 1rem;
+  overflow-x: auto;
+}
+
+.inventory-header-row,
+.inventory-row {
+  display: grid;
+  grid-template-columns: 60px 80px 120px 100px 80px 120px 120px 150px 150px;
+  gap: 0.5rem;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #eee;
+  font-size: 0.9rem;
+}
+
+.inventory-header-row {
+  font-weight: bold;
+  background-color: #f1f1f1;
+  border-radius: 8px;
+  padding: 0.6rem;
+}
+
+.inventory-row input[type='checkbox'] {
+  transform: scale(1.2);
+  cursor: pointer;
+}
+
+.empty-message {
+  text-align: center;
+  padding: 1rem;
+  color: #888;
+}
+
+.view-used-btn {
+  margin-top: 2rem;
+  padding: 0.8rem 1.4rem;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}

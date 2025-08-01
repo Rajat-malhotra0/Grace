@@ -1,0 +1,44 @@
+.food-form {
+  color: white;
+}
+
+.food-form h3 {
+  font-size: 2.5rem;
+  font-family: serif;
+  margin-bottom: 1rem;
+}
+
+.food-form .form-subtext {
+  font-family: serif;
+  font-size: 1.4rem;
+  margin-bottom: 1.5rem;
+}
+
+.food-form form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.food-form input,
+.food-form select {
+  padding: 0.6rem 1rem;
+  border-radius: 0.75rem;
+  border: none;
+  font-size: 1rem;
+}
+
+.food-form button {
+  background: white;
+  color: #222;
+  font-weight: bold;
+  padding: 0.8rem 2rem;
+  border-radius: 1.5rem;
+  border: none;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+.food-form button:hover {
+  background: #f0f0f0;
+}

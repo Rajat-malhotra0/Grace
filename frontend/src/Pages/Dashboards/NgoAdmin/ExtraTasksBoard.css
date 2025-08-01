@@ -1,0 +1,82 @@
+
+.extra-board-container {
+  padding: 3rem;
+  background-color: #f7f7f7;
+}
+
+.extra-board-title {
+  text-align: center;
+  font-size: 1.75rem;
+  margin-bottom: 2rem;
+}
+
+.extra-tasks-column {
+  max-width: 700px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.extra-task-card {
+  background-color: #f7f7f7;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.extra-task-card input[type="text"],
+.extra-task-card textarea,
+.extra-task-card select {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.extra-task-card textarea {
+  resize: vertical;
+  min-height: 60px;
+}
+
+.dropdown-row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.task-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.delete-btn {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.add-task-btn,
+.save-tasks-btn {
+  background-color: #090909;
+  color: white;
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.add-task-btn {
+  background-color: #6b6b6b;
+}
+
+.success-message {
+  color: green;
+  margin-top: 0.5rem;
+  text-align: center;
+  font-weight: 500;
+}
