@@ -9,7 +9,7 @@ import { ChevronRight } from "lucide-react";
 // // import Task6 from "../../assets/task7.svg";
 // import Task7 from "../../assets/task8.svg";
 import Flower1 from "../../../assets/flower2.svg";
-import Flower2 from "../../../assets/flower3.svg";
+
 
 const initialTasks = [
   {
@@ -176,7 +176,7 @@ const TaskSection = () => {
     <section className="ngo-section">
       <div className="ngo-wrapper">
         <img src={Flower1} alt="flower" className="task flower-2" />
-        <img src={Flower2} alt="flower" className="task flower-3" />
+        
         <div className="progress-bar-container">
           <div className="progress-bar" style={{ width: `${progress}%` }}></div>
         </div>

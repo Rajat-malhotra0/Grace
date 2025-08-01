@@ -23,10 +23,10 @@ const Sidebar = () => {
         <Link to="/dashboard/ngo-team/notifications">Notifications</Link>
       </div>
 
-      <div className="sidebar-profile">
+      <Link to="/profile" className="sidebar-profile">
         <img src={profileIcon} alt="Profile" className="profile-pic" />
         <span className="profile-name">Aditi Singh</span>
-      </div>
+      </Link>
     </div>
   );
 };

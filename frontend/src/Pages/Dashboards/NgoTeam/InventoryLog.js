@@ -10,6 +10,7 @@ import booksImg from "../../../assets/books.jpg";
 import clothesImg from "../../../assets/clothes.jpg";
 import medicineImg from "../../../assets/medicines.jpg";
 import othersImg from "../../../assets/others.jpg";
+import Flower2 from "../../../assets/flower3.svg";
 
 const inventoryItems = [
   {
@@ -18,7 +19,7 @@ const inventoryItems = [
     description: "Log donated or distributed meals and groceries.",
     details:
       "Track the stock levels and distribution of food packages, dry rations, and cooked meals.",
-    bgColor: "bg-blue",
+    bgColor: "inventory-bg-blue",
     image: foodImg,
     buttonText: "Log Food Inventory",
   },
@@ -28,7 +29,7 @@ const inventoryItems = [
     description: "Monitor warm wear, uniforms, and more.",
     details:
       "Keep a record of clothing items received, sorted, and distributed to beneficiaries.",
-    bgColor: "bg-pink",
+    bgColor: "inventory-bg-pink",
     image: clothesImg,
     buttonText: "Log Clothing Inventory",
   },
@@ -38,7 +39,7 @@ const inventoryItems = [
     description: "Track school supplies and reading materials.",
     details:
       "Maintain a log of notebooks, pens, reading books, and other educational resources.",
-    bgColor: "bg-purple",
+    bgColor: "inventory-bg-purple",
     image: booksImg,
     buttonText: "Log Education Inventory",
   },
@@ -48,7 +49,7 @@ const inventoryItems = [
     description: "Ensure timely record-keeping of essential meds.",
     details:
       "Log inventory of first-aid kits, medicines, sanitary products, and health packages.",
-    bgColor: "bg-yellow",
+    bgColor: "inventory-bg-yellow",
     image: medicineImg,
     buttonText: "Log Medical Inventory",
   },
@@ -57,8 +58,8 @@ const inventoryItems = [
     title: "OTHER DONATIONS",
     description: "Little Things, Big Impact",
     details:
-      "Whether it’s a toy that brings laughter, a blanket that brings warmth, or a tablet that opens doors — every donation has a role in someone’s story. Log them here with care.",
-    bgColor: "bg-emerald",
+      "Whether it's a toy that brings laughter, a blanket that brings warmth, or a tablet that opens doors — every donation has a role in someone's story. Log them here with care.",
+    bgColor: "inventory-bg-emerald",
     image: othersImg,
     buttonText: "Log Toy Inventory",
   },
@@ -76,8 +77,9 @@ const InventoryLog = () => {
 
   return (
     <section className="inventory-section">
-      <div className="container">
+      <div className="inventory-container">
         <div className="inventory-header">
+          <img src={Flower2} alt="flower" className="task flower-3" />
           <h2>INVENTORY LOG</h2>
           <p>
             <em>Keep track of your supplies, one donation at a time.</em>
@@ -90,10 +92,12 @@ const InventoryLog = () => {
               key={item.id}
               onClick={() => {
                 setActiveTab(item.id);
-                setShowForm(false); 
+                setShowForm(false);
               }}
-              className={`tab-btn ${
-                activeTab === item.id ? "active-tab " + item.bgColor : ""
+              className={`inventory-tab-btn ${
+                activeTab === item.id
+                  ? "inventory-active-tab " + item.bgColor
+                  : ""
               }`}
             >
               {item.title}
@@ -116,11 +120,14 @@ const InventoryLog = () => {
                 {showForm ? (
                   <>
                     {activeInventory.id === "food" && <FoodInventoryForm />}
-                    {activeInventory.id === "clothes" && <ClothingInventoryForm />}
+                    {activeInventory.id === "clothes" && (
+                      <ClothingInventoryForm />
+                    )}
                     {activeInventory.id === "books" && <BookInventoryForm />}
-                    {activeInventory.id === "medicine" && <MedicalInventoryForm />}
+                    {activeInventory.id === "medicine" && (
+                      <MedicalInventoryForm />
+                    )}
                     {activeInventory.id === "others" && <OtherInventoryForm />}
-                    
                   </>
                 ) : (
                   <>

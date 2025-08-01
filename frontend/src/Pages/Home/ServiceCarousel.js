@@ -93,7 +93,7 @@ const ServiceCarousel = () => {
     <section className="service-section">
       <div className="container">
         <div className="section-header">
-          <h2>HOW WE HELP</h2>
+          <h2>HOW WE HELP</h2><br />
           <p>
             <em>
               Empowering NGOs, volunteers, and donors to do more good —

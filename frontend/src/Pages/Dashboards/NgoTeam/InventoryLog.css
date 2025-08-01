@@ -1,10 +1,11 @@
 .inventory-section {
-  padding: 5rem 1.5rem;
+  padding: 2rem 1.5rem;
   background: #ffffff;
   margin: 0.1rem 13rem 2.1rem 13rem;
+  margin-top: 0.1rem;
 }
 
-.container {
+.inventory-container {
   max-width: 1600px;
   margin: 0 auto;
 }
@@ -20,9 +21,8 @@
   font-weight: 700;
   color: #222;
   margin-bottom: 2rem;
-  margin-top : 4rem;
+  margin-top: 4rem;
 }
-  
 
 .inventory-header p {
   font-family: serif;
@@ -39,7 +39,7 @@
   margin-bottom: 2.5rem;
 }
 
-.tab-btn {
+.inventory-tab-btn {
   padding: 0.75rem 1.5rem;
   border-radius: 1rem;
   font-size: 1rem;
@@ -51,30 +51,30 @@
   transition: all 0.3s ease;
 }
 
-.tab-btn:hover {
+.inventory-tab-btn:hover {
   background-color: #ddd;
 }
 
-.active-tab {
+.inventory-active-tab {
   color: white !important;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
-/* Background Color Utility */
-.bg-blue {
-  background-color :#6d6d6d
+/* Inventory Background Color Utility */
+.inventory-bg-blue {
+  background-color: #6d6d6d;
 }
-.bg-pink {
-  background-color :#515151
+.inventory-bg-pink {
+  background-color: #515151;
 }
-.bg-purple {
-  background-color :#454545
+.inventory-bg-purple {
+  background-color: #454545;
 }
-.bg-yellow {
-  background-color :#2f2f2f
+.inventory-bg-yellow {
+  background-color: #2f2f2f;
 }
-.bg-emerald {
-  background-color :#1f1f1f
+.inventory-bg-emerald {
+  background-color: #1f1f1f;
 }
 
 .inventory-card {
@@ -82,8 +82,8 @@
   overflow: hidden;
   padding: 2rem;
   color: white;
-   margin: 2rem 0;
-   align-items: stretch;
+  margin: 2rem 0;
+  align-items: stretch;
 }
 
 .inventory-card-content {
@@ -96,19 +96,18 @@
 }
 
 @media (min-width: 1024px) {
-  .service-card-content {
+  .inventory-card-content {
     flex-direction: row;
     align-items: center;
   }
 }
 
 .inventory-text {
-    
   flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding-right: 3rem; 
+  padding-right: 3rem;
   gap: 0.01rem;
   text-align: center;
 }
@@ -153,6 +152,7 @@
 .inventory-btn:hover {
   background: #f0f0f0;
 }
+
 .inventory-image-box {
   flex: 1;
   display: flex;
@@ -168,5 +168,19 @@
   max-width: 500px;
   border-radius: 1.5rem;
   object-fit: cover;
-  height: auto
+  height: auto;
+}
+
+.flower-3 {
+  position: absolute;
+  width: 60px;
+  height: auto;
+  top: 2300px;
+  left: 35%;
+  transform: translateX(-50%) scale(3.5);
+  position: absolute;
+  width: 60px;
+  height: auto;
+  opacity: 0.9;
+
 }
