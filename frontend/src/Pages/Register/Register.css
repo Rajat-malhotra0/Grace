@@ -270,6 +270,39 @@
     color: #d32f2f;
 }
 
+/* NGO Search Styles */
+.ngo-search-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.ngo-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    max-height: 200px;
+    overflow-y: auto;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-top: none;
+    z-index: 10;
+}
+
+.ngo-option {
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+.ngo-option:hover {
+    background: #f0f0f0;
+}
+
+.ngo-option.disabled {
+    color: #999;
+    cursor: default;
+}
+
 /* Responsive adjustments for smaller screens */
 @media (max-width: 520px) {
     .register-page-container form {

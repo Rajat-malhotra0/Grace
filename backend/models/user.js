@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema({
     password: { type: String, required: true },
     role: {
         type: [String],
-        enum: ["donor", "volunteer", "admin", "ngo"],
+        enum: ["donor", "volunteer", "admin", "ngo", "ngoMember"],
         default: [],
     },
     volunteerType: { type: String, default: "" },

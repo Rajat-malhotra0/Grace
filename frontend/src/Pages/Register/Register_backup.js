@@ -162,67 +162,6 @@ function Register() {
         </div>
     );
 
-    // Add a new toast component for NGO members
-    const NgoMemberRegistrationToast = () => (
-        <div>
-            <p
-                style={{
-                    margin: 0,
-                    lineHeight: "1.6",
-                    color: "#2c2c2c",
-                    fontFamily: '"Crimson Text", serif',
-                    fontSize: "1rem",
-                    fontWeight: "400",
-                    letterSpacing: "0.3px",
-                }}
-            >
-                Welcome to{" "}
-                <strong style={{ fontWeight: "600", color: "#1a1a1a" }}>
-                    Grace
-                </strong>
-                !
-                <br />
-                <br />
-                Your registration as an NGO member is complete. You're now
-                connected to your organization and can start collaborating on
-                meaningful projects.
-            </p>
-            <div
-                style={{
-                    marginTop: "18px",
-                    borderTop: "1px solid #e1e1e1",
-                    paddingTop: "12px",
-                }}
-            >
-                <p
-                    style={{
-                        margin: 0,
-                        fontSize: "0.9rem",
-                        color: "#555555",
-                        fontFamily: '"Crimson Text", serif',
-                        lineHeight: "1.5",
-                        letterSpacing: "0.2px",
-                    }}
-                >
-                    Questions? Email:{" "}
-                    <a
-                        href="mailto:teamgrace@gmail.com"
-                        style={{
-                            color: "#2c5530",
-                            textDecoration: "none",
-                            fontWeight: "600",
-                            fontFamily: '"Crimson Text", serif',
-                            borderBottom: "1px solid #2c5530",
-                            transition: "all 0.2s ease",
-                        }}
-                    >
-                        teamgrace@gmail.com
-                    </a>
-                </p>
-            </div>
-        </div>
-    );
-
     const handleChange = (e) => {
         if (e.target.name === "focusAreas") {
             const selectedValue = e.target.value;
@@ -303,7 +242,7 @@ function Register() {
         } else if (formData.role === "ngoMember") {
             payload = {
                 ...basePayload,
-                ngoId: formData.ngoId,
+                associatedNgo: formData.associatedNgo,
             };
         } else {
             payload = basePayload;
@@ -313,45 +252,31 @@ function Register() {
         const result = await register(payload, isNgo);
 
         if (result && result.success) {
-            // Use toast.success with JSX components
             if (isNgo) {
                 toast.success(<NgoRegistrationToast />, {
                     position: "top-right",
-                    autoClose: 8000,
+                    className: "wide-toast",
+                    progressClassName: "my-custom-progress-bar",
+                    autoClose: 10000,
                     hideProgressBar: false,
                     closeOnClick: true,
                     pauseOnHover: true,
                     draggable: true,
-                    toastId: "ngo-registration",
-                });
-            } else if (formData.role === "ngoMember") {
-                toast.success(<NgoMemberRegistrationToast />, {
-                    position: "top-right",
-                    autoClose: 8000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    toastId: "ngo-member-registration",
                 });
             } else {
                 toast.success(<VolunteerRegistrationToast />, {
                     position: "top-right",
-                    autoClose: 8000,
+                    className: "wide-toast",
+                    progressClassName: "my-custom-progress-bar",
+                    autoClose: 10000,
                     hideProgressBar: false,
                     closeOnClick: true,
                     pauseOnHover: true,
                     draggable: true,
-                    toastId: "volunteer-registration",
                 });
             }
         } else {
-            toast.error(
-                result?.message || "Registration failed. Please try again.",
-                {
-                    toastId: "registration-error",
-                }
-            );
+            alert(result?.message || "Registration failed. Please try again.");
         }
     };
 
@@ -489,27 +414,299 @@ function Register() {
                 />
 
                 {formData.role === "ngo" ? (
-                    <NgoFormFields
-                        formData={formData}
-                        handleChange={handleChange}
-                        categories={categories}
-                        setFormData={setFormData}
-                    />
+                    <>
+                        <label>Organization Name</label>
+                        <input
+                            type="text"
+                            name="organizationName"
+                            placeholder="Organization Name"
+                            onChange={handleChange}
+                            value={formData.organizationName || ""}
+                            required
+                        />
+
+                        <label>Registration Number</label>
+                        <input
+                            type="text"
+                            name="registrationNumber"
+                            placeholder="NGO Registration Number"
+                            onChange={handleChange}
+                            value={formData.registrationNumber || ""}
+                            required
+                        />
+
+                        <label>Phone Number</label>
+                        <input
+                            type="tel"
+                            name="phoneNumber"
+                            placeholder="Phone Number"
+                            onChange={handleChange}
+                            value={formData.phoneNumber || ""}
+                            required
+                        />
+
+                        <label>Website (Optional)</label>
+                        <input
+                            type="url"
+                            name="website"
+                            placeholder="Organization Website"
+                            onChange={handleChange}
+                            value={formData.website || ""}
+                        />
+
+                        <label>Organization Description</label>
+                        <textarea
+                            name="description"
+                            placeholder="Brief description of your organization"
+                            onChange={handleChange}
+                            value={formData.description || ""}
+                            required
+                        />
+
+                        <label>Focus Areas</label>
+                        <select
+                            className="styled-select"
+                            name="focusAreas"
+                            onChange={handleChange}
+                            value=""
+                            required={
+                                !(
+                                    Array.isArray(formData.focusAreas) &&
+                                    formData.focusAreas.length > 0
+                                )
+                            }
+                        >
+                            <option value="" disabled>
+                                {categories.length === 0
+                                    ? "Loading categories..."
+                                    : "Select a focus area"}
+                            </option>
+                            {categories.map((category) => (
+                                <option
+                                    key={category._id}
+                                    value={category._id}
+                                    disabled={
+                                        Array.isArray(formData.focusAreas) &&
+                                        formData.focusAreas.includes(
+                                            category._id
+                                        )
+                                    }
+                                >
+                                    {category.name}
+                                </option>
+                            ))}
+                        </select>
+
+                        {Array.isArray(formData.focusAreas) &&
+                        formData.focusAreas.length > 0 ? (
+                            <div className="selected-categories-list">
+                                {formData.focusAreas.map((catId) => {
+                                    const cat = categories.find(
+                                        (c) => c._id === catId
+                                    );
+                                    return (
+                                        <span
+                                            className="selected-category-chip"
+                                            key={catId}
+                                        >
+                                            {cat ? cat.name : catId}
+                                            <button
+                                                type="button"
+                                                className="remove-category-btn"
+                                                onClick={() => {
+                                                    setFormData((prev) => ({
+                                                        ...prev,
+                                                        focusAreas:
+                                                            prev.focusAreas.filter(
+                                                                (id) =>
+                                                                    id !== catId
+                                                            ),
+                                                    }));
+                                                }}
+                                                aria-label="Remove"
+                                            >
+                                                ×
+                                            </button>
+                                        </span>
+                                    );
+                                })}
+                            </div>
+                        ) : null}
+                    </>
                 ) : formData.role === "volunteer" ? (
-                    <VolunteerFormFields
-                        formData={formData}
-                        handleChange={handleChange}
-                    />
-                ) : formData.role === "ngoMember" ? (
-                    <NgoMemberFormFields
-                        formData={formData}
-                        handleChange={handleChange}
-                    />
+                    <>
+                        <label>How would you like to volunteer with us: </label>
+                        <label>
+                            <input
+                                type="radio"
+                                name="volunteerType"
+                                value="individual"
+                                onChange={handleChange}
+                                checked={
+                                    formData.volunteerType === "individual"
+                                }
+                            />
+                            As an individual
+                        </label>
+                        <label>
+                            <input
+                                type="radio"
+                                name="volunteerType"
+                                value="school"
+                                onChange={handleChange}
+                                checked={formData.volunteerType === "school"}
+                            />
+                            As a school partnership
+                        </label>
+                        <label>
+                            <input
+                                type="radio"
+                                name="volunteerType"
+                                value="corporate"
+                                onChange={handleChange}
+                                checked={formData.volunteerType === "corporate"}
+                            />
+                            As a corporate partnership
+                        </label>
+                        <label>
+                            <input
+                                type="radio"
+                                name="volunteerType"
+                                value="intern"
+                                onChange={handleChange}
+                                checked={formData.volunteerType === "intern"}
+                            />
+                            For an internship
+                        </label>
+                        <label>
+                            <input
+                                type="radio"
+                                name="volunteerType"
+                                value="career"
+                                onChange={handleChange}
+                                checked={formData.volunteerType === "career"}
+                            />
+                            As a career
+                        </label>
+
+                        {formData.volunteerType === "school" ? (
+                            <>
+                                <label>School Name</label>
+                                <input
+                                    type="text"
+                                    name="organizationName"
+                                    placeholder="Organization Name"
+                                    onChange={handleChange}
+                                    value={formData.organizationName || ""}
+                                    required
+                                />
+
+                                <label>School Address</label>
+                                <textarea
+                                    name="organizationAddress"
+                                    placeholder="Address"
+                                    onChange={handleChange}
+                                    value={formData.organizationAddress || ""}
+                                    required
+                                />
+
+                                <label>City</label>
+                                <input
+                                    type="text"
+                                    name="organizationCity"
+                                    placeholder="City"
+                                    onChange={handleChange}
+                                    value={formData.organizationCity || ""}
+                                    required
+                                />
+
+                                <label>State</label>
+                                <input
+                                    type="text"
+                                    name="organizationState"
+                                    placeholder="State"
+                                    onChange={handleChange}
+                                    value={formData.organizationState || ""}
+                                    required
+                                />
+                            </>
+                        ) : formData.volunteerType === "corporate" ? (
+                            <>
+                                <label>Organization Name</label>
+                                <input
+                                    type="text"
+                                    name="organizationName"
+                                    placeholder="Organization Name"
+                                    onChange={handleChange}
+                                    value={formData.organizationName || ""}
+                                    required
+                                />
+                                <label>Company Address</label>
+                                <textarea
+                                    name="organizationAddress"
+                                    placeholder="Address"
+                                    onChange={handleChange}
+                                    value={formData.organizationAddress || ""}
+                                    required
+                                />
+
+                                <label>City</label>
+                                <input
+                                    type="text"
+                                    name="organizationCity"
+                                    placeholder="City"
+                                    onChange={handleChange}
+                                    value={formData.organizationCity || ""}
+                                    required
+                                />
+
+                                <label>State</label>
+                                <input
+                                    type="text"
+                                    name="organizationState"
+                                    placeholder="State"
+                                    onChange={handleChange}
+                                    value={formData.organizationState || ""}
+                                    required
+                                />
+
+                                <label>Department/Team Name</label>
+                                <input
+                                    type="text"
+                                    name="organizationDepartment"
+                                    placeholder="Department"
+                                    onChange={handleChange}
+                                    value={
+                                        formData.organizationDepartment || ""
+                                    }
+                                    required
+                                />
+
+                                <label>Your Designation / Role</label>
+                                <input
+                                    type="text"
+                                    name="organizationPersonRole"
+                                    placeholder="Role"
+                                    onChange={handleChange}
+                                    value={
+                                        formData.organizationPersonRole || ""
+                                    }
+                                    required
+                                />
+
+                                <label>About Yourself (Optional)</label>
+                                <textarea
+                                    name="about"
+                                    placeholder="Tell us about yourself"
+                                    onChange={handleChange}
+                                    value={formData.about || ""}
+                                />
+                            </>
+                )
+                : formData.role === "ngoMember" ? (
+                    <>{/* Add ngoMember-specific fields here if needed */}</>
                 ) : formData.role === "donor" ? (
-                    <DonorFormFields
-                        formData={formData}
-                        handleChange={handleChange}
-                    />
+                    <>{/* Add donor-specific fields here if needed */}</>
                 ) : null}
 
                 <label>
@@ -560,19 +757,7 @@ function Register() {
             <span>
                 Already have an account? <Link to="/login">Login</Link>
             </span>
-            {/* <ToastContainer
-                position="top-right"
-                autoClose={8000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                enableMultiContainer={false}
-                containerId="main-toast-container"
-            /> */}
+            <ToastContainer position="top-right" />
         </div>
     );
 }
