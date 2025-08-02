@@ -35,7 +35,7 @@
   margin-bottom: 3rem;
 }
 
-.stat-card {
+.stat-card_ {
   background: #ffffff;
   border-radius: 20px;
   padding: 2.5rem;
@@ -47,7 +47,7 @@
   overflow: hidden;
 }
 
-.stat-card::before {
+.stat-card_::before {
   content: "";
   position: absolute;
   top: 0;
@@ -57,12 +57,12 @@
   background: linear-gradient(90deg, #2e2e2e, #666, #2e2e2e);
 }
 
-.stat-card:hover {
+.stat-card_:hover {
   transform: translateY(-8px);
   box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
 }
 
-.stat-card h4 {
+.stat-card_ h4 {
   font-family: "Playfair Display", serif;
   font-size: 1rem;
   font-weight: 500;
@@ -72,7 +72,7 @@
   letter-spacing: 1px;
 }
 
-.stat-value {
+.stat-value_ {
   font-family: "Playfair Display", serif;
   font-size: 3rem;
   font-weight: 700;
@@ -89,7 +89,7 @@
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
 }
 
-.table-header {
+.table-header_ {
   display: grid;
   grid-template-columns: 3fr 2fr 1.2fr 1.3fr 1.3fr 2.5fr;
   gap: 1rem;
@@ -106,7 +106,7 @@
   align-items: center;
 }
 
-.table-row {
+.table-row_ {
   display: grid;
   grid-template-columns: 2.5fr 2fr 1.2fr 1.3fr 1.3fr 2.5fr;
   gap: 1rem;
@@ -118,17 +118,17 @@
   min-height: 80px;
 }
 
-.table-row:hover {
+.table-row_:hover {
   background: linear-gradient(135deg, #f8f8f8, #f5f5f5);
   transform: translateX(5px);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
-.table-row:last-child {
+.table-row_:last-child {
   border-bottom: none;
 }
 
-.table-row::before {
+.table-row_::before {
   content: "";
   position: absolute;
   left: 0;
@@ -139,7 +139,7 @@
   transition: all 0.3s ease;
 }
 
-.table-row:hover::before {
+.table-row_:hover::before {
   background: linear-gradient(90deg, transparent, #2e2e2e, transparent);
 }
 
