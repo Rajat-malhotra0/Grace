@@ -136,10 +136,12 @@ async function findOrCreateCategories() {
     return categoryMap;
 }
 
-async function seedNgos() {
+async function seedNgos(keepConnectionOpen = false) {
     try {
-        await connectDB();
-        console.log("🔗 Connected to database");
+        if (mongoose.connection.readyState !== 1) {
+            await connectDB();
+            console.log("🔗 Connected to database");
+        }
 
         // Clear existing NGO data
         console.log("🗑️  Removing existing NGOs...");
@@ -231,9 +233,11 @@ async function seedNgos() {
         console.error("❌ Error seeding NGOs:", error);
         throw error;
     } finally {
-        console.log("🔒 Closing database connection...");
-        mongoose.connection.close();
-        console.log("✅ Database connection closed");
+        if (!keepConnectionOpen) {
+            console.log("🔒 Closing database connection...");
+            mongoose.connection.close();
+            console.log("✅ Database connection closed");
+        }
     }
 }
 

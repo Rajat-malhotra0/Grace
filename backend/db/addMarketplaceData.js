@@ -359,12 +359,14 @@ const marketplaceData = [
     },
 ];
 
-async function addMarketplaceData() {
+async function addMarketplaceData(keepConnectionOpen = false) {
     console.log("🚀 Starting marketplace data seeding...");
     try {
         // Connect to MongoDB
-        await connectDB();
-        console.log("✅ Connected to MongoDB");
+        if (mongoose.connection.readyState !== 1) {
+            await connectDB();
+            console.log("✅ Connected to MongoDB");
+        }
 
         // Clear existing data
         await User.deleteMany({ role: { $in: ["ngo"] } });
@@ -479,10 +481,13 @@ async function addMarketplaceData() {
         });
     } catch (error) {
         console.error("❌ Error seeding marketplace data:", error);
+        throw error;
     } finally {
         // Close the connection
-        mongoose.connection.close();
-        console.log("🔒 Database connection closed");
+        if (!keepConnectionOpen) {
+            mongoose.connection.close();
+            console.log("🔒 Database connection closed");
+        }
     }
 }
 

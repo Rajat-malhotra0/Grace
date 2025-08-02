@@ -90,9 +90,11 @@ const categories = [
     },
 ];
 
-async function addCategories() {
+async function addCategories(keepConnectionOpen = false) {
     try {
-        await connectDB();
+        if (mongoose.connection.readyState !== 1) {
+            await connectDB();
+        }
 
         for (const categoryData of categories) {
             try {
@@ -123,12 +125,18 @@ async function addCategories() {
         console.log("Category addition process completed");
     } catch (error) {
         console.error("Error connecting to database:", error.message);
+        throw error;
     } finally {
-        await mongoose.connection.close();
-        console.log("Database connection closed");
+        if (!keepConnectionOpen) {
+            await mongoose.connection.close();
+            console.log("Database connection closed");
+        }
     }
 }
 
-addCategories();
+// Only run if this file is executed directly
+if (require.main === module) {
+    addCategories();
+}
 
 module.exports = { addCategories };

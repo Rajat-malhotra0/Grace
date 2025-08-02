@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const connectDB = require("./connect");
 const { addCategories } = require("./addCategories");
 const { seedNgos } = require("./addNgo");
 const { addMarketplaceData } = require("./addMarketplaceData");
@@ -12,28 +13,32 @@ async function seedAllData() {
     console.log("🚀 Starting complete database seeding...\n");
 
     try {
+        // Connect to database once at the beginning
+        await connectDB();
+        console.log("🔗 Master database connection established\n");
+
         // Step 1: Add Categories (both NGO and donation categories)
         console.log("1️⃣  STEP 1: Adding Categories...");
         console.log("=".repeat(50));
-        await require("./addCategories");
+        await addCategories(true); // Keep connection open
         console.log("✅ Categories seeding completed\n");
 
         // Wait a moment between operations
-        await new Promise((resolve) => setTimeout(resolve, 2000));
+        await new Promise((resolve) => setTimeout(resolve, 1000));
 
         // Step 2: Add NGOs (requires categories to exist)
         console.log("2️⃣  STEP 2: Adding NGOs...");
         console.log("=".repeat(50));
-        await seedNgos();
+        await seedNgos(true); // Keep connection open
         console.log("✅ NGOs seeding completed\n");
 
         // Wait a moment between operations
-        await new Promise((resolve) => setTimeout(resolve, 2000));
+        await new Promise((resolve) => setTimeout(resolve, 1000));
 
         // Step 3: Add Marketplace Data (requires NGOs to exist)
         console.log("3️⃣  STEP 3: Adding Marketplace Data...");
         console.log("=".repeat(50));
-        await addMarketplaceData();
+        await addMarketplaceData(true); // Keep connection open
         console.log("✅ Marketplace data seeding completed\n");
 
         console.log("🎉 COMPLETE DATABASE SEEDING FINISHED SUCCESSFULLY!");
@@ -53,7 +58,13 @@ async function seedAllData() {
         console.log("   3. Ensure all model files are properly configured");
         console.log("   4. Check if you have sufficient permissions");
 
-        process.exit(1);
+        throw error;
+    } finally {
+        // Close the database connection at the very end
+        if (mongoose.connection.readyState === 1) {
+            await mongoose.connection.close();
+            console.log("🔒 Master database connection closed");
+        }
     }
 }
 
