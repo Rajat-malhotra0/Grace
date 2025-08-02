@@ -5,9 +5,9 @@ import {
     LineChart,
     DonutChart,
 } from "../../Components/Charts/ChartJS";
-import "./Marketplace.css";
+import "./MarketplaceInsights.css";
 
-const Marketplace = () => {
+const MarketplaceInsights = () => {
     const [timePeriod, setTimePeriod] = useState("month");
     const [loading, setLoading] = useState(true);
 
@@ -496,4 +496,4 @@ const Marketplace = () => {
     );
 };
 
-export default Marketplace;
+export default MarketplaceInsights;
