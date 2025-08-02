@@ -3,12 +3,17 @@ const { body, validationResult } = require("express-validator");
 const express = require("express");
 const router = express.Router();
 
+// Create new marketplace item
 router.post(
     "/",
     [
         body("name").notEmpty().withMessage("Name is required"),
         body("description").notEmpty().withMessage("Description is required"),
         body("quantity").isNumeric().withMessage("Quantity must be a number"),
+        body("category").notEmpty().withMessage("Category is required"),
+        body("neededBy").notEmpty().withMessage("NGO ID is required"),
+        body("neededTill").isISO8601().withMessage("Valid date is required"),
+        body("location").notEmpty().withMessage("Location is required"),
     ],
     async (req, res) => {
         const errors = validationResult(req);
@@ -21,21 +26,55 @@ router.post(
                 await marketplaceService.createMarketplaceItem(req.body);
             return res.status(201).json(marketplaceItem);
         } catch (error) {
-            console.error(error); // Log the error for debugging
+            console.error(error);
             return res.status(500).json({ error: "Internal server error" });
         }
     }
 );
 
+// Get all marketplace items with optional filters
 router.get("/", async (req, res) => {
     try {
-        const marketplaceItems = await marketplaceService.getMarketplaceItems();
+        const { category, status, urgency, location } = req.query;
+        const filter = {};
+
+        if (category) filter.category = category;
+        if (status) filter.status = status;
+        if (urgency) filter.urgency = urgency;
+        if (location) filter.location = new RegExp(location, "i");
+
+        const marketplaceItems = await marketplaceService.getMarketplaceItems(
+            filter
+        );
         return res.status(200).json(marketplaceItems);
     } catch (error) {
         return res.status(500).json({ error: "Internal server error" });
     }
 });
 
+router.get("/insights", async (req, res) => {
+    try {
+        const insights = await marketplaceService.getMarketplaceInsights();
+        return res.status(200).json(insights);
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: "Internal server error" });
+    }
+});
+
+router.get("/category/:category", async (req, res) => {
+    try {
+        const { category } = req.params;
+        const items = await marketplaceService.getMarketplaceItemsByCategory(
+            category
+        );
+        return res.status(200).json(items);
+    } catch (error) {
+        return res.status(500).json({ error: "Internal server error" });
+    }
+});
+
+// Get specific marketplace item
 router.get("/:id", async (req, res) => {
     const { id } = req.params;
     try {
@@ -51,6 +90,7 @@ router.get("/:id", async (req, res) => {
     }
 });
 
+// Update marketplace item
 router.put(
     "/:id",
     [
@@ -59,10 +99,10 @@ router.put(
             .optional()
             .notEmpty()
             .withMessage("Description cannot be empty"),
-        body("price")
+        body("quantity")
             .optional()
             .isNumeric()
-            .withMessage("Price must be a number"),
+            .withMessage("Quantity must be a number"),
     ],
     async (req, res) => {
         const { id } = req.params;
@@ -86,6 +126,33 @@ router.put(
     }
 );
 
+// Fulfill marketplace item (donor action)
+router.post("/:id/fulfill", async (req, res) => {
+    const { id } = req.params;
+    const { donorId } = req.body;
+
+    if (!donorId) {
+        return res.status(400).json({ error: "Donor ID is required" });
+    }
+
+    try {
+        const fulfilledItem = await marketplaceService.fulfillMarketplaceItem(
+            id,
+            donorId
+        );
+        return res.status(200).json(fulfilledItem);
+    } catch (error) {
+        if (error.message === "Item not found") {
+            return res.status(404).json({ error: error.message });
+        }
+        if (error.message === "Item is not available for fulfillment") {
+            return res.status(400).json({ error: error.message });
+        }
+        return res.status(500).json({ error: "Internal server error" });
+    }
+});
+
+// Delete marketplace item
 router.delete("/:id", async (req, res) => {
     const { id } = req.params;
     try {

@@ -5,6 +5,7 @@ const Category = require("../models/category");
 const connectDB = require("./connect");
 
 const categories = [
+    // NGO Categories
     {
         name: "Education",
         description: "Supporting educational initiatives and literacy programs",
@@ -34,6 +35,58 @@ const categories = [
         name: "Rural Development",
         description: "Improving infrastructure and services in rural areas",
         type: "ngo",
+    },
+    {
+        name: "Children",
+        description: "Child welfare and development programs",
+        type: "ngo",
+    },
+
+    // Marketplace Donation Categories
+    {
+        name: "Food & Nutrition",
+        description: "Essential food items and nutrition support",
+        type: "donation",
+    },
+    {
+        name: "Clothing & Apparel",
+        description: "Clean, wearable clothes for communities",
+        type: "donation",
+    },
+    {
+        name: "Books & Stationery",
+        description: "Educational materials and school supplies",
+        type: "donation",
+    },
+    {
+        name: "Medical & Hygiene Supplies",
+        description: "Health essentials and sanitary products",
+        type: "donation",
+    },
+    {
+        name: "Technology",
+        description: "Digital devices and accessories",
+        type: "donation",
+    },
+    {
+        name: "Furniture & Essentials",
+        description: "Basic furniture and household items",
+        type: "donation",
+    },
+    {
+        name: "Toys & Recreation",
+        description: "Toys and games for children",
+        type: "donation",
+    },
+    {
+        name: "Skill Tools",
+        description: "Tools for trades and skill development",
+        type: "donation",
+    },
+    {
+        name: "Other Items",
+        description: "Additional useful items as per NGO needs",
+        type: "donation",
     },
 ];
 
@@ -66,7 +119,7 @@ async function addCategories() {
                 );
             }
         }
- 
+
         console.log("Category addition process completed");
     } catch (error) {
         console.error("Error connecting to database:", error.message);
@@ -77,3 +130,5 @@ async function addCategories() {
 }
 
 addCategories();
+
+module.exports = { addCategories };

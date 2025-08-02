@@ -16,7 +16,7 @@ const uploadImage = async (imagePath, folder = "grace-ngos") => {
             folder: folder,
             resource_type: "image",
             transformation: [
-                { width: 500, crop: "limit" }, // Preserve aspect ratio, max width 500px
+                { width: 500, height: 500, crop: "limit" }, // Preserve aspect ratio, max width 500px
                 { quality: "auto", fetch_format: "auto" },
             ],
         });
