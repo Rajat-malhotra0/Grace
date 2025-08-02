@@ -1,7 +1,7 @@
 .ngo-section {
   margin-top: 1.1rem;
   padding-top: 0.5rem;
-  padding-bottom: 2rem  ;
+  padding-bottom: 0rem  ;
 }
 
 .progress-bar-container {
@@ -172,7 +172,9 @@
 
 .task-footer {
   margin-top: 2.5rem;
-  text-align: center;
+  text-align: center !important;
+  display: flex;
+  justify-content: center !important;
 }
 
 /* New animation */

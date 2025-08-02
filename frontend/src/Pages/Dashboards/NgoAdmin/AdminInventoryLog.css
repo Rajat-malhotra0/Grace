@@ -1,0 +1,267 @@
+.inventory-log-container {
+  margin-left: 250px;
+  padding: 2rem;
+  background-color: #f9f9f9;
+  min-height: 100vh;
+  transition: margin-left 0.3s ease;
+}
+
+.log-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+}
+
+.back-btn {
+  position: absolute;
+  left: 2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: #f0f0f0;
+  border: none;
+  border-radius: 8px;
+  font-family: serif;
+  font-weight: 600;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.back-btn:hover {
+  background: #e5e5e5;
+  transform: translateY(-50%) translateX(-2px);
+}
+
+.log-title {
+  font-family: serif;
+  font-size: 3rem;
+  font-weight: bold;
+  color: #222;
+  margin-bottom: 0.5rem;
+}
+
+.log-subtitle {
+  font-family: serif;
+  font-size: 1.2rem;
+  color: #666;
+  margin: 0;
+}
+
+.log-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.stat-card {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+.stat-card svg {
+  color: #666;
+}
+
+.stat-card h3 {
+  font-family: serif;
+  font-size: 1.1rem;
+  color: #333;
+  margin: 0 0 0.5rem 0;
+  font-weight: 600;
+}
+
+.stat-card p {
+  font-family: serif;
+  font-size: 1.5rem;
+  color: #666;
+  margin: 0;
+  font-weight: bold;
+}
+
+.log-content {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.empty-log {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.empty-log svg {
+  color: #ccc;
+  margin-bottom: 1rem;
+}
+
+.empty-log h3 {
+  font-family: serif;
+  font-size: 1.5rem;
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+.empty-log p {
+  font-family: serif;
+  color: #888;
+  margin: 0;
+}
+
+.log-table {
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.log-table-header {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr 1.5fr 1fr 1.5fr;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: #f4f4f4;
+  border-bottom: 1px solid #ddd;
+  font-family: serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #444;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.log-table-row {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr 1.5fr 1fr 1.5fr;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #f0f0f0;
+  transition: all 0.3s ease;
+  font-family: serif;
+  font-size: 0.9rem;
+  color: #555;
+  align-items: center;
+}
+
+.log-table-row:hover {
+  background: #f8f8f8;
+}
+
+.log-table-row:last-child {
+  border-bottom: none;
+}
+
+.category-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.category-icon {
+  font-size: 1.2rem;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .inventory-log-container {
+    margin-left: 200px;
+  }
+
+  .back-btn {
+    position: static;
+    transform: none;
+    margin-bottom: 1rem;
+  }
+
+  .log-header {
+    text-align: left;
+  }
+}
+
+@media (max-width: 768px) {
+  .inventory-log-container {
+    margin-left: 0;
+    padding: 1rem;
+  }
+
+  .log-header {
+    padding: 1.5rem;
+  }
+
+  .log-title {
+    font-size: 2.2rem;
+  }
+
+  .log-stats {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .log-table-header {
+    display: none;
+  }
+
+  .log-table-row {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    border: 1px solid #e8e8e8;
+  }
+
+  .log-table-row span {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .log-table-row span:last-child {
+    border-bottom: none;
+  }
+
+  .log-table-row span::before {
+    content: attr(data-label) ": ";
+    font-weight: 600;
+    color: #444;
+  }
+}
+
+/* For collapsed sidebar state */
+.inventory-log-container.sidebar-collapsed {
+  margin-left: 60px;
+}
+
+@media (max-width: 768px) {
+  .inventory-log-container.sidebar-collapsed {
+    margin-left: 0;
+  }
+}

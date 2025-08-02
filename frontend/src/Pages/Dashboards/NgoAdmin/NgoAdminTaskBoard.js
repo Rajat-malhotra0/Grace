@@ -212,7 +212,7 @@ const NgoAdminTaskBoard = () => {
 
             {/* Success Message */}
             {section.showSuccess && (
-              <div className="success-message">✅ Tasks assigned!</div>
+              <div className="success-message">Tasks assigned!</div>
             )}
           </div>
         ))}

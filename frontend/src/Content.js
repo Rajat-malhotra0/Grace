@@ -16,11 +16,15 @@ import ImpactStories from "./Pages/Home/ImpactStories";
 import GraceApp from "./Pages/Grace_App/Grace_App";
 import NgoTeamDashboard from "./Pages/Dashboards/NgoTeam/NgoTeamDashboard";
 import VolunteerDashboard from "./Pages/Dashboards/Volunteer/VolunteerDashboard";
-// Import other dashboards as needed
+import DonorDashboard from "./Pages/Dashboards/Donor/DonorDashboard"; 
+import NgoAdminDashboard from "./Pages/Dashboards/NgoAdmin/NgoAdminDashboard";
 import Achievements from "./Pages/Dashboards/NgoTeam/Achievements";
 import Settings from "./Pages/Dashboards/NgoTeam/Settings";
 import Notifications from "./Pages/Dashboards/NgoTeam/Notifications";
 import CategoryNeeds from "./Pages/Marketplace/DonationNeeds/CategoryNeeds";
+import AdminInventoryLog from "./Pages/Dashboards/NgoAdmin/AdminInventoryLog";
+import AdminReportHistory from "./Pages/Dashboards/NgoAdmin/AdminReportHistory";
+
 
 function Content() {
     return (
@@ -49,11 +53,9 @@ function Content() {
             <Route path="/impact-stories" element={<ImpactStories />} />
             <Route path="/grace-app" element={<GraceApp />} />
             <Route path="/dashboard/ngo-team" element={<NgoTeamDashboard />} />
-            <Route
-                path="/dashboard/volunteer"
-                element={<VolunteerDashboard />}
-            />
-            {/* <Route path="/dashboard/donor" element={<DonorDashboard />} /> */}
+            <Route path="/dashboard/volunteer" element={<VolunteerDashboard />} />
+            <Route path="/dashboard/donor" element={<DonorDashboard />} />
+            <Route path="/dashboard/admin" element={<NgoAdminDashboard />} />
             <Route
                 path="/dashboard/ngo-team/achievements"
                 element={<Achievements />}
@@ -63,6 +65,8 @@ function Content() {
                 path="/dashboard/ngo-team/notifications"
                 element={<Notifications />}
             />
+            <Route path="/admin/inventory-log" element={<AdminInventoryLog />} />
+            <Route path="/admin/report-history" element={<AdminReportHistory />} />
         </Routes>
     );
 }
