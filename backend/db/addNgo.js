@@ -74,10 +74,20 @@ async function uploadImageToCloudinary(imagePath) {
         );
         const result = await uploadImage(fullPath, "grace-ngos");
         console.log(`📸 Uploaded ${imagePath} to Cloudinary`);
-        return result;
+
+        // Transform the result to match NGO model structure
+        return {
+            url: result.url,
+            publicId: result.publicId,
+            alt: `${imagePath} - NGO cover image`,
+        };
     } catch (error) {
         console.error(`❌ Error uploading image ${imagePath}:`, error.message);
-        return null;
+        return {
+            url: "",
+            publicId: "",
+            alt: "",
+        };
     }
 }
 
@@ -136,7 +146,7 @@ async function findOrCreateCategories() {
     return categoryMap;
 }
 
-async function seedNgos(keepConnectionOpen = false) {
+const seedNgos = async (keepConnectionOpen = false) => {
     try {
         if (mongoose.connection.readyState !== 1) {
             await connectDB();
@@ -149,7 +159,7 @@ async function seedNgos(keepConnectionOpen = false) {
         console.log(`✅ Deleted ${deletedNgos.deletedCount} existing NGOs`);
 
         // Clear existing mock users (optional - be careful with this in production)
-        console.log("🗑️  Removing existing mock users...");
+        console.log("�️  Removing existing mock users...");
         const deletedUsers = await User.deleteMany({
             email: { $regex: /@example\.com$/ },
         });
@@ -170,7 +180,7 @@ async function seedNgos(keepConnectionOpen = false) {
             const ngoData = ngoMockData[i];
             const user = mockUsers[i];
 
-            // Upload image to Cloudinary
+            // Upload image to Cloudinary using the existing image path
             const cloudinaryResult = await uploadImageToCloudinary(
                 ngoData.imagePath
             );
@@ -181,65 +191,59 @@ async function seedNgos(keepConnectionOpen = false) {
                 description: ngoData.description,
                 category: [categoryMap.get(ngoData.category)],
                 contact: {
-                    email: user.email,
-                    phone: `+91-${
-                        Math.floor(Math.random() * 9000000000) + 1000000000
-                    }`,
-                    website: `https://${ngoData.name
+                    email: `${ngoData.name
+                        .toLowerCase()
+                        .replace(/\s+/g, "")}@example.com`,
+                    phone: "+91-9876543210",
+                    website: `https://www.${ngoData.name
                         .toLowerCase()
                         .replace(/\s+/g, "")}.org`,
                 },
-                coverImage: cloudinaryResult
-                    ? {
-                          url: cloudinaryResult.url,
-                          publicId: cloudinaryResult.publicId,
-                          alt: `${ngoData.name} cover image`,
-                      }
-                    : {
-                          url: "",
-                          publicId: "",
-                          alt: "",
-                      },
+                volunteersNeeded: ngoData.volunteersNeeded,
+                donationGoal: ngoData.donationGoal,
+                otherCauses: `${ngoData.category} related activities and community development`,
+                coverImage: cloudinaryResult,
                 isVerified: true,
                 isActive: true,
             });
 
             await ngo.save();
             createdNgos.push(ngo);
-
             console.log(
-                `✅ Created NGO: ${ngo.name} with ${
-                    cloudinaryResult ? "Cloudinary image" : "no image"
-                }`
+                `✅ Created NGO: ${ngoData.name} with Cloudinary image`
             );
         }
 
-        console.log(`🎉 Successfully created ${createdNgos.length} NGOs!`);
+        console.log("🎉 Successfully created 6 NGOs!");
+
+        // Verification step
         console.log("📊 Summary:");
         console.log(`   - Users created: ${mockUsers.length}`);
         console.log(`   - Categories used: ${categoryMap.size}`);
         console.log(`   - NGOs created: ${createdNgos.length}`);
 
-        // Display created NGOs
-        console.log("\n📋 Created NGOs:");
-        createdNgos.forEach((ngo, index) => {
+        // Verify each NGO exists in database
+        console.log("� Created NGOs:");
+        for (let i = 0; i < createdNgos.length; i++) {
+            const ngo = createdNgos[i];
+            const verification = await Ngo.findById(ngo._id);
             console.log(
-                `   ${index + 1}. ${ngo.name} - ${
-                    ngo.isVerified ? "✅ Verified" : "⏳ Pending"
+                `   ${i + 1}. ${ngo.name} - ${
+                    verification ? "✅ Verified" : "❌ Not found"
                 }`
             );
-        });
-    } catch (error) {
-        console.error("❌ Error seeding NGOs:", error);
-        throw error;
-    } finally {
+        }
+
         if (!keepConnectionOpen) {
             console.log("🔒 Closing database connection...");
             mongoose.connection.close();
             console.log("✅ Database connection closed");
         }
+    } catch (error) {
+        console.error("❌ Error seeding NGOs:", error);
+        throw error;
     }
-}
+};
 
 // Run the seeding function
 if (require.main === module) {

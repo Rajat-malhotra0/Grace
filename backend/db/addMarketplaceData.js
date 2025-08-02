@@ -368,11 +368,23 @@ async function addMarketplaceData(keepConnectionOpen = false) {
             console.log("✅ Connected to MongoDB");
         }
 
-        // Clear existing data
-        await User.deleteMany({ role: { $in: ["ngo"] } });
-        await NGO.deleteMany({});
+        // Clear existing data EXCEPT the NGOs from step 2
+        await User.deleteMany({
+            role: { $in: ["ngo"] },
+            // Don't delete users created by addNgo.js (they have @example.com emails)
+            email: { $not: /@example\.com$/ },
+        });
+        await NGO.deleteMany({
+            // Only delete NGOs that don't have coverImage URLs (i.e., not from step 2)
+            $or: [
+                { "coverImage.url": "" },
+                { "coverImage.url": { $exists: false } },
+            ],
+        });
         await Marketplace.deleteMany({});
-        console.log("🗑️ Cleared existing data");
+        console.log(
+            "🗑️ Cleared existing marketplace data (preserving step 2 NGOs)"
+        );
 
         // Hash password for all users
         const saltRounds = 10;
