@@ -24,6 +24,11 @@ const ngoSchema = new mongoose.Schema({
         website: { type: String, default: "" },
     },
     otherCauses: { type: String, default: "" },
+    coverImage: {
+        url: { type: String, default: "" }, // Cloudinary URL
+        publicId: { type: String, default: "" }, // For deletion from Cloudinary
+        alt: { type: String, default: "" }, // Alt text for accessibility
+    },
     isVerified: { type: Boolean, default: false },
     isActive: { type: Boolean, default: true },
     createdAt: { type: Date, default: Date.now, immutable: true },
