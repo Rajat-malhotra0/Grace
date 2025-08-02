@@ -110,9 +110,11 @@ function AuthProvider({ children }) {
                 };
             }
         } catch (error) {
+            console.error("Login error details:", error.response?.data); // Add this to see backend error
             return {
                 success: false,
                 message: "Login failed",
+                error: error,
             };
         }
     }
