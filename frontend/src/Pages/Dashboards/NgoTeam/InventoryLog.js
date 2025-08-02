@@ -59,7 +59,7 @@ const inventoryItems = [
     description: "Little Things, Big Impact",
     details:
       "Whether it's a toy that brings laughter, a blanket that brings warmth, or a tablet that opens doors — every donation has a role in someone's story. Log them here with care.",
-    bgColor: "inventory-bg-emerald",
+   bgColor: "inventory-bg-emerald",
     image: othersImg,
     buttonText: "Log Toy Inventory",
   },

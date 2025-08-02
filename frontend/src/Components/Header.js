@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import Button from "./Button";
 import "./Header.css";
-import "./Header2.css"; // Import the second CSS file
+import "./Header2.css";
 import { AuthContext } from "../Context/AuthContext";
 
 function Header() {
@@ -11,14 +11,13 @@ function Header() {
     const navigate = useNavigate();
     const location = useLocation();
 
-    // Determine if we should use dark text (black)
-    // Dark text when: scrolled OR not on homepage
+ 
     const useDarkText = scrolled || location.pathname !== "/";
 
     const getUserDashboardRoute = () => {
-        if (ngo) {
-            return "/dashboard/ngo-team";
-        }
+        // if (ngo) {
+        //     return "/dashboard/ngo-team";
+        // }
 
         if (user?.role && Array.isArray(user.role) && user.role.length > 0) {
             if (user.role.some((role) => role.toLowerCase() === "ngomember")) {
@@ -32,7 +31,7 @@ function Header() {
             ) {
                 return "/dashboard/donor";
             } else if (
-                user.role.some((role) => role.toLowerCase() === "admin")
+                user.role.some((role) => role.toLowerCase() === "ngo")
             ) {
                 return "/dashboard/admin";
             }

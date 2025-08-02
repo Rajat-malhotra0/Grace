@@ -33,19 +33,19 @@ const DonationNeedsPage = ({ category, categoryData }) => {
       </div>
 
       <div className="needs-stats">
-        <div className="stat-card">
+        <div className="stat-card_">
           <h4>Active Requests</h4>
-          <span className="stat-value">{categoryData.length}</span>
+          <span className="stat-value_">{categoryData.length}</span>
         </div>
-        <div className="stat-card">
+        <div className="stat-card_">
           <h4>High Priority</h4>
-          <span className="stat-value">
+          <span className="stat-value_">
             {categoryData.filter((item) => item.urgency === "High").length}
           </span>
         </div>
-        <div className="stat-card">
+        <div className="stat-card_">
           <h4>This Week</h4>
-          <span className="stat-value">
+          <span className="stat-value_">
             {
               categoryData.filter((item) => {
                 const postDate = new Date(item.datePosted);
@@ -59,7 +59,7 @@ const DonationNeedsPage = ({ category, categoryData }) => {
       </div>
 
       <div className="needs-table">
-        <div className="table-header">
+        <div className="table-header_">
           <span>NGO</span>
           <span>Item Needed</span>
           <span>Quantity</span>
@@ -69,7 +69,7 @@ const DonationNeedsPage = ({ category, categoryData }) => {
         </div>
 
         {categoryData.map((need) => (
-          <div key={need.id} className="table-row">
+          <div key={need.id} className="table-row_">
             <div className="ngo-cell">
               <img
                 src={need.ngoImage}

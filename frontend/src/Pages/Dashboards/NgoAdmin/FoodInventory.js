@@ -1,5 +1,6 @@
 // FoodInventory.js
 import React, { useState } from 'react';
+import { Coffee } from 'lucide-react';
 
 const mockFoodInventory = [
   {
@@ -36,7 +37,10 @@ const FoodInventory = ({ onMarkUsed }) => {
 
   return (
     <div className="inventory-section">
-      <h2 className="section-title">🍽️ Food Inventory</h2>
+      <h2 className="section-title">
+        <Coffee size={24} style={{ marginRight: '0.5rem', verticalAlign: 'middle' }} />
+        Food Inventory
+      </h2>
       <div className="inventory-card">
         <div className="inventory-header-row">
           <span>Used</span>
@@ -53,19 +57,19 @@ const FoodInventory = ({ onMarkUsed }) => {
         {inventory.map(item => (
           <div key={item.id} className="inventory-row">
             <input type="checkbox" onChange={() => handleUse(item)} />
-            <span>{item.loggedBy}</span>
-            <span>{item.itemName}</span>
-            <span>{item.category}</span>
-            <span>{item.quantity}</span>
-            <span>{item.dateReceived}</span>
-            <span>{item.expiryDate}</span>
-            <span>{item.source}</span>
-            <span>{item.storageLocation}</span>
+            <span data-label="Logged By">{item.loggedBy}</span>
+            <span data-label="Item Name">{item.itemName}</span>
+            <span data-label="Category">{item.category}</span>
+            <span data-label="Quantity">{item.quantity}</span>
+            <span data-label="Date Received">{item.dateReceived}</span>
+            <span data-label="Expiry Date">{item.expiryDate}</span>
+            <span data-label="Source / Donor">{item.source}</span>
+            <span data-label="Storage Location">{item.storageLocation}</span>
           </div>
         ))}
 
         {inventory.length === 0 && (
-          <p className="empty-message">✅ All food inventory has been used.</p>
+          <p className="empty-message">All food inventory has been used.</p>
         )}
       </div>
     </div>

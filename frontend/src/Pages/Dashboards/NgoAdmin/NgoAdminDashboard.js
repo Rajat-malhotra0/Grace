@@ -8,6 +8,7 @@ import AdminInventoryDashboard from "./AdminInventoryDashboard";
 import AdminReportLog from "./AdminReportLog";
 import VolunteerOpportunities from "./VolunteerOpportunities";
 import VolunteerApplications from "./VolunteerApplications";
+import DonationNeedsForm from "./DonationNeedsForm";
 import ImpactStoryForm from "./ImpactStoryForm";
 
 const NgoAdminDashboard = () => {
@@ -22,6 +23,7 @@ const NgoAdminDashboard = () => {
         <AdminReportLog />
         <VolunteerOpportunities />
         <VolunteerApplications />
+        <DonationNeedsForm />
         <ImpactStoryForm />
       </div>
     </div>

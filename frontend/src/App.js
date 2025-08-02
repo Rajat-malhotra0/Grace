@@ -15,8 +15,10 @@ function AppContent() {
     const hideHeaderRoutes = [
         "/dashboard/ngo-team",
         "/dashboard/volunteer",
-        // "/dashboard/donor",
-        // "/dashboard/ngo-admin",
+        "/dashboard/donor",
+        "/dashboard/admin",
+        "/admin/inventory-log",
+        "/admin/report-history",
     ];
 
     // Check if current path starts with any dashboard route

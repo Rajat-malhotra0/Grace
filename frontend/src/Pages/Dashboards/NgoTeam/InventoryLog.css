@@ -1,6 +1,6 @@
 .inventory-section {
   padding: 2rem 1.5rem;
-  background: #ffffff;
+  background: #fdfdfd; /* Changed from white to match your app's background */
   margin: 0.1rem 13rem 2.1rem 13rem;
   margin-top: 0.1rem;
 }
@@ -16,18 +16,18 @@
 }
 
 .inventory-header h2 {
-  font-family: serif;
+  font-family: "Playfair Display", serif; /* Updated to match app typography */
   font-size: 5rem;
   font-weight: 700;
-  color: #222;
+  color: #2e2e2e; /* Updated to match app colors */
   margin-bottom: 2rem;
   margin-top: 4rem;
 }
 
 .inventory-header p {
-  font-family: serif;
+  font-family: serif; /* Updated to match app typography */
   font-size: 2.5rem;
-  color: #555;
+  color: #666; /* Updated to match app colors */
   margin-top: 0.5rem;
 }
 
@@ -44,15 +44,16 @@
   border-radius: 1rem;
   font-size: 1rem;
   font-weight: 500;
-  background-color: #eee;
-  color: #444;
+  font-family: "Playfair Display", serif; /* Added font family */
+  background-color: #f0f0f0; /* Updated to match app colors */
+  color: #2e2e2e; /* Updated to match app colors */
   border: none;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .inventory-tab-btn:hover {
-  background-color: #ddd;
+  background-color: #e0e0e0; /* Updated hover color */
 }
 
 .inventory-active-tab {
@@ -62,19 +63,19 @@
 
 /* Inventory Background Color Utility */
 .inventory-bg-blue {
-  background-color: #6d6d6d;
+  background-color: #6d6d6d !important;
 }
 .inventory-bg-pink {
-  background-color: #515151;
+  background-color: #515151 !important;
 }
 .inventory-bg-purple {
-  background-color: #454545;
+  background-color: #454545 !important;
 }
 .inventory-bg-yellow {
-  background-color: #2f2f2f;
+  background-color: #2f2f2f !important;
 }
 .inventory-bg-emerald {
-  background-color: #1f1f1f;
+  background-color: #1f1f1f !important;
 }
 
 .inventory-card {
@@ -84,6 +85,8 @@
   color: white;
   margin: 2rem 0;
   align-items: stretch;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15); /* Added shadow for depth */
+  border: none; /* Ensure no border conflicts */
 }
 
 .inventory-card-content {
@@ -113,44 +116,50 @@
 }
 
 .inventory-text h3 {
-  font-family: serif;
-  font-size: 5rem;
+  font-family: "Playfair Display", serif; /* Updated font */
+  font-size: 4.5rem;
   font-weight: 900;
   margin-bottom: 0.01rem;
+  color: white; /* Ensure white text */
 }
 
 .inventory-text .desc {
-  font-family: serif;
-  font-size: 2.5rem;
+  font-family: "Playfair Display", serif; /* Updated font */
+  font-size: 2.2rem;
   font-weight: 500;
   opacity: 0.9;
   margin-bottom: 0.01rem;
+  color: white; /* Ensure white text */
 }
 
 .inventory-text .details {
-  font-family: serif;
+  font-family:  serif; /* Updated font */
   font-size: 1.25rem;
   font-weight: 500;
   opacity: 0.8;
   margin-bottom: 2rem;
+  color: white; /* Ensure white text */
 }
 
 .inventory-btn {
   background: white;
-  color: #222;
+  color: #2e2e2e; /* Updated text color */
   padding: 0.9rem 2rem;
   border-radius: 2rem;
-  font-family: serif;
+  font-family: "Playfair Display", serif; /* Updated font */
   font-size: 1.2rem;
   font-weight: 600;
   border: none;
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition: all 0.3s ease; /* Enhanced transition */
   margin-bottom: 5rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Added shadow */
 }
 
 .inventory-btn:hover {
   background: #f0f0f0;
+  transform: translateY(-2px); /* Added hover effect */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 }
 
 .inventory-image-box {
@@ -169,6 +178,7 @@
   border-radius: 1.5rem;
   object-fit: cover;
   height: auto;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3); /* Added image shadow */
 }
 
 .flower-3 {
@@ -178,9 +188,5 @@
   top: 2300px;
   left: 35%;
   transform: translateX(-50%) scale(3.5);
-  position: absolute;
-  width: 60px;
-  height: auto;
   opacity: 0.9;
-
 }
