@@ -1,4 +1,6 @@
-//A resuable button component 
+/*
+This file consists of a button component 
+*/
 import React from 'react';
 import './Button.css';
 
