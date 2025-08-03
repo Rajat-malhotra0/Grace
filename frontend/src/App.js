@@ -19,6 +19,7 @@ function AppContent() {
         "/dashboard/admin",
         "/admin/inventory-log",
         "/admin/report-history",
+        "/ngo/",
     ];
 
     // Check if current path starts with any dashboard route
