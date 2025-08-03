@@ -19,6 +19,7 @@ const quizRoutes = require("./routes/quizRoutes");
 const ngoRecommendationRoutes = require("./routes/ngoRecommendationRoutes");
 const graceFeedRoutes = require("./routes/GraceFeedRoutes");
 const marketplaceRoutes = require("./routes/marketplaceRoutes");
+const ngoReportRoutes = require("./routes/ngoReportRoutes");
 
 const app = express();
 app.use(express.json());
@@ -44,6 +45,7 @@ app.use("/api/tasks", taskRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/quiz", quizRoutes);
 app.use("/api/marketplace", marketplaceRoutes);
+app.use("/api/ngo-reports", ngoReportRoutes);
 
 app.get("/api/test", (req, res) => {
     res.json({ message: "Backend is working!" });

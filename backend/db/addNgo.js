@@ -60,7 +60,7 @@ const ngoMockData = [
         category: "Education",
         volunteersNeeded: 180,
         donationGoal: 22000,
-        imagePath: "ngo5.jpg",
+        imagePath: "ngo5.webp",
     },
 ];
 

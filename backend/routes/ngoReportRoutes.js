@@ -1,27 +1,42 @@
 const express = require("express");
 const router = express.Router();
 const { body, query, param, validationResult } = require("express-validator");
-const taskService = require("../services/taskService");
+const ngoReportService = require("../services/ngoReportService");
 
 router.post(
     "/",
     [
         body("title").trim().notEmpty().withMessage("Title is required"),
+        body("description")
+            .trim()
+            .notEmpty()
+            .withMessage("Description is required"),
         body("category")
-            .notEmpty()
-            .isMongoId()
-            .withMessage("Category ID is required"),
-        body("ngo").notEmpty().isMongoId().withMessage("NGO ID is required "),
-        body("createdBy")
-            .notEmpty()
-            .isMongoId()
+            .isIn([
+                "Facilities",
+                "Supplies",
+                "Personnel",
+                "Safety",
+                "Technology",
+                "Other",
+            ])
             .withMessage(
-                "CreatedBy ID is required and must be a valid MongoDB ObjectId"
+                "Category must be one of: Facilities, Supplies, Personnel, Safety, Technology, Other"
             ),
-        body("assignedTo")
-            .optional()
+        body("urgency")
+            .isIn(["Low", "Medium", "High"])
+            .withMessage("Urgency must be one of: Low, Medium, High"),
+        body("dateOfIncident")
+            .isISO8601()
+            .withMessage("Valid date is required"),
+        body("reportedBy")
+            .trim()
+            .notEmpty()
+            .withMessage("Reported by is required"),
+        body("ngo").isMongoId().withMessage("Valid NGO ID is required"),
+        body("reportedByUser")
             .isMongoId()
-            .withMessage("Invalid user ID"),
+            .withMessage("Valid user ID is required"),
     ],
     async (req, res) => {
         const errors = validationResult(req);
@@ -33,17 +48,17 @@ router.post(
             });
         }
         try {
-            const task = await taskService.createTask(req.body);
-            if (task) {
+            const ngoReport = await ngoReportService.createNgoReport(req.body);
+            if (ngoReport) {
                 return res.status(201).json({
                     success: true,
-                    message: "Task created successfully",
-                    result: task,
+                    message: "NGO report created successfully",
+                    result: ngoReport,
                 });
             } else {
                 return res.status(400).json({
                     success: false,
-                    message: "Failed to create task",
+                    message: "Failed to create NGO report",
                 });
             }
         } catch (error) {
@@ -59,17 +74,29 @@ router.post(
 router.get(
     "/",
     [
-        query("title").optional().trim(),
-        query("status")
-            .optional()
-            .isIn(["free", "in-progress", "done", "cancelled"])
-            .withMessage(
-                "Status must be one of: free, in-progress, done, cancelled"
-            ),
-        query("assignedTo")
+        query("ngo")
             .optional()
             .isMongoId()
-            .withMessage("Invalid user ID"),
+            .withMessage("Invalid NGO ID format"),
+        query("status")
+            .optional()
+            .isIn(["pending", "resolved"])
+            .withMessage("Status must be either pending or resolved"),
+        query("category")
+            .optional()
+            .isIn([
+                "Facilities",
+                "Supplies",
+                "Personnel",
+                "Safety",
+                "Technology",
+                "Other",
+            ])
+            .withMessage("Invalid category"),
+        query("urgency")
+            .optional()
+            .isIn(["Low", "Medium", "High"])
+            .withMessage("Invalid urgency level"),
     ],
     async (req, res) => {
         const errors = validationResult(req);
@@ -82,82 +109,11 @@ router.get(
         }
         try {
             const filter = req.query;
-            const tasks = await taskService.readTasks(filter);
+            const ngoReports = await ngoReportService.readNgoReports(filter);
             return res.status(200).json({
                 success: true,
-                message: "Tasks retrieved successfully",
-                result: tasks,
-            });
-        } catch (error) {
-            return res.status(500).json({
-                success: false,
-                message: "Internal server error",
-                error: error.message,
-            });
-        }
-    }
-);
-
-router.get(
-    "/ngo/:ngoId",
-    [
-        param("ngoId")
-            .notEmpty()
-            .withMessage("NGO ID is required")
-            .isMongoId()
-            .withMessage("Invalid NGO ID format"),
-    ],
-    async (req, res) => {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return res.status(400).json({
-                success: false,
-                message: "Validation errors",
-                errors: errors.array(),
-            });
-        }
-        try {
-            const tasks = await taskService.readTasks({
-                ngo: req.params.ngoId,
-            });
-            return res.status(200).json(tasks); // Direct array response to match frontend expectations
-        } catch (error) {
-            return res.status(500).json({
-                success: false,
-                message: "Internal server error",
-                error: error.message,
-            });
-        }
-    }
-);
-
-// Add route for getting tasks by user ID (assignedTo)
-router.get(
-    "/user/:userId",
-    [
-        param("userId")
-            .notEmpty()
-            .withMessage("User ID is required")
-            .isMongoId()
-            .withMessage("Invalid User ID format"),
-    ],
-    async (req, res) => {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return res.status(400).json({
-                success: false,
-                message: "Validation errors",
-                errors: errors.array(),
-            });
-        }
-        try {
-            const tasks = await taskService.readTasks({
-                assignedTo: req.params.userId,
-            });
-            return res.status(200).json({
-                success: true,
-                message: "User tasks retrieved successfully",
-                result: tasks,
+                message: "NGO reports retrieved successfully",
+                result: ngoReports,
             });
         } catch (error) {
             return res.status(500).json({
@@ -171,6 +127,44 @@ router.get(
 
 router.get(
     "/:id",
+    [param("id").notEmpty().withMessage("ID is required")],
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({
+                success: false,
+                message: "Validation errors",
+                errors: errors.array(),
+            });
+        }
+        try {
+            const ngoReports = await ngoReportService.readNgoReports({
+                _id: req.params.id,
+            });
+            if (ngoReports && ngoReports.length > 0) {
+                return res.status(200).json({
+                    success: true,
+                    message: "NGO report retrieved successfully",
+                    result: ngoReports[0],
+                });
+            } else {
+                return res.status(404).json({
+                    success: false,
+                    message: "NGO report not found",
+                });
+            }
+        } catch (error) {
+            return res.status(500).json({
+                success: false,
+                message: "Internal server error",
+                error: error.message,
+            });
+        }
+    }
+);
+
+router.put(
+    "/:id/resolve",
     [
         param("id")
             .notEmpty()
@@ -188,17 +182,19 @@ router.get(
             });
         }
         try {
-            const tasks = await taskService.readTasks({ _id: req.params.id });
-            if (tasks && tasks.length > 0) {
+            const ngoReport = await ngoReportService.resolveNgoReport(
+                req.params.id
+            );
+            if (ngoReport) {
                 return res.status(200).json({
                     success: true,
-                    message: "Task retrieved successfully",
-                    result: tasks,
+                    message: "NGO report resolved successfully",
+                    result: ngoReport,
                 });
             } else {
                 return res.status(404).json({
                     success: false,
-                    message: "Task not found",
+                    message: "NGO report not found",
                 });
             }
         } catch (error) {
@@ -214,6 +210,11 @@ router.get(
 router.put(
     "/:id",
     [
+        param("id")
+            .notEmpty()
+            .withMessage("ID is required")
+            .isMongoId()
+            .withMessage("Invalid ID format"),
         body("title")
             .optional()
             .trim()
@@ -224,20 +225,21 @@ router.put(
             .trim()
             .notEmpty()
             .withMessage("Description cannot be empty"),
-        body("status")
+        body("category")
             .optional()
-            .isIn(["free", "in-progress", "done", "cancelled"])
-            .withMessage(
-                "Status must be one of: free, in-progress, done, cancelled"
-            ),
-        body("priority")
+            .isIn([
+                "Facilities",
+                "Supplies",
+                "Personnel",
+                "Safety",
+                "Technology",
+                "Other",
+            ])
+            .withMessage("Invalid category"),
+        body("urgency")
             .optional()
-            .isIn(["low", "medium", "high"])
-            .withMessage("Priority must be one of: low, medium, high"),
-        body("assignedTo")
-            .optional()
-            .isMongoId()
-            .withMessage("Invalid user ID"),
+            .isIn(["Low", "Medium", "High"])
+            .withMessage("Invalid urgency level"),
     ],
     async (req, res) => {
         const errors = validationResult(req);
@@ -249,16 +251,21 @@ router.put(
             });
         }
         try {
-            const task = await taskService.updateTask(
+            const updateData = { ...req.body, updatedAt: new Date() };
+            const ngoReport = await ngoReportService.updateNgoReport(
                 { _id: req.params.id },
-                req.body
+                updateData
             );
-            if (task) {
-                return res.status(200).json(task); // Direct task response to match frontend expectations
+            if (ngoReport) {
+                return res.status(200).json({
+                    success: true,
+                    message: "NGO report updated successfully",
+                    result: ngoReport,
+                });
             } else {
                 return res.status(404).json({
                     success: false,
-                    message: "Task not found",
+                    message: "NGO report not found",
                 });
             }
         } catch (error) {
@@ -290,10 +297,10 @@ router.delete(
             });
         }
         try {
-            await taskService.deleteTask({ _id: req.params.id });
+            await ngoReportService.deleteNgoReport({ _id: req.params.id });
             return res.status(200).json({
                 success: true,
-                message: "Task deleted successfully",
+                message: "NGO report deleted successfully",
             });
         } catch (error) {
             return res.status(500).json({

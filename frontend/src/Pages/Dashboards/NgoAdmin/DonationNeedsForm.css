@@ -477,3 +477,29 @@
   outline: 2px solid #666;
   outline-offset: 2px;
 }
+
+textarea.form-input {
+  resize: vertical;
+  min-height: 80px;
+  font-family: inherit;
+}
+
+.form-input[type="date"] {
+  cursor: pointer;
+}
+
+.form-input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.form-input[type="number"]::-webkit-inner-spin-button,
+.form-input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.post-need-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background: #ccc;
+}

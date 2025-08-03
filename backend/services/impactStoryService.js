@@ -4,14 +4,14 @@ const dotenv = require("dotenv");
 
 dotenv.config();
 
-async function createImpactStory(data) {
+async function generateAIStoryDescription(userInput) {
     try {
         const ai = new GoogleGenAI({
             apiKey: process.env.GEMINI_API_KEY,
         });
 
         const aiResponse = await ai.models.generateContent({
-            model: "gemini-2.5-flash",
+            model: "gemini-2.5-flash-lite",
             contents: `Act as a compassionate storyteller. Your task is to transform a user's description of an event into a short, emotional, and gentle impact story. This story should highlight the positive change or effect that resulted from the action described.
                 Based on the user's input, you must:
                 1.  **Create a Title:** A short, inspiring title for the impact story.
@@ -20,7 +20,8 @@ async function createImpactStory(data) {
                     *   **Focus:** Emphasize the "why" and the positive outcome—how the action helped someone or something.
                     *   **Length:** Strictly between 20 and 25 words.
                 3.  **Determine a Category:** A single, relevant category word for this type of story (e.g., "Community," "Environment," "Animal Welfare").
-                4.  **Suggest Related Keywords:**
+                4.  **Tense:** Use the past tense to describe the event.
+                5. **Fallback:** If the user input is not sufficient to generate a meaningful story, return a default message indicating that more information is needed.
 
                 **CRITICAL:** You must format your entire response as a single, valid JSON object. Do not include any text or markdown formatting before or after the JSON object.
 
@@ -28,29 +29,27 @@ async function createImpactStory(data) {
                 {
                   "title": "A Shoreline's Second Chance",
                   "content": "Our small group gathered to clean the beach, and with every piece of trash removed, we felt the coastline breathe a sigh of relief.",
-                  "category": "Environment",
-                  }
+                  "category": "Environment"
+                }
                 ---
-                **User Input:** "${data.userInput}"
+                **User Input:** "${userInput}"
                 ---
         `,
         });
 
         const aiData = await aiResponse.text;
-
         const cleanedAiData = aiData.replace(/```json\n|\n```/g, "").trim();
         const result = JSON.parse(cleanedAiData);
 
-        const completeData = {
-            userInput: data.userInput,
-            title: result.title,
-            content: result.content,
-            category: result.category,
-            relatedTask: [], // Will be fetched form the url later.
-            relatedNGO: [], // Will be fetched form the url later.
-        };
+        return result;
+    } catch (error) {
+        throw error;
+    }
+}
 
-        const impactStory = new ImpactStory(completeData);
+async function createImpactStory(data) {
+    try {
+        const impactStory = new ImpactStory(data);
         await impactStory.save();
         return impactStory;
     } catch (error) {
@@ -95,6 +94,7 @@ async function deleteImpactStory(filter = {}) {
 }
 
 module.exports = {
+    generateAIStoryDescription,
     createImpactStory,
     readImpactStories,
     readLatestImpactStories,

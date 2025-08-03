@@ -3,14 +3,45 @@ const router = express.Router();
 const { body, query, param, validationResult } = require("express-validator");
 const impactStoryService = require("../services/impactStoryService");
 
+// Route to generate AI description
+router.post(
+    "/generate-description",
+    [body("userInput").trim().notEmpty().withMessage("User input is required")],
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({
+                success: false,
+                message: "Validation errors",
+                errors: errors.array(),
+            });
+        }
+        try {
+            const aiResult =
+                await impactStoryService.generateAIStoryDescription(
+                    req.body.userInput
+                );
+            return res.status(200).json({
+                success: true,
+                message: "AI description generated successfully",
+                result: aiResult,
+            });
+        } catch (error) {
+            return res.status(500).json({
+                success: false,
+                message: "Failed to generate AI description",
+                error: error.message,
+            });
+        }
+    }
+);
+
 router.post(
     "/",
     [
         body("title").trim().notEmpty().withMessage("Title is required"),
-        body("content")
-            .trim()
-            .notEmpty()
-            .withMessage("Description is required"),
+        body("content").trim().notEmpty().withMessage("Content is required"),
+        body("category").optional().trim(),
         body("createdBy")
             .notEmpty()
             .withMessage("Created by is required")

@@ -96,6 +96,42 @@ router.get(
     }
 );
 
+router.get(
+    "/ngo/:ngoId",
+    [
+        param("ngoId")
+            .notEmpty()
+            .withMessage("NGO ID is required")
+            .isMongoId()
+            .withMessage("Invalid NGO ID format"),
+    ],
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({
+                success: false,
+                message: "Validation errors",
+                errors: errors.array(),
+            });
+        }
+        try {
+            // Get users who are associated with this NGO (volunteers/employees)
+            const users = await userService.getUsersByNgo(req.params.ngoId);
+            return res.status(200).json({
+                success: true,
+                message: "NGO users retrieved successfully",
+                result: users,
+            });
+        } catch (error) {
+            return res.status(500).json({
+                success: false,
+                message: "Internal server error",
+                error: error.message,
+            });
+        }
+    }
+);
+
 router.get("/leaderboard", async (req, res) => {
     try {
         const limit = parseInt(req.query.limit) || 10;

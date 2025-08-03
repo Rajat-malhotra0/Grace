@@ -1,5 +1,7 @@
 const User = require("../models/user");
 const Task = require("../models/task");
+const UserNgoRelation = require("../models/userNgoRelation");
+
 const { calculateImpact, calculateLevel } = require("./scoringService");
 
 async function getLeaderboard(limit = 10) {
@@ -86,6 +88,19 @@ async function completeTask(taskId, userId, hoursSpent = 1) {
     }
 }
 
+async function getUsersByNgo(ngoId) {
+    try {
+        const relations = await UserNgoRelation.find({ ngo: ngoId })
+            .populate("user", "userName email _id role")
+            .select("user");
+
+        return relations.map((relation) => relation.user);
+    } catch (error) {
+        console.error("Error getting users by NGO:", error);
+        throw error;
+    }
+}
+
 async function createUser(data) {
     try {
         const user = new User(data);
@@ -129,4 +144,5 @@ module.exports = {
     updateUser,
     deleteUser,
     completeTask,
+    getUsersByNgo,
 };
