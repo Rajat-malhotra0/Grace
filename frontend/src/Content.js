@@ -24,6 +24,7 @@ import Notifications from "./Pages/Dashboards/NgoTeam/Notifications";
 import CategoryNeeds from "./Pages/Marketplace/DonationNeeds/CategoryNeeds";
 import AdminInventoryLog from "./Pages/Dashboards/NgoAdmin/AdminInventoryLog";
 import AdminReportHistory from "./Pages/Dashboards/NgoAdmin/AdminReportHistory";
+import NgoPage from "./Pages/NgoPage/NgoPage";
 
 
 function Content() {
@@ -67,6 +68,9 @@ function Content() {
             />
             <Route path="/admin/inventory-log" element={<AdminInventoryLog />} />
             <Route path="/admin/report-history" element={<AdminReportHistory />} />
+            <Route path="/ngo/:ngoId" element={<NgoPage />} />
+            {/* is a route parameter syntax, not an actual URL path */}
+            {/* Add more routes as needed */}
         </Routes>
     );
 }
