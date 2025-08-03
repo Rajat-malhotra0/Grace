@@ -1,265 +1,330 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./TaskSection.css";
 import { ChevronRight } from "lucide-react";
-// import Task1 from "../../assets/task2.svg";
-// import Task2 from "../../assets/task3.svg";
-// import Task3 from "../../assets/task4.svg";
-// import Task4 from "../../assets/task5.svg";
-// // import Task5 from "../../assets/task6.svg";
-// // import Task6 from "../../assets/task7.svg";
-// import Task7 from "../../assets/task8.svg";
+import { AuthContext } from "../../../Context/AuthContext";
+import axios from "axios";
 import Flower1 from "../../../assets/flower2.svg";
 
-
-const initialTasks = [
-  {
-    id: 1,
-    title:
-      "Call and confirm attendance with today’s scheduled tutoring volunteers",
-    description:
-      "Reach out to the volunteers scheduled today and confirm their availability. A quick check-in helps us stay prepared for the kids.",
-    priority: "High",
-  },
-  {
-    id: 2,
-    title: "Prepare storybooks and learning kits for evening reading circle",
-    description:
-      "Select age-appropriate books and activity kits to make today’s reading hour fun and engaging for the children.",
-    priority: "Medium",
-  },
-  {
-    id: 3,
-    title: "Update child health records with recent check-up details",
-    description:
-      "Add notes from recent medical visits to each child’s profile. Keeping this up-to-date ensures timely care.",
-    priority: "High",
-  },
-  {
-    id: 4,
-    title: "Greet new children joining the program and offer orientation",
-    description:
-      "Make our newest little ones feel safe and welcome. Walk them through the space and introduce them to our team.",
-    priority: "Low",
-  },
-  {
-    id: 5,
-    title: "Check if any child requires emotional or counseling support today",
-    description:
-      "Observe gently or ask caregivers. Early care makes a world of difference in how children heal and grow.",
-    priority: "High",
-  },
-  {
-    id: 6,
-    title:
-      "Photograph and document today’s activities for monthly impact report",
-    description:
-      "Capture the small but powerful moments of learning, play, or care. These stories become the heartbeat of our updates.",
-    priority: "High",
-  },
-  {
-    id: 7,
-    title: "Respond to donor questions about last month’s child sponsorship",
-    description:
-      "Follow up with warmth and transparency. Our supporters love hearing how their generosity has helped.",
-    priority: "Medium",
-  },
-  {
-    id: 8,
-    title: "Coordinate with kitchen staff to confirm today’s meal and snacks",
-    description:
-      "Ensure that the meals planned are child-safe, balanced, and ready in time. Happy tummies, happy hearts!",
-    priority: "Medium",
-  },
-  {
-    id: 9,
-    title: "Schedule home visit follow-ups for vulnerable children this week",
-    description:
-      "Check in with families needing extra support. A visit can mean comfort, connection, and better understanding of their needs.",
-    priority: "Medium",
-  },
-  {
-    id: 10,
-    title:
-      "Review and reorder essential supplies like diapers, soap, and books",
-    description:
-      "Take stock of what’s running low and place orders. These basics keep our environment safe, clean, and nurturing.",
-    priority: "High",
-  },
-];
+const API_BASE_URL =
+    process.env.REACT_APP_API_URL || "http://localhost:3001/api";
 
 const priorityOrder = {
-  high: 1,
-  medium: 2,
-  low: 3,
+    high: 1,
+    medium: 2,
+    low: 3,
 };
 
-const extraTaskPool = [
-  {
-    id: 1,
-    title:
-      "Call and confirm attendance with today’s scheduled tutoring volunteers",
-    description:
-      "Reach out to the volunteers scheduled today and confirm their availability. A quick check-in helps us stay prepared for the kids.",
-    priority: "High",
-  },
-  {
-    id: 2,
-    title: "Prepare storybooks and learning kits for evening reading circle",
-    description:
-      "Select age-appropriate books and activity kits to make today’s reading hour fun and engaging for the children.",
-    priority: "Medium",
-  },
-  {
-    id: 3,
-    title: "Update child health records with recent check-up details",
-    description:
-      "Add notes from recent medical visits to each child’s profile. Keeping this up-to-date ensures timely care.",
-    priority: "High",
-  },
-  {
-    id: 4,
-    title: "Greet new children joining the program and offer orientation",
-    description:
-      "Make our newest little ones feel safe and welcome. Walk them through the space and introduce them to our team.",
-    priority: "Low",
-  },
-  {
-    id: 5,
-    title: "Check if any child requires emotional or counseling support today",
-    description:
-      "Observe gently or ask caregivers. Early care makes a world of difference in how children heal and grow.",
-    priority: "High",
-  },
-  {
-    id: 6,
-    title:
-      "Photograph and document today’s activities for monthly impact report",
-    description:
-      "Capture the small but powerful moments of learning, play, or care. These stories become the heartbeat of our updates.",
-    priority: "High",
-  },
-];
-
 const TaskSection = () => {
-  const [tasks, setTasks] = useState(initialTasks);
-  const [extraTasks, setExtraTasks] = useState(extraTaskPool);
-  const [totalTasks, setTotalTasks] = useState(initialTasks.length);
-  const [completingTaskId, setCompletingTaskId] = useState(null);
-  const [showExtraTasks, setShowExtraTasks] = useState(true);
+    const { user, ngo, isAuthLoading } = useContext(AuthContext);
+    const [tasks, setTasks] = useState([]);
+    const [extraTasks, setExtraTasks] = useState([]);
+    const [totalTasks, setTotalTasks] = useState(0);
+    const [completingTaskId, setCompletingTaskId] = useState(null);
+    const [showExtraTasks, setShowExtraTasks] = useState(true);
+    const [loading, setLoading] = useState(true);
 
-  const handleToggle = (id) => {
-    setCompletingTaskId(id);
+    // Debug logging
+    console.log("TaskSection - Auth context:", {
+        user: user
+            ? { id: user._id, email: user.email, role: user.role }
+            : null,
+        ngo: ngo ? { id: ngo._id, name: ngo.name } : null,
+        isAuthLoading,
+    });
 
-    setTimeout(() => {
-      const updated = tasks.filter((task) => task.id !== id);
-      setTasks(updated);
-      setCompletingTaskId(null);
-    }, 400);
-  };
+    // Load tasks on component mount
+    useEffect(() => {
+        const loadTasks = async () => {
+            try {
+                setLoading(true);
 
-  const handleAddExtraTask = (task) => {
-    setTasks((prev) => [...prev, task]);
-    setTotalTasks((prev) => prev + 1);
-    setExtraTasks(extraTasks.filter((t) => t.id !== task.id));
-  };
+                if (!user) {
+                    console.log("User not available yet");
+                    setTasks([]);
+                    setExtraTasks([]);
+                    setTotalTasks(0);
+                    setLoading(false);
+                    return;
+                }
 
-  const completedCount = totalTasks - tasks.length;
-  const progress = (completedCount / totalTasks) * 100;
+                // If NGO is not available, try to get it from user's associations
+                let userNgoId = ngo?._id;
+                if (!userNgoId) {
+                    console.log(
+                        "NGO not in context, checking user associations..."
+                    );
+                    // You might need to fetch user's NGO associations here
+                    // For now, let's try to get tasks without NGO filter
+                }
 
-  const sortedTasks = [...tasks].sort((a, b) => {
+                // Get tasks assigned to the current user
+                console.log("Fetching user tasks for user ID:", user._id);
+                const userTasksResponse = await axios.get(
+                    `${API_BASE_URL}/tasks/user/${user._id}`,
+                    {
+                        headers: {
+                            Authorization: localStorage.getItem("token"),
+                        },
+                    }
+                );
+
+                console.log("User tasks response:", userTasksResponse.data);
+                if (userTasksResponse.data.success) {
+                    const userTasks = userTasksResponse.data.result || [];
+                    const activeTasks = userTasks.filter(
+                        (task) =>
+                            task.status !== "done" &&
+                            task.status !== "cancelled"
+                    );
+                    setTasks(activeTasks);
+                    setTotalTasks(activeTasks.length);
+                    console.log("Active tasks set:", activeTasks.length);
+                }
+
+                // Get unassigned tasks from the user's NGO for extra tasks (if NGO is available)
+                if (userNgoId) {
+                    console.log("Fetching NGO tasks for NGO ID:", userNgoId);
+                    const ngoTasksResponse = await axios.get(
+                        `${API_BASE_URL}/tasks/ngo/${userNgoId}`,
+                        {
+                            headers: {
+                                Authorization: localStorage.getItem("token"),
+                            },
+                        }
+                    );
+
+                    console.log("NGO tasks response:", ngoTasksResponse.data);
+                    const ngoTasks = Array.isArray(ngoTasksResponse.data)
+                        ? ngoTasksResponse.data
+                        : ngoTasksResponse.data.result || [];
+
+                    const unassignedTasks = ngoTasks.filter(
+                        (task) => !task.assignedTo && task.status === "free"
+                    );
+                    setExtraTasks(unassignedTasks.slice(0, 6)); // Limit to 6 extra tasks
+                    console.log("Extra tasks set:", unassignedTasks.length);
+                } else {
+                    console.log("No NGO available, skipping extra tasks");
+                    setExtraTasks([]);
+                }
+            } catch (error) {
+                console.error("Error loading tasks:", error);
+                // Keep arrays empty if there's an error
+                setTasks([]);
+                setExtraTasks([]);
+                setTotalTasks(0);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        loadTasks();
+    }, [user, ngo]);
+
+    const handleToggle = async (taskId) => {
+        setCompletingTaskId(taskId);
+
+        try {
+            // Update task status to 'done' in backend
+            await axios.put(
+                `${API_BASE_URL}/tasks/${taskId}`,
+                {
+                    status: "done",
+                    completedAt: new Date(),
+                },
+                {
+                    headers: {
+                        Authorization: localStorage.getItem("token"),
+                    },
+                }
+            );
+
+            setTimeout(() => {
+                const updated = tasks.filter((task) => task._id !== taskId);
+                setTasks(updated);
+                setCompletingTaskId(null);
+            }, 400);
+        } catch (error) {
+            console.error("Error completing task:", error);
+            setCompletingTaskId(null);
+        }
+    };
+
+    const handleAddExtraTask = async (task) => {
+        try {
+            // Assign the task to current user
+            const response = await axios.put(
+                `${API_BASE_URL}/tasks/${task._id}`,
+                {
+                    assignedTo: user._id,
+                    status: "in-progress",
+                },
+                {
+                    headers: {
+                        Authorization: localStorage.getItem("token"),
+                    },
+                }
+            );
+
+            if (response.status === 200) {
+                // Add to current tasks
+                setTasks((prev) => [
+                    ...prev,
+                    { ...task, assignedTo: user._id, status: "in-progress" },
+                ]);
+                setTotalTasks((prev) => prev + 1);
+
+                // Remove from extra tasks
+                setExtraTasks(extraTasks.filter((t) => t._id !== task._id));
+            }
+        } catch (error) {
+            console.error("Error adding extra task:", error);
+        }
+    };
+
+    const completedCount = totalTasks - tasks.length;
+    const progress = (completedCount / totalTasks) * 100;
+
+    const sortedTasks = [...tasks].sort((a, b) => {
+        return (
+            priorityOrder[a.priority.toLowerCase()] -
+            priorityOrder[b.priority.toLowerCase()]
+        );
+    });
+
+    if (loading || isAuthLoading) {
+        return (
+            <section className="ngo-section">
+                <div className="ngo-wrapper">
+                    <p>Loading tasks...</p>
+                </div>
+            </section>
+        );
+    }
+
+    // If user is not available after auth loading is complete, show a message
+    if (!user) {
+        return (
+            <section className="ngo-section">
+                <div className="ngo-wrapper">
+                    <p>
+                        Unable to load tasks. Please make sure you're logged in.
+                    </p>
+                </div>
+            </section>
+        );
+    }
+
     return (
-      priorityOrder[a.priority.toLowerCase()] -
-      priorityOrder[b.priority.toLowerCase()]
-    );
-  });
-  return (
-    <section className="ngo-section">
-      <div className="ngo-wrapper">
-        <img src={Flower1} alt="flower" className="task flower-2" />
-        
-        <div className="progress-bar-container">
-          <div className="progress-bar" style={{ width: `${progress}%` }}></div>
-        </div>
+        <section className="ngo-section">
+            <div className="ngo-wrapper">
+                <img src={Flower1} alt="flower" className="task flower-2" />
 
-        <div className="task-list">
-          {tasks.length === 0 ? (
-            <>
-              <p>All tasks completed!</p>
-
-              {showExtraTasks && (
-                <>
-                  <div className="ngo-header">
-                    <p>You can take on more if you're up for it.</p>
-                  </div>
-
-                  {extraTasks.map((task) => (
-                    <div className="task-item" key={task.id}>
-                      <div className="task-info">
-                        <h1>{task.title}</h1>
-                        <p>{task.description}</p>
-                      </div>
-                      <button
-                        className="task-button"
-                        onClick={() => handleAddExtraTask(task)}
-                      >
-                        Add
-                      </button>
-                    </div>
-                  ))}
-
-                  <div className="task-footer">
-                    <button
-                      className="task-button"
-                      onClick={() => setShowExtraTasks(false)}
-                    >
-                      No, I'm done for the day
-                      <ChevronRight className="task-icon" />
-                    </button>
-                  </div>
-                </>
-              )}
-            </>
-          ) : (
-            sortedTasks.map((task) => (
-              <div
-                className={`task-item ${
-                  completingTaskId === task.id ? "fade-out" : ""
-                }`}
-                key={task.id}
-              >
-                <label className="custom-checkbox">
-                  <input
-                    type="checkbox"
-                    onChange={() => handleToggle(task.id)}
-                  />
-                  <span className="checkmark"></span>
-                </label>
-
-                <div className="task-info">
-                  <h1>{task.title}</h1>
-                  <p>{task.description}</p>
+                <div className="progress-bar-container">
+                    <div
+                        className="progress-bar"
+                        style={{ width: `${progress}%` }}
+                    ></div>
                 </div>
 
-                <div
-                  className={`priority-dot ${task.priority.toLowerCase()}`}
-                  title={`${task.priority} Priority`}
-                ></div>
-              </div>
-            ))
-          )}
-        </div>
+                <div className="task-list">
+                    {tasks.length === 0 ? (
+                        <>
+                            <p>All tasks completed!</p>
 
-        {tasks.length !== 0 && (
-          <div className="task-footer">
-            <button className="task-button">
-              View History
-              <ChevronRight className="task-icon" />
-            </button>
-          </div>
-        )}
-      </div>
-    </section>
-  );
+                            {showExtraTasks && extraTasks.length > 0 && (
+                                <>
+                                    <div className="ngo-header">
+                                        <p>
+                                            You can take on more if you're up
+                                            for it.
+                                        </p>
+                                    </div>
+
+                                    {extraTasks.map((task) => (
+                                        <div
+                                            className="task-item"
+                                            key={task._id}
+                                        >
+                                            <div className="task-info">
+                                                <h1>{task.title}</h1>
+                                                <p>{task.description}</p>
+                                            </div>
+                                            <button
+                                                className="task-button"
+                                                onClick={() =>
+                                                    handleAddExtraTask(task)
+                                                }
+                                            >
+                                                Add
+                                            </button>
+                                        </div>
+                                    ))}
+
+                                    <div className="task-footer">
+                                        <button
+                                            className="task-button"
+                                            onClick={() =>
+                                                setShowExtraTasks(false)
+                                            }
+                                        >
+                                            No, I'm done for the day
+                                            <ChevronRight className="task-icon" />
+                                        </button>
+                                    </div>
+                                </>
+                            )}
+
+                            {showExtraTasks && extraTasks.length === 0 && (
+                                <p>
+                                    Great job! No additional tasks available
+                                    right now.
+                                </p>
+                            )}
+                        </>
+                    ) : (
+                        sortedTasks.map((task) => (
+                            <div
+                                className={`task-item ${
+                                    completingTaskId === task._id
+                                        ? "fade-out"
+                                        : ""
+                                }`}
+                                key={task._id}
+                            >
+                                <label className="custom-checkbox">
+                                    <input
+                                        type="checkbox"
+                                        onChange={() => handleToggle(task._id)}
+                                    />
+                                    <span className="checkmark"></span>
+                                </label>
+
+                                <div className="task-info">
+                                    <h1>{task.title}</h1>
+                                    <p>{task.description}</p>
+                                </div>
+
+                                <div
+                                    className={`priority-dot ${task.priority.toLowerCase()}`}
+                                    title={`${task.priority} Priority`}
+                                ></div>
+                            </div>
+                        ))
+                    )}
+                </div>
+
+                {tasks.length !== 0 && (
+                    <div className="task-footer">
+                        <button className="task-button">
+                            View History
+                            <ChevronRight className="task-icon" />
+                        </button>
+                    </div>
+                )}
+            </div>
+        </section>
+    );
 };
 
 export default TaskSection;
