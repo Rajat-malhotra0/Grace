@@ -1,4 +1,5 @@
-//Use this to add categories to the db
+//This file is being used to add categories of the NGOs into the db. 
+
 
 const mongoose = require("mongoose");
 const Category = require("../models/category");
