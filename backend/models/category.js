@@ -5,7 +5,7 @@ const categorySchema = new mongoose.Schema({
     description: { type: String, default: "" },
     type: {
         type: String,
-        enum: ["task", "ngo", "interest"],
+        enum: ["task", "ngo", "interest", "donation"],
         required: true,
     },
     createdAt: { type: Date, default: Date.now, immutable: true },

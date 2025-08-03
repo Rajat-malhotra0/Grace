@@ -110,9 +110,11 @@ function AuthProvider({ children }) {
                 };
             }
         } catch (error) {
+            console.error("Login error details:", error.response?.data); // Add this to see backend error
             return {
                 success: false,
                 message: "Login failed",
+                error: error,
             };
         }
     }
@@ -122,6 +124,8 @@ function AuthProvider({ children }) {
             const url = isNgo
                 ? "http://localhost:3001/api/auth/register-ngo"
                 : "http://localhost:3001/api/auth/register";
+
+            console.log("Registration payload:", userData); // Add this to debug
 
             const response = await axios.post(url, userData);
 
@@ -151,9 +155,12 @@ function AuthProvider({ children }) {
                 };
             }
         } catch (error) {
+            console.error("Registration error details:", error.response?.data); // Add this to see backend error
+
             return {
                 success: false,
                 message: "Registration failed",
+                error: error,
             };
         }
     }

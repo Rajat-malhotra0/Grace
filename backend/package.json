@@ -5,12 +5,14 @@
     "@langchain/google-genai": "^0.2.15",
     "@langchain/qdrant": "^0.1.2",
     "bcryptjs": "^3.0.2",
+    "cloudinary": "^2.7.0",
     "cors": "^2.8.5",
     "dotenv": "^17.1.0",
     "express": "^5.1.0",
     "express-validator": "^7.2.1",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.16.1",
+    "razorpay": "^2.9.6",
     "socket.io": "^4.8.1"
   }
 }

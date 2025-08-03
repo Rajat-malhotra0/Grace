@@ -52,7 +52,7 @@ function Login() {
                 navigate("/");
             }
         } catch (err) {
-            // Login error
+            console.error("Login failed:", err);
         }
     };
 

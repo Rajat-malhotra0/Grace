@@ -1,0 +1,195 @@
+.report-form-card {
+  background: #fff;
+  color: #333;
+  padding: 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  max-width: 800px;
+  margin: 2rem auto;
+  border: 1px solid #e5e5e5;
+}
+
+.report-form-card h3 {
+  font-family: serif;
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.report-subtext {
+  font-family: serif;
+  font-size: 1.2rem;
+  color: #666;
+  margin-bottom: 2rem;
+  text-align: center;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+.report-form-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.report-form-card label {
+  font-family: serif;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 0.25rem;
+}
+
+.report-form-card input,
+.report-form-card select,
+.report-form-card textarea {
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-family: serif;
+  font-size: 1rem;
+  color: #333;
+  background: #fafafa;
+  transition: all 0.3s ease;
+}
+
+.report-form-card input:focus,
+.report-form-card select:focus,
+.report-form-card textarea:focus {
+  outline: none;
+  border-color: #333;
+  background: #fff;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+}
+
+.report-form-card input::placeholder,
+.report-form-card textarea::placeholder {
+  color: #999;
+  font-family: serif;
+}
+
+.report-form-card select {
+  cursor: pointer;
+}
+
+.report-form-card textarea {
+  resize: vertical;
+  min-height: 120px;
+  font-family: serif;
+  line-height: 1.5;
+}
+
+.urgency-select {
+  position: relative;
+}
+
+.urgency-select select[value="Critical"] {
+  border-color: #333;
+}
+
+.urgency-select select[value="High"] {
+  border-color: #666;
+}
+
+.report-form-card button {
+  background: #333;
+  color: white;
+  font-family: serif;
+  font-weight: 600;
+  font-size: 1.1rem;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.report-form-card button:hover {
+  background: #555;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.report-form-card button:active {
+  transform: translateY(0);
+}
+
+/* Form validation styles */
+.report-form-card input:invalid,
+.report-form-card select:invalid,
+.report-form-card textarea:invalid {
+  border-color: #999;
+}
+
+.report-form-card input:valid,
+.report-form-card select:valid,
+.report-form-card textarea:valid {
+  border-color: #ddd;
+}
+
+/* Category specific styling */
+.category-urgent {
+  border-left: 4px solid #333;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .report-form-card {
+    margin: 1rem;
+    padding: 2rem 1.5rem;
+  }
+
+  .report-form-card h3 {
+    font-size: 2rem;
+  }
+
+  .report-subtext {
+    font-size: 1rem;
+  }
+
+  .report-form-card input,
+  .report-form-card select,
+  .report-form-card textarea {
+    padding: 0.8rem;
+  }
+}
+
+/* Focus states for accessibility */
+.report-form-card input:focus,
+.report-form-card select:focus,
+.report-form-card textarea:focus,
+.report-form-card button:focus {
+  outline: 2px solid #333;
+  outline-offset: 2px;
+}
+
+/* Disabled state */
+.report-form-card input:disabled,
+.report-form-card select:disabled,
+.report-form-card textarea:disabled {
+  background: #f5f5f5;
+  color: #999;
+  cursor: not-allowed;
+}
+
+/* Loading state for button */
+.report-form-card button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.report-form-card button:disabled:hover {
+  background: #ccc;
+  transform: none;
+}
