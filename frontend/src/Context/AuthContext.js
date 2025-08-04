@@ -5,7 +5,7 @@ export const AuthContext = React.createContext();
 
 function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
-    const [ngo, setNgo] = useState(null);
+    const [ngo, setNgo] = useState(null); // Only for NGO owners
     const [token, setToken] = useState(null);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [isAuthLoading, setIsAuthLoading] = useState(true);
@@ -22,6 +22,7 @@ function AuthProvider({ children }) {
 
     useEffect(() => {
         initializeAuth();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     async function initializeAuth() {
@@ -43,12 +44,47 @@ function AuthProvider({ children }) {
                     );
 
                     if (response.data.success) {
+                        const profile = response.data.result;
                         setToken(storedToken);
-                        setUser(JSON.parse(storedUser));
-                        if (storedNgo) {
+                        let updatedUser = JSON.parse(storedUser);
+                        setIsAuthenticated(true);
+
+                        // Handle NGO data from profile - new logic
+                        if (profile.ngo && updatedUser.role?.includes("ngo")) {
+                            // User owns an NGO - store full NGO object
+                            setNgo(profile.ngo);
+                            localStorage.setItem(
+                                "ngo",
+                                JSON.stringify(profile.ngo)
+                            );
+                        } else if (profile.associatedNgo || profile.ngoId) {
+                            // User is associated with an NGO - store only ID and name in user object
+                            updatedUser.ngoId =
+                                profile.associatedNgo?._id || profile.ngoId;
+                            updatedUser.ngoName =
+                                profile.associatedNgo?.name || null;
+                        } else if (
+                            storedNgo &&
+                            updatedUser.role?.includes("ngo")
+                        ) {
+                            // Fallback: use stored NGO if user is NGO owner
                             setNgo(JSON.parse(storedNgo));
                         }
-                        setIsAuthenticated(true);
+
+                        // Update user with NGO info if applicable
+                        setUser(updatedUser);
+                        localStorage.setItem(
+                            "user",
+                            JSON.stringify(updatedUser)
+                        );
+
+                        // Store relationship info if available
+                        if (profile.ngoRelationship) {
+                            localStorage.setItem(
+                                "ngoRelationship",
+                                JSON.stringify(profile.ngoRelationship)
+                            );
+                        }
                     } else {
                         clearAuth();
                     }
@@ -72,6 +108,8 @@ function AuthProvider({ children }) {
         localStorage.removeItem("token");
         localStorage.removeItem("user");
         localStorage.removeItem("ngo");
+        localStorage.removeItem("ngoRelationship");
+        localStorage.removeItem("ngoName");
 
         delete axios.defaults.headers.common["Authorization"];
     }
@@ -91,22 +129,44 @@ function AuthProvider({ children }) {
                     token: newToken,
                     user: userData,
                     ngo: ngoData,
+                    associatedNgo,
+                    ngoRelationship,
+                    ngoId,
                 } = response.data.result;
                 setToken(newToken);
-                setUser(userData);
+                let updatedUser = userData;
                 setIsAuthenticated(true);
 
-                if (ngoData) {
+                // Handle NGO data - new logic
+                if (ngoData && userData.role?.includes("ngo")) {
+                    // User owns an NGO - store full NGO object
                     setNgo(ngoData);
                     localStorage.setItem("ngo", JSON.stringify(ngoData));
+                } else if (associatedNgo || ngoId) {
+                    // User is associated with an NGO - store only ID and name in user object
+                    updatedUser.ngoId = associatedNgo?._id || ngoId;
+                    updatedUser.ngoName = associatedNgo?.name || null;
                 }
+
+                // Update user with NGO info if applicable
+                setUser(updatedUser);
+                localStorage.setItem("user", JSON.stringify(updatedUser));
+
+                // Store relationship info if available
+                if (ngoRelationship) {
+                    localStorage.setItem(
+                        "ngoRelationship",
+                        JSON.stringify(ngoRelationship)
+                    );
+                }
+
                 localStorage.setItem("token", newToken);
-                localStorage.setItem("user", JSON.stringify(userData));
 
                 return {
                     success: true,
-                    user: userData,
-                    ngo: ngoData,
+                    user: updatedUser,
+                    ngo: userData.role?.includes("ngo") ? ngoData : null,
+                    ngoRelationship,
                 };
             }
         } catch (error) {

@@ -1,97 +1,117 @@
-const mongoose = require('mongoose');
-const GraceFeed = require('../models/graceFeed');
-const User = require('../models/user');
-require('dotenv').config();
-
-// Sample user data
-const sampleUsers = [
-  {
-    userName: "sarah_volunteer",
-    email: "sarah@example.com",
-    password: "hashedpassword123",
-    role: ["volunteer"],
-    about: "Passionate about helping communities",
-  },
-  {
-    userName: "artistic_soul",
-    email: "artist@example.com", 
-    password: "hashedpassword123",
-    role: ["volunteer"],
-    about: "Teaching art to make a difference",
-  },
-  {
-    userName: "craft_lover",
-    email: "crafter@example.com",
-    password: "hashedpassword123",
-    role: ["volunteer"],
-    about: "DIY enthusiast helping others learn",
-  }
-];
+const mongoose = require("mongoose");
+const GraceFeed = require("../models/Gracefeed");
+const User = require("../models/user");
+const connectDB = require("./connect");
 
 // Sample posts data
 const samplePosts = [
-  {
-    type: "photo",
-    content: "https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=300&h=400&fit=crop",
-    caption: "Today we helped build homes for families in need. Every nail hammered with love! 🏠💕",
-    size: "medium",
-    tags: ["construction", "housing", "community"],
-    likes: [],
-    comments: [],
-    shares: []
-  },
-  {
-    type: "photo", 
-    content: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300&h=500&fit=crop",
-    caption: "Teaching art therapy to children at the community center ✨🎨",
-    size: "large",
-    tags: ["art", "therapy", "children"],
-    likes: [],
-    comments: [],
-    shares: []
-  },
-  {
-    type: "photo",
-    content: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=300&h=350&fit=crop", 
-    caption: "Reading stories to kids at the local library. Books open minds! ☀️📚",
-    size: "medium",
-    tags: ["education", "reading", "children"],
-    likes: [],
-    comments: [],
-    shares: []
-  }
+    {
+        type: "photo",
+        content:
+            "https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=300&h=400&fit=crop",
+        caption:
+            "Today we helped build homes for families in need. Every nail hammered with love! 🏠💕",
+        tags: ["construction", "housing", "community"],
+    },
+    {
+        type: "photo",
+        content:
+            "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300&h=500&fit=crop",
+        caption:
+            "Teaching art therapy to children at the community center ✨🎨",
+        tags: ["art", "therapy", "children"],
+    },
+    {
+        type: "photo",
+        content:
+            "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=300&h=350&fit=crop",
+        caption:
+            "Reading stories to kids at the local library. Books open minds! ☀️📚",
+        tags: ["education", "reading", "children"],
+    },
+    {
+        type: "text",
+        content:
+            "Grateful for all the amazing volunteers who showed up today for the community garden project! Together we planted over 200 seedlings that will feed families this summer. 🌱🥕",
+        caption: "",
+        tags: ["gardening", "community", "food security"],
+    },
+    {
+        type: "photo",
+        content:
+            "https://images.unsplash.com/photo-1593113598332-cd288d649433?w=300&h=400&fit=crop",
+        caption:
+            "Medical camp in the village reached 150 families today. Healthcare is a basic right! �❤️",
+        tags: ["healthcare", "rural", "medical"],
+    },
 ];
 
-async function seedDatabase() {
-  try {
-    // Connect to MongoDB
-    await mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/grace-db');
-    console.log('Connected to MongoDB for seeding');
+async function addFeedContent(keepConnectionOpen = false) {
+    try {
+        if (mongoose.connection.readyState !== 1) {
+            await connectDB();
+            console.log("🔗 Connected to MongoDB for feed content seeding");
+        }
 
-    // Clear existing data
-    await GraceFeed.deleteMany({});
-    await User.deleteMany({});
-    console.log('Cleared existing data');
+        // Clear existing feed data
+        await GraceFeed.deleteMany({});
+        console.log("🧹 Cleared existing feed content");
 
-    // Create users
-    const createdUsers = await User.insertMany(sampleUsers);
-    console.log(`Created ${createdUsers.length} users`);
+        // Get existing users to create posts
+        const users = await User.find({
+            role: { $in: ["volunteer", "ngoMember"] },
+        }).limit(5);
 
-    // Create posts with user references
-    const postsWithUsers = samplePosts.map((post, index) => ({
-      ...post,
-      user: createdUsers[index]._id
-    }));
+        if (users.length === 0) {
+            console.log("⚠️  No users found. Please seed users first.");
+            return;
+        }
 
-    const createdPosts = await GraceFeed.insertMany(postsWithUsers);
-    console.log(`Created ${createdPosts.length} posts`);
+        // Create posts with user references
+        const postsWithUsers = samplePosts.map((post, index) => ({
+            ...post,
+            user: users[index % users.length]._id,
+            likes: [],
+            comments: [],
+            shares: [],
+        }));
 
-    console.log('Database seeded successfully!');
-    process.exit(0);
-  } catch (error) {
-    console.error('Error seeding database:', error);
-    process.exit(1);
-  }
+        const createdPosts = await GraceFeed.insertMany(postsWithUsers);
+        console.log(`✅ Created ${createdPosts.length} feed posts`);
+
+        console.log("📱 Sample Feed Posts:");
+        createdPosts.forEach((post, index) => {
+            const user = users[index % users.length];
+            console.log(
+                `   • ${user.userName}: ${
+                    post.type
+                } - "${post.caption.substring(0, 50)}..."`
+            );
+        });
+
+        if (!keepConnectionOpen) {
+            await mongoose.connection.close();
+            console.log("🔒 Database connection closed");
+        }
+
+        return createdPosts;
+    } catch (error) {
+        console.error("❌ Error seeding feed content:", error);
+        throw error;
+    }
 }
 
-seedDatabase();
+// Run if called directly
+if (require.main === module) {
+    addFeedContent()
+        .then(() => {
+            console.log("🏁 Feed content seeding completed!");
+            process.exit(0);
+        })
+        .catch((error) => {
+            console.error("💥 Feed content seeding failed:", error);
+            process.exit(1);
+        });
+}
+
+module.exports = { addFeedContent };

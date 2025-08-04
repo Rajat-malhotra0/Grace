@@ -9,15 +9,58 @@ const statuses = ["Not Picked", "In Progress", "Completed"];
 const ExtraTasksBoard = () => {
     const { user, ngo, token } = useContext(AuthContext);
     const [tasks, setTasks] = useState([]);
+    const [pendingTasks, setPendingTasks] = useState([]); // Tasks not saved to DB yet
     const [loading, setLoading] = useState(false);
+    const [saving, setSaving] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
 
     // Load existing extra tasks when component mounts
     useEffect(() => {
+        const loadExtraTasks = async () => {
+            if (!ngo?._id) return;
+
+            try {
+                setLoading(true);
+                const response = await axios.get(
+                    `http://localhost:3001/api/tasks/ngo/${ngo._id}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
+
+                if (response.data) {
+                    // Filter for extra tasks (tasks without assignedTo)
+                    const extraTasks = response.data.filter(
+                        (task) => !task.assignedTo
+                    );
+
+                    // Convert backend format to frontend format
+                    const formattedTasks = extraTasks.map((task) => ({
+                        id: task._id,
+                        title: task.title,
+                        description: task.description,
+                        priority:
+                            task.priority.charAt(0).toUpperCase() +
+                            task.priority.slice(1),
+                        status: mapBackendStatusToFrontend(task.status),
+                        isLocal: false, // These are saved tasks
+                    }));
+
+                    setTasks(formattedTasks);
+                }
+            } catch (error) {
+                console.error("Error loading extra tasks:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
         if (ngo?._id) {
             loadExtraTasks();
         }
-    }, [ngo]);
+    }, [ngo, token]);
 
     const loadExtraTasks = async () => {
         if (!ngo?._id) return;
@@ -48,6 +91,7 @@ const ExtraTasksBoard = () => {
                         task.priority.charAt(0).toUpperCase() +
                         task.priority.slice(1),
                     status: mapBackendStatusToFrontend(task.status),
+                    isLocal: false, // These are saved tasks
                 }));
 
                 setTasks(formattedTasks);
@@ -79,70 +123,115 @@ const ExtraTasksBoard = () => {
         return statusMap[frontendStatus] || "free";
     };
 
-    const addTask = async (e) => {
+    const addTask = (e) => {
         e.preventDefault();
         e.stopPropagation();
+
         if (!ngo?._id) {
             alert("NGO ID not found. Cannot create task.");
             return;
         }
 
-        if (!ngo.category || ngo.category.length === 0) {
+        // Create a new task locally (not saved to DB yet)
+        const newTask = {
+            id: `temp-${Date.now()}`, // Temporary ID for local tasks
+            title: "New Extra Task",
+            description: "Task description",
+            priority: "Medium",
+            status: "Not Picked",
+            isLocal: true, // Flag to identify unsaved tasks
+        };
+
+        setTasks((prev) => [...prev, newTask]);
+    };
+
+    const saveTasks = async () => {
+        if (!ngo?.category || ngo.category.length === 0) {
             alert(
                 "NGO must have at least one category assigned to create tasks."
             );
             return;
         }
 
+        const localTasks = tasks.filter((task) => task.isLocal);
+
+        if (localTasks.length === 0) {
+            alert("No new tasks to save.");
+            return;
+        }
+
         try {
-            setLoading(true);
+            setSaving(true);
 
             // Get category ID
             let categoryId = ngo.category[0]._id || ngo.category[0];
 
-            const taskData = {
-                title: "New Extra Task",
-                description: "Task description",
-                priority: "low",
-                status: "free",
-                // No assignedTo - this makes it an extra task
-                ngo: ngo._id,
-                createdBy: user._id,
-                category: categoryId,
-            };
-
-            const response = await axios.post(
-                "http://localhost:3001/api/tasks",
-                taskData,
-                {
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            );
-
-            if (response.data && response.data.result) {
-                const newTask = {
-                    id: response.data.result._id,
-                    title: response.data.result.title,
-                    description: response.data.result.description,
-                    priority:
-                        response.data.result.priority.charAt(0).toUpperCase() +
-                        response.data.result.priority.slice(1),
-                    status: mapBackendStatusToFrontend(
-                        response.data.result.status
-                    ),
+            const savePromises = localTasks.map(async (task) => {
+                const taskData = {
+                    title: task.title,
+                    description: task.description,
+                    priority: task.priority.toLowerCase(),
+                    status: mapFrontendStatusToBackend(task.status),
+                    ngo: ngo._id,
+                    createdBy: user._id,
+                    category: categoryId,
                 };
 
-                setTasks((prev) => [...prev, newTask]);
-                console.log("Extra task created successfully");
-            }
+                const response = await axios.post(
+                    "http://localhost:3001/api/tasks",
+                    taskData,
+                    {
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
+
+                return {
+                    tempId: task.id,
+                    savedTask: response.data.result,
+                };
+            });
+
+            const savedResults = await Promise.all(savePromises);
+
+            // Update tasks with real IDs and remove isLocal flag
+            setTasks((prev) =>
+                prev.map((task) => {
+                    if (task.isLocal) {
+                        const savedResult = savedResults.find(
+                            (result) => result.tempId === task.id
+                        );
+                        if (savedResult) {
+                            return {
+                                id: savedResult.savedTask._id,
+                                title: savedResult.savedTask.title,
+                                description: savedResult.savedTask.description,
+                                priority:
+                                    savedResult.savedTask.priority
+                                        .charAt(0)
+                                        .toUpperCase() +
+                                    savedResult.savedTask.priority.slice(1),
+                                status: mapBackendStatusToFrontend(
+                                    savedResult.savedTask.status
+                                ),
+                                isLocal: false,
+                            };
+                        }
+                    }
+                    return task;
+                })
+            );
+
+            setShowSuccess(true);
+            setTimeout(() => setShowSuccess(false), 3000);
+            console.log("All tasks saved successfully");
         } catch (error) {
-            console.error("Error creating extra task:", error);
-            alert("Failed to create extra task. Please try again.");
+            console.error("Error saving tasks:", error);
+            alert("Failed to save some tasks. Please try again.");
         } finally {
-            setLoading(false);
+            setSaving(false);
         }
     };
 
@@ -154,11 +243,12 @@ const ExtraTasksBoard = () => {
             )
         );
 
-        // Update in backend
-        try {
-            const task = tasks.find((t) => t.id === taskId);
-            if (!task) return;
+        // Only update in backend if the task is already saved (not local)
+        const task = tasks.find((t) => t.id === taskId);
+        if (!task || task.isLocal) return; // Skip backend update for local tasks
 
+        // Update in backend for saved tasks
+        try {
             const updatedTask = { ...task, [field]: value };
 
             const taskData = {
@@ -188,6 +278,15 @@ const ExtraTasksBoard = () => {
     };
 
     const removeTask = async (taskId) => {
+        const task = tasks.find((t) => t.id === taskId);
+
+        // If it's a local task, just remove from state
+        if (task?.isLocal) {
+            setTasks((prev) => prev.filter((task) => task.id !== taskId));
+            return;
+        }
+
+        // If it's a saved task, delete from backend
         try {
             setLoading(true);
 
@@ -290,6 +389,12 @@ const ExtraTasksBoard = () => {
                         <div className="task-footer">
                             <span className="task-id">
                                 ID: {task.id.slice(-6)}
+                                {task.isLocal && (
+                                    <span className="unsaved-indicator">
+                                        {" "}
+                                        (Unsaved)
+                                    </span>
+                                )}
                             </span>
                             <button
                                 className="delete-btn"
@@ -302,13 +407,30 @@ const ExtraTasksBoard = () => {
                     </div>
                 ))}
 
-                <button
-                    className="add-task-btn"
-                    onClick={addTask}
-                    disabled={loading}
-                >
-                    {loading ? "Creating..." : "+ Add Extra Task"}
-                </button>
+                <div className="button-row">
+                    <button
+                        className="add-task-btn"
+                        onClick={addTask}
+                        disabled={loading}
+                    >
+                        {loading ? "Creating..." : "+ Add Extra Task"}
+                    </button>
+
+                    <button
+                        className="save-tasks-btn"
+                        onClick={saveTasks}
+                        disabled={
+                            saving ||
+                            tasks.filter((t) => t.isLocal).length === 0
+                        }
+                    >
+                        {saving
+                            ? "Saving..."
+                            : `💾 Save Tasks (${
+                                  tasks.filter((t) => t.isLocal).length
+                              })`}
+                    </button>
+                </div>
 
                 {showSuccess && (
                     <div className="success-message">✅ Task updated!</div>

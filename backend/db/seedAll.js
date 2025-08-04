@@ -3,6 +3,11 @@ const connectDB = require("./connect");
 const { addCategories } = require("./addCategories");
 const { seedNgos } = require("./addNgo");
 const { addMarketplaceData } = require("./addMarketplaceData");
+const { seedUsers } = require("./addUsers");
+const { seedTasks } = require("./addTasks");
+const { addImpactStories } = require("./addImpactStories");
+const { addFeedContent } = require("./addFeedContent");
+const seedNgoReports = require("./addNgoReports");
 
 /**
  * Master seeder script to populate the entire database
@@ -35,11 +40,56 @@ async function seedAllData() {
         // Wait a moment between operations
         await new Promise((resolve) => setTimeout(resolve, 1000));
 
-        // Step 3: Add Marketplace Data (requires NGOs to exist)
-        console.log("3️⃣  STEP 3: Adding Marketplace Data...");
+        // Step 3: Add Users (requires NGOs to exist for associations)
+        console.log("3️⃣  STEP 3: Adding Users & NGO Relationships...");
+        console.log("=".repeat(50));
+        await seedUsers(true); // Keep connection open
+        console.log("✅ Users seeding completed\n");
+
+        // Wait a moment between operations
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+
+        // Step 4: Add Tasks (requires NGOs and Users to exist)
+        console.log("4️⃣  STEP 4: Adding Tasks...");
+        console.log("=".repeat(50));
+        await seedTasks(true); // Keep connection open
+        console.log("✅ Tasks seeding completed\n");
+
+        // Wait a moment between operations
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+
+        // Step 5: Add Marketplace Data (requires NGOs to exist)
+        console.log("5️⃣  STEP 5: Adding Marketplace Data...");
         console.log("=".repeat(50));
         await addMarketplaceData(true); // Keep connection open
         console.log("✅ Marketplace data seeding completed\n");
+
+        // Wait a moment between operations
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+
+        // Step 6: Add Impact Stories (requires Tasks and Users to exist)
+        console.log("6️⃣  STEP 6: Adding Impact Stories...");
+        console.log("=".repeat(50));
+        await addImpactStories(true); // Keep connection open
+        console.log("✅ Impact Stories seeding completed\n");
+
+        // Wait a moment between operations
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+
+        // Step 7: Add Feed Content (requires Users to exist)
+        console.log("7️⃣  STEP 7: Adding Feed Content...");
+        console.log("=".repeat(50));
+        await addFeedContent(true); // Keep connection open
+        console.log("✅ Feed Content seeding completed\n");
+
+        // Wait a moment between operations
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+
+        // Step 8: Add NGO Reports (requires NGOs and Users to exist)
+        console.log("8️⃣  STEP 8: Adding NGO Reports...");
+        console.log("=".repeat(50));
+        await seedNgoReports(true); // Keep connection open
+        console.log("✅ NGO Reports seeding completed\n");
 
         console.log("🎉 COMPLETE DATABASE SEEDING FINISHED SUCCESSFULLY!");
         console.log("=".repeat(60));
@@ -47,8 +97,16 @@ async function seedAllData() {
         console.log("📊 Summary:");
         console.log("   • Categories: NGO & Donation categories added");
         console.log("   • NGOs: Sample NGOs with Cloudinary images");
+        console.log(
+            "   • Users: Diverse users with leaderboard stats & NGO relationships"
+        );
+        console.log("   • Tasks: NGO-specific tasks for team management");
         console.log("   • Marketplace: Real donation needs from frontend data");
-        console.log("   • Users: Mock users for NGO authentication");
+        console.log("   • Impact Stories: Inspiring stories linked to tasks");
+        console.log("   • Feed Content: Social feed posts from users");
+        console.log(
+            "   • NGO Reports: Sample issue reports for NGO management"
+        );
         console.log("\n🚀 Your Grace application is now ready to use!");
     } catch (error) {
         console.error("❌ ERROR during database seeding:", error);

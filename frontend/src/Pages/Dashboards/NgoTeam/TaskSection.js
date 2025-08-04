@@ -5,9 +5,6 @@ import { AuthContext } from "../../../Context/AuthContext";
 import axios from "axios";
 import Flower1 from "../../../assets/flower2.svg";
 
-const API_BASE_URL =
-    process.env.REACT_APP_API_URL || "http://localhost:3001/api";
-
 const priorityOrder = {
     high: 1,
     medium: 2,
@@ -15,7 +12,7 @@ const priorityOrder = {
 };
 
 const TaskSection = () => {
-    const { user, ngo, isAuthLoading } = useContext(AuthContext);
+    const { user, ngo, token, isAuthLoading } = useContext(AuthContext);
     const [tasks, setTasks] = useState([]);
     const [extraTasks, setExtraTasks] = useState([]);
     const [totalTasks, setTotalTasks] = useState(0);
@@ -23,23 +20,26 @@ const TaskSection = () => {
     const [showExtraTasks, setShowExtraTasks] = useState(true);
     const [loading, setLoading] = useState(true);
 
-    // Debug logging
     console.log("TaskSection - Auth context:", {
         user: user
-            ? { id: user._id, email: user.email, role: user.role }
+            ? {
+                  id: user._id,
+                  email: user.email,
+                  role: user.role,
+                  ngoId: user.ngoId,
+              }
             : null,
         ngo: ngo ? { id: ngo._id, name: ngo.name } : null,
         isAuthLoading,
     });
 
-    // Load tasks on component mount
     useEffect(() => {
         const loadTasks = async () => {
             try {
                 setLoading(true);
 
-                if (!user) {
-                    console.log("User not available yet");
+                if (!user || !token) {
+                    console.log("User or token not available yet");
                     setTasks([]);
                     setExtraTasks([]);
                     setTotalTasks(0);
@@ -47,30 +47,41 @@ const TaskSection = () => {
                     return;
                 }
 
-                // If NGO is not available, try to get it from user's associations
-                let userNgoId = ngo?._id;
-                if (!userNgoId) {
-                    console.log(
-                        "NGO not in context, checking user associations..."
-                    );
-                    // You might need to fetch user's NGO associations here
-                    // For now, let's try to get tasks without NGO filter
+                // Get NGO ID based on user role - inline logic
+                let userNgoId = null;
+                if (user?.role?.includes("ngo") && ngo?._id) {
+                    userNgoId = ngo._id; // User owns an NGO
+                } else if (user?.ngoId) {
+                    userNgoId = user.ngoId; // User is associated with an NGO
                 }
 
-                // Get tasks assigned to the current user
+                console.log("Using NGO ID:", userNgoId);
+
+                if (!userNgoId) {
+                    console.log(
+                        "No NGO ID found - user might not be associated with any NGO"
+                    );
+                    setTasks([]);
+                    setExtraTasks([]);
+                    setTotalTasks(0);
+                    setLoading(false);
+                    return;
+                }
+
                 console.log("Fetching user tasks for user ID:", user._id);
                 const userTasksResponse = await axios.get(
-                    `${API_BASE_URL}/tasks/user/${user._id}`,
+                    `http://localhost:3001/api/tasks/user/${user._id}`,
                     {
                         headers: {
-                            Authorization: localStorage.getItem("token"),
+                            Authorization: token,
                         },
                     }
                 );
 
                 console.log("User tasks response:", userTasksResponse.data);
+                let userTasks = [];
                 if (userTasksResponse.data.success) {
-                    const userTasks = userTasksResponse.data.result || [];
+                    userTasks = userTasksResponse.data.result || [];
                     const activeTasks = userTasks.filter(
                         (task) =>
                             task.status !== "done" &&
@@ -79,16 +90,52 @@ const TaskSection = () => {
                     setTasks(activeTasks);
                     setTotalTasks(activeTasks.length);
                     console.log("Active tasks set:", activeTasks.length);
+
+                    if (!userNgoId && userTasks.length > 0) {
+                        userNgoId = userTasks[0].ngo;
+                        console.log(
+                            "NGO ID extracted from user tasks:",
+                            userNgoId
+                        );
+                    }
                 }
 
-                // Get unassigned tasks from the user's NGO for extra tasks (if NGO is available)
+                if (!userNgoId) {
+                    console.log(
+                        "No NGO ID found anywhere, trying to fetch user's NGO relationship..."
+                    );
+                    try {
+                        const userNgoResponse = await axios.get(
+                            `http://localhost:3001/api/users/${user._id}`,
+                            {
+                                headers: {
+                                    Authorization: token,
+                                },
+                            }
+                        );
+
+                        if (userNgoResponse.data && userNgoResponse.data.ngo) {
+                            userNgoId = userNgoResponse.data.ngo;
+                            console.log(
+                                "NGO ID from user endpoint:",
+                                userNgoId
+                            );
+                        }
+                    } catch (error) {
+                        console.log(
+                            "Could not fetch user-ngo relationship:",
+                            error
+                        );
+                    }
+                }
+
                 if (userNgoId) {
                     console.log("Fetching NGO tasks for NGO ID:", userNgoId);
                     const ngoTasksResponse = await axios.get(
-                        `${API_BASE_URL}/tasks/ngo/${userNgoId}`,
+                        `http://localhost:3001/api/tasks/ngo/${userNgoId}`,
                         {
                             headers: {
-                                Authorization: localStorage.getItem("token"),
+                                Authorization: token,
                             },
                         }
                     );
@@ -98,9 +145,22 @@ const TaskSection = () => {
                         ? ngoTasksResponse.data
                         : ngoTasksResponse.data.result || [];
 
-                    const unassignedTasks = ngoTasks.filter(
-                        (task) => !task.assignedTo && task.status === "free"
-                    );
+                    console.log("All NGO tasks:", ngoTasks);
+
+                    const unassignedTasks = ngoTasks.filter((task) => {
+                        const isUnassigned = !task.assignedTo;
+                        const isFree = task.status === "free";
+                        console.log(
+                            `Task ${
+                                task._id
+                            }: assigned=${!!task.assignedTo}, status=${
+                                task.status
+                            }, isUnassigned=${isUnassigned}, isFree=${isFree}`
+                        );
+                        return isUnassigned && isFree;
+                    });
+
+                    console.log("Filtered unassigned tasks:", unassignedTasks);
                     setExtraTasks(unassignedTasks.slice(0, 6)); // Limit to 6 extra tasks
                     console.log("Extra tasks set:", unassignedTasks.length);
                 } else {
@@ -119,7 +179,7 @@ const TaskSection = () => {
         };
 
         loadTasks();
-    }, [user, ngo]);
+    }, [user, ngo, token]);
 
     const handleToggle = async (taskId) => {
         setCompletingTaskId(taskId);
@@ -127,14 +187,14 @@ const TaskSection = () => {
         try {
             // Update task status to 'done' in backend
             await axios.put(
-                `${API_BASE_URL}/tasks/${taskId}`,
+                `http://localhost:3001/api/tasks/${taskId}`,
                 {
                     status: "done",
                     completedAt: new Date(),
                 },
                 {
                     headers: {
-                        Authorization: localStorage.getItem("token"),
+                        Authorization: token,
                     },
                 }
             );
@@ -154,14 +214,14 @@ const TaskSection = () => {
         try {
             // Assign the task to current user
             const response = await axios.put(
-                `${API_BASE_URL}/tasks/${task._id}`,
+                `http://localhost:3001/api/tasks/${task._id}`,
                 {
                     assignedTo: user._id,
                     status: "in-progress",
                 },
                 {
                     headers: {
-                        Authorization: localStorage.getItem("token"),
+                        Authorization: token,
                     },
                 }
             );
@@ -202,8 +262,8 @@ const TaskSection = () => {
         );
     }
 
-    // If user is not available after auth loading is complete, show a message
-    if (!user) {
+    // If user or token is not available after auth loading is complete, show a message
+    if (!user || !token) {
         return (
             <section className="ngo-section">
                 <div className="ngo-wrapper">

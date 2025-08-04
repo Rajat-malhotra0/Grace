@@ -2,9 +2,11 @@ const express = require("express");
 const router = express.Router();
 const { body, query, param, validationResult } = require("express-validator");
 const ngoReportService = require("../services/ngoReportService");
+const { authMiddleware } = require("../middleware/authMiddleware");
 
 router.post(
     "/",
+    authMiddleware,
     [
         body("title").trim().notEmpty().withMessage("Title is required"),
         body("description")
@@ -73,6 +75,7 @@ router.post(
 
 router.get(
     "/",
+    authMiddleware,
     [
         query("ngo")
             .optional()
@@ -127,6 +130,7 @@ router.get(
 
 router.get(
     "/:id",
+    authMiddleware,
     [param("id").notEmpty().withMessage("ID is required")],
     async (req, res) => {
         const errors = validationResult(req);

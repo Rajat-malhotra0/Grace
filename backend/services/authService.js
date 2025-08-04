@@ -184,11 +184,33 @@ async function loginUser(email, password) {
             token,
         };
 
+        // Check if user is an NGO owner
         if (user.role.includes("ngo")) {
             const ngo = await NGO.findOne({ user: user._id }).populate(
                 "category"
             );
             responseData.ngo = ngo;
+        }
+
+        // Check if user is associated with any NGO (member, volunteer, donor, admin)
+        const userNgoRelation = await UserNgoRelation.findOne({
+            user: user._id,
+            isActive: true,
+        }).populate({
+            path: "ngo",
+            populate: {
+                path: "category",
+            },
+        });
+
+        if (userNgoRelation) {
+            responseData.associatedNgo = userNgoRelation.ngo;
+            responseData.ngoRelationship = {
+                relationshipType: userNgoRelation.relationshipType,
+                permissions: userNgoRelation.permissions,
+                joinedAt: userNgoRelation.joinedAt,
+            };
+            responseData.ngoId = userNgoRelation.ngo._id;
         }
 
         return responseData;
@@ -237,11 +259,34 @@ async function getUserProfile(userId) {
 
         let profile = { user: sanitizeUser(user) };
 
+        // Check if user is an NGO owner
         if (user.role.includes("ngo")) {
             const ngo = await NGO.findOne({ user: userId }).populate(
                 "category"
             );
             profile.ngo = ngo;
+        }
+
+        // Check if user is associated with any NGO (member, volunteer, donor, admin)
+        const userNgoRelation = await UserNgoRelation.findOne({
+            user: userId,
+            isActive: true,
+        }).populate({
+            path: "ngo",
+            populate: {
+                path: "category",
+            },
+        });
+
+        if (userNgoRelation) {
+            profile.associatedNgo = userNgoRelation.ngo;
+            profile.ngoRelationship = {
+                relationshipType: userNgoRelation.relationshipType,
+                permissions: userNgoRelation.permissions,
+                joinedAt: userNgoRelation.joinedAt,
+            };
+            // Also store ngoId for easy access
+            profile.ngoId = userNgoRelation.ngo._id;
         }
 
         return profile;
