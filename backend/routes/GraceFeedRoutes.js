@@ -87,7 +87,7 @@ router.get('/',
             });
         }
         try {
-            const { user, category, page = 1, limit = 10 } = req.query;
+            const { user, category } = req.query;
             const filter = {};
             if (user) {
                 filter.user = user;
@@ -96,12 +96,8 @@ router.get('/',
                 filter.category = category;
             }
             
-            const options = {
-                skip: (page - 1) * limit,
-                limit: parseInt(limit)
-            };
-            
-            const graceFeeds = await graceFeedService.readPosts(filter, options);
+            // No pagination - return all posts
+            const graceFeeds = await graceFeedService.readPosts(filter);
             const totalPosts = await graceFeedService.countPosts(filter);
             
             return res.status(200).json({
@@ -109,13 +105,7 @@ router.get('/',
                 message: 'GraceFeeds retrieved successfully',
                 result: {
                     posts: graceFeeds,
-                    pagination: {
-                        currentPage: parseInt(page),
-                        totalPages: Math.ceil(totalPosts / limit),
-                        totalPosts,
-                        hasNext: page * limit < totalPosts,
-                        hasPrev: page > 1
-                    }
+                    totalPosts
                 },
             });
         } catch (error) {
