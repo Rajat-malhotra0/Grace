@@ -29,7 +29,7 @@ function Register() {
                 if (response.status === 200) {
                     setCategories(response.data.result);
                 }
-            } catch (err) { }
+            } catch (err) {}
         }
         fetchCategories();
     }, []);
@@ -59,7 +59,7 @@ function Register() {
             organizationCity = "",
             organizationState = "",
             organizationDepartment = "",
-            organizationPersonRole = ""
+            organizationPersonRole = "",
         } = formData;
 
         if (!email.trim()) {
@@ -76,8 +76,8 @@ function Register() {
 
         if (!password.trim()) {
             newErrors.password = "Password is required";
-        } else if (password.length < 8) {
-            newErrors.password = "Password must be 8 characters long";
+        } else if (password.length < 6) {
+            newErrors.password = "Password must be at least 6 characters long";
         }
 
         if (!confirmedPassword.trim()) {
@@ -105,32 +105,48 @@ function Register() {
         }
 
         if (role === "ngo") {
-            if (!organizationName.trim()) newErrors.organizationName = "Organization name required";
-            if (!registrationNumber.trim()) newErrors.registrationNumber = "Registration number required";
+            if (!organizationName.trim())
+                newErrors.organizationName = "Organization name required";
+            if (!registrationNumber.trim())
+                newErrors.registrationNumber = "Registration number required";
             if (!phoneNumber.trim()) {
                 newErrors.phoneNumber = "Phone number required";
             } else if (!/^\d{10}$/.test(phoneNumber)) {
                 newErrors.phoneNumber = "Phone must be 10 digits";
             }
-            if (!description.trim()) newErrors.description = "Description required";
+            if (!description.trim())
+                newErrors.description = "Description required";
             if (!Array.isArray(focusAreas) || focusAreas.length === 0) {
                 newErrors.focusAreas = "Select at least one focus area";
             }
         }
 
         if (role === "volunteer") {
-            if (!volunteerType) newErrors.volunteerType = "Select a volunteer type";
+            if (!volunteerType)
+                newErrors.volunteerType = "Select a volunteer type";
 
             if (volunteerType === "school" || volunteerType === "corporate") {
-                if (!organizationName.trim()) newErrors.organizationName = "Name required";
-                if (!organizationAddress.trim()) newErrors.organizationAddress = "Address required";
-                if (!organizationCity.trim()) newErrors.organizationCity = "City required";
-                if (!organizationState.trim()) newErrors.organizationState = "State required";
+                if (!organizationName.trim())
+                    newErrors.organizationName = "Name required";
+                if (!organizationAddress.trim())
+                    newErrors.organizationAddress = "Address required";
+                if (!organizationCity.trim())
+                    newErrors.organizationCity = "City required";
+                if (!organizationState.trim())
+                    newErrors.organizationState = "State required";
             }
 
             if (volunteerType === "corporate") {
-                if (!organizationDepartment.trim()) newErrors.organizationDepartment = "Department required";
-                if (!organizationPersonRole.trim()) newErrors.organizationPersonRole = "Designation required";
+                if (!organizationDepartment.trim())
+                    newErrors.organizationDepartment = "Department required";
+                if (!organizationPersonRole.trim())
+                    newErrors.organizationPersonRole = "Designation required";
+            }
+        }
+
+        if (role === "ngoMember") {
+            if (!formData.ngoId || !formData.ngoId.trim()) {
+                newErrors.ngoId = "Please select an NGO";
             }
         }
 
@@ -339,7 +355,9 @@ function Register() {
             setFormData((prevData) => ({
                 ...prevData,
                 [e.target.name]:
-                    e.target.type === "checkbox" ? e.target.checked : e.target.value,
+                    e.target.type === "checkbox"
+                        ? e.target.checked
+                        : e.target.value,
             }));
         }
     };
@@ -349,8 +367,14 @@ function Register() {
 
         const foundErrors = validate();
         setErrors(foundErrors);
-        if (Object.keys(foundErrors).length > 0)
+
+        console.log("Form validation errors:", foundErrors);
+        console.log("Form data:", formData);
+
+        if (Object.keys(foundErrors).length > 0) {
+            console.log("Form has validation errors, not submitting");
             return;
+        }
 
         let basePayload = {
             userName: formData.name,
@@ -358,7 +382,7 @@ function Register() {
             password: formData.password,
             dob: formData.dob,
             remindMe: formData.remindMe,
-            termsAccepted: formData.termsAccepted,
+            termsAccepted: formData.termsAccepted ? "true" : "false",
             newsLetter: formData.newsLetter,
             role: formData.role,
             location: {
@@ -404,10 +428,12 @@ function Register() {
             payload = basePayload;
         }
 
-        console.log(payload);
+        console.log("Submitting registration with payload:", payload);
         const result = await register(payload, isNgo);
+        console.log("Registration result:", result);
 
         if (result && result.success) {
+            console.log("Registration successful!");
             // Use toast.success with JSX components
             if (isNgo) {
                 toast.success(<NgoRegistrationToast />, {
@@ -441,12 +467,13 @@ function Register() {
                 });
             }
         } else {
-            toast.error(
-                result?.message || "Registration failed. Please try again.",
-                {
-                    toastId: "registration-error",
-                }
-            );
+            console.log("Registration failed:", result);
+            const errorMessage =
+                result?.message || "Registration failed. Please try again.";
+            console.log("Showing error message:", errorMessage);
+            toast.error(errorMessage, {
+                toastId: "registration-error",
+            });
         }
     };
 
@@ -460,7 +487,6 @@ function Register() {
             </p>
             <span>Create an account</span>
             <form onSubmit={handleSubmit}>
-
                 <div className="input-group">
                     <label>Email</label>
                     <input
@@ -510,7 +536,10 @@ function Register() {
                         value={formData.confirmedPassword || ""}
                         required
                     />
-                    <div style={{ color: "red" }}> {errors.confirmedPassword}</div>
+                    <div style={{ color: "red" }}>
+                        {" "}
+                        {errors.confirmedPassword}
+                    </div>
                 </div>
 
                 <div className="input-group user-type-selection">
@@ -558,44 +587,56 @@ function Register() {
                     <div style={{ color: "red" }}> {errors.role}</div>
                 </div>
 
-                <label>Address</label>
-                <textarea
-                    name="address"
-                    placeholder="Address"
-                    onChange={handleChange}
-                    value={formData.address || ""}
-                    required
-                />
+                <div className="input-group">
+                    <label>Address</label>
+                    <textarea
+                        name="address"
+                        placeholder="Address"
+                        onChange={handleChange}
+                        value={formData.address || ""}
+                        required
+                    />
+                    <div style={{ color: "red" }}> {errors.address}</div>
+                </div>
 
-                <label>City</label>
-                <input
-                    type="text"
-                    name="city"
-                    placeholder="City"
-                    onChange={handleChange}
-                    value={formData.city || ""}
-                    required
-                />
+                <div className="input-group">
+                    <label>City</label>
+                    <input
+                        type="text"
+                        name="city"
+                        placeholder="City"
+                        onChange={handleChange}
+                        value={formData.city || ""}
+                        required
+                    />
+                    <div style={{ color: "red" }}> {errors.city}</div>
+                </div>
 
-                <label>State</label>
-                <input
-                    type="text"
-                    name="state"
-                    placeholder="State"
-                    onChange={handleChange}
-                    value={formData.state || ""}
-                    required
-                />
+                <div className="input-group">
+                    <label>State</label>
+                    <input
+                        type="text"
+                        name="state"
+                        placeholder="State"
+                        onChange={handleChange}
+                        value={formData.state || ""}
+                        required
+                    />
+                    <div style={{ color: "red" }}> {errors.state}</div>
+                </div>
 
-                <label>Pincode</label>
-                <input
-                    type="text"
-                    name="pincode"
-                    placeholder="Pincode"
-                    onChange={handleChange}
-                    value={formData.pincode || ""}
-                    required
-                />
+                <div className="input-group">
+                    <label>Pincode</label>
+                    <input
+                        type="text"
+                        name="pincode"
+                        placeholder="Pincode"
+                        onChange={handleChange}
+                        value={formData.pincode || ""}
+                        required
+                    />
+                    <div style={{ color: "red" }}> {errors.pincode}</div>
+                </div>
 
                 {formData.role === "ngo" ? (
                     <NgoFormFields
@@ -603,21 +644,25 @@ function Register() {
                         handleChange={handleChange}
                         categories={categories}
                         setFormData={setFormData}
+                        errors={errors}
                     />
                 ) : formData.role === "volunteer" ? (
                     <VolunteerFormFields
                         formData={formData}
                         handleChange={handleChange}
+                        errors={errors}
                     />
                 ) : formData.role === "ngoMember" ? (
                     <NgoMemberFormFields
                         formData={formData}
                         handleChange={handleChange}
+                        errors={errors}
                     />
                 ) : formData.role === "donor" ? (
                     <DonorFormFields
                         formData={formData}
                         handleChange={handleChange}
+                        errors={errors}
                     />
                 ) : null}
 
@@ -679,6 +724,7 @@ function Register() {
             <span>
                 Already have an account? <Link to="/login">Login</Link>
             </span>
+            <ToastContainer position="top-right" />
         </div>
     );
 }

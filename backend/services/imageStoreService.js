@@ -32,6 +32,27 @@ const uploadImage = async (imagePath, folder = "grace-ngos") => {
     }
 };
 
+// Upload video to Cloudinary
+const uploadVideo = async (videoPath, folder = "grace-videos") => {
+    try {
+        const result = await cloudinary.uploader.upload(videoPath, {
+            folder: folder,
+            resource_type: "video",
+            transformation: [{ quality: "auto", fetch_format: "auto" }],
+        });
+        return {
+            url: result.secure_url,
+            publicId: result.public_id,
+            width: result.width,
+            height: result.height,
+            duration: result.duration,
+        };
+    } catch (error) {
+        console.error("Cloudinary video upload error:", error);
+        throw error;
+    }
+};
+
 // Delete image from Cloudinary
 const deleteImage = async (publicId) => {
     try {
@@ -46,5 +67,6 @@ const deleteImage = async (publicId) => {
 module.exports = {
     cloudinary,
     uploadImage,
+    uploadVideo,
     deleteImage,
 };

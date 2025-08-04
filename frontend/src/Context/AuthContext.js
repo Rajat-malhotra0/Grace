@@ -185,9 +185,11 @@ function AuthProvider({ children }) {
                 ? "http://localhost:3001/api/auth/register-ngo"
                 : "http://localhost:3001/api/auth/register";
 
-            console.log("Registration payload:", userData); // Add this to debug
+            console.log("Registration URL:", url);
+            console.log("Registration payload:", userData);
 
             const response = await axios.post(url, userData);
+            console.log("Registration response:", response.data);
 
             if (response.data.success) {
                 const {
@@ -215,11 +217,12 @@ function AuthProvider({ children }) {
                 };
             }
         } catch (error) {
-            console.error("Registration error details:", error.response?.data); // Add this to see backend error
+            console.error("Registration error details:", error);
+            console.error("Error response:", error.response?.data);
 
             return {
                 success: false,
-                message: "Registration failed",
+                message: error.response?.data?.message || "Registration failed",
                 error: error,
             };
         }

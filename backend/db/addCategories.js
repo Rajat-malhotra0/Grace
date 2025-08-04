@@ -1,12 +1,8 @@
-//This file is being used to add categories of the NGOs into the db. 
-
-
 const mongoose = require("mongoose");
 const Category = require("../models/category");
 const connectDB = require("./connect");
 
 const categories = [
-    // NGO Categories
     {
         name: "Education",
         description: "Supporting educational initiatives and literacy programs",
@@ -42,8 +38,6 @@ const categories = [
         description: "Child welfare and development programs",
         type: "ngo",
     },
-
-    // Marketplace Donation Categories
     {
         name: "Food & Nutrition",
         description: "Essential food items and nutrition support",
@@ -135,7 +129,6 @@ async function addCategories(keepConnectionOpen = false) {
     }
 }
 
-// Only run if this file is executed directly
 if (require.main === module) {
     addCategories();
 }

@@ -12,7 +12,9 @@ async function createNgo(data) {
 
 async function readNgos(filter = {}) {
     try {
-        const ngos = await Ngo.find(filter);
+        const ngos = await Ngo.find(filter)
+            .populate("category", "name")
+            .populate("user", "userName email location");
         return ngos;
     } catch (error) {
         throw error;

@@ -521,7 +521,7 @@ async function createUsersAndRelations() {
     console.log("👥 Creating diverse users for rich leaderboard experience...");
 
     try {
-        // Clear existing users (except NGO owner users which were created by addNgo.js)
+        // Clear existing users (except NGO admin users which are created in seedAll.js)
         console.log("🗑️  Removing existing volunteer/member/donor users...");
         await User.deleteMany({
             role: {

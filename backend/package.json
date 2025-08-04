@@ -1,18 +1,25 @@
 {
-  "dependencies": {
-    "@google/genai": "^1.9.0",
-    "@langchain/core": "^0.3.66",
-    "@langchain/google-genai": "^0.2.15",
-    "@langchain/qdrant": "^0.1.2",
-    "bcryptjs": "^3.0.2",
-    "cloudinary": "^2.7.0",
-    "cors": "^2.8.5",
-    "dotenv": "^17.1.0",
-    "express": "^5.1.0",
-    "express-validator": "^7.2.1",
-    "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.16.1",
-    "razorpay": "^2.9.6",
-    "socket.io": "^4.8.1"
-  }
+    "scripts": {
+        "start": "node app.js",
+        "dev": "nodemon app.js",
+        "seed": "node db/seedAll.js",
+        "test-db": "node db/test-db.js",
+        "seed-ngos": "node db/seedCompleteNgoData.js"
+    },
+    "dependencies": {
+        "@google/genai": "^1.9.0",
+        "@langchain/core": "^0.3.66",
+        "@langchain/google-genai": "^0.2.15",
+        "@langchain/qdrant": "^0.1.2",
+        "bcryptjs": "^3.0.2",
+        "cloudinary": "^2.7.0",
+        "cors": "^2.8.5",
+        "dotenv": "^17.1.0",
+        "express": "^5.1.0",
+        "express-validator": "^7.2.1",
+        "jsonwebtoken": "^9.0.2",
+        "mongoose": "^8.16.1",
+        "razorpay": "^2.9.6",
+        "socket.io": "^4.8.1"
+    }
 }

@@ -1,7 +1,13 @@
 import React from "react";
 import "./Register.css";
 
-function NgoFormFields({ formData, handleChange, categories, setFormData }) {
+function NgoFormFields({
+    formData,
+    handleChange,
+    categories,
+    setFormData,
+    errors = {},
+}) {
     return (
         <>
             <label>Organization Name</label>
@@ -13,6 +19,7 @@ function NgoFormFields({ formData, handleChange, categories, setFormData }) {
                 value={formData.organizationName || ""}
                 required
             />
+            <div style={{ color: "red" }}> {errors.organizationName}</div>
 
             <label>Registration Number</label>
             <input
@@ -23,6 +30,7 @@ function NgoFormFields({ formData, handleChange, categories, setFormData }) {
                 value={formData.registrationNumber || ""}
                 required
             />
+            <div style={{ color: "red" }}> {errors.registrationNumber}</div>
 
             <label>Phone Number</label>
             <input
@@ -33,6 +41,7 @@ function NgoFormFields({ formData, handleChange, categories, setFormData }) {
                 value={formData.phoneNumber || ""}
                 required
             />
+            <div style={{ color: "red" }}> {errors.phoneNumber}</div>
 
             <label>Website (Optional)</label>
             <input
@@ -51,6 +60,7 @@ function NgoFormFields({ formData, handleChange, categories, setFormData }) {
                 value={formData.description || ""}
                 required
             />
+            <div style={{ color: "red" }}> {errors.description}</div>
 
             <label>Focus Areas</label>
             <select
@@ -83,6 +93,7 @@ function NgoFormFields({ formData, handleChange, categories, setFormData }) {
                     </option>
                 ))}
             </select>
+            <div style={{ color: "red" }}> {errors.focusAreas}</div>
 
             {Array.isArray(formData.focusAreas) &&
             formData.focusAreas.length > 0 ? (
@@ -104,7 +115,7 @@ function NgoFormFields({ formData, handleChange, categories, setFormData }) {
                                             focusAreas: prev.focusAreas.filter(
                                                 (id) => id !== catId
                                             ),
-                                        })); 
+                                        }));
                                     }}
                                     aria-label="Remove"
                                 >

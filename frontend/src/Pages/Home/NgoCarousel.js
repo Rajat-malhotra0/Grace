@@ -34,6 +34,7 @@ const NgoCarousel = () => {
                 );
 
                 console.log("Fetched NGOs:", response.data.result);
+                console.log("First NGO structure:", response.data.result[0]);
                 setNgos(response.data.result.slice(0, 6));
             } catch (error) {
                 console.error("Failed to fetch NGOs:", error);
@@ -106,12 +107,10 @@ const NgoCarousel = () => {
                             key={ngo._id}
                             ngo={{
                                 ...ngo,
-                                mission: ngo.description, // Map description to mission
+                                mission: ngo.mission || ngo.description, // Use mission field or description
                                 image: getImageUrl(ngo), // Use database image or fallback
-                                volunteersNeeded:
-                                    Math.floor(Math.random() * 200) + 50, // Random placeholder
-                                donationGoal:
-                                    Math.floor(Math.random() * 40000) + 15000, // Random placeholder
+                                volunteersNeeded: ngo.volunteersNeeded || 50, // Use database value or default
+                                donationGoal: ngo.donationGoal || 15000, // Use database value or default
                             }}
                             onDonateClick={() => handleDonateClick(ngo)} // Pass handler to card
                         />

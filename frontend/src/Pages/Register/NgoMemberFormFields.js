@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./Register.css";
 
-function NgoMemberFormFields({ formData, handleChange }) {
+function NgoMemberFormFields({ formData, handleChange, errors = {} }) {
     const [ngos, setNgos] = useState([]);
     const [search, setSearch] = useState("");
     const [showDropdown, setShowDropdown] = useState(false);
@@ -62,6 +62,7 @@ function NgoMemberFormFields({ formData, handleChange }) {
                     </div>
                 )}
             </div>
+            <div style={{ color: "red" }}> {errors.ngoId}</div>
 
             {/* Hidden field to store the selected NGO id */}
             <input type="hidden" name="ngoId" value={formData.ngoId || ""} />

@@ -10,14 +10,15 @@ This is a styling ".css" file for the main login.js file, allowing us to apply v
     align-items: center;
     min-height: 100vh;
     padding: 80px 2rem 2rem 2rem; /* Top padding for fixed header */
-    background-color: #e1d4d4;
+    background-color: #ffffff;
     font-family: "Poppins", sans-serif;
     box-sizing: border-box;
 }
 
 .login-box {
     width: 100%;
-    max-width: 420px; /* Slightly smaller for a simpler form */
+    max-width: 50% !important; /* Set to 50% width with important */
+    min-width: 400px; /* Minimum width for smaller screens */
     background: #ffffff;
     padding: 50px;
     /* padding-bottom: 75px; */
@@ -103,6 +104,8 @@ This is a styling ".css" file for the main login.js file, allowing us to apply v
 @media (max-width: 520px) {
     .login-box {
         padding: 2rem 1.5rem;
+        min-width: 300px; /* Smaller minimum width for mobile */
+        max-width: 50%; /* Keep 50% width on mobile too */
     }
 
     .login-header h1 {

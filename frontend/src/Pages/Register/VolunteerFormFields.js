@@ -1,7 +1,7 @@
 import React from "react";
 import "./Register.css";
 
-function VolunteerFormFields({ formData, handleChange }) {
+function VolunteerFormFields({ formData, handleChange, errors = {} }) {
     return (
         <>
             <label>How would you like to volunteer with us: </label>
@@ -55,6 +55,7 @@ function VolunteerFormFields({ formData, handleChange }) {
                 />
                 As a career
             </label>
+            <div style={{ color: "red" }}> {errors.volunteerType}</div>
 
             {formData.volunteerType === "school" ? (
                 <>
@@ -67,6 +68,10 @@ function VolunteerFormFields({ formData, handleChange }) {
                         value={formData.organizationName || ""}
                         required
                     />
+                    <div style={{ color: "red" }}>
+                        {" "}
+                        {errors.organizationName}
+                    </div>
 
                     <label>School Address</label>
                     <textarea
@@ -76,6 +81,10 @@ function VolunteerFormFields({ formData, handleChange }) {
                         value={formData.organizationAddress || ""}
                         required
                     />
+                    <div style={{ color: "red" }}>
+                        {" "}
+                        {errors.organizationAddress}
+                    </div>
 
                     <label>City</label>
                     <input
@@ -86,6 +95,10 @@ function VolunteerFormFields({ formData, handleChange }) {
                         value={formData.organizationCity || ""}
                         required
                     />
+                    <div style={{ color: "red" }}>
+                        {" "}
+                        {errors.organizationCity}
+                    </div>
 
                     <label>State</label>
                     <input
@@ -96,6 +109,10 @@ function VolunteerFormFields({ formData, handleChange }) {
                         value={formData.organizationState || ""}
                         required
                     />
+                    <div style={{ color: "red" }}>
+                        {" "}
+                        {errors.organizationState}
+                    </div>
                 </>
             ) : formData.volunteerType === "corporate" ? (
                 <>
@@ -108,6 +125,11 @@ function VolunteerFormFields({ formData, handleChange }) {
                         value={formData.organizationName || ""}
                         required
                     />
+                    <div style={{ color: "red" }}>
+                        {" "}
+                        {errors.organizationName}
+                    </div>
+
                     <label>Company Address</label>
                     <textarea
                         name="organizationAddress"
@@ -116,6 +138,10 @@ function VolunteerFormFields({ formData, handleChange }) {
                         value={formData.organizationAddress || ""}
                         required
                     />
+                    <div style={{ color: "red" }}>
+                        {" "}
+                        {errors.organizationAddress}
+                    </div>
 
                     <label>City</label>
                     <input
@@ -126,6 +152,10 @@ function VolunteerFormFields({ formData, handleChange }) {
                         value={formData.organizationCity || ""}
                         required
                     />
+                    <div style={{ color: "red" }}>
+                        {" "}
+                        {errors.organizationCity}
+                    </div>
 
                     <label>State</label>
                     <input
@@ -136,6 +166,10 @@ function VolunteerFormFields({ formData, handleChange }) {
                         value={formData.organizationState || ""}
                         required
                     />
+                    <div style={{ color: "red" }}>
+                        {" "}
+                        {errors.organizationState}
+                    </div>
 
                     <label>Department/Team Name</label>
                     <input
@@ -146,6 +180,10 @@ function VolunteerFormFields({ formData, handleChange }) {
                         value={formData.organizationDepartment || ""}
                         required
                     />
+                    <div style={{ color: "red" }}>
+                        {" "}
+                        {errors.organizationDepartment}
+                    </div>
 
                     <label>Your Designation / Role</label>
                     <input
@@ -156,6 +194,10 @@ function VolunteerFormFields({ formData, handleChange }) {
                         value={formData.organizationPersonRole || ""}
                         required
                     />
+                    <div style={{ color: "red" }}>
+                        {" "}
+                        {errors.organizationPersonRole}
+                    </div>
 
                     <label>About Yourself (Optional)</label>
                     <textarea

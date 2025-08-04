@@ -1,5 +1,6 @@
 const express = require("express");
 const { body, validationResult } = require("express-validator");
+const mongoose = require("mongoose");
 const router = express.Router();
 const authService = require("../services/authService");
 const { authMiddleware } = require("../middleware/authMiddleware");
@@ -54,7 +55,18 @@ router.post(
             .trim()
             .notEmpty()
             .withMessage("Organization name is required"),
-        body("category").isMongoId().withMessage("Valid category is required"),
+        body("category")
+            .isArray({ min: 1 })
+            .withMessage("At least one category is required")
+            .custom((categories) => {
+                // Check if all items in array are valid MongoIds
+                for (let category of categories) {
+                    if (!mongoose.Types.ObjectId.isValid(category)) {
+                        throw new Error("All categories must be valid IDs");
+                    }
+                }
+                return true;
+            }),
         body("termsAccepted")
             .equals("true")
             .withMessage("Terms must be accepted"),
