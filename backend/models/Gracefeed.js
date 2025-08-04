@@ -1,66 +1,53 @@
 const mongoose = require("mongoose");
 
-const graceFeedSchema = new mongoose.Schema(
-    {
+const graceFeedSchema = new mongoose.Schema({
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'user',
+        required: true
+    },
+    type: {type: String, enum: ['photo', 'video', 'text'], default: 'photo'},
+    content: {type: String, required: true},
+    caption: {type: String, default: ''},
+    likes: [{
         user: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "user",
-            required: true,
+            ref: 'user'
         },
-        type: {
-            type: String,
-            enum: ["photo", "video", "text"],
-            default: "photo",
-        },
-        content: { type: String, required: true },
-        caption: { type: String, default: "" },
-        likes: [
-            {
-                user: {
-                    type: mongoose.Schema.Types.ObjectId,
-                    ref: "User",
-                },
-                likedAt: { type: Date, default: Date.now },
-            },
-        ],
-        comments: [
-            {
-                user: {
-                    type: mongoose.Schema.Types.ObjectId,
-                    ref: "User",
-                    required: true,
-                },
-                text: { type: String, required: true },
-                commentedAt: { type: Date, default: Date.now },
-            },
-        ],
-        shares: [
-            {
-                user: {
-                    type: mongoose.Schema.Types.ObjectId,
-                    ref: "User",
-                },
-                sharedAt: { type: Date, default: Date.now },
-            },
-        ],
-        size: {
-            type: String,
-            enum: ["small", "medium", "large"],
-            default: "medium",
-        },
-        tags: [{ type: String }],
-        category: {
+        likedAt: {type: Date, default: Date.now}
+    }],
+    comments: [{
+        user: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Category",
+            ref: 'user',
+            required: true
         },
-        isActive: { type: Boolean, default: true },
-        createdAt: { type: Date, default: Date.now, immutable: true },
-        updatedAt: { type: Date, default: Date.now },
+        text: {type: String, required: true},
+        commentedAt: {type: Date,default: Date.now}
+    }],
+    shares: [{
+        user: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'user'
+        },
+        sharedAt: {type: Date, default: Date.now}
+    }],
+    size: {
+        type: String,
+        enum: ['small', 'medium', 'large'],
+        default: 'medium'
     },
-    {
-        timestamps: true,
-    }
-);
+    tags: [{ type: String }],
+    category: { 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'category'
+    },
+    isActive: {type: Boolean, default: true},
+    createdAt: {type: Date, default: Date.now, immutable: true},
+    updatedAt: {type: Date, default: Date.now}
+}, {
+    timestamps: true
+});
 
 graceFeedSchema.index({ user: 1 });
 graceFeedSchema.index({ createdAt: -1 });

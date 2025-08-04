@@ -1,282 +1,138 @@
-@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap");
+
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&display=swap");
 
 .about-page {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 6rem 2rem 2rem 2rem;
-  font-family: "Playfair Display", serif;
-  color: #2e2e2e;
-  line-height: 1.6;
-  background: #fdfdfd;
-  min-height: 100vh;
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 6rem 1.5rem 4rem;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+    color: #222;
+    line-height: 1.6;
+    background: #ffffff;
 }
 
 .about-header {
-  text-align: center;
-  margin-bottom: 4rem;
-  padding: 3rem 0;
-  background: #ffffff;
-  border-radius: 20px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-  border: 1px solid #f0f0f0;
+    text-align: center;
+    margin-bottom: 4rem;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .about-header h1 {
-  font-family: "Playfair Display", serif;
-  font-size: 3.5rem;
-  font-weight: 700;
-  color: #2e2e2e;
-  margin-bottom: 1rem;
-  line-height: 1.2;
-  letter-spacing: -0.02em;
+    font-family: "Playfair Display", serif;
+    font-size: 3.5rem;
+    font-weight: 600;
+    color: #222;
+    margin-bottom: 1rem;
+    line-height: 1.2;
 }
 
 .about-header p {
-  font-family: "Playfair Display", serif;
-  font-size: 1.4rem;
-  font-weight: 400;
-  color: #666;
-  margin: 0;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
+    font-size: 1.25rem;
+    font-weight: 400;
+    color: #666;
+    max-width: 600px;
+    margin: 0 auto;
 }
 
 .about-page > div {
-  background: #ffffff;
-  margin-bottom: 2rem;
-  padding: 2.5rem;
-  border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  border: 1px solid #f0f0f0;
-  transition: all 0.3s ease;
-}
-
-.about-page > div:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    margin-bottom: 3rem;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .about-page h2 {
-  font-family: "Playfair Display", serif;
-  font-size: 2.2rem;
-  font-weight: 600;
-  color: #2e2e2e;
-  margin-bottom: 1.5rem;
-  border-bottom: 3px solid #2e2e2e;
-  padding-bottom: 0.5rem;
-  line-height: 1.3;
+    font-family: "Playfair Display", serif;
+    font-size: 2.25rem;
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+    color: #222;
+    line-height: 1.3;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 0.75rem;
 }
 
 .about-page h3 {
-  font-family: "Playfair Display", serif;
-  font-size: 1.6rem;
-  font-weight: 600;
-  color: #2e2e2e;
-  margin: 1.5rem 0 1rem 0;
+    font-family: "Playfair Display", serif;
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin: 1.5rem 0 1rem;
+    color: #333;
 }
 
-.about-page p {
-  font-family: "Playfair Display", serif;
-  font-size: 1.1rem;
-  font-weight: 400;
-  color: #2e2e2e;
-  margin-bottom: 1.2rem;
-  line-height: 1.7;
+  .about-header p {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 1.25rem;
+    line-height: 1.7;
 }
 
-.about-page hr {
-  border: none;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, #e0e0e0, transparent);
-  margin: 2rem 0;
+.about-page ul {
+    margin: 1rem 0;
+    padding-left: 1.5rem;
 }
 
-/* Styling for the final paragraph */
-.about-page > p:last-of-type {
-  background: #2e2e2e;
-  color: #ffffff;
-  padding: 2rem;
-  border-radius: 12px;
-  font-size: 1.2rem;
-  font-weight: 500;
-  text-align: center;
-  margin: 2rem 0;
-  box-shadow: 0 4px 20px rgba(46, 46, 46, 0.3);
-}
-
-.about-contact {
-  background: linear-gradient(135deg, #f8f8f8, #f0f0f0) !important;
-  border-left: 5px solid #2e2e2e !important;
-  position: relative;
-}
-
-.about-contact::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background: linear-gradient(
-    45deg,
-    transparent,
-    rgba(46, 46, 46, 0.02),
-    transparent
-  );
-  border-radius: 16px;
-  pointer-events: none;
-}
-
-.about-contact h2 {
-  border-bottom-color: #666;
-  color: #2e2e2e;
-}
-
-.about-contact p {
-  font-weight: 500;
-  color: #2e2e2e;
-  font-size: 1.1rem;
-}
-
-/* Enhanced typography for bullet points */
-.about-page p:has-bullet,
-.about-page p {
-  text-indent: 0;
-}
-
-/* Special styling for sections with emoji bullets */
-.about-page p:contains("🏠"),
-.about-page p:contains("🤝"),
-.about-page p:contains("💼") {
-  background: #f9f9f9;
-  padding: 1.5rem;
-  border-radius: 12px;
-  border-left: 4px solid #2e2e2e;
-  margin: 1.5rem 0;
+.about-page li {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
 }
 
 /* Responsive Design */
-@media (max-width: 1024px) {
-  .about-page {
-    max-width: 900px;
-    padding: 6rem 1.5rem 2rem 1.5rem;
-  }
-
-  .about-header h1 {
-    font-size: 3rem;
-  }
-
-  .about-header p {
-    font-size: 1.2rem;
-  }
-
-  .about-page h2 {
-    font-size: 2rem;
-  }
-}
-
 @media (max-width: 768px) {
-  .about-page {
-    padding: 6rem 1rem 2rem 1rem;
-  }
+    .about-page {
+        padding: 5rem 1rem 3rem;
+    }
 
-  .about-header {
-    padding: 2rem 1rem;
-    margin-bottom: 3rem;
-  }
+    .about-header h1 {
+        font-size: 2.5rem;
+    }
 
-  .about-header h1 {
-    font-size: 2.5rem;
-  }
+    .about-header p {
+        font-size: 1.1rem;
+    }
 
-  .about-header p {
-    font-size: 1.1rem;
-  }
+    .about-page h2 {
+        font-size: 1.75rem;
+    }
 
-  .about-page > div {
-    padding: 2rem;
-    margin-bottom: 1.5rem;
-  }
+    .about-page h3 {
+        font-size: 1.25rem;
+    }
 
-  .about-page h2 {
-    font-size: 1.8rem;
-  }
-
-  .about-page h3 {
-    font-size: 1.4rem;
-  }
-
-  .about-page p {
-    font-size: 1rem;
-  }
+    .about-page p,
+    .about-page li {
+        font-size: 1rem;
+    }
 }
 
 @media (max-width: 480px) {
-  .about-page {
-    padding: 6rem 0.5rem 2rem 0.5rem;
-  }
+    .about-page {
+        padding: 4.5rem 0.75rem 2.5rem;
+    }
 
-  .about-header h1 {
-    font-size: 2rem;
-  }
+    .about-header {
+        margin-bottom: 3rem;
+    }
 
-  .about-header p {
-    font-size: 1rem;
-  }
+    .about-header h1 {
+        font-size: 2rem;
+        line-height: 1.1;
+    }
 
-  .about-page > div {
-    padding: 1.5rem;
-  }
+    .about-header p {
+        font-size: 1rem;
+    }
 
-  .about-page h2 {
-    font-size: 1.6rem;
-  }
+    .about-page h2 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
 
-  .about-page p {
-    font-size: 0.95rem;
-  }
-
-  .about-page > p:last-of-type {
-    padding: 1.5rem;
-    font-size: 1.1rem;
-  }
-}
-
-/* Animation for scroll-in effect */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.about-page > div {
-  animation: fadeInUp 0.6s ease forwards;
-}
-
-.about-page > div:nth-child(1) {
-  animation-delay: 0.1s;
-}
-.about-page > div:nth-child(2) {
-  animation-delay: 0.2s;
-}
-.about-page > div:nth-child(3) {
-  animation-delay: 0.3s;
-}
-.about-page > div:nth-child(4) {
-  animation-delay: 0.4s;
-}
-.about-page > div:nth-child(5) {
-  animation-delay: 0.5s;
-}
-.about-page > div:nth-child(6) {
-  animation-delay: 0.6s;
-}
-.about-page > div:nth-child(7) {
-  animation-delay: 0.7s;
+    .about-page > div {
+        margin-bottom: 2.5rem;
+    }
 }

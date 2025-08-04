@@ -1,11 +1,10 @@
 const dotenv = require("dotenv");
 dotenv.config();
 
+const Article = require("../models/article");
+
 const { QdrantVectorStore } = require("@langchain/qdrant");
-const {
-    GoogleGenerativeAIEmbeddings,
-    ChatGoogleGenerativeAI,
-} = require("@langchain/google-genai");
+const {GoogleGenerativeAIEmbeddings,ChatGoogleGenerativeAI,} = require("@langchain/google-genai");
 const { Document } = require("@langchain/core/documents");
 
 const collectionName = "help_articles";
@@ -42,7 +41,6 @@ async function initializeVectorStore() {
             collectionName: collectionName,
             checkCompatibility: false,
         });
-
         console.log("Successfully connected to Qdrant");
         isInitialized = true;
     } catch (error) {
@@ -55,7 +53,6 @@ async function addArticles(articles) {
     if (!vectorStore) {
         await initializeVectorStore();
     }
-
     if (!vectorStore) {
         console.warn("Qdrant not available, articles not stored");
         return;
@@ -102,7 +99,7 @@ async function getFallbackContent(query) {
             })
         );
     }
-    if (queryLower.includes("ngo") || queryLower.includes("location")) {
+    if (queryLower.includes("ngo") || queryLower.includes("location") || queryLower.includes("map")) {
         fallbackArticles.push(
             new Document({
                 pageContent:
@@ -120,6 +117,15 @@ async function getFallbackContent(query) {
             })
         );
     }
+    if (queryLower.includes("add ngo") || queryLower.includes("new ngo")) {
+        fallbackArticles.push(
+            new Document({
+                pageContent:
+                    "To add a new NGO, go to NGO Management and click 'Add NGO'. Fill in name, location, and contact info.",
+                metadata: { source: "Fallback Help", category: "ngo" },
+            })
+        );
+    }
     if (fallbackArticles.length === 0) {
         fallbackArticles.push(
             new Document({
@@ -134,17 +140,13 @@ async function getFallbackContent(query) {
 
 async function generateAnswer(query, contextDocs) {
     const contextText = contextDocs.map((doc) => doc.pageContent).join("\n\n");
-
     try {
         const prompt = `
 You are an NGO dashboard assistant. Answer based on this context:
 ${contextText}
-
 Question: ${query}
-
 Respond concisely and helpfully. If the context doesn't contain the answer, just return that you dont know how to do that specific task.
 `;
-
         const response = await chatModel.invoke(prompt);
         return (
             response.content ||
@@ -170,7 +172,6 @@ async function getChatbotResponse(query) {
     try {
         const similarDocs = await searchArticles(query);
         const answer = await generateAnswer(query, similarDocs);
-
         return {
             answer,
             sources: similarDocs
@@ -189,40 +190,90 @@ async function getChatbotResponse(query) {
 }
 
 async function setupKnowledgeBase() {
-    const articles = [
-        {
-            content:
-                "To create a task, go to the Tasks page and click 'Create Task'. Fill in the details and submit.",
-            metadata: { source: "User Guide Section 3.2", category: "tasks" },
-        },
-        {
-            content:
-                "View NGO locations on the Map page. Click any marker for details.",
+    try {
+        // Fetch all active articles from database
+        const articles = await Article.find({ isActive: true }).sort({ createdAt: -1 });
+        if (articles.length === 0) {
+            console.warn("No articles found in database. Please seed the database first.");
+            return false;
+        }
+        // Convert database articles to the format expected by vector store
+        const formattedArticles = articles.map(article => ({
+            content: `${article.title}\n\n${article.content}`,
             metadata: {
-                source: "User Guide Section 5.1",
-                category: "navigation",
+                source: article.source,
+                category: article.category,
+                title: article.title,
+                tags: article.tags.join(", "),
+                id: article._id.toString(),
             },
+        }));
+        console.log(`Setting up knowledge base with ${formattedArticles.length} articles from database`);
+        return await addArticles(formattedArticles);
+    } catch (error) {
+        console.error("Error setting up knowledge base from database:", error.message);
+        // Fallback to hardcoded articles if database fails
+        return await setupFallbackKnowledgeBase();
+    }
+}
+
+async function setupFallbackKnowledgeBase() {
+    console.log("Using fallback knowledge base (hardcoded articles)");
+    const fallbackArticles = [
+        {
+            content: "Creating Tasks\n\nTo create a task, go to the Tasks page and click 'Create Task'. Fill in the details and submit.",
+            metadata: { source: "Fallback - User Guide Section 3.2", category: "tasks", title: "Creating Tasks" },
         },
         {
-            content:
-                "To add a new NGO, go to NGO Management and click 'Add NGO'. Fill in name, location, and contact info.",
-            metadata: { source: "User Guide Section 2.1", category: "ngo" },
+            content: "NGO Location Mapping\n\nView NGO locations on the Map page. Click any marker for details.",
+            metadata: { source: "Fallback - User Guide Section 5.1", category: "navigation", title: "NGO Location Mapping" },
         },
         {
-            content:
-                "View donation reports in Analytics. Select date range and click 'Generate Report'.",
-            metadata: {
-                source: "User Guide Section 4.3",
-                category: "analytics",
-            },
+            content: "Adding New NGO\n\nTo add a new NGO, go to NGO Management and click 'Add NGO'. Fill in name, location, and contact info.",
+            metadata: { source: "Fallback - User Guide Section 2.1", category: "ngo", title: "Adding New NGO" },
+        },
+        {
+            content: "Donation Reports\n\nView donation reports in Analytics. Select date range and click 'Generate Report'.",
+            metadata: { source: "Fallback - User Guide Section 4.3", category: "analytics", title: "Donation Reports" },
         },
     ];
-
-    return await addArticles(articles);
+    return await addArticles(fallbackArticles);
 }
+
+async function refreshKnowledgeBase() {
+    console.log("Refreshing knowledge base from database...");
+    return await setupKnowledgeBase();
+}
+
+async function addNewArticleToVectorStore(articleId) {
+    try {
+        const article = await Article.findById(articleId);
+        if (!article || !article.isActive) {
+            console.warn("Article not found or inactive:", articleId);
+            return false;
+        }
+        const formattedArticle = {
+            content: `${article.title}\n\n${article.content}`,
+            metadata: {
+                source: article.source,
+                category: article.category,
+                title: article.title,
+                tags: article.tags.join(", "),
+                id: article._id.toString(),
+            },
+        };
+        return await addArticles([formattedArticle]);
+    } catch (error) {
+        console.error("Error adding new article to vector store:", error.message);
+        return false;
+    }
+}
+
 module.exports = {
     initializeVectorStore,
     setupKnowledgeBase,
+    refreshKnowledgeBase,
+    addNewArticleToVectorStore,
     getChatbotResponse,
     addArticles,
 };

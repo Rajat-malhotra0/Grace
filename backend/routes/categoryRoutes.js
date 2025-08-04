@@ -3,6 +3,7 @@ const router = express.Router();
 const { body, query, param, validationResult } = require("express-validator");
 const categoryService = require("../services/categoryService");
 
+// POST /api/categories - Create new category
 router.post(
     "/",
     [
