@@ -368,11 +368,13 @@ async function addMarketplaceData(keepConnectionOpen = false) {
             console.log("✅ Connected to MongoDB");
         }
 
-        // Clear existing data EXCEPT the NGOs from seedCompleteNgoData.js
+        // Clear existing data EXCEPT the NGOs from seedCompleteNgoData.js and NGO admin users from seedAll.js
         await User.deleteMany({
-            role: { $in: ["ngo"] },
-            // Don't delete users created by seedCompleteNgoData.js (they have @example.com emails)
-            email: { $not: /@example\.com$/ },
+            $and: [
+                { role: { $in: ["ngo"] } },
+                { email: { $not: /@example\.com$/ } },
+                { email: { $not: /@grace\.org$/ } },
+            ],
         });
         await NGO.deleteMany({
             // Only delete NGOs that don't have coverImage URLs (i.e., not from step 2)

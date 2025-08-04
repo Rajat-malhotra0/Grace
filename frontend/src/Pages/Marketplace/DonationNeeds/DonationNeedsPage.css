@@ -36,49 +36,49 @@
 }
 
 .stat-card_ {
-  background: #ffffff;
-  border-radius: 20px;
-  padding: 2.5rem;
-  text-align: center;
-  border: 1px solid #f0f0f0;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 2.5rem;
+    text-align: center;
+    border: 1px solid #f0f0f0;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
 }
 
 .stat-card_::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #2e2e2e, #666, #2e2e2e);
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #2e2e2e, #666, #2e2e2e);
 }
 
 .stat-card_:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
+    transform: translateY(-8px);
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
 }
 
 .stat-card_ h4 {
-  font-family: "Playfair Display", serif;
-  font-size: 1rem;
-  font-weight: 500;
-  color: #666;
-  margin: 0 0 1rem 0;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+    font-family: "Playfair Display", serif;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #666;
+    margin: 0 0 1rem 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .stat-value_ {
-  font-family: "Playfair Display", serif;
-  font-size: 3rem;
-  font-weight: 700;
-  color: #2e2e2e;
-  display: block;
-  line-height: 1;
+    font-family: "Playfair Display", serif;
+    font-size: 3rem;
+    font-weight: 700;
+    color: #2e2e2e;
+    display: block;
+    line-height: 1;
 }
 
 .needs-table {
@@ -90,57 +90,57 @@
 }
 
 .table-header_ {
-  display: grid;
-  grid-template-columns: 3fr 2fr 1.2fr 1.3fr 1.3fr 2.5fr;
-  gap: 1rem;
-  padding: 2.5rem 2rem 2rem;
-  background: black;
-  border-bottom: 2px solid #e0e0e0;
-  font-family: "Playfair Display", serif;
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: #f7f4f4;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  min-height: 60px;
-  align-items: center;
+    display: grid;
+    grid-template-columns: 3fr 2fr 1.2fr 1.3fr 1.3fr 2.5fr;
+    gap: 1rem;
+    padding: 2.5rem 2rem 2rem;
+    background: black;
+    border-bottom: 2px solid #e0e0e0;
+    font-family: "Playfair Display", serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #f7f4f4;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    min-height: 60px;
+    align-items: center;
 }
 
 .table-row_ {
-  display: grid;
-  grid-template-columns: 2.5fr 2fr 1.2fr 1.3fr 1.3fr 2.5fr;
-  gap: 1rem;
-  padding: 2rem;
-  border-bottom: 1px solid #f0f0f0;
-  transition: all 0.3s ease;
-  align-items: center;
-  position: relative;
-  min-height: 80px;
+    display: grid;
+    grid-template-columns: 2.5fr 2fr 1.2fr 1.3fr 1.3fr 2.5fr;
+    gap: 1rem;
+    padding: 2rem;
+    border-bottom: 1px solid #f0f0f0;
+    transition: all 0.3s ease;
+    align-items: center;
+    position: relative;
+    min-height: 80px;
 }
 
 .table-row_:hover {
-  background: linear-gradient(135deg, #f8f8f8, #f5f5f5);
-  transform: translateX(5px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    background: linear-gradient(135deg, #f8f8f8, #f5f5f5);
+    transform: translateX(5px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
 .table-row_:last-child {
-  border-bottom: none;
+    border-bottom: none;
 }
 
 .table-row_::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 4px;
-  background: linear-gradient(90deg, transparent, #ddd, transparent);
-  transition: all 0.3s ease;
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: linear-gradient(90deg, transparent, #ddd, transparent);
+    transition: all 0.3s ease;
 }
 
 .table-row_:hover::before {
-  background: linear-gradient(90deg, transparent, #2e2e2e, transparent);
+    background: linear-gradient(90deg, transparent, #2e2e2e, transparent);
 }
 
 .ngo-cell {
@@ -289,24 +289,25 @@
 
 .pickup-btn {
     background: #2e2e2e;
-    color: white;
+    color: black !important;
 }
 
 .pickup-btn:hover {
     background: #1a1a1a;
+    color: black !important;
     transform: translateY(-2px);
     box-shadow: 0 4px 15px rgba(46, 46, 46, 0.3);
 }
 
 .deliver-btn {
     background: white;
-    color: #2e2e2e;
+    color: black !important;
     border: 2px solid #2e2e2e;
 }
 
 .deliver-btn:hover {
-    background: #2e2e2e;
-    color: white;
+    background: #f0f0f0;
+    color: black !important;
     transform: translateY(-2px);
     box-shadow: 0 4px 15px rgba(46, 46, 46, 0.3);
 }

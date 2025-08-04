@@ -6,7 +6,7 @@ const { addMarketplaceData } = require("./addMarketplaceData");
 const { seedUsers } = require("./addUsers");
 const { seedTasks } = require("./addTasks");
 const { addImpactStories } = require("./addImpactStories");
-const { addFeedContent } = require("./addFeedContent");
+// const { addFeedContent } = require("./addFeedContent");
 const seedNgoReports = require("./addNgoReports");
 const User = require("../models/user");
 
@@ -309,7 +309,7 @@ async function seedAllData() {
 
         console.log("8️⃣  STEP 8: Adding Feed Content...");
         console.log("=".repeat(50));
-        await addFeedContent(true);
+        // await addFeedContent(true);
         console.log("✅ Feed Content seeding completed\n");
 
         await new Promise((resolve) => setTimeout(resolve, 1000));

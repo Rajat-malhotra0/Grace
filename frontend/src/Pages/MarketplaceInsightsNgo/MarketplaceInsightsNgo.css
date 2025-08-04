@@ -1,11 +1,56 @@
-/* Marketplace Dashboard Styles - Matching Site Design */
+/* Marketplace Dashboard Styles - NGO Specific */
 
 .marketplace-page {
-    background: #f8f9fa;
+    background: #ffffff;
     min-height: 100vh;
     font-family: "Poppins", sans-serif;
     padding: 2rem;
     margin-top: 80px;
+}
+
+/* Loading and Access Control Styles */
+.loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh;
+    background: #ffffff;
+}
+
+.loading {
+    background: #ffffff;
+    padding: 2rem 3rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    text-align: center;
+    font-size: 1.1rem;
+    color: #1a1a1a;
+    border: 2px solid #e0e0e0;
+}
+
+.access-denied {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh;
+    background: #ffffff;
+    margin: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 2px solid #e0e0e0;
+}
+
+.access-denied h2 {
+    color: #1a1a1a;
+    font-family: "Playfair Display", serif;
+    margin-bottom: 1rem;
+    font-size: 2rem;
+}
+
+.access-denied p {
+    color: #666;
+    font-size: 1.1rem;
 }
 
 .marketplace-header {
@@ -66,19 +111,19 @@
 }
 
 .metric-card {
-    background: white;
+    background: #ffffff;
     padding: 25px;
     border-radius: 12px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     text-align: center;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
-    border: 2px solid #f0f0f0;
+    border: 2px solid #e0e0e0;
 }
 
 .metric-card:hover {
     transform: translateY(-4px);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
-    border-color: #333;
+    border-color: #1a1a1a;
 }
 
 .metric-card h3 {
@@ -100,22 +145,20 @@
 
 /* Insight Sections */
 .insight-section {
-    background: white;
+    background: #ffffff;
     border-radius: 12px;
     padding: 30px;
     margin-bottom: 30px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    border: 1px solid #f0f0f0;
+    border: 2px solid #e0e0e0;
 }
 
 .insight-section h2 {
-    margin: 0 0 25px 0;
+    margin: 0 0 20px 0;
     color: #1a1a1a;
-    font-size: 1.5rem;
-    font-weight: 600;
     font-family: "Playfair Display", serif;
-    border-bottom: 2px solid #e0e0e0;
-    padding-bottom: 10px;
+    font-size: 1.8rem;
+    font-weight: 600;
 }
 
 /* Chart Container */
@@ -139,8 +182,8 @@
 }
 
 .contributor-card {
-    background: linear-gradient(135deg, #fafafa 0%, #ffffff 100%);
-    border: 2px solid #f0f0f0;
+    background: linear-gradient(135deg, #ffffff 0%, #f8f8f8 100%);
+    border: 2px solid #e0e0e0;
     border-radius: 12px;
     padding: 20px;
     text-align: center;
@@ -152,14 +195,14 @@
 .contributor-card:hover {
     transform: translateY(-3px);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-    border-color: #333;
+    border-color: #1a1a1a;
 }
 
 .contributor-rank {
     position: absolute;
     top: -12px;
     right: -12px;
-    background: #333;
+    background: #1a1a1a;
     color: white;
     width: 32px;
     height: 32px;
@@ -200,19 +243,19 @@
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    background: white;
-    border: 1px solid #f0f0f0;
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
 }
 
 /* DataTable Styling */
 .datatable-container .rdt_Table {
-    background: white;
+    background: #ffffff;
     font-family: "Poppins", sans-serif;
 }
 
 .datatable-container .rdt_TableHead {
-    background: #f8f9fa;
-    border-bottom: 2px solid #eee;
+    background: #f8f8f8;
+    border-bottom: 2px solid #e0e0e0;
 }
 
 .datatable-container .rdt_TableHeadRow {
@@ -222,7 +265,7 @@
 
 .datatable-container .rdt_TableCol {
     font-weight: 600;
-    color: #333;
+    color: #1a1a1a;
     font-size: 14px;
     padding: 16px 12px;
 }
@@ -246,8 +289,8 @@
 
 /* Badge Styles */
 .category-badge {
-    background: #e9ecef;
-    color: #495057;
+    background: #f0f0f0;
+    color: #1a1a1a;
     padding: 6px 12px;
     border-radius: 12px;
     font-size: 12px;
@@ -255,7 +298,7 @@
     text-align: center;
     display: inline-block;
     min-width: 80px;
-    border: 1px solid #dee2e6;
+    border: 1px solid #e0e0e0;
 }
 
 /* Days Pending Styles */
@@ -272,9 +315,9 @@
 }
 
 .days-pending.urgent {
-    background: #fee;
-    color: #dc3545;
-    border: 1px solid #dc3545;
+    background: #333;
+    color: #fff;
+    border: 1px solid #1a1a1a;
     font-weight: 700;
     animation: pulse 2s infinite;
 }
@@ -303,21 +346,21 @@
 }
 
 .priority.high {
-    background: #fee;
-    color: #dc3545;
-    border: 1px solid #dc3545;
+    background: #1a1a1a;
+    color: #fff;
+    border: 1px solid #1a1a1a;
 }
 
 .priority.medium {
-    background: #fff3cd;
-    color: #856404;
-    border: 1px solid #ffeaa7;
+    background: #666;
+    color: #fff;
+    border: 1px solid #666;
 }
 
 .priority.low {
-    background: #d1ecf1;
-    color: #0c5460;
-    border: 1px solid #bee5eb;
+    background: #f0f0f0;
+    color: #1a1a1a;
+    border: 1px solid #e0e0e0;
 }
 
 /* No Data State */

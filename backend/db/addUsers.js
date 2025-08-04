@@ -523,6 +523,19 @@ async function createUsersAndRelations() {
     try {
         // Clear existing users (except NGO admin users which are created in seedAll.js)
         console.log("🗑️  Removing existing volunteer/member/donor users...");
+        const usersToDelete = await User.find({
+            role: {
+                $in: [
+                    ["volunteer"],
+                    ["ngoMember"],
+                    ["donor"],
+                    ["volunteer", "donor"],
+                ],
+            },
+        }).select("_id");
+
+        const userIdsToDelete = usersToDelete.map((user) => user._id);
+
         await User.deleteMany({
             role: {
                 $in: [
@@ -533,8 +546,14 @@ async function createUsersAndRelations() {
                 ],
             },
         });
-        await UserNgoRelation.deleteMany({});
-        console.log("✅ Cleared existing volunteer/member users");
+
+        // Only delete UserNgoRelation records for the users we're deleting, not all relations
+        await UserNgoRelation.deleteMany({
+            user: { $in: userIdsToDelete },
+        });
+        console.log(
+            "✅ Cleared existing volunteer/member users and their relations"
+        );
 
         // Create volunteer users
         console.log("🎯 Creating volunteer users...");
