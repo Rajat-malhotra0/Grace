@@ -3,11 +3,13 @@
   color: #f0f0f0;
   padding: 3rem 1.5rem;
   text-align: center;
+  font-family: "Playfair Display", serif;
   /* margin-bottom: 5px; */
 }
 
 .footer-top h3 {
   font-size: 1.3rem;
+  font-family: "Playfair Display", serif;
   margin-bottom: 1rem;
   text-transform: uppercase;
   color: #ffffff;
@@ -27,16 +29,18 @@
   color: #f0f0f0;
   text-decoration: none;
   font-size: 0.95rem;
+  font-family: "Playfair Display", serif;
   transition: color 0.3s ease;
 }
 
 .footer-links li a:hover {
-  color: #00b894;
+  color: #8a8f8e;
 }
 
 .footer-bottom p {
   margin: 0.5rem 0;
   font-size: 0.9rem;
+  font-family: "Playfair Display", serif;
   color: #ccc;
 }
 

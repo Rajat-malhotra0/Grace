@@ -1,3 +1,7 @@
+/*
+This file consists the code of our chatbot service, defining its basic functions and workings. 
+Basic questions have added into it, in order to help the users. 
+*/
 import React, { useState, useRef, useEffect } from "react";
 import "./Chatbot.css";
 

@@ -1,4 +1,4 @@
-// backend/db/addImpactStories.js
+//We will be adding/modifying impact stories in this file, stored in the db . 
 
 const mongoose = require("mongoose");
 const ImpactStory = require("../models/impactStory");

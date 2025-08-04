@@ -13,6 +13,7 @@ const filterCategories = [
     "Women Empowerment",
     "Education",
     "Health",
+    "Children",
 ];
 
 const NgoCarousel = () => {
@@ -21,17 +22,21 @@ const NgoCarousel = () => {
     const [loading, setLoading] = useState(true);
     const [selectedNgo, setSelectedNgo] = useState(null);
 
+    const getImageUrl = (ngo) => {
+        return ngo.coverImage?.url || defaultNgoImage;
+    };
+
     useEffect(() => {
         const fetchNgos = async () => {
             try {
                 const response = await axios.get(
                     "http://localhost:3001/api/ngos"
                 );
-                // We'll take the first 4 NGOs as requested
-                setNgos(response.data.result.slice(2, 6));
+
+                console.log("Fetched NGOs:", response.data.result);
+                setNgos(response.data.result.slice(0, 6));
             } catch (error) {
                 console.error("Failed to fetch NGOs:", error);
-                // Handle error, maybe show a toast notification
             } finally {
                 setLoading(false);
             }
@@ -102,9 +107,11 @@ const NgoCarousel = () => {
                             ngo={{
                                 ...ngo,
                                 mission: ngo.description, // Map description to mission
-                                image: defaultNgoImage, // Use a placeholder image
-                                volunteersNeeded: 50, // Placeholder data
-                                donationGoal: 15000, // Placeholder data
+                                image: getImageUrl(ngo), // Use database image or fallback
+                                volunteersNeeded:
+                                    Math.floor(Math.random() * 200) + 50, // Random placeholder
+                                donationGoal:
+                                    Math.floor(Math.random() * 40000) + 15000, // Random placeholder
                             }}
                             onDonateClick={() => handleDonateClick(ngo)} // Pass handler to card
                         />
@@ -116,7 +123,7 @@ const NgoCarousel = () => {
                                 Explore All NGOs
                             </h3>
                             <p className="explore-text">
-                                There’s a cause waiting for your kindness.
+                                There's a cause waiting for your kindness.
                                 Discover the NGOs weaving change.
                             </p>
                             <button className="explore-btn">

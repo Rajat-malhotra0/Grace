@@ -96,6 +96,58 @@ router.get(
     }
 );
 
+router.get("/leaderboard", async (req, res) => {
+    try {
+        const limit = parseInt(req.query.limit) || 10;
+        const leaderboard = await userService.getLeaderboard(limit);
+
+        return res.status(200).json({
+            success: true,
+            message: "Leaderboard retrieved successfully",
+            result: leaderboard,
+        });
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: "Internal server error",
+            error: error.message,
+        });
+    }
+});
+
+router.post("/complete-task/:taskId", async (req, res) => {
+    try {
+        const userId = req.body.userId;
+        const hoursSpent = req.body.hours || 1;
+        const taskId = req.params.taskId;
+
+        const result = await userService.completeTask(
+            taskId,
+            userId,
+            hoursSpent
+        );
+
+        return res.status(200).json({
+            success: true,
+            message: "Task completed successfully",
+            result: {
+                pointsEarned: result.pointsEarned,
+                hours: result.user.leaderboardStats.hours,
+                activities: result.user.leaderboardStats.tasksCompleted,
+                impact: result.user.leaderboardStats.impactScore,
+                streak: result.user.leaderboardStats.currentStreak,
+                level: result.user.leaderboardStats.level,
+            },
+        });
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: "Internal server error",
+            error: error.message,
+        });
+    }
+});
+
 router.post("/login", async (req, res) => {
     try {
         const { email, password } = req.body;

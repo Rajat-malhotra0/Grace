@@ -11,7 +11,7 @@ function FeedHeader({ onShareClick }) {
         className="share-moment-btn"
         onClick={onShareClick}
       >
-        ✨ Share a Moment
+       Share a Moment  ✨ 
       </button>
     </div>
   );

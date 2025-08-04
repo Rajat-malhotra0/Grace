@@ -170,7 +170,10 @@ const Articles = [
 
 async function addArticles() {
     try {
-        await connectDB();
+        if (mongoose.connection.readyState !== 1) {
+            console.log("Connecting to the database...");
+            await connectDB();
+        }
 
         for (const articleData of Articles) {
             try{

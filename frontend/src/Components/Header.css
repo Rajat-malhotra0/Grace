@@ -37,7 +37,7 @@
     font-family: var(--font-serif);
     font-size: 2rem;
     font-weight: 400;
-    color: rgb(0, 0, 0);
+    color: rgb(249, 246, 246);
 }
 
 /* Navigation links */
@@ -53,7 +53,7 @@
     align-items: center;
     font-family: var(--font-serif);
     text-decoration: none;
-    color: rgb(3, 3, 3);
+    color: rgb(247, 247, 247);
     font-size: 1rem;
     transition: color 0.3s ease;
     padding: 0 1rem;
@@ -87,9 +87,9 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid rgb(23, 19, 19);
+    border: 1px solid rgb(251, 250, 250);
     background: transparent;
-    color: rgb(23, 19, 19);
+    color: rgb(248, 248, 248);
     padding: 0.5rem 1rem;
     text-transform: uppercase;
     font-size: 0.875rem;
@@ -156,3 +156,4 @@
         font-size: 1.5rem;
     }
 }
+

@@ -3,8 +3,9 @@
 
 const User = require("../models/user");
 const NGO = require("../models/ngo");
+const mongoose = require("mongoose");
+const UserNgoRelation = require("../models/userNgoRelation");
 const jwt = require("jsonwebtoken");
-
 const tokenSecret = "some_random_text(verrry random)🫦🫦";
 
 async function registerUser(userData) {
@@ -18,6 +19,7 @@ async function registerUser(userData) {
             organization,
             location,
             dob,
+            ngoId,
             remindMe,
             termsAccepted,
             newsLetter,
@@ -28,6 +30,18 @@ async function registerUser(userData) {
         if (existingUser) {
             if (existingUser.email === email) {
                 throw new Error("Email already in use");
+            }
+        }
+
+        if (role === "ngoMember" && ngoId) {
+            if (!mongoose.Types.ObjectId.isValid(ngoId)) {
+                throw new Error("Invalid NGO ID format");
+            }
+
+            // Check if NGO exists
+            const ngoExists = await NGO.findById(ngoId);
+            if (!ngoExists) {
+                throw new Error("Selected NGO does not exist");
             }
         }
 
@@ -47,6 +61,19 @@ async function registerUser(userData) {
         });
 
         await user.save();
+
+        if (role === "ngoMember" && ngoId) {
+            try {
+                await UserNgoRelation.create({
+                    user: user._id,
+                    ngo: ngoId,
+                    relationshipType: ["member"],
+                    permissions: [],
+                });
+            } catch (error) {
+                console.log("failed to make realtion " + error);
+            }
+        }
 
         const token = generateToken(user);
         user.token = token;

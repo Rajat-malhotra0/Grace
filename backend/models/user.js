@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema({
     password: { type: String, required: true },
     role: {
         type: [String],
-        enum: ["donor", "volunteer", "admin", "ngo"],
+        enum: ["donor", "volunteer", "admin", "ngo", "ngoMember"],
         default: [],
     },
     volunteerType: { type: String, default: "" },
@@ -29,9 +29,31 @@ const userSchema = new mongoose.Schema({
             longitude: { type: Number },
         },
     },
+    score: { type: Number, default: 0 },
+
+    // Simple leaderboard stats
+    leaderboardStats: {
+        hours: { type: Number, default: 0 },
+        tasksCompleted: { type: Number, default: 0 },
+        impactScore: { type: Number, default: 0, min: 0, max: 10 },
+        currentStreak: { type: Number, default: 0 },
+        level: {
+            type: String,
+            enum: [
+                "Beginner",
+                "Intermediate",
+                "Advanced",
+                "Expert",
+                "Champion",
+            ],
+            default: "Beginner",
+        },
+    },
+
+    lastActiveDate: { type: Date },
+
     token: { type: String, default: null },
     about: { type: String, default: "" },
-    score: { type: Number, default: 0 },
     dob: { type: Date, default: null },
     remindMe: { type: Boolean, default: false },
     termsAccepted: { type: Boolean, default: false },
@@ -52,5 +74,6 @@ userSchema.methods.comparePassword = async function (candidatePassword) {
 };
 
 userSchema.index({ role: 1 });
+userSchema.index({ score: -1 });
 
 module.exports = mongoose.model("user", userSchema);

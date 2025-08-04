@@ -5,10 +5,10 @@ const http = require("http");
 const socketService = require("./services/socketService");
 const chatBotService = require("./services/chatBotService");
 
-const authRoutes = require("./routes/authRoutes"); 
+const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
 const donationRoutes = require("./routes/donationRoutes");
-const impactStoryRoutes  = require("./routes/impactStoryRoutes");
+const impactStoryRoutes = require("./routes/impactStoryRoutes");
 const ngoRoutes = require("./routes/ngoRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
 const skillSurveyRoutes = require("./routes/skillSurveyRoutes");
@@ -18,18 +18,19 @@ const chatBotRoutes = require("./routes/chatBotRoutes");
 const quizRoutes = require("./routes/quizRoutes");
 const ngoRecommendationRoutes = require("./routes/ngoRecommendationRoutes");
 const graceFeedRoutes = require("./routes/GraceFeedRoutes");
+const marketplaceRoutes = require("./routes/marketplaceRoutes");
 const articleRoutes = require("./routes/articleRoutes");
 
 
 const app = express();
 app.use(express.json());
-app.use(cors(
-    {
+app.use(
+    cors({
         origin: process.env.CORS_ORIGIN || "http://localhost:3000",
         methods: ["GET", "POST", "PUT", "DELETE"],
         credentials: true,
-    }
-));
+    })
+);
 
 app.use("/api/auth", authRoutes);
 app.use("/api/articles", articleRoutes);
@@ -45,6 +46,7 @@ app.use("/api/skill-surveys", skillSurveyRoutes);
 app.use("/api/tasks", taskRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/quiz", quizRoutes);
+app.use("/api/marketplace", marketplaceRoutes);
 
 app.get("/api/test", (req, res) => {
     res.json({ message: "Backend is working!" });

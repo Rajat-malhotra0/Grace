@@ -1,3 +1,8 @@
+/*
+This a login page for the already existing/registered members, volunteers, donors and NGOs. 
+They can login using their already stored credentials. 
+*/
+
 import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Login.css";
@@ -47,7 +52,7 @@ function Login() {
                 navigate("/");
             }
         } catch (err) {
-            // Login error
+            console.error("Login failed:", err);
         }
     };
 
@@ -60,6 +65,7 @@ function Login() {
                 </div>
                 <form className="login-form" onSubmit={handleSubmit}>
                     <div className="input-group">
+                        <label> Email</label>
                         <input
                             type="email"
                             name="email"
@@ -70,6 +76,7 @@ function Login() {
                         <div style={{ color: "red" }}>{errors.email}</div>
                     </div>
                     <div className="input-group">
+                        <label> Password </label>
                         <input
                             type="password"
                             name="password"

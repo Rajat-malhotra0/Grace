@@ -1,3 +1,6 @@
+/*
+This is a styling ".css" file for the main register.js file, allowing us to apply various styling on that particular page. 
+*/
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap");
 
 .wide-toast {
@@ -20,8 +23,8 @@
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    padding: 120px 2rem 2rem 2rem; /* Top padding for fixed header */
-    background-color: #f4f7f6;
+    padding: 80px 2rem 2rem 2rem; /* Top padding for fixed header */
+    background-color: #e1d4d4;
     font-family: "Poppins", sans-serif;
     box-sizing: border-box;
 }
@@ -48,9 +51,9 @@
 /* The form box */
 .register-page-container form {
     width: 100%;
-    max-width: 480px;
+    max-width: 450px;
     background: #ffffff;
-    padding: 2.5rem;
+    padding: 50px;
     border-radius: 10px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
 }
@@ -64,9 +67,9 @@
 .register-page-container form input[type="date"] {
     width: 100%;
     padding: 12px 15px;
-    margin-bottom: 1rem;
+    margin-bottom: 2px;
     border: 1px solid #ddd;
-    border-radius: 5px;
+    border-radius: 8px;
     font-size: 1rem;
     color: #333;
     transition: border-color 0.3s, box-shadow 0.3s;
@@ -80,7 +83,7 @@
     padding: 12px 15px;
     margin-bottom: 1rem;
     border: 1px solid #ddd;
-    border-radius: 5px;
+    border-radius: 12px;
     font-size: 1rem;
     color: #333;
     font-family: "Poppins", sans-serif;
@@ -102,14 +105,14 @@
     align-items: center;
     text-align: left;
     font-size: 0.95rem;
-    color: #555;
-    margin-bottom: 1rem;
+    color: #131313;
+    margin-bottom: 3px;
     cursor: pointer;
 }
 
 /* User type selection styling */
 .user-type-selection {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
 }
 
 .user-type-selection p {
@@ -268,6 +271,39 @@
 
 .remove-category-btn:hover {
     color: #d32f2f;
+}
+
+/* NGO Search Styles */
+.ngo-search-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.ngo-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    max-height: 200px;
+    overflow-y: auto;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-top: none;
+    z-index: 10;
+}
+
+.ngo-option {
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+.ngo-option:hover {
+    background: #f0f0f0;
+}
+
+.ngo-option.disabled {
+    color: #999;
+    cursor: default;
 }
 
 /* Responsive adjustments for smaller screens */

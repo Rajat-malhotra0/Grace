@@ -1,3 +1,6 @@
+/*
+This a styling ".css" file for the main chatbot.js file, which allows us to maintain to UI of the chatbot. 
+*/
 .chatbot-container {
   position: fixed;
   bottom: 15px;

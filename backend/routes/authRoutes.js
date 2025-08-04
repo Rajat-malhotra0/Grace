@@ -114,6 +114,7 @@ router.post(
             return res.status(401).json({
                 success: false,
                 message: error.message,
+                error: error,
             });
         }
     }

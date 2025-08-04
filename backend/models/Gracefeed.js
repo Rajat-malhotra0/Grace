@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const graceFeedSchema = new mongoose.Schema({
     user: {
@@ -50,22 +50,24 @@ const graceFeedSchema = new mongoose.Schema({
 });
 
 graceFeedSchema.index({ user: 1 });
-graceFeedSchema.index({ createdAt: -1 });  
+graceFeedSchema.index({ createdAt: -1 });
 
-graceFeedSchema.virtual('likeCount').get(function() { // this is a virtual property to get the count of likes
+graceFeedSchema.virtual("likeCount").get(function () {
+    // this is a virtual property to get the count of likes
     return this.likes.length; // it does not store the count in the database, it calculates it on the fly or when requested in json responses
 }); // rest same as before
-graceFeedSchema.virtual('commentCount').get(function() {
+graceFeedSchema.virtual("commentCount").get(function () {
     return this.comments.length;
 });
-graceFeedSchema.virtual('shareCount').get(function() {
+graceFeedSchema.virtual("shareCount").get(function () {
     return this.shares.length;
 });
-graceFeedSchema.set('toJSON', { virtuals: true }); // Ensure virtuals are included in JSON output
-graceFeedSchema.set('toObject', { virtuals: true });// Ensure virtuals are included in object output
-graceFeedSchema.pre('save', function(next) { // Update the updatedAt field before saving
+graceFeedSchema.set("toJSON", { virtuals: true }); // Ensure virtuals are included in JSON output
+graceFeedSchema.set("toObject", { virtuals: true }); // Ensure virtuals are included in object output
+graceFeedSchema.pre("save", function (next) {
+    // Update the updatedAt field before saving
     this.updatedAt = Date.now();
     next();
 });
 
-module.exports = mongoose.model('graceFeed', graceFeedSchema);
+module.exports = mongoose.model("graceFeed", graceFeedSchema);
