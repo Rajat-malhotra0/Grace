@@ -33,16 +33,15 @@ function Feed() {
         fetchPosts();
     }, []);
 
-  const fetchPosts = async (page = 1, limit = 20) => {
+  const fetchPosts = async () => {
     setLoading(true);
     setError(null);
     try {
-      const filters = { page, limit };
+      const filters = {}; // No pagination - get all posts
       const result = await feedService.getAllPosts(filters);
       
       if (result.posts && result.posts.length > 0) {
         setPosts(result.posts);
-        setPagination(result.pagination || {});
       } else {
         console.log('Using mock data as fallback');
         setPosts(mockPosts);

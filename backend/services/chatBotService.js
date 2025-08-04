@@ -1,11 +1,10 @@
 const dotenv = require("dotenv");
 dotenv.config();
 
+const Article = require("../models/article");
+
 const { QdrantVectorStore } = require("@langchain/qdrant");
-const {
-    GoogleGenerativeAIEmbeddings,
-    ChatGoogleGenerativeAI,
-} = require("@langchain/google-genai");
+const {GoogleGenerativeAIEmbeddings,ChatGoogleGenerativeAI,} = require("@langchain/google-genai");
 const { Document } = require("@langchain/core/documents");
 
 const collectionName = "help_articles";
@@ -42,7 +41,6 @@ async function initializeVectorStore() {
             collectionName: collectionName,
             checkCompatibility: false,
         });
-
         console.log("Successfully connected to Qdrant");
         isInitialized = true;
     } catch (error) {
@@ -55,7 +53,6 @@ async function addArticles(articles) {
     if (!vectorStore) {
         await initializeVectorStore();
     }
-
     if (!vectorStore) {
         console.warn("Qdrant not available, articles not stored");
         return;
@@ -102,93 +99,12 @@ async function getFallbackContent(query) {
             })
         );
     }
-    if (queryLower.includes("failure") || queryLower.includes("error")) {
-        fallbackArticles.push(
-            new Document({
-                pageContent:
-                    "If you encounter a failure or error, please check the following:",
-                metadata: { source: "Fallback Help", category: "troubleshooting" },
-            })
-        );
-    }
-    if (queryLower.includes("about us") || queryLower.includes("who we are")) {
-        fallbackArticles.push(
-            new Document({
-                pageContent:
-                    "We are a non-profit organization dedicated to helping NGOs manage their tasks and resources effectively.",
-                metadata: { source: "Fallback Help", category: "about" },
-            })
-        );
-    }
-    if (queryLower.includes("volunteer") || queryLower.includes("get involved")) {
-        fallbackArticles.push(
-            new Document({
-                pageContent:
-                    "To get involved as a volunteer, visit the Volunteer page and fill out the application form.",
-                metadata: { source: "Fallback Help", category: "volunteer" },
-            })
-        );
-    }
-    if (queryLower.includes("marketplace") || queryLower.includes("donate")) {
-        fallbackArticles.push(
-            new Document({
-                pageContent:
-                    "Visit the Marketplace page to view available items for donation. Click 'Donate' to contribute.",
-                metadata: { source: "Fallback Help", category: "marketplace" },
-            })
-        );
-    }
-    if (queryLower.includes("login") || queryLower.includes("sign up")) {
-        fallbackArticles.push(
-            new Document({
-                pageContent:
-                    "To login, go to the Login page and enter your credentials. If you don't have an account, click 'Sign Up' to create one.",
-                metadata: { source: "Fallback Help", category: "authentication" },
-            })
-        );
-    }
-    if (queryLower.includes("dashboard") || queryLower.includes("home")) {
-        fallbackArticles.push(
-            new Document({
-                pageContent:
-                    "The Dashboard is your home page where you can see an overview of tasks, recent activities, and NGO locations.",
-                metadata: { source: "Fallback Help", category: "dashboard" },
-            })
-        );
-    }
-    if (queryLower.includes("services") || queryLower.includes("features") ) {
-        fallbackArticles.push(
-            new Document({
-                pageContent:
-                    "Our platform offers a variety of services including task management, NGO mapping, and donation tracking.",
-                metadata: { source: "Fallback Help", category: "services" },
-            })
-        );
-    }
     if (queryLower.includes("ngo") || queryLower.includes("location") || queryLower.includes("map")) {
         fallbackArticles.push(
             new Document({
                 pageContent:
                     "View NGO locations on the Map page. Click any marker for details.",
                 metadata: { source: "Fallback Help", category: "navigation" },
-            })
-        );
-    }
-    if (queryLower.includes("feed") || queryLower.includes("recent activities")) {
-        fallbackArticles.push(
-            new Document({
-                pageContent:
-                    "The Feed page shows recent activities and updates from NGOs. You can filter by date or NGO.",
-                metadata: { source: "Fallback Help", category: "feed" },
-            })
-        );
-    }
-    if (queryLower.includes("add ngo") || queryLower.includes("manage ngo")) {
-        fallbackArticles.push(
-            new Document({
-                pageContent:
-                    "To add a new NGO, go to NGO Management and click 'Add NGO'. Fill in name, location, and contact info.",
-                metadata: { source: "Fallback Help", category: "ngo" },
             })
         );
     }
@@ -201,14 +117,14 @@ async function getFallbackContent(query) {
             })
         );
     }
-    if (queryLower.includes("help") || queryLower.includes("support")) {
+    if (queryLower.includes("add ngo") || queryLower.includes("new ngo")) {
         fallbackArticles.push(
             new Document({
                 pageContent:
-                    "For help and support, you can visit our Help Center or contact support@ngo.org.",
-                metadata: { source: "Fallback Help", category: "support" },
+                    "To add a new NGO, go to NGO Management and click 'Add NGO'. Fill in name, location, and contact info.",
+                metadata: { source: "Fallback Help", category: "ngo" },
             })
-        )
+        );
     }
     if (fallbackArticles.length === 0) {
         fallbackArticles.push(
@@ -224,17 +140,13 @@ async function getFallbackContent(query) {
 
 async function generateAnswer(query, contextDocs) {
     const contextText = contextDocs.map((doc) => doc.pageContent).join("\n\n");
-
     try {
         const prompt = `
 You are an NGO dashboard assistant. Answer based on this context:
 ${contextText}
-
 Question: ${query}
-
 Respond concisely and helpfully. If the context doesn't contain the answer, just return that you dont know how to do that specific task.
 `;
-
         const response = await chatModel.invoke(prompt);
         return (
             response.content ||
@@ -260,7 +172,6 @@ async function getChatbotResponse(query) {
     try {
         const similarDocs = await searchArticles(query);
         const answer = await generateAnswer(query, similarDocs);
-
         return {
             answer,
             sources: similarDocs
@@ -279,40 +190,90 @@ async function getChatbotResponse(query) {
 }
 
 async function setupKnowledgeBase() {
-    const articles = [
-        {
-            content:
-                "To create a task, go to the Tasks page and click 'Create Task'. Fill in the details and submit.",
-            metadata: { source: "User Guide Section 3.2", category: "tasks" },
-        },
-        {
-            content:
-                "View NGO locations on the Map page. Click any marker for details.",
+    try {
+        // Fetch all active articles from database
+        const articles = await Article.find({ isActive: true }).sort({ createdAt: -1 });
+        if (articles.length === 0) {
+            console.warn("No articles found in database. Please seed the database first.");
+            return false;
+        }
+        // Convert database articles to the format expected by vector store
+        const formattedArticles = articles.map(article => ({
+            content: `${article.title}\n\n${article.content}`,
             metadata: {
-                source: "User Guide Section 5.1",
-                category: "navigation",
+                source: article.source,
+                category: article.category,
+                title: article.title,
+                tags: article.tags.join(", "),
+                id: article._id.toString(),
             },
+        }));
+        console.log(`Setting up knowledge base with ${formattedArticles.length} articles from database`);
+        return await addArticles(formattedArticles);
+    } catch (error) {
+        console.error("Error setting up knowledge base from database:", error.message);
+        // Fallback to hardcoded articles if database fails
+        return await setupFallbackKnowledgeBase();
+    }
+}
+
+async function setupFallbackKnowledgeBase() {
+    console.log("Using fallback knowledge base (hardcoded articles)");
+    const fallbackArticles = [
+        {
+            content: "Creating Tasks\n\nTo create a task, go to the Tasks page and click 'Create Task'. Fill in the details and submit.",
+            metadata: { source: "Fallback - User Guide Section 3.2", category: "tasks", title: "Creating Tasks" },
         },
         {
-            content:
-                "To add a new NGO, go to NGO Management and click 'Add NGO'. Fill in name, location, and contact info.",
-            metadata: { source: "User Guide Section 2.1", category: "ngo" },
+            content: "NGO Location Mapping\n\nView NGO locations on the Map page. Click any marker for details.",
+            metadata: { source: "Fallback - User Guide Section 5.1", category: "navigation", title: "NGO Location Mapping" },
         },
         {
-            content:
-                "View donation reports in Analytics. Select date range and click 'Generate Report'.",
-            metadata: {
-                source: "User Guide Section 4.3",
-                category: "analytics",
-            },
+            content: "Adding New NGO\n\nTo add a new NGO, go to NGO Management and click 'Add NGO'. Fill in name, location, and contact info.",
+            metadata: { source: "Fallback - User Guide Section 2.1", category: "ngo", title: "Adding New NGO" },
+        },
+        {
+            content: "Donation Reports\n\nView donation reports in Analytics. Select date range and click 'Generate Report'.",
+            metadata: { source: "Fallback - User Guide Section 4.3", category: "analytics", title: "Donation Reports" },
         },
     ];
-
-    return await addArticles(articles);
+    return await addArticles(fallbackArticles);
 }
+
+async function refreshKnowledgeBase() {
+    console.log("Refreshing knowledge base from database...");
+    return await setupKnowledgeBase();
+}
+
+async function addNewArticleToVectorStore(articleId) {
+    try {
+        const article = await Article.findById(articleId);
+        if (!article || !article.isActive) {
+            console.warn("Article not found or inactive:", articleId);
+            return false;
+        }
+        const formattedArticle = {
+            content: `${article.title}\n\n${article.content}`,
+            metadata: {
+                source: article.source,
+                category: article.category,
+                title: article.title,
+                tags: article.tags.join(", "),
+                id: article._id.toString(),
+            },
+        };
+        return await addArticles([formattedArticle]);
+    } catch (error) {
+        console.error("Error adding new article to vector store:", error.message);
+        return false;
+    }
+}
+
 module.exports = {
     initializeVectorStore,
     setupKnowledgeBase,
+    refreshKnowledgeBase,
+    addNewArticleToVectorStore,
     getChatbotResponse,
     addArticles,
 };

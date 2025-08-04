@@ -1,6 +1,22 @@
 import React from "react";
 import "./PostCard.css";
 
+// Function to dynamically import all images
+function importAll(r) {
+  let images = {};
+  r.keys().map((item, index) => {
+    const imageName = item.replace('./', '');
+    images[imageName] = r(item);
+    return null;
+  });
+  return images;
+}
+
+// Dynamically import all images from assets folder
+const imageMap = importAll(
+  require.context('../../assets', false, /\.(png|jpe?g|svg)$/)
+);
+
 function PostCard({ post, onPostClick, onLike, onShare, formatTimeAgo }) {
   const handleLikeClick = (e) => {
     e.stopPropagation();
@@ -15,6 +31,16 @@ function PostCard({ post, onPostClick, onLike, onShare, formatTimeAgo }) {
   const sharesCount = post.shares?.length || post.shares || 0;
   const isLiked = post.isLiked || (post.likes && Array.isArray(post.likes) && post.likes.length > 0);
 
+  // Get the correct image source
+  const getImageSource = (content) => {
+    // If it's already a full URL or path, use it directly
+    if (content && (content.startsWith('http') || content.startsWith('/') || content.startsWith('data:'))) {
+      return content;
+    }
+    // If it's just a filename, try to get it from our imported images
+    return imageMap[content] || content;
+  };
+
   return (
     <div 
       className={`post-card ${post.type} ${post.size || 'medium'}`}
@@ -23,7 +49,7 @@ function PostCard({ post, onPostClick, onLike, onShare, formatTimeAgo }) {
       <div className="post-media">
         {post.type === 'video' ? (
           <video 
-            src={post.content} 
+            src={getImageSource(post.content)} 
             poster={post.poster}
             className="post-video"
             muted
@@ -31,7 +57,7 @@ function PostCard({ post, onPostClick, onLike, onShare, formatTimeAgo }) {
           />
         ) : (
           <img 
-            src={post.content} 
+            src={getImageSource(post.content)} 
             alt="Post content" 
             className="post-image"
           />

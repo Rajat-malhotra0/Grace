@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const graceFeedSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+        ref: 'user',
         required: true
     },
     type: {type: String, enum: ['photo', 'video', 'text'], default: 'photo'},
@@ -12,14 +12,14 @@ const graceFeedSchema = new mongoose.Schema({
     likes: [{
         user: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'User'
+            ref: 'user'
         },
         likedAt: {type: Date, default: Date.now}
     }],
     comments: [{
         user: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'User',
+            ref: 'user',
             required: true
         },
         text: {type: String, required: true},
@@ -28,7 +28,7 @@ const graceFeedSchema = new mongoose.Schema({
     shares: [{
         user: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'User'
+            ref: 'user'
         },
         sharedAt: {type: Date, default: Date.now}
     }],
@@ -40,7 +40,7 @@ const graceFeedSchema = new mongoose.Schema({
     tags: [{ type: String }],
     category: { 
         type: mongoose.Schema.Types.ObjectId, 
-        ref: 'Category'
+        ref: 'category'
     },
     isActive: {type: Boolean, default: true},
     createdAt: {type: Date, default: Date.now, immutable: true},

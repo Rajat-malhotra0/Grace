@@ -18,6 +18,7 @@ const chatBotRoutes = require("./routes/chatBotRoutes");
 const quizRoutes = require("./routes/quizRoutes");
 const ngoRecommendationRoutes = require("./routes/ngoRecommendationRoutes");
 const graceFeedRoutes = require("./routes/GraceFeedRoutes");
+const articleRoutes = require("./routes/articleRoutes");
 
 
 const app = express();
@@ -31,6 +32,7 @@ app.use(cors(
 ));
 
 app.use("/api/auth", authRoutes);
+app.use("/api/articles", articleRoutes);
 app.use("/api/ngosRecommendations", ngoRecommendationRoutes);
 app.use("/api/categories", categoryRoutes);
 app.use("/api/chatbot", chatBotRoutes);

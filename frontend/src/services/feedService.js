@@ -5,7 +5,8 @@ class FeedService {
         try {
             const queryParams = new URLSearchParams();
             if (filters.user) queryParams.append('user', filters.user);
-            if (filters.category) queryParams.append('category', filters.category);            
+            if (filters.category) queryParams.append('category', filters.category);
+            
             const response = await fetch(`${API_BASE_URL}/feed?${queryParams}`, {
                 method: 'GET',
                 headers: {

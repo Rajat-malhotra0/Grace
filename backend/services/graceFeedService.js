@@ -1,4 +1,6 @@
-const GraceFeed = require('../models/graceFeed');
+const GraceFeed = require('../models/Gracefeed');
+const User = require('../models/user');
+const Category = require('../models/category');
 
 async function createPost(data){
     try{

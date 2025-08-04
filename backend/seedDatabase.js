@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const GraceFeed = require('./models/graceFeed');
 const User = require('./models/user');
+const addArticles = require('./db/addArticles');
 require('dotenv').config();
 
 // Sample user data
@@ -85,6 +86,15 @@ async function seedDatabase() {
 
     const createdPosts = await GraceFeed.insertMany(postsWithUsers);
     console.log(`Created ${createdPosts.length} posts`);
+
+    // Seed articles for chatbot
+    console.log('Seeding articles for chatbot...');
+    const articlesAdded = await addArticles();
+    if (articlesAdded) {
+      console.log('Articles seeded successfully!');
+    } else {
+      console.log('Articles already exist or seeding skipped');
+    }
 
     console.log('Database seeded successfully!');
     process.exit(0);
