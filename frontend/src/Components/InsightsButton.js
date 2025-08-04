@@ -30,9 +30,7 @@ const InsightsButton = () => {
                 className="insights-toggle"
                 onClick={() => setIsOpen(!isOpen)}
                 title="View Analytics & Insights"
-            >
-                📊
-            </button>
+            ></button>
 
             {/* Popup Options */}
             {isOpen && (
@@ -51,7 +49,7 @@ const InsightsButton = () => {
                             className="insight-option marketplace"
                             onClick={handleMarketplaceInsights}
                         >
-                            <div className="option-icon">🛒</div>
+                            <div className="option-icon"></div>
                             <div className="option-content">
                                 <h5>Marketplace Insights</h5>
                                 <p>Track donation requests & fulfillment</p>
@@ -61,7 +59,7 @@ const InsightsButton = () => {
                             className="insight-option volunteer"
                             onClick={handleVolunteerInsights}
                         >
-                            <div className="option-icon">👥</div>
+                            <div className="option-icon"></div>
                             <div className="option-content">
                                 <h5>Volunteer Insights</h5>
                                 <p>Monitor volunteer engagement & analytics</p>

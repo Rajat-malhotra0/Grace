@@ -13,7 +13,6 @@ import ScrollToTop from "./Components/ScrollToTop";
 function AppContent() {
     const location = useLocation();
 
-    // Define routes where header should NOT be shown
     const hideHeaderRoutes = [
         "/dashboard/ngo-team",
         "/dashboard/volunteer",
@@ -24,7 +23,6 @@ function AppContent() {
         "/ngo/",
     ];
 
-    // Check if current path starts with any dashboard route
     const shouldHideHeader = hideHeaderRoutes.some((route) =>
         location.pathname.startsWith(route)
     );

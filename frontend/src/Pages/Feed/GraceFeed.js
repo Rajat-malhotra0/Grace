@@ -31,7 +31,7 @@ function GraceFeed() {
                     type: "photo",
                     content: "/api/placeholder/300/400",
                     caption:
-                        "With you, intimacy colours my voice. Even 'hello' sounds like 'come here.' 💕",
+                        "With you, intimacy colours my voice. Even 'hello' sounds like 'come here.' ",
                     timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000), // 2 hours ago
                     likes: 47,
                     comments: 12,
@@ -48,7 +48,7 @@ function GraceFeed() {
                     },
                     type: "photo",
                     content: "/api/placeholder/300/500",
-                    caption: "Anime vibes and dreamy aesthetics ✨🌸",
+                    caption: "Anime vibes and dreamy aesthetics ",
                     timestamp: new Date(Date.now() - 3 * 60 * 60 * 1000),
                     likes: 89,
                     comments: 23,
@@ -65,7 +65,7 @@ function GraceFeed() {
                     },
                     type: "photo",
                     content: "/api/placeholder/300/350",
-                    caption: "Good Morning Joy and appreciation for life! ☀️📚",
+                    caption: "Good Morning Joy and appreciation for life! ",
                     timestamp: new Date(Date.now() - 4 * 60 * 60 * 1000),
                     likes: 34,
                     comments: 8,
@@ -82,7 +82,7 @@ function GraceFeed() {
                     },
                     type: "photo",
                     content: "/api/placeholder/300/300",
-                    caption: "Matching batman clay keychains 🦇",
+                    caption: "Matching batman clay keychains ",
                     timestamp: new Date(Date.now() - 5 * 60 * 60 * 1000),
                     likes: 156,
                     comments: 34,
@@ -100,7 +100,7 @@ function GraceFeed() {
                     type: "photo",
                     content: "/api/placeholder/300/600",
                     caption:
-                        "She cradles my face in her hands like I am the most precious thing in existence. I have never known a love so pure as the love she bestows upon me. 📖💕",
+                        "She cradles my face in her hands like I am the most precious thing in existence. I have never known a love so pure as the love she bestows upon me. ",
                     timestamp: new Date(Date.now() - 6 * 60 * 60 * 1000),
                     likes: 203,
                     comments: 45,
@@ -117,7 +117,7 @@ function GraceFeed() {
                     },
                     type: "photo",
                     content: "/api/placeholder/300/280",
-                    caption: "SOFT JADE AESTHETICS Cloud White minimalism 🤍",
+                    caption: "SOFT JADE AESTHETICS Cloud White minimalism ",
                     timestamp: new Date(Date.now() - 7 * 60 * 60 * 1000),
                     likes: 78,
                     comments: 12,
@@ -135,7 +135,7 @@ function GraceFeed() {
                     type: "photo",
                     content: "/api/placeholder/300/380",
                     caption:
-                        "Creative DIY Birthday Cards & handmade treasures 🎨",
+                        "Creative DIY Birthday Cards & handmade treasures ",
                     timestamp: new Date(Date.now() - 9 * 60 * 60 * 1000),
                     likes: 124,
                     comments: 28,
@@ -170,7 +170,7 @@ function GraceFeed() {
                     type: "photo",
                     content: "/api/placeholder/300/520",
                     caption:
-                        "Book 1: How to Train Your Dragon, Book 2: How to Be a Pirate, Book 3: How to Speak Dragonese... The complete collection! 📚🐉",
+                        "Book 1: How to Train Your Dragon, Book 2: How to Be a Pirate, Book 3: How to Speak Dragonese... The complete collection! ",
                     timestamp: new Date(Date.now() - 13 * 60 * 60 * 1000),
                     likes: 156,
                     comments: 42,
@@ -188,7 +188,7 @@ function GraceFeed() {
                     type: "photo",
                     content: "/api/placeholder/300/380",
                     caption:
-                        "I shall think of you at sunset, and at sunrise, again and at noon, and forenoon, and afternoon, and always, and evermore, till this heart stops beating and is still. 🌅",
+                        "I shall think of you at sunset, and at sunrise, again and at noon, and forenoon, and afternoon, and always, and evermore, till this heart stops beating and is still. ",
                     timestamp: new Date(Date.now() - 14 * 60 * 60 * 1000),
                     likes: 198,
                     comments: 55,
@@ -206,7 +206,7 @@ function GraceFeed() {
                     type: "photo",
                     content: "/api/placeholder/300/300",
                     caption:
-                        "Letters to Susan Gilbert May 1850 - vintage aesthetic vibes ✉️",
+                        "Letters to Susan Gilbert May 1850 - vintage aesthetic vibes ",
                     timestamp: new Date(Date.now() - 15 * 60 * 60 * 1000),
                     likes: 87,
                     comments: 19,
@@ -338,7 +338,7 @@ function GraceFeed() {
                     className="share-moment-btn"
                     onClick={() => setShowUploadModal(true)}
                 >
-                    ✨ Share a Moment
+                    Share a Moment
                 </button>
             </div>
             <div className={`posts-grid ${focusedPost ? "blurred" : ""}`}>
@@ -427,9 +427,7 @@ function GraceFeed() {
                         <button
                             className="close-btn"
                             onClick={handleCloseFocus}
-                        >
-                            ✕
-                        </button>
+                        ></button>
                         <div className="focused-content">
                             <div className="focused-media">
                                 {focusedPost.type === "video" ? (
@@ -534,14 +532,12 @@ function GraceFeed() {
                             <button
                                 className="close-btn"
                                 onClick={() => setShowUploadModal(false)}
-                            >
-                                ✕
-                            </button>
+                            ></button>
                         </div>
                         <div className="upload-content">
                             {!newPost.preview ? (
                                 <div className="upload-area">
-                                    <div className="upload-icon">📷</div>
+                                    <div className="upload-icon"></div>
                                     <h4>Upload Photo or Video</h4>
                                     <p>
                                         Share your volunteer experiences and

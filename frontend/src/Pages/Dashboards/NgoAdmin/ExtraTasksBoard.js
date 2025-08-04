@@ -401,7 +401,7 @@ const ExtraTasksBoard = () => {
                                 onClick={() => removeTask(task.id)}
                                 disabled={loading}
                             >
-                                ✕ Delete
+                                Delete
                             </button>
                         </div>
                     </div>
@@ -426,14 +426,14 @@ const ExtraTasksBoard = () => {
                     >
                         {saving
                             ? "Saving..."
-                            : `💾 Save Tasks (${
+                            : `Save Tasks (${
                                   tasks.filter((t) => t.isLocal).length
                               })`}
                     </button>
                 </div>
 
                 {showSuccess && (
-                    <div className="success-message">✅ Task updated!</div>
+                    <div className="success-message">Task updated!</div>
                 )}
             </div>
         </div>

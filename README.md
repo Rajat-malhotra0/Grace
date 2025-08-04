@@ -4,7 +4,7 @@ Grace is an NGO unifier and support platform designed to uplift those who uplift
 
 ---
 
-## 🌟 Features
+## Features
 
 -   **NGO Registration & Discovery:** NGOs can register and get discovered by donors and volunteers.
 -   **Volunteer & Donor Matching:** Intelligent matching for volunteers and donors based on interests and skills.
@@ -16,7 +16,7 @@ Grace is an NGO unifier and support platform designed to uplift those who uplift
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 -   **Frontend:** React.js, CSS
 -   **Backend:** Node.js, Express.js
@@ -26,7 +26,7 @@ Grace is an NGO unifier and support platform designed to uplift those who uplift
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -69,7 +69,7 @@ Grace is an NGO unifier and support platform designed to uplift those who uplift
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```
 Grace/
@@ -89,13 +89,13 @@ Grace/
   package.json
 ```
 
-## 📄 License
+## License
 
 This project is licensed under the [ISC License](LICENSE).
 
 ---
 
-## 🙏 Acknowledgements
+## Acknowledgements
 
 -   All contributors and open-source libraries used.
 -   Special thanks to the NGOs, volunteers, and donors making a difference.

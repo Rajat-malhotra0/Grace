@@ -421,7 +421,7 @@ function VolunteerInsights() {
             {/* Key Metrics */}
             <div className="metrics-overview">
                 <div className="metric-card primary">
-                    <div className="metric-icon">👥</div>
+                    <div className="metric-icon"></div>
                     <div className="metric-content">
                         <h3>Total Volunteers</h3>
                         <span className="metric-value">
@@ -430,7 +430,7 @@ function VolunteerInsights() {
                     </div>
                 </div>
                 <div className="metric-card success">
-                    <div className="metric-icon">⚡</div>
+                    <div className="metric-icon"></div>
                     <div className="metric-content">
                         <h3>Active Volunteers</h3>
                         <span className="metric-value">
@@ -448,7 +448,7 @@ function VolunteerInsights() {
                     </div>
                 </div>
                 <div className="metric-card warning">
-                    <div className="metric-icon">🔄</div>
+                    <div className="metric-icon"></div>
                     <div className="metric-content">
                         <h3>Retention Rate</h3>
                         <span className="metric-value">

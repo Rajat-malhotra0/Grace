@@ -45,7 +45,7 @@ function About() {
                 <h2> One Platform: one place, every solution, for every NGO. </h2>
                 <p>
                     <h3> Here's how we help: </h3>
-                    🏠 For NGOs: <br />
+                    For NGOs: <br />
                     • Build your online presence.<br />
                     • Track and manage volunteers efficiently. <br />
                     • Collect and manage donations securely.<br />
@@ -55,7 +55,7 @@ function About() {
                 </p>
                 <hr />
                 <p>
-                    🤝 For Volunteers: <br />
+                    For Volunteers: <br />
                     • Discover NGOs that align with your interests.  <br />
                     • Sign up with just a few clicks.  <br />
                     • Get real-time updates on volunteering opportunities.  <br />
@@ -64,7 +64,7 @@ function About() {
                 </p>
                 <hr/>
                 <p>
-                    💼 For Companies & Donors: <br />
+                    For Companies & Donors: <br />
                     • Explore a curated list of verified NGOs across different causes and locations. <br />
                     • Make direct donations with receipts and transparency.<br />
                     • Maintain a real-time impact tracking.<br />
@@ -107,7 +107,7 @@ function About() {
                     • A student who wants to contribute time.<br />
                     • A corporate leader planning CSR initiatives.<br />
                     Or just someone who wants to give back in a meaningful way... <br />
-                    You have a home here. 😊
+                    You have a home here. 
                 </p>
             </div>
             <p>   

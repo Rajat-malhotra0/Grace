@@ -292,13 +292,13 @@ function addCompletedDetails(task) {
 }
 
 async function createTasksForNgos() {
-    console.log("📋 Creating comprehensive tasks for all NGOs...");
+    console.log("Creating comprehensive tasks for all NGOs...");
 
     try {
         // Clear existing tasks
-        console.log("🗑️  Removing existing tasks...");
+        console.log("Removing existing tasks...");
         const deletedTasks = await Task.deleteMany({});
-        console.log(`✅ Cleared ${deletedTasks.deletedCount} existing tasks`);
+        console.log(`Cleared ${deletedTasks.deletedCount} existing tasks`);
 
         // Get all NGOs with their categories
         const ngos = await Ngo.find({}).populate("category user");

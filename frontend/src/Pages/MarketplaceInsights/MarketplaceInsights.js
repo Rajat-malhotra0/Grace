@@ -486,7 +486,7 @@ const MarketplaceInsights = () => {
                         customStyles={customStyles}
                         noDataComponent={
                             <div className="no-data">
-                                🎉 Everything has been helped!
+                                Everything has been helped!
                             </div>
                         }
                     />

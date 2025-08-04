@@ -65,7 +65,7 @@ const DonationNeedsForm = () => {
         }
 
         if (!ngo || !ngo._id) {
-            alert("❌ NGO information not found. Please login again.");
+            alert("NGO information not found. Please login again.");
             return;
         }
 

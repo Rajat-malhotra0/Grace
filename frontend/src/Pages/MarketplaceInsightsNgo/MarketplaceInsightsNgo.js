@@ -537,7 +537,7 @@ const MarketplaceInsights = () => {
                         customStyles={customStyles}
                         noDataComponent={
                             <div className="no-data">
-                                🎉 Great! All requests have been fulfilled!
+                                Great! All requests have been fulfilled!
                             </div>
                         }
                     />

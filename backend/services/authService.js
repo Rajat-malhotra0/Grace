@@ -6,7 +6,7 @@ const NGO = require("../models/ngo");
 const mongoose = require("mongoose");
 const UserNgoRelation = require("../models/userNgoRelation");
 const jwt = require("jsonwebtoken");
-const tokenSecret = "some_random_text(verrry random)🫦🫦";
+const tokenSecret = "some_random_text(verrry random)";
 
 async function registerUser(userData) {
     try {

@@ -165,7 +165,7 @@ const DonationNeedsPage = ({ category, categoryData }) => {
                                     className="action-btn fulfilled-btn"
                                     disabled
                                 >
-                                    ✓ Fulfilled
+                                    Fulfilled
                                 </button>
                             ) : (
                                 <>

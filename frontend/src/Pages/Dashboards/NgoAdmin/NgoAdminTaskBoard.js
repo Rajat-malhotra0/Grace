@@ -581,9 +581,7 @@ const NgoAdminTaskBoard = () => {
                                             removeTask(section.id, task.id)
                                         }
                                         style={{ color: "red" }}
-                                    >
-                                        ✕
-                                    </button>
+                                    ></button>
                                 </div>
                             </div>
                         ))}
