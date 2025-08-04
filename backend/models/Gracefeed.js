@@ -7,7 +7,8 @@ const graceFeedSchema = new mongoose.Schema({
         required: true
     },
     type: {type: String, enum: ['photo', 'video', 'text'], default: 'photo'},
-    content: {type: String, required: true},
+    content: {type: String, required: true}, // Cloudinary URL
+    contentPublicId: {type: String, default: ''}, // For Cloudinary deletion
     caption: {type: String, default: ''},
     likes: [{
         user: {

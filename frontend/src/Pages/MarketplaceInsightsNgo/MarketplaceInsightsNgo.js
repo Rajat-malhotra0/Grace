@@ -8,6 +8,7 @@ import {
     DonutChart,
 } from "../../Components/Charts/ChartJS";
 import { AuthContext } from "../../Context/AuthContext";
+import Header from "../../Components/Header";
 import "./MarketplaceInsightsNgo.css";
 
 const MarketplaceInsights = () => {
@@ -348,6 +349,7 @@ const MarketplaceInsights = () => {
 
     return (
         <div className="marketplace-page">
+            <Header />
             <div className="marketplace-header">
                 <h1>{currentNgoName} - Marketplace Insights</h1>
                 <p>

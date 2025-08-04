@@ -2,13 +2,9 @@ import React, { useState, useEffect, useContext, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import DataTable from "react-data-table-component";
-import {
-    BarChart,
-    LineChart,
-    DonutChart,
-    PieChart,
-} from "../../Components/Charts/ChartJS";
+import { BarChart, LineChart, PieChart } from "../../Components/Charts/ChartJS";
 import { AuthContext } from "../../Context/AuthContext";
+import Header from "../../Components/Header";
 import "./volunteer.css";
 
 function VolunteerInsights() {
@@ -400,6 +396,7 @@ function VolunteerInsights() {
 
     return (
         <div className="volunteer-page">
+            <Header />
             <div className="volunteer-header">
                 <h1>Volunteer Analytics Dashboard - {currentNgoName}</h1>
                 <p>

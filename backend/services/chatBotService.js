@@ -4,7 +4,10 @@ dotenv.config();
 const Article = require("../models/article");
 
 const { QdrantVectorStore } = require("@langchain/qdrant");
-const {GoogleGenerativeAIEmbeddings,ChatGoogleGenerativeAI,} = require("@langchain/google-genai");
+const {
+    GoogleGenerativeAIEmbeddings,
+    ChatGoogleGenerativeAI,
+} = require("@langchain/google-genai");
 const { Document } = require("@langchain/core/documents");
 
 const collectionName = "help_articles";
@@ -90,47 +93,90 @@ async function searchArticles(query, limit = 3) {
 async function getFallbackContent(query) {
     const queryLower = query.toLowerCase();
     const fallbackArticles = [];
-    if (queryLower.includes("task") || queryLower.includes("create task")) {
+
+    if (
+        queryLower.includes("marketplace") ||
+        queryLower.includes("donate") ||
+        queryLower.includes("donation")
+    ) {
         fallbackArticles.push(
             new Document({
                 pageContent:
-                    "To create a task, go to the Tasks page and click 'Create Task'. Fill in the details and submit.",
-                metadata: { source: "Fallback Help", category: "tasks" },
+                    "The Grace Marketplace connects NGO needs with donor generosity. Browse donation categories like Food & Nutrition, Clothing, Books, Medical Supplies, Technology, and more. Each category shows real-time needs from verified NGOs. Click 'I Can Help' to fulfill a need.",
+                metadata: { source: "Fallback Help", category: "donations" },
             })
         );
     }
-    if (queryLower.includes("ngo") || queryLower.includes("location") || queryLower.includes("map")) {
+    if (
+        queryLower.includes("volunteer") ||
+        queryLower.includes("volunteering")
+    ) {
         fallbackArticles.push(
             new Document({
                 pageContent:
-                    "View NGO locations on the Map page. Click any marker for details.",
-                metadata: { source: "Fallback Help", category: "navigation" },
+                    "Register as a volunteer by selecting your type (individual, school, corporate, internship, or career). Take our skills quiz to get matched with suitable opportunities. Browse NGO profiles to find volunteer roles like teaching, mentoring, meal preparation, and administrative support.",
+                metadata: { source: "Fallback Help", category: "users" },
             })
         );
     }
-    if (queryLower.includes("donation") || queryLower.includes("report")) {
+    if (
+        queryLower.includes("ngo") ||
+        queryLower.includes("register") ||
+        queryLower.includes("organization")
+    ) {
         fallbackArticles.push(
             new Document({
                 pageContent:
-                    "View donation reports in Analytics. Select date range and click 'Generate Report'.",
-                metadata: { source: "Fallback Help", category: "analytics" },
-            })
-        );
-    }
-    if (queryLower.includes("add ngo") || queryLower.includes("new ngo")) {
-        fallbackArticles.push(
-            new Document({
-                pageContent:
-                    "To add a new NGO, go to NGO Management and click 'Add NGO'. Fill in name, location, and contact info.",
+                    "NGOs can register by selecting 'NGO' role during signup. Complete organization details including name, registration number, contact info, and focus areas. Create volunteer opportunities, post marketplace needs, and manage your profile. A team member will verify your information.",
                 metadata: { source: "Fallback Help", category: "ngo" },
             })
         );
     }
+    if (
+        queryLower.includes("task") ||
+        queryLower.includes("dashboard") ||
+        queryLower.includes("manage")
+    ) {
+        fallbackArticles.push(
+            new Document({
+                pageContent:
+                    "NGO admins can access dashboards to manage operations. Create and assign tasks, track volunteer hours, monitor donation requests, view analytics, and coordinate team activities. Access marketplace insights and volunteer analytics for performance tracking.",
+                metadata: { source: "Fallback Help", category: "tasks" },
+            })
+        );
+    }
+    if (
+        queryLower.includes("profile") ||
+        queryLower.includes("account") ||
+        queryLower.includes("settings")
+    ) {
+        fallbackArticles.push(
+            new Document({
+                pageContent:
+                    "Manage your profile by clicking your name in the header. Update personal information, change password, manage notification preferences, and view contribution history. Different user types (NGO, Volunteer, Donor) have specific features and access levels.",
+                metadata: { source: "Fallback Help", category: "users" },
+            })
+        );
+    }
+    if (
+        queryLower.includes("quiz") ||
+        queryLower.includes("skills") ||
+        queryLower.includes("assessment")
+    ) {
+        fallbackArticles.push(
+            new Document({
+                pageContent:
+                    "Take our volunteer skills quiz to discover how you can best contribute. The quiz assesses your interests, skills, and availability to recommend suitable volunteer opportunities and NGO matches. Retake anytime as your interests evolve.",
+                metadata: { source: "Fallback Help", category: "users" },
+            })
+        );
+    }
+
     if (fallbackArticles.length === 0) {
         fallbackArticles.push(
             new Document({
                 pageContent:
-                    "I'm here to help with your NGO dashboard questions! You can create tasks, view NGO locations, manage NGOs, and access reports through the dashboard.",
+                    "Welcome to Grace! I can help you with marketplace donations, volunteer opportunities, NGO registration, dashboard management, profile settings, and skills assessments. Grace connects NGOs with volunteers and donors through our comprehensive platform. What would you like to know about?",
                 metadata: { source: "Fallback Help", category: "general" },
             })
         );
@@ -182,7 +228,7 @@ async function getChatbotResponse(query) {
     } catch (err) {
         console.error("Chatbot flow error:", err.message);
         return {
-            answer: "I'm here to help with your NGO dashboard questions! You can create tasks, view NGO locations, manage NGOs, and access reports through the dashboard.",
+            answer: "Welcome to Grace! I can help you with marketplace donations, volunteer opportunities, NGO registration, dashboard management, and platform navigation. What would you like to know about?",
             sources: [],
             foundDocs: 0,
         };
@@ -192,13 +238,17 @@ async function getChatbotResponse(query) {
 async function setupKnowledgeBase() {
     try {
         // Fetch all active articles from database
-        const articles = await Article.find({ isActive: true }).sort({ createdAt: -1 });
+        const articles = await Article.find({ isActive: true }).sort({
+            createdAt: -1,
+        });
         if (articles.length === 0) {
-            console.warn("No articles found in database. Please seed the database first.");
+            console.warn(
+                "No articles found in database. Please seed the database first."
+            );
             return false;
         }
         // Convert database articles to the format expected by vector store
-        const formattedArticles = articles.map(article => ({
+        const formattedArticles = articles.map((article) => ({
             content: `${article.title}\n\n${article.content}`,
             metadata: {
                 source: article.source,
@@ -208,10 +258,15 @@ async function setupKnowledgeBase() {
                 id: article._id.toString(),
             },
         }));
-        console.log(`Setting up knowledge base with ${formattedArticles.length} articles from database`);
+        console.log(
+            `Setting up knowledge base with ${formattedArticles.length} articles from database`
+        );
         return await addArticles(formattedArticles);
     } catch (error) {
-        console.error("Error setting up knowledge base from database:", error.message);
+        console.error(
+            "Error setting up knowledge base from database:",
+            error.message
+        );
         // Fallback to hardcoded articles if database fails
         return await setupFallbackKnowledgeBase();
     }
@@ -221,20 +276,49 @@ async function setupFallbackKnowledgeBase() {
     console.log("Using fallback knowledge base (hardcoded articles)");
     const fallbackArticles = [
         {
-            content: "Creating Tasks\n\nTo create a task, go to the Tasks page and click 'Create Task'. Fill in the details and submit.",
-            metadata: { source: "Fallback - User Guide Section 3.2", category: "tasks", title: "Creating Tasks" },
+            content:
+                "Getting Started with Grace\n\nGrace is a comprehensive NGO management platform that connects NGOs with volunteers and donors. Create an account, complete your profile, and start making an impact. NGOs can list needs, manage volunteers, and track donations. Volunteers find opportunities that match their skills. Donors discover causes and contribute through our marketplace.",
+            metadata: {
+                source: "Fallback - Getting Started Guide",
+                category: "general",
+                title: "Getting Started with Grace",
+            },
         },
         {
-            content: "NGO Location Mapping\n\nView NGO locations on the Map page. Click any marker for details.",
-            metadata: { source: "Fallback - User Guide Section 5.1", category: "navigation", title: "NGO Location Mapping" },
+            content:
+                "Grace Marketplace\n\nThe marketplace connects NGO needs with donor generosity. Browse categories like Food & Nutrition, Clothing, Books, Medical Supplies, Technology, and more. Each shows real-time needs from verified NGOs with quantity, urgency, and location details. Click 'I Can Help' to fulfill needs.",
+            metadata: {
+                source: "Fallback - Marketplace Guide",
+                category: "donations",
+                title: "Grace Marketplace",
+            },
         },
         {
-            content: "Adding New NGO\n\nTo add a new NGO, go to NGO Management and click 'Add NGO'. Fill in name, location, and contact info.",
-            metadata: { source: "Fallback - User Guide Section 2.1", category: "ngo", title: "Adding New NGO" },
+            content:
+                "Volunteer Opportunities\n\nRegister as individual, school, corporate, internship, or career volunteer. Take our skills quiz for personalized NGO recommendations. Browse NGO profiles for roles like teaching, mentoring, meal preparation, and admin support. Contact NGOs directly through volunteer buttons.",
+            metadata: {
+                source: "Fallback - Volunteer Guide",
+                category: "users",
+                title: "Volunteer Opportunities",
+            },
         },
         {
-            content: "Donation Reports\n\nView donation reports in Analytics. Select date range and click 'Generate Report'.",
-            metadata: { source: "Fallback - User Guide Section 4.3", category: "analytics", title: "Donation Reports" },
+            content:
+                "NGO Registration\n\nNGOs register by selecting 'NGO' role and providing organization details: name, registration number, contact info, focus areas. Create volunteer opportunities, post marketplace needs, manage profiles. Team verification required for public profile activation.",
+            metadata: {
+                source: "Fallback - NGO Guide",
+                category: "ngo",
+                title: "NGO Registration",
+            },
+        },
+        {
+            content:
+                "Dashboard and Analytics\n\nNGO admins access comprehensive dashboards for operations management. Create tasks, track volunteer hours, monitor donations, view analytics. Marketplace insights show fulfillment rates and trends. Volunteer analytics display engagement and performance metrics.",
+            metadata: {
+                source: "Fallback - Dashboard Guide",
+                category: "analytics",
+                title: "Dashboard and Analytics",
+            },
         },
     ];
     return await addArticles(fallbackArticles);
@@ -264,7 +348,10 @@ async function addNewArticleToVectorStore(articleId) {
         };
         return await addArticles([formattedArticle]);
     } catch (error) {
-        console.error("Error adding new article to vector store:", error.message);
+        console.error(
+            "Error adding new article to vector store:",
+            error.message
+        );
         return false;
     }
 }

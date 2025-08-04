@@ -3,8 +3,8 @@
         "start": "node app.js",
         "dev": "nodemon app.js",
         "seed": "node db/seedAll.js",
-        "test-db": "node db/test-db.js",
-        "seed-ngos": "node db/seedCompleteNgoData.js"
+        "seed-ngos": "node db/seedCompleteNgoData.js",
+        "setup-chatbot": "node db/setupChatbot.js"
     },
     "dependencies": {
         "@google/genai": "^1.9.0",
@@ -19,6 +19,7 @@
         "express-validator": "^7.2.1",
         "jsonwebtoken": "^9.0.2",
         "mongoose": "^8.16.1",
+        "multer": "^2.0.2",
         "razorpay": "^2.9.6",
         "socket.io": "^4.8.1"
     }

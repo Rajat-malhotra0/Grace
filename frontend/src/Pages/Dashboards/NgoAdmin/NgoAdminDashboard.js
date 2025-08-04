@@ -12,22 +12,22 @@ import DonationNeedsForm from "./DonationNeedsForm";
 import ImpactStoryForm from "./ImpactStoryForm";
 
 const NgoAdminDashboard = () => {
-  return (
-    <div>
-      <Sidebar />
-      <div className="dashboard-main-container">
-        <Banner />
-        <NgoAdminTaskBoard />
-        <ExtraTasksBoard />
-        <AdminInventoryDashboard />
-        <AdminReportLog />
-        <VolunteerOpportunities />
-        <VolunteerApplications />
-        <DonationNeedsForm />
-        <ImpactStoryForm />
-      </div>
-    </div>
-  );
+    return (
+        <div>
+            <Sidebar />
+            <div className="dashboard-main-container">
+                <Banner />
+                <NgoAdminTaskBoard />
+                <ExtraTasksBoard />
+                <AdminInventoryDashboard />
+                <AdminReportLog />
+                <VolunteerOpportunities />
+                <VolunteerApplications />
+                <DonationNeedsForm />
+                <ImpactStoryForm />
+            </div>
+        </div>
+    );
 };
 
 export default NgoAdminDashboard;

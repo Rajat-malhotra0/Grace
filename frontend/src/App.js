@@ -4,9 +4,11 @@ import Header from "./Components/Header";
 import Content from "./Content";
 import Footer from "./Components/Footer";
 import ChatBot from "./Components/Chatbot";
+import InsightsButton from "./Components/InsightsButton";
 import AuthProvider from "./Context/AuthContext";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ScrollToTop from "./Components/ScrollToTop";
 
 function AppContent() {
     const location = useLocation();
@@ -39,8 +41,10 @@ function App() {
     return (
         <AuthProvider>
             <Router>
+                <ScrollToTop />
                 <AppContent />
                 <Footer />
+                <InsightsButton />
                 <ChatBot />
                 <ToastContainer
                     position="top-right"

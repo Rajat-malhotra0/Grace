@@ -6,6 +6,7 @@ const { addMarketplaceData } = require("./addMarketplaceData");
 const { seedUsers } = require("./addUsers");
 const { seedTasks } = require("./addTasks");
 const { addImpactStories } = require("./addImpactStories");
+const { addArticles } = require("./addArticles");
 // const { addFeedContent } = require("./addFeedContent");
 const seedNgoReports = require("./addNgoReports");
 const User = require("../models/user");
@@ -314,7 +315,14 @@ async function seedAllData() {
 
         await new Promise((resolve) => setTimeout(resolve, 1000));
 
-        console.log("9️⃣  STEP 9: Adding NGO Reports...");
+        console.log("9️⃣  STEP 9: Adding Articles for Chatbot...");
+        console.log("=".repeat(50));
+        await addArticles(true);
+        console.log("✅ Articles seeding completed\n");
+
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+
+        console.log("🔟  STEP 10: Adding NGO Reports...");
         console.log("=".repeat(50));
         await seedNgoReports(true);
         console.log("✅ NGO Reports seeding completed\n");
@@ -336,6 +344,7 @@ async function seedAllData() {
         console.log("   • Marketplace: Items with pricing & availability");
         console.log("   • Impact Stories: User success stories");
         console.log("   • Feed Content: Social media style posts");
+        console.log("   • Articles: Chatbot knowledge base articles");
         console.log("   • NGO Reports: Detailed NGO performance reports");
         console.log("=".repeat(60));
         console.log("📝 LOGIN CREDENTIALS:");
