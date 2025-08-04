@@ -120,7 +120,11 @@ router.get(
             const tasks = await taskService.readTasks({
                 ngo: req.params.ngoId,
             });
-            return res.status(200).json(tasks); // Direct array response to match frontend expectations
+            return res.status(200).json({
+                success: true,
+                message: "Tasks retrieved successfully",
+                result: tasks,
+            });
         } catch (error) {
             return res.status(500).json({
                 success: false,

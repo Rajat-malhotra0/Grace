@@ -16,7 +16,7 @@ import ImpactStories from "./Pages/Home/ImpactStories";
 import GraceApp from "./Pages/Grace_App/Grace_App";
 import NgoTeamDashboard from "./Pages/Dashboards/NgoTeam/NgoTeamDashboard";
 import VolunteerDashboard from "./Pages/Dashboards/Volunteer/VolunteerDashboard";
-import DonorDashboard from "./Pages/Dashboards/Donor/DonorDashboard"; 
+import DonorDashboard from "./Pages/Dashboards/Donor/DonorDashboard";
 import NgoAdminDashboard from "./Pages/Dashboards/NgoAdmin/NgoAdminDashboard";
 import Achievements from "./Pages/Dashboards/NgoTeam/Achievements";
 import Settings from "./Pages/Dashboards/NgoTeam/Settings";
@@ -26,6 +26,7 @@ import AdminInventoryLog from "./Pages/Dashboards/NgoAdmin/AdminInventoryLog";
 import AdminReportHistory from "./Pages/Dashboards/NgoAdmin/AdminReportHistory";
 import NgoPage from "./Pages/NgoPage/NgoPage";
 import MarketplaceInsightsNgo from "./Pages/MarketplaceInsightsNgo/MarketplaceInsightsNgo";
+import VolunteerInsightsNgo from "./Pages/VolunteerInsightsNgo/volunteerNgo";
 
 function Content() {
     return (
@@ -54,7 +55,10 @@ function Content() {
             <Route path="/impact-stories" element={<ImpactStories />} />
             <Route path="/grace-app" element={<GraceApp />} />
             <Route path="/dashboard/ngo-team" element={<NgoTeamDashboard />} />
-            <Route path="/dashboard/volunteer" element={<VolunteerDashboard />} />
+            <Route
+                path="/dashboard/volunteer"
+                element={<VolunteerDashboard />}
+            />
             <Route path="/dashboard/donor" element={<DonorDashboard />} />
             <Route path="/dashboard/admin" element={<NgoAdminDashboard />} />
             <Route
@@ -66,13 +70,24 @@ function Content() {
                 path="/dashboard/ngo-team/notifications"
                 element={<Notifications />}
             />
-            <Route path="/admin/inventory-log" element={<AdminInventoryLog />} />
-            <Route path="/admin/report-history" element={<AdminReportHistory />} />
-            <Route path="/ngo/:ngoId" element={<NgoPage />} />
+            <Route
+                path="/admin/inventory-log"
+                element={<AdminInventoryLog />}
+            />
+            <Route
+                path="/admin/report-history"
+                element={<AdminReportHistory />}
+            />
             <Route
                 path="/ngo/marketplace-insights"
                 element={<MarketplaceInsightsNgo />}
             />
+
+            <Route
+                path="/ngo/volunteer-insights"
+                element={<VolunteerInsightsNgo />}
+            />
+            <Route path="/ngo/:ngoId" element={<NgoPage />} />
             {/* is a route parameter syntax, not an actual URL path */}
             {/* Add more routes as needed */}
         </Routes>
