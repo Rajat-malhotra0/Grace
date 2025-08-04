@@ -1,3 +1,7 @@
+/*
+This is a styling ".css" file for the main login.js file, allowing us to apply various styling on that particular page. 
+*/
+
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap");
 
 .login-container {
@@ -43,9 +47,9 @@
 .login-form input[type="password"] {
     width: 100%;
     padding: 12px 15px;
-    margin-bottom: 2px; /* More space between inputs */
+    margin-bottom: 2px;
     border: 1px solid #ddd;
-    border-radius: 12px;
+    border-radius: 8px;
     font-size: 1rem;
     color: #333;
     transition: border-color 0.3s, box-shadow 0.3s;

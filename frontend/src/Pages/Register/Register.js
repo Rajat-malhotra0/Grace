@@ -1,8 +1,3 @@
-/*
-Todo: 
-Can make the form a lot more more refined, and needs testing
-*/
-
 import React, { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import "./Register.css";
@@ -23,6 +18,7 @@ function Register() {
     });
     const [categories, setCategories] = useState([]);
     const { register } = useContext(AuthContext);
+    const [errors, setErrors] = useState({});
 
     useEffect(() => {
         async function fetchCategories() {
@@ -33,12 +29,113 @@ function Register() {
                 if (response.status === 200) {
                     setCategories(response.data.result);
                 }
-            } catch (err) {
-                // Error fetching categories
-            }
+            } catch (err) { }
         }
         fetchCategories();
     }, []);
+
+    const validate = () => {
+        const newErrors = {};
+
+        const {
+            email = "",
+            password = "",
+            confirmedPassword = "",
+            name = "",
+            role = "",
+            address = "",
+            city = "",
+            state = "",
+            pincode = "",
+            dob = "",
+            termsAccepted = false,
+            organizationName = "",
+            registrationNumber = "",
+            phoneNumber = "",
+            description = "",
+            focusAreas = [],
+            volunteerType = "",
+            organizationAddress = "",
+            organizationCity = "",
+            organizationState = "",
+            organizationDepartment = "",
+            organizationPersonRole = ""
+        } = formData;
+
+        if (!email.trim()) {
+            newErrors.email = "Email is required";
+        } else if (!/\S+@\S+\.\S+/.test(email)) {
+            newErrors.email = "Email is invalid";
+        }
+
+        if (!name.trim()) {
+            newErrors.name = "Name is required";
+        } else if (!/^[a-zA-Z\s]+$/.test(name)) {
+            newErrors.name = "Name must contain only alphabets";
+        }
+
+        if (!password.trim()) {
+            newErrors.password = "Password is required";
+        } else if (password.length < 8) {
+            newErrors.password = "Password must be 8 characters long";
+        }
+
+        if (!confirmedPassword.trim()) {
+            newErrors.confirmedPassword = "Please confirm password";
+        } else if (password !== confirmedPassword) {
+            newErrors.confirmedPassword = "Passwords do not match";
+        }
+
+        if (!role) {
+            newErrors.role = "Please select user type";
+        }
+
+        if (!address.trim()) newErrors.address = "Address is required";
+        if (!city.trim()) newErrors.city = "City is required";
+        if (!state.trim()) newErrors.state = "State is required";
+        if (!pincode.trim()) {
+            newErrors.pincode = "Pincode is required";
+        } else if (pincode.length < 6) {
+            newErrors.pincode = "Enter a valid pincode";
+        }
+        if (!dob) newErrors.dob = "Date of birth required";
+
+        if (!termsAccepted) {
+            newErrors.termsAccepted = "You must accept Terms and Conditions";
+        }
+
+        if (role === "ngo") {
+            if (!organizationName.trim()) newErrors.organizationName = "Organization name required";
+            if (!registrationNumber.trim()) newErrors.registrationNumber = "Registration number required";
+            if (!phoneNumber.trim()) {
+                newErrors.phoneNumber = "Phone number required";
+            } else if (!/^\d{10}$/.test(phoneNumber)) {
+                newErrors.phoneNumber = "Phone must be 10 digits";
+            }
+            if (!description.trim()) newErrors.description = "Description required";
+            if (!Array.isArray(focusAreas) || focusAreas.length === 0) {
+                newErrors.focusAreas = "Select at least one focus area";
+            }
+        }
+
+        if (role === "volunteer") {
+            if (!volunteerType) newErrors.volunteerType = "Select a volunteer type";
+
+            if (volunteerType === "school" || volunteerType === "corporate") {
+                if (!organizationName.trim()) newErrors.organizationName = "Name required";
+                if (!organizationAddress.trim()) newErrors.organizationAddress = "Address required";
+                if (!organizationCity.trim()) newErrors.organizationCity = "City required";
+                if (!organizationState.trim()) newErrors.organizationState = "State required";
+            }
+
+            if (volunteerType === "corporate") {
+                if (!organizationDepartment.trim()) newErrors.organizationDepartment = "Department required";
+                if (!organizationPersonRole.trim()) newErrors.organizationPersonRole = "Designation required";
+            }
+        }
+
+        return newErrors;
+    };
 
     const NgoRegistrationToast = () => (
         <div>
@@ -242,9 +339,7 @@ function Register() {
             setFormData((prevData) => ({
                 ...prevData,
                 [e.target.name]:
-                    e.target.type === "checkbox"
-                        ? e.target.checked
-                        : e.target.value,
+                    e.target.type === "checkbox" ? e.target.checked : e.target.value,
             }));
         }
     };
@@ -252,10 +347,10 @@ function Register() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (formData.password !== formData.confirmedPassword) {
-            alert("Passwords do not match.");
+        const foundErrors = validate();
+        setErrors(foundErrors);
+        if (Object.keys(foundErrors).length > 0)
             return;
-        }
 
         let basePayload = {
             userName: formData.name,
@@ -365,47 +460,60 @@ function Register() {
             </p>
             <span>Create an account</span>
             <form onSubmit={handleSubmit}>
-                <label>Email</label>
-                <input
-                    type="email"
-                    name="email"
-                    placeholder="Email"
-                    onChange={handleChange}
-                    value={formData.email || ""}
-                    required
-                />
 
-                <label>Name</label>
-                <input
-                    type="text"
-                    name="name"
-                    placeholder="Name"
-                    onChange={handleChange}
-                    value={formData.name || ""}
-                    required
-                />
+                <div className="input-group">
+                    <label>Email</label>
+                    <input
+                        type="email"
+                        name="email"
+                        placeholder="Email"
+                        onChange={handleChange}
+                        value={formData.email || ""}
+                        required
+                    />
+                    <div style={{ color: "red" }}> {errors.email}</div>
+                </div>
 
-                <label>Password</label>
-                <input
-                    type="password"
-                    name="password"
-                    placeholder="Password"
-                    onChange={handleChange}
-                    value={formData.password || ""}
-                    required
-                />
+                <div className="input-group">
+                    <label>Name</label>
+                    <input
+                        type="text"
+                        name="name"
+                        placeholder="Name"
+                        onChange={handleChange}
+                        value={formData.name || ""}
+                        required
+                    />
+                    <div style={{ color: "red" }}> {errors.name}</div>
+                </div>
 
-                <label>Confirm Password</label>
-                <input
-                    type="password"
-                    name="confirmedPassword"
-                    placeholder="Confirm Password"
-                    onChange={handleChange}
-                    value={formData.confirmedPassword || ""}
-                    required
-                />
+                <div className="input-group">
+                    <label>Password</label>
+                    <input
+                        type="password"
+                        name="password"
+                        placeholder="Password"
+                        onChange={handleChange}
+                        value={formData.password || ""}
+                        required
+                    />
+                    <div style={{ color: "red" }}> {errors.password}</div>
+                </div>
 
-                <div className="user-type-selection">
+                <div className="input-group">
+                    <label>Confirm Password</label>
+                    <input
+                        type="password"
+                        name="confirmedPassword"
+                        placeholder="Confirm Password"
+                        onChange={handleChange}
+                        value={formData.confirmedPassword || ""}
+                        required
+                    />
+                    <div style={{ color: "red" }}> {errors.confirmedPassword}</div>
+                </div>
+
+                <div className="input-group user-type-selection">
                     <p>I am a:</p>
                     <label>
                         <input
@@ -447,6 +555,7 @@ function Register() {
                         />
                         Volunteer
                     </label>
+                    <div style={{ color: "red" }}> {errors.role}</div>
                 </div>
 
                 <label>Address</label>
@@ -512,51 +621,61 @@ function Register() {
                     />
                 ) : null}
 
-                <label>
-                    Date of birth:
-                    <input
-                        type="date"
-                        name="dob"
-                        onChange={handleChange}
-                        value={formData.dob || ""}
-                        required
-                    />
-                </label>
+                <div className="input-group">
+                    <label>
+                        Date of birth:
+                        <input
+                            type="date"
+                            name="dob"
+                            onChange={handleChange}
+                            value={formData.dob || ""}
+                            required
+                        />
+                    </label>
+                    <div style={{ color: "red" }}> {errors.dob}</div>
+                </div>
 
-                <label>
-                    <input
-                        type="checkbox"
-                        name="remindMe"
-                        onChange={handleChange}
-                        checked={formData.remindMe || false}
-                    />
-                    Give me reminders
-                </label>
+                <div className="input-group">
+                    <label>
+                        <input
+                            type="checkbox"
+                            name="remindMe"
+                            onChange={handleChange}
+                            checked={formData.remindMe || false}
+                        />
+                        Give me reminders
+                    </label>
+                </div>
 
-                <label>
-                    <input
-                        type="checkbox"
-                        name="termsAccepted"
-                        onChange={handleChange}
-                        checked={formData.termsAccepted || false}
-                        required
-                    />
-                    I accept the Terms and Conditions
-                </label>
+                <div className="input-group">
+                    <label>
+                        <input
+                            type="checkbox"
+                            name="termsAccepted"
+                            onChange={handleChange}
+                            checked={formData.termsAccepted || false}
+                            required
+                        />
+                        I accept the Terms and Conditions
+                    </label>
+                    <div style={{ color: "red" }}> {errors.termsAccepted}</div>
+                </div>
 
-                <label>
-                    <input
-                        type="checkbox"
-                        name="newsLetter"
-                        onChange={handleChange}
-                        checked={formData.newsLetter || false}
-                    />
-                    Subscribe to newsletter
-                </label>
+                <div className="input-group">
+                    <label>
+                        <input
+                            type="checkbox"
+                            name="newsLetter"
+                            onChange={handleChange}
+                            checked={formData.newsLetter || false}
+                        />
+                        Subscribe to newsletter
+                    </label>
+                    <div style={{ color: "red" }}> {errors.newsLetter}</div>
+                </div>
 
                 <button type="submit">Register</button>
             </form>
-
             <span>
                 Already have an account? <Link to="/login">Login</Link>
             </span>
