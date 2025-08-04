@@ -42,7 +42,6 @@ taskSchema.pre("save", function (next) {
     next();
 });
 
-// Team members are requested to look-up how index works
 taskSchema.index({ ngo: 1, status: 1 });
 taskSchema.index({ assignedTo: 1, status: 1 });
 taskSchema.index({ dueDate: 1 });

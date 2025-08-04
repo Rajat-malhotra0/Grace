@@ -11,7 +11,7 @@ const ngoSchema = new mongoose.Schema({
     registerationId: { type: String, default: "" },
     yearEstablished: { type: Number, default: 0 },
     description: { type: String, default: "" },
-    quote: { type: String, default: "" }, // Added for NGO quotes
+    quote: { type: String, default: "" },
     category: [
         {
             type: mongoose.Schema.Types.ObjectId,
@@ -27,20 +27,17 @@ const ngoSchema = new mongoose.Schema({
     otherCauses: { type: String, default: "" },
     coverImage: {
         url: { type: String, default: "" }, // Cloudinary URL
-        publicId: { type: String, default: "" }, // For deletion from Cloudinary
-        alt: { type: String, default: "" }, // Alt text for accessibility
+        publicId: { type: String, default: "" },
+        alt: { type: String, default: "" },
     },
-    // Additional media content
     heroVideo: {
         type: String,
         default: "",
-    }, // URL for hero video
-    // About Us section
+    },
     aboutUs: {
         description: { type: String, default: "" },
         image: { type: String, default: "" },
     },
-    // Projects array
     projects: [
         {
             id: { type: Number, required: true },
@@ -49,7 +46,6 @@ const ngoSchema = new mongoose.Schema({
             image: { type: String, default: "" },
         },
     ],
-    // Volunteer opportunities
     volunteer: {
         subheader: { type: String, default: "" },
         opportunities: [
@@ -62,7 +58,6 @@ const ngoSchema = new mongoose.Schema({
             },
         ],
     },
-    // Donation options
     donate: {
         options: [
             {
@@ -74,24 +69,19 @@ const ngoSchema = new mongoose.Schema({
             },
         ],
     },
-    // Additional fields for carousel display
-    mission: { type: String, default: "" }, // Short mission statement
-    volunteersNeeded: { type: Number, default: 0 }, // Number of volunteers needed
-    donationGoal: { type: Number, default: 0 }, // Donation goal amount
-    // Status fields
+    mission: { type: String, default: "" },
+    volunteersNeeded: { type: Number, default: 0 },
+    donationGoal: { type: Number, default: 0 },
     isVerified: { type: Boolean, default: false },
     isActive: { type: Boolean, default: true },
     createdAt: { type: Date, default: Date.now, immutable: true },
     updatedAt: { type: Date, default: Date.now },
 });
 
-// Indexes for better query performance
 ngoSchema.index({ category: 1 });
 ngoSchema.index({ "contact.email": 1 });
 ngoSchema.index({ isActive: 1, isVerified: 1 });
-ngoSchema.index({ name: "text", description: "text" }); // Text search
 
-// Pre-save middleware to update updatedAt
 ngoSchema.pre("save", function (next) {
     if (!this.isNew) {
         this.updatedAt = Date.now();

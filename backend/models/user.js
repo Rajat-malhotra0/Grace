@@ -31,7 +31,6 @@ const userSchema = new mongoose.Schema({
     },
     score: { type: Number, default: 0 },
 
-    // Simple leaderboard stats
     leaderboardStats: {
         hours: { type: Number, default: 0 },
         tasksCompleted: { type: Number, default: 0 },

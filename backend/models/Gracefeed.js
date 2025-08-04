@@ -7,8 +7,8 @@ const graceFeedSchema = new mongoose.Schema({
         required: true
     },
     type: {type: String, enum: ['photo', 'video', 'text'], default: 'photo'},
-    content: {type: String, required: true}, // Cloudinary URL
-    contentPublicId: {type: String, default: ''}, // For Cloudinary deletion
+    content: {type: String, required: true},
+    contentPublicId: {type: String, default: ''},
     caption: {type: String, default: ''},
     likes: [{
         user: {
@@ -54,9 +54,8 @@ graceFeedSchema.index({ user: 1 });
 graceFeedSchema.index({ createdAt: -1 });
 
 graceFeedSchema.virtual("likeCount").get(function () {
-    // this is a virtual property to get the count of likes
     return this.likes.length; // it does not store the count in the database, it calculates it on the fly or when requested in json responses
-}); // rest same as before
+});
 graceFeedSchema.virtual("commentCount").get(function () {
     return this.comments.length;
 });

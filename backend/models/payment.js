@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const paymentSchema = new mongoose.Schema({
-    user: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
+    user: { type: mongoose.Schema.Types.ObjectId, ref: "user", required: true },
     ngo: { type: mongoose.Schema.Types.ObjectId, ref: "ngo" },
     amount: { type: Number, required: true },
     currency: { type: String, default: "INR" },

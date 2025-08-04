@@ -1,6 +1,3 @@
-//Todo:
-//Cleanup user if NGO creation fails
-
 const User = require("../models/user");
 const NGO = require("../models/ngo");
 const mongoose = require("mongoose");
@@ -38,10 +35,28 @@ async function registerUser(userData) {
                 throw new Error("Invalid NGO ID format");
             }
 
-            // Check if NGO exists
             const ngoExists = await NGO.findById(ngoId);
             if (!ngoExists) {
                 throw new Error("Selected NGO does not exist");
+            }
+        }
+
+        if (dob) {
+            const birthDate = new Date(dob);
+            const today = new Date();
+            const age = today.getFullYear() - birthDate.getFullYear();
+            const monthDiff = today.getMonth() - birthDate.getMonth();
+
+            const actualAge =
+                monthDiff < 0 ||
+                (monthDiff === 0 && today.getDate() < birthDate.getDate())
+                    ? age - 1
+                    : age;
+
+            if (actualAge < 16) {
+                throw new Error(
+                    "User must be at least 16 years old to register"
+                );
             }
         }
 
@@ -114,6 +129,27 @@ async function registerNGO(userData) {
             throw new Error("Email or Username already in use");
         }
 
+        // Validate age - user must be at least 16 years old
+        if (dob) {
+            const birthDate = new Date(dob);
+            const today = new Date();
+            const age = today.getFullYear() - birthDate.getFullYear();
+            const monthDiff = today.getMonth() - birthDate.getMonth();
+
+            // Adjust age if birthday hasn't occurred this year
+            const actualAge =
+                monthDiff < 0 ||
+                (monthDiff === 0 && today.getDate() < birthDate.getDate())
+                    ? age - 1
+                    : age;
+
+            if (actualAge < 16) {
+                throw new Error(
+                    "User must be at least 16 years old to register"
+                );
+            }
+        }
+
         const user = new User({
             userName,
             email,
@@ -155,7 +191,6 @@ async function registerNGO(userData) {
             token,
         };
     } catch (error) {
-        // Cleanup user if NGO creation fails
         if (user && user._id) {
             await User.findByIdAndDelete(user._id);
         }
@@ -184,7 +219,6 @@ async function loginUser(email, password) {
             token,
         };
 
-        // Check if user is an NGO owner
         if (user.role.includes("ngo")) {
             const ngo = await NGO.findOne({ user: user._id }).populate(
                 "category"
@@ -308,7 +342,6 @@ function generateToken(user) {
 
 function sanitizeUser(user) {
     return {
-        //Clean up this dual id thing later
         _id: user._id,
         id: user._id,
         userName: user.userName,
