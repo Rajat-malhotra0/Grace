@@ -5,7 +5,7 @@ import "./PostCard.css";
 function importAll(r) {
   let images = {};
   r.keys().map((item, index) => {
-    const imageName = item.replace('./', '');
+    const imageName = item.replace("./", "");
     images[imageName] = r(item);
     return null;
   });
@@ -14,7 +14,7 @@ function importAll(r) {
 
 // Dynamically import all images from assets folder
 const imageMap = importAll(
-  require.context('../../assets', false, /\.(png|jpe?g|svg)$/)
+  require.context("../../assets", false, /\.(png|jpe?g|svg)$/)
 );
 
 function PostCard({ post, onPostClick, onLike, onShare, formatTimeAgo }) {
@@ -26,15 +26,20 @@ function PostCard({ post, onPostClick, onLike, onShare, formatTimeAgo }) {
     e.stopPropagation();
     onShare(post.id || post._id);
   };
-  const likesCount = post.likes?.length || post.likes || 0;
-  const commentsCount = post.comments?.length || post.comments || 0;
-  const sharesCount = post.shares?.length || post.shares || 0;
-  const isLiked = post.isLiked || (post.likes && Array.isArray(post.likes) && post.likes.length > 0);
+  const likesCount = post.likesCount ?? post.likes?.length ?? 0;
+  const commentsCount = post.commentsCount ?? post.comments?.length ?? 0;
+  const sharesCount = post.sharesCount ?? post.shares?.length ?? 0;
+  const isLiked = post.isLiked || false;
 
   // Get the correct image source
   const getImageSource = (content) => {
     // If it's already a full URL or path, use it directly
-    if (content && (content.startsWith('http') || content.startsWith('/') || content.startsWith('data:'))) {
+    if (
+      content &&
+      (content.startsWith("http") ||
+        content.startsWith("/") ||
+        content.startsWith("data:"))
+    ) {
       return content;
     }
     // If it's just a filename, try to get it from our imported images
@@ -42,68 +47,70 @@ function PostCard({ post, onPostClick, onLike, onShare, formatTimeAgo }) {
   };
 
   return (
-    <div 
-      className={`post-card ${post.type} ${post.size || 'medium'}`}
+    <div
+      className={`post-card ${post.type} ${post.size || "medium"}`}
       onClick={() => onPostClick(post)}
     >
       <div className="post-media">
-        {post.type === 'video' ? (
-          <video 
-            src={getImageSource(post.content)} 
+        {post.type === "video" ? (
+          <video
+            src={getImageSource(post.content)}
             poster={post.poster}
             className="post-video"
             muted
             loop
           />
         ) : (
-          <img 
-            src={getImageSource(post.content)} 
-            alt="Post content" 
+          <img
+            src={getImageSource(post.content)}
+            alt="Post content"
             className="post-image"
           />
         )}
-        {post.type === 'video' && (
+        {post.type === "video" && (
           <div className="video-play-icon">
             <svg width="60" height="60" viewBox="0 0 60 60">
-              <circle cx="30" cy="30" r="25" fill="rgba(255,255,255,0.9)"/>
-              <polygon points="24,18 24,42 42,30" fill="#222"/>
+              <circle cx="30" cy="30" r="25" fill="rgba(255,255,255,0.9)" />
+              <polygon points="24,18 24,42 42,30" fill="#222" />
             </svg>
           </div>
         )}
       </div>
-      
+
       <div className="post-overlay">
         <div className="post-user">
-          <img 
-            src={post.user?.avatar || 'https://via.placeholder.com/40x40?text=U'} 
-            alt={post.user?.name || post.user?.userName || 'Unknown User'} 
+          <img
+            src={
+              post.user?.avatar || "https://via.placeholder.com/40x40?text=U"
+            }
+            alt={post.user?.name || post.user?.userName || "Unknown User"}
             className="user-avatar"
           />
           <div className="user-info">
-            <h4>{post.user?.name || post.user?.userName || 'Unknown User'}</h4>
-            <span className="user-role">{post.user?.role || 'Member'}</span>
+            <h4>{post.user?.name || post.user?.userName || "Unknown User"}</h4>
+            <span className="user-role">{post.user?.role || "Member"}</span>
           </div>
         </div>
-        
+
         <p className="post-caption">{post.caption}</p>
         <span className="post-time">
           {formatTimeAgo(post.timestamp || new Date(post.createdAt))}
         </span>
       </div>
-      
+
       <div className="post-stats">
-        <span 
-          className={`stat ${isLiked ? 'liked' : ''}`} 
+        <span
+          className={`stat ${isLiked ? "liked" : ""}`}
           onClick={handleLikeClick}
-          style={{ cursor: 'pointer' }}
+          style={{ cursor: "pointer" }}
         >
-          {isLiked ? '❤️' : '♡'} {likesCount}
+          {isLiked ? "❤️" : "♡"} {likesCount}
         </span>
         <span className="stat">💬 {commentsCount}</span>
-        <span 
-          className="stat" 
+        <span
+          className="stat"
           onClick={handleShareClick}
-          style={{ cursor: 'pointer' }}
+          style={{ cursor: "pointer" }}
         >
           🔄 {sharesCount}
         </span>

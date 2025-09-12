@@ -1,5 +1,5 @@
 .ngo-team-dashboard-main-container {
-  padding-left: 220px;
-  padding-right: 1rem;
-  padding-top: 1rem;
+  padding-left: 220px !important;
+  padding-right: 1rem !important;
+  padding-top: 1rem !important;
 }

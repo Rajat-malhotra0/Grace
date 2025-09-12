@@ -7,7 +7,7 @@
 .carousels-row {
   display: flex;
   gap: 2rem;
-  max-width: 1400px;
+  max-width: 1400px !important;
   margin: 0 auto;
   padding: 0 1rem;
   align-items: flex-start;
@@ -18,7 +18,7 @@
   padding-left: 0 !important;
   padding-right: 0 !important;
   margin-left: 45px !important;
-  margin-right: 0!important;
+  margin-right: 0 !important;
 }
 
 /* Override ImpactStories styles when used in dashboard */
@@ -26,7 +26,6 @@
   padding: 6rem 0 !important; /* Remove horizontal padding */
   margin-left: 30px !important;
   margin-right: 0 !important;
-  
 }
 
 /* Responsive design for carousels row */

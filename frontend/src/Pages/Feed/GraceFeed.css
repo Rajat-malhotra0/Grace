@@ -42,8 +42,12 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .feed-header {
@@ -98,7 +102,7 @@
 .posts-grid {
   columns: 5;
   column-gap: 1rem;
-  max-width: 1400px;
+  max-width: 1400px !important;
   margin: 0 auto;
   transition: var(--transition);
 }
@@ -204,7 +208,7 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background: linear-gradient(transparent, rgba(0,0,0,0.7));
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
   padding: 2rem 1rem 1rem;
   transform: translateY(100%);
   transition: var(--transition);
@@ -309,7 +313,7 @@
 .focused-post {
   background: var(--color-card);
   border-radius: var(--border-radius);
-  max-width: 1000px;
+  max-width: 1000px !important;
   max-height: 90vh;
   width: 100%;
   overflow: hidden;
@@ -516,7 +520,7 @@
 .upload-modal {
   background: var(--color-card);
   border-radius: var(--border-radius);
-  max-width: 600px;
+  max-width: 600px !important;
   width: 100%;
   max-height: 80vh;
   overflow: hidden;
@@ -689,11 +693,11 @@
     grid-template-columns: 1fr;
     height: auto;
   }
-  
+
   .focused-media {
     height: 400px;
   }
-  
+
   .focused-details {
     max-height: none;
   }
@@ -704,48 +708,48 @@
     padding: 1rem;
     padding-top: 5rem;
   }
-  
+
   .feed-header h1 {
     font-size: 2.5rem;
   }
-  
+
   .feed-header p {
     font-size: 1.25rem;
   }
-  
+
   .posts-grid {
     grid-template-columns: 1fr;
     gap: 1.5rem;
   }
-  
+
   .post-media {
     height: 250px;
   }
-  
+
   .focused-post-overlay {
     padding: 1rem;
   }
-  
+
   .focused-post {
     max-height: 95vh;
   }
-  
+
   .upload-modal {
     max-height: 90vh;
   }
-  
+
   .upload-content {
     padding: 1.5rem;
   }
-  
+
   .upload-area {
     padding: 2rem 1rem;
   }
-  
+
   .focused-actions {
     flex-wrap: wrap;
   }
-  
+
   .action-btn {
     flex: 1;
     min-width: calc(50% - 0.5rem);
@@ -756,41 +760,41 @@
   .feed-header {
     padding: 1.5rem 1rem;
   }
-  
+
   .feed-header h1 {
     font-size: 2rem;
   }
-  
+
   .feed-header p {
     font-size: 1.1rem;
   }
-  
+
   .share-moment-btn {
     padding: 0.875rem 1.5rem;
     font-size: 1rem;
   }
-  
+
   .post-overlay {
     padding: 1.5rem 1rem 1rem;
   }
-  
+
   .focused-details {
     padding: 1.5rem;
     gap: 1rem;
   }
-  
+
   .upload-header {
     padding: 1rem 1.5rem;
   }
-  
+
   .upload-header h3 {
     font-size: 1.25rem;
   }
-  
+
   .upload-actions {
     flex-direction: column;
   }
-  
+
   .cancel-btn,
   .post-btn {
     width: 100%;
@@ -802,9 +806,15 @@
 }
 
 @keyframes videoHover {
-  0% { filter: brightness(1); }
-  50% { filter: brightness(1.1); }
-  100% { filter: brightness(1); }
+  0% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.1);
+  }
+  100% {
+    filter: brightness(1);
+  }
 }
 
 .post-card:focus,
@@ -820,6 +830,11 @@
 }
 
 @keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
 }

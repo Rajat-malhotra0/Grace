@@ -16,12 +16,12 @@
 
 .contact-container {
   display: flex;
-  flex-wrap: wrap;
-  max-width: 1000px;
+  flex-direction: column; /* stack items vertically */
+  max-width: 1000px !important;
   margin: 0 auto;
-  gap: 3rem;
-  justify-content: space-between;
+  gap: 2rem; /* spacing between form and info */
 }
+
 
 .contact-form,
 .contact-info {
@@ -166,6 +166,7 @@
 
 .contact-info {
   background: linear-gradient(135deg, #fafafa 0%, #ffffff 100%);
+  max-width: 1000px !important;
 }
 
 .contact-info-content {
@@ -214,26 +215,28 @@
 
 .social-icons {
   display: flex;
-  gap: 1rem;
-  align-items: center;
+  justify-content: center;
+  align-items: center; /* center them horizontally */
+  gap: 10rem;              /* equal spacing between icons */
+  margin-top: 2rem;
 }
 
 .social-icons a {
-  font-size: 1.5rem;
+  font-size: 2rem;       /* bigger icons */
   color: #6b7280;
   text-decoration: none;
   transition: all 0.3s ease;
-  padding: 1rem;
+  padding: 1.2rem;
   border-radius: 50%;
   background: #f8f9fa;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 50px;
-  height: 50px;
+  width: 85px;           /* bigger circle */
+  height: 85px;          /* bigger circle */
   border: 2px solid transparent;
-  margin-left: 90px ;
 }
+
 
 .social-icons a:hover {
   color: #ffffff;

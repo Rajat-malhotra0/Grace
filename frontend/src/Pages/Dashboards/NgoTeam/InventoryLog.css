@@ -6,7 +6,7 @@
 }
 
 .inventory-container {
-  max-width: 1600px;
+  max-width: 1200px !important;   
   margin: 0 auto;
 }
 
