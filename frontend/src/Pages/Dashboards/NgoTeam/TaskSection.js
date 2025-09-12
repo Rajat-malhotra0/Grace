@@ -11,66 +11,40 @@ const priorityOrder = {
     low: 3,
 };
 
+const daysOfWeek = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+];
+
 const TaskSection = () => {
     const { user, ngo, token, isAuthLoading } = useContext(AuthContext);
-    const [tasks, setTasks] = useState([]);
+    const [allTasks, setAllTasks] = useState([]);
     const [extraTasks, setExtraTasks] = useState([]);
+    const [completedDailyTasks, setCompletedDailyTasks] = useState([]);
     const [totalTasks, setTotalTasks] = useState(0);
     const [completingTaskId, setCompletingTaskId] = useState(null);
     const [showExtraTasks, setShowExtraTasks] = useState(true);
     const [loading, setLoading] = useState(true);
+    const [today, setToday] = useState(daysOfWeek[new Date().getDay()]);
 
-    console.log("TaskSection - Auth context:", {
-        user: user
-            ? {
-                  id: user._id,
-                  email: user.email,
-                  role: user.role,
-                  ngoId: user.ngoId,
-              }
-            : null,
-        ngo: ngo ? { id: ngo._id, name: ngo.name } : null,
-        isAuthLoading,
-    });
+    // Extract primitive values to prevent object reference issues
+    const userId = user?._id;
+    const userRole = user?.role;
+    const userNgoId = user?.ngoId;
+    const ngoId = ngo?._id;
 
     useEffect(() => {
-        const loadTasks = async () => {
+        const loadDailyTaskCompletions = async () => {
+            if (!userId || !token) return;
+
             try {
-                setLoading(true);
-
-                if (!user || !token) {
-                    console.log("User or token not available yet");
-                    setTasks([]);
-                    setExtraTasks([]);
-                    setTotalTasks(0);
-                    setLoading(false);
-                    return;
-                }
-
-                // Get NGO ID based on user role - inline logic
-                let userNgoId = null;
-                if (user?.role?.includes("ngo") && ngo?._id) {
-                    userNgoId = ngo._id; // User owns an NGO
-                } else if (user?.ngoId) {
-                    userNgoId = user.ngoId; // User is associated with an NGO
-                }
-
-                console.log("Using NGO ID:", userNgoId);
-
-                if (!userNgoId) {
-                    console.log(
-                        "No NGO ID found - user might not be associated with any NGO"
-                    );
-                    setTasks([]);
-                    setExtraTasks([]);
-                    setTotalTasks(0);
-                    setLoading(false);
-                    return;
-                }
-
-                console.log("Fetching user tasks for user ID:", user._id);
-                const userTasksResponse = await axios.get(
-                    `http://localhost:3001/api/tasks/user/${user._id}`,
+                const response = await axios.get(
+                    `http://localhost:3001/api/tasks/daily-completions/${userId}`,
                     {
                         headers: {
                             Authorization: token,
@@ -78,61 +52,158 @@ const TaskSection = () => {
                     }
                 );
 
-                console.log("User tasks response:", userTasksResponse.data);
-                let userTasks = [];
-                if (userTasksResponse.data.success) {
-                    userTasks = userTasksResponse.data.result || [];
-                    const activeTasks = userTasks.filter(
-                        (task) =>
-                            task.status !== "done" &&
-                            task.status !== "cancelled"
-                    );
-                    setTasks(activeTasks);
-                    setTotalTasks(activeTasks.length);
-                    console.log("Active tasks set:", activeTasks.length);
-
-                    if (!userNgoId && userTasks.length > 0) {
-                        userNgoId = userTasks[0].ngo;
-                        console.log(
-                            "NGO ID extracted from user tasks:",
-                            userNgoId
-                        );
-                    }
+                if (response.data.success) {
+                    setCompletedDailyTasks(response.data.result || []);
                 }
+            } catch (error) {
+                console.error("Error loading daily task completions:", error);
+                setCompletedDailyTasks([]);
+            }
+        };
 
-                if (!userNgoId) {
-                    console.log(
-                        "No NGO ID found anywhere, trying to fetch user's NGO relationship..."
-                    );
-                    try {
-                        const userNgoResponse = await axios.get(
-                            `http://localhost:3001/api/users/${user._id}`,
-                            {
-                                headers: {
-                                    Authorization: token,
-                                },
-                            }
-                        );
+        loadDailyTaskCompletions();
+    }, [userId, token]); // Use only primitive values to prevent object reference issues
 
-                        if (userNgoResponse.data && userNgoResponse.data.ngo) {
-                            userNgoId = userNgoResponse.data.ngo;
-                            console.log(
-                                "NGO ID from user endpoint:",
-                                userNgoId
+    // Check day immediately on component mount/page reload
+    useEffect(() => {
+        const checkDayOnLoad = () => {
+            const currentDay = daysOfWeek[new Date().getDay()];
+            if (currentDay !== today) {
+                console.log(
+                    `Day changed from ${today} to ${currentDay} on page load`
+                );
+                setToday(currentDay);
+                setCompletedDailyTasks([]); // Reset completed daily tasks for new day
+
+                // Load fresh daily task completions for the current day
+                if (userId && token) {
+                    const loadDailyTaskCompletions = async () => {
+                        try {
+                            const response = await axios.get(
+                                `http://localhost:3001/api/tasks/daily-completions/${userId}`,
+                                {
+                                    headers: {
+                                        Authorization: token,
+                                    },
+                                }
                             );
+
+                            if (response.data.success) {
+                                setCompletedDailyTasks(
+                                    response.data.result || []
+                                );
+                            }
+                        } catch (error) {
+                            console.error(
+                                "Error loading daily task completions on page load:",
+                                error
+                            );
+                            setCompletedDailyTasks([]);
                         }
-                    } catch (error) {
-                        console.log(
-                            "Could not fetch user-ngo relationship:",
-                            error
-                        );
-                    }
+                    };
+                    loadDailyTaskCompletions();
+                }
+            }
+        };
+
+        // Check day immediately when component mounts or dependencies change
+        checkDayOnLoad();
+    }, [today, userId, token]); // Run when user/token change (page load, login, etc.) or when today changes
+
+    useEffect(() => {
+        const checkDayChange = () => {
+            const newToday = daysOfWeek[new Date().getDay()];
+            if (newToday !== today) {
+                console.log(
+                    `Day changed from ${today} to ${newToday} during runtime`
+                );
+                setToday(newToday);
+                setCompletedDailyTasks([]); // Reset completed daily tasks when the day changes
+
+                // Load fresh daily task completions for the new day
+                if (userId && token) {
+                    const loadDailyTaskCompletions = async () => {
+                        try {
+                            const response = await axios.get(
+                                `http://localhost:3001/api/tasks/daily-completions/${userId}`,
+                                {
+                                    headers: {
+                                        Authorization: token,
+                                    },
+                                }
+                            );
+
+                            if (response.data.success) {
+                                setCompletedDailyTasks(
+                                    response.data.result || []
+                                );
+                            }
+                        } catch (error) {
+                            console.error(
+                                "Error loading daily task completions:",
+                                error
+                            );
+                            setCompletedDailyTasks([]);
+                        }
+                    };
+                    loadDailyTaskCompletions();
+                }
+            }
+        };
+
+        // Check immediately and then every minute for better user experience
+        checkDayChange();
+        const interval = setInterval(checkDayChange, 60000); // 1 minute
+
+        return () => clearInterval(interval);
+    }, [today, userId, token]);
+
+    useEffect(() => {
+        const loadTasks = async () => {
+            try {
+                setLoading(true);
+
+                if (!userId || !token) {
+                    setAllTasks([]);
+                    setExtraTasks([]);
+                    setTotalTasks(0);
+                    setLoading(false);
+                    return;
                 }
 
-                if (userNgoId) {
-                    console.log("Fetching NGO tasks for NGO ID:", userNgoId);
+                let activeNgoId = null;
+                if (userRole?.includes("ngo") && ngoId) {
+                    activeNgoId = ngoId;
+                } else if (userNgoId) {
+                    activeNgoId = userNgoId;
+                }
+
+                if (!activeNgoId) {
+                    setAllTasks([]);
+                    setExtraTasks([]);
+                    setTotalTasks(0);
+                    setLoading(false);
+                    return;
+                }
+
+                const userTasksResponse = await axios.get(
+                    `http://localhost:3001/api/tasks/user/${userId}`,
+                    {
+                        headers: {
+                            Authorization: token,
+                        },
+                    }
+                );
+
+                if (userTasksResponse.data.success) {
+                    const userTasks = userTasksResponse.data.result || [];
+                    setAllTasks(userTasks);
+                    setTotalTasks(userTasks.length);
+                }
+
+                if (activeNgoId) {
                     const ngoTasksResponse = await axios.get(
-                        `http://localhost:3001/api/tasks/ngo/${userNgoId}`,
+                        `http://localhost:3001/api/tasks/ngo/${activeNgoId}`,
                         {
                             headers: {
                                 Authorization: token,
@@ -140,37 +211,19 @@ const TaskSection = () => {
                         }
                     );
 
-                    console.log("NGO tasks response:", ngoTasksResponse.data);
-                    const ngoTasks = Array.isArray(ngoTasksResponse.data)
-                        ? ngoTasksResponse.data
-                        : ngoTasksResponse.data.result || [];
-
-                    console.log("All NGO tasks:", ngoTasks);
+                    const ngoTasks = Array.isArray(ngoTasksResponse.data.result)
+                        ? ngoTasksResponse.data.result
+                        : [];
 
                     const unassignedTasks = ngoTasks.filter((task) => {
-                        const isUnassigned = !task.assignedTo;
-                        const isFree = task.status === "free";
-                        console.log(
-                            `Task ${
-                                task._id
-                            }: assigned=${!!task.assignedTo}, status=${
-                                task.status
-                            }, isUnassigned=${isUnassigned}, isFree=${isFree}`
-                        );
-                        return isUnassigned && isFree;
+                        return !task.assignedTo && task.status === "free";
                     });
 
-                    console.log("Filtered unassigned tasks:", unassignedTasks);
-                    setExtraTasks(unassignedTasks.slice(0, 6)); // Limit to 6 extra tasks
-                    console.log("Extra tasks set:", unassignedTasks.length);
-                } else {
-                    console.log("No NGO available, skipping extra tasks");
-                    setExtraTasks([]);
+                    setExtraTasks(unassignedTasks.slice(0, 6));
                 }
             } catch (error) {
                 console.error("Error loading tasks:", error);
-                // Keep arrays empty if there's an error
-                setTasks([]);
+                setAllTasks([]);
                 setExtraTasks([]);
                 setTotalTasks(0);
             } finally {
@@ -179,40 +232,65 @@ const TaskSection = () => {
         };
 
         loadTasks();
-    }, [user, ngo, token]);
+    }, [userId, userRole, userNgoId, ngoId, token]); // Use only primitive values to prevent object reference issues
 
-    const handleToggle = async (taskId) => {
+    const handleToggle = async (taskId, isDaily) => {
         setCompletingTaskId(taskId);
 
         try {
-            // Update task status to 'done' in backend
-            await axios.put(
-                `http://localhost:3001/api/tasks/${taskId}`,
-                {
-                    status: "done",
-                    completedAt: new Date(),
-                },
-                {
-                    headers: {
-                        Authorization: token,
+            if (isDaily) {
+                // For daily tasks, use the new daily completion endpoint
+                await axios.post(
+                    `http://localhost:3001/api/tasks/${taskId}/complete-daily`,
+                    {
+                        userId: user._id,
                     },
-                }
-            );
+                    {
+                        headers: {
+                            Authorization: token,
+                        },
+                    }
+                );
 
-            setTimeout(() => {
-                const updated = tasks.filter((task) => task._id !== taskId);
-                setTasks(updated);
-                setCompletingTaskId(null);
-            }, 400);
+                setTimeout(() => {
+                    setCompletedDailyTasks((prev) => [...prev, taskId]);
+                    setCompletingTaskId(null);
+                }, 400);
+            } else {
+                // For regular tasks, update the task status
+                await axios.put(
+                    `http://localhost:3001/api/tasks/${taskId}`,
+                    {
+                        status: "done",
+                        completedAt: new Date(),
+                    },
+                    {
+                        headers: {
+                            Authorization: token,
+                        },
+                    }
+                );
+
+                setTimeout(() => {
+                    const updated = allTasks.filter(
+                        (task) => task._id !== taskId
+                    );
+                    setAllTasks(updated);
+                    setCompletingTaskId(null);
+                }, 400);
+            }
         } catch (error) {
             console.error("Error completing task:", error);
+            if (error.response?.status === 409) {
+                // Task already completed today
+                setCompletedDailyTasks((prev) => [...prev, taskId]);
+            }
             setCompletingTaskId(null);
         }
     };
 
     const handleAddExtraTask = async (task) => {
         try {
-            // Assign the task to current user
             const response = await axios.put(
                 `http://localhost:3001/api/tasks/${task._id}`,
                 {
@@ -227,14 +305,11 @@ const TaskSection = () => {
             );
 
             if (response.status === 200) {
-                // Add to current tasks
-                setTasks((prev) => [
+                setAllTasks((prev) => [
                     ...prev,
                     { ...task, assignedTo: user._id, status: "in-progress" },
                 ]);
                 setTotalTasks((prev) => prev + 1);
-
-                // Remove from extra tasks
                 setExtraTasks(extraTasks.filter((t) => t._id !== task._id));
             }
         } catch (error) {
@@ -242,10 +317,47 @@ const TaskSection = () => {
         }
     };
 
-    const completedCount = totalTasks - tasks.length;
-    const progress = (completedCount / totalTasks) * 100;
+    const activeTasks = allTasks.filter(
+        (task) => task.status !== "done" && task.status !== "cancelled"
+    );
 
-    const sortedTasks = [...tasks].sort((a, b) => {
+    const dailyTasks = activeTasks.filter(
+        (task) =>
+            task.isDaily &&
+            task.dayOfWeek.includes(today) &&
+            !completedDailyTasks.includes(task._id) // Hide completed daily tasks for today
+    );
+    const regularTasks = activeTasks.filter(
+        (task) => !task.isDaily || !task.dayOfWeek.includes(today)
+    );
+
+    // Calculate completed count including both regular completed tasks and daily tasks completed today
+    const regularCompletedCount = totalTasks - activeTasks.length;
+    const dailyCompletedCount = completedDailyTasks.length;
+    const totalCompletedCount = regularCompletedCount + dailyCompletedCount;
+
+    // Calculate total tasks for today (regular tasks + daily tasks for today)
+    const dailyTasksForToday = allTasks.filter(
+        (task) => task.isDaily && task.dayOfWeek.includes(today)
+    ).length;
+    const totalTasksForToday =
+        totalTasks -
+        allTasks.filter((task) => task.isDaily).length +
+        dailyTasksForToday;
+
+    const progress =
+        totalTasksForToday > 0
+            ? (totalCompletedCount / totalTasksForToday) * 100
+            : 0;
+
+    const sortedTasks = [...regularTasks].sort((a, b) => {
+        return (
+            priorityOrder[a.priority.toLowerCase()] -
+            priorityOrder[b.priority.toLowerCase()]
+        );
+    });
+
+    const sortedDailyTasks = [...dailyTasks].sort((a, b) => {
         return (
             priorityOrder[a.priority.toLowerCase()] -
             priorityOrder[b.priority.toLowerCase()]
@@ -262,7 +374,6 @@ const TaskSection = () => {
         );
     }
 
-    // If user or token is not available after auth loading is complete, show a message
     if (!user || !token) {
         return (
             <section className="ngo-section">
@@ -288,7 +399,46 @@ const TaskSection = () => {
                 </div>
 
                 <div className="task-list">
-                    {tasks.length === 0 ? (
+                    {dailyTasks.length > 0 && <h2>Today's Tasks</h2>}
+                    {sortedDailyTasks.map((task) => (
+                        <div
+                            className={`task-item ${
+                                completingTaskId === task._id ? "fade-out" : ""
+                            } ${
+                                completedDailyTasks.includes(task._id)
+                                    ? "completed"
+                                    : ""
+                            }`}
+                            key={task._id}
+                        >
+                            <label className="custom-checkbox">
+                                <input
+                                    type="checkbox"
+                                    checked={completedDailyTasks.includes(
+                                        task._id
+                                    )}
+                                    onChange={() =>
+                                        handleToggle(task._id, true)
+                                    }
+                                />
+                                <span className="checkmark"></span>
+                            </label>
+
+                            <div className="task-info">
+                                <h1>{task.title}</h1>
+                                <p>{task.description}</p>
+                            </div>
+
+                            <div
+                                className={`priority-dot ${task.priority.toLowerCase()}`}
+                                title={`${task.priority} Priority`}
+                            ></div>
+                        </div>
+                    ))}
+
+                    {regularTasks.length > 0 && dailyTasks.length > 0 && <hr />}
+
+                    {regularTasks.length === 0 && dailyTasks.length === 0 ? (
                         <>
                             <p>All tasks completed!</p>
 
@@ -355,7 +505,9 @@ const TaskSection = () => {
                                 <label className="custom-checkbox">
                                     <input
                                         type="checkbox"
-                                        onChange={() => handleToggle(task._id)}
+                                        onChange={() =>
+                                            handleToggle(task._id, false)
+                                        }
                                     />
                                     <span className="checkmark"></span>
                                 </label>
@@ -374,7 +526,7 @@ const TaskSection = () => {
                     )}
                 </div>
 
-                {tasks.length !== 0 && (
+                {allTasks.length !== 0 && (
                     <div className="task-footer">
                         <button className="task-button">
                             View History

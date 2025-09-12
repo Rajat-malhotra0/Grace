@@ -109,36 +109,6 @@ async function getMarketplaceInsights() {
             status: "pending",
         });
 
-        //simplify this
-        // const topContributors = await Marketplace.aggregate([
-        //     { $match: { status: "fulfilled", donatedBy: { $ne: null } } },
-        //     {
-        //         $group: {
-        //             _id: "$donatedBy",
-        //             count: { $sum: 1 },
-        //             avgTime: { $avg: "$fulfillmentTime" },
-        //         },
-        //     },
-        //     { $sort: { count: -1 } },
-        //     { $limit: 10 },
-        //     {
-        //         $lookup: {
-        //             from: "users",
-        //             localField: "_id",
-        //             foreignField: "_id",
-        //             as: "user",
-        //         },
-        //     },
-        //     { $unwind: "$user" },
-        //     {
-        //         $project: {
-        //             name: "$user.userName",
-        //             count: 1,
-        //             avgTime: { $round: ["$avgTime", 1] },
-        //         },
-        //     },
-        // ]);
-
         const urgentNeeds = await Marketplace.find({
             status: "pending",
             datePosted: { $lt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) },

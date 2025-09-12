@@ -168,12 +168,18 @@ function AuthProvider({ children }) {
                     ngo: userData.role?.includes("ngo") ? ngoData : null,
                     ngoRelationship,
                 };
+            } else {
+                // Backend returned success: false
+                return {
+                    success: false,
+                    message: response.data.message || "Login failed",
+                };
             }
         } catch (error) {
             console.error("Login error details:", error.response?.data); // Add this to see backend error
             return {
                 success: false,
-                message: "Login failed",
+                message: error.response?.data?.message || "Login failed",
                 error: error,
             };
         }

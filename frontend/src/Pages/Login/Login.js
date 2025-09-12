@@ -1,10 +1,7 @@
-/*
-This a login page for the already existing/registered members, volunteers, donors and NGOs. 
-They can login using their already stored credentials. 
-*/
 
 import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import "./Login.css";
 import { AuthContext } from "../../Context/AuthContext";
 
@@ -48,11 +45,13 @@ function Login() {
         try {
             const result = await login(formData.email, formData.password);
             if (result.success) {
-                alert("Logged in successfully");
+                toast.success("Logged in successfully");
                 navigate("/");
+            } else {
+                toast.error(result.message || "Login failed");
             }
         } catch (err) {
-            console.error("Login failed:", err);
+            toast.error("Login failed: " + (err.response?.data?.message || err.message || "Unknown error"));
         }
     };
 

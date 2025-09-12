@@ -30,9 +30,9 @@ const ExtraTasksBoard = () => {
                     }
                 );
 
-                if (response.data) {
+                if (response.data.result) {
                     // Filter for extra tasks (tasks without assignedTo)
-                    const extraTasks = response.data.filter(
+                    const extraTasks = response.data.result.filter(
                         (task) => !task.assignedTo
                     );
 
@@ -62,46 +62,7 @@ const ExtraTasksBoard = () => {
         }
     }, [ngo, token]);
 
-    const loadExtraTasks = async () => {
-        if (!ngo?._id) return;
-
-        try {
-            setLoading(true);
-            const response = await axios.get(
-                `http://localhost:3001/api/tasks/ngo/${ngo._id}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            );
-
-            if (response.data) {
-                // Filter for extra tasks (tasks without assignedTo)
-                const extraTasks = response.data.filter(
-                    (task) => !task.assignedTo
-                );
-
-                // Convert backend format to frontend format
-                const formattedTasks = extraTasks.map((task) => ({
-                    id: task._id,
-                    title: task.title,
-                    description: task.description,
-                    priority:
-                        task.priority.charAt(0).toUpperCase() +
-                        task.priority.slice(1),
-                    status: mapBackendStatusToFrontend(task.status),
-                    isLocal: false, // These are saved tasks
-                }));
-
-                setTasks(formattedTasks);
-            }
-        } catch (error) {
-            console.error("Error loading extra tasks:", error);
-        } finally {
-            setLoading(false);
-        }
-    };
+    
 
     // Map backend status to frontend status
     const mapBackendStatusToFrontend = (backendStatus) => {
@@ -273,7 +234,6 @@ const ExtraTasksBoard = () => {
         } catch (error) {
             console.error("Error updating task:", error);
             // Reload tasks to sync with backend if update fails
-            loadExtraTasks();
         }
     };
 

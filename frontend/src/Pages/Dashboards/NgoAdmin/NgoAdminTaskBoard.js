@@ -5,6 +5,15 @@ import "./NgoAdminTaskBoard.css";
 import { useNavigate } from "react-router-dom";
 
 const priorities = ["Low", "Medium", "High"];
+const daysOfWeek = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday",
+];
 
 const NgoAdminTaskBoard = () => {
     const { user, ngo, token, isAuthenticated, isAuthLoading } =
@@ -112,8 +121,8 @@ const NgoAdminTaskBoard = () => {
                 }
             );
 
-            if (response.data) {
-                const tasks = response.data;
+            if (response.data.result) {
+                const tasks = response.data.result;
                 const groupedSections = groupTasksByEmployee(tasks);
                 setSections(groupedSections);
             }
@@ -143,6 +152,8 @@ const NgoAdminTaskBoard = () => {
                 priority: task.priority,
                 status: task.status,
                 dueDate: task.dueDate,
+                isDaily: task.isDaily,
+                dayOfWeek: task.dayOfWeek || [],
             });
             return acc;
         }, {});
@@ -184,6 +195,8 @@ const NgoAdminTaskBoard = () => {
             description: "",
             priority: "Low",
             status: "Pending",
+            isDaily: false,
+            dayOfWeek: [],
         };
 
         setSections((prev) =>
@@ -206,6 +219,27 @@ const NgoAdminTaskBoard = () => {
                                   ? { ...task, [field]: value }
                                   : task
                           ),
+                      }
+                    : section
+            )
+        );
+    };
+
+    const handleDayOfWeekChange = (sectionId, taskId, day) => {
+        setSections((prev) =>
+            prev.map((section) =>
+                section.id === sectionId
+                    ? {
+                          ...section,
+                          tasks: section.tasks.map((task) => {
+                              if (task.id === taskId) {
+                                  const newDayOfWeek = task.dayOfWeek.includes(day)
+                                      ? task.dayOfWeek.filter((d) => d !== day)
+                                      : [...task.dayOfWeek, day];
+                                  return { ...task, dayOfWeek: newDayOfWeek };
+                              }
+                              return task;
+                          }),
                       }
                     : section
             )
@@ -259,9 +293,9 @@ const NgoAdminTaskBoard = () => {
                     ngo: ngo._id,
                     createdBy: user._id,
                     category: categoryId,
+                    isDaily: task.isDaily,
+                    dayOfWeek: task.dayOfWeek,
                 };
-
-                console.log("Creating task:", taskData);
 
                 try {
                     const response = await axios.post(
@@ -277,10 +311,6 @@ const NgoAdminTaskBoard = () => {
 
                     if (response.data && response.data.result) {
                         createdTasks.push(response.data.result);
-                        console.log(
-                            "Task created successfully:",
-                            response.data.result.title
-                        );
                     }
                 } catch (taskError) {
                     console.error(
@@ -304,6 +334,8 @@ const NgoAdminTaskBoard = () => {
                                       description: task.description,
                                       priority: task.priority,
                                       status: task.status,
+                                      isDaily: task.isDaily,
+                                      dayOfWeek: task.dayOfWeek,
                                   })),
                                   showSuccess: true,
                               }
@@ -321,10 +353,6 @@ const NgoAdminTaskBoard = () => {
                         )
                     );
                 }, 2000);
-
-                console.log(
-                    `Successfully assigned ${createdTasks.length} tasks`
-                );
             } else {
                 alert("No tasks were successfully created.");
             }
@@ -557,6 +585,39 @@ const NgoAdminTaskBoard = () => {
                                         </option>
                                     ))}
                                 </select>
+
+                                <div className="task-card-row">
+                                    <label className="task-card-row-label">
+                                        <input
+                                            type="checkbox"
+                                            checked={task.isDaily}
+                                            onChange={(e) =>
+                                                updateTask(
+                                                    section.id,
+                                                    task.id,
+                                                    "isDaily",
+                                                    e.target.checked
+                                                )
+                                            }
+                                        />
+                                        Daily Task
+                                    </label>
+                                </div>
+                                {task.isDaily && (
+                                    <div className="days-checkbox-group">
+                                        {daysOfWeek.map((day) => (
+                                            <label key={day} className="days-checkbox-label">
+                                                <input
+                                                    type="checkbox"
+                                                    checked={task.dayOfWeek.includes(day)}
+                                                    onChange={() => handleDayOfWeekChange(section.id, task.id, day)}
+                                                />
+                                                {day}
+                                            </label>
+                                        ))}
+                                    </div>
+                                )}
+
                                 <div className="task-card-footer">
                                     <label>
                                         <input

@@ -136,7 +136,6 @@ async function registerNGO(userData) {
             const age = today.getFullYear() - birthDate.getFullYear();
             const monthDiff = today.getMonth() - birthDate.getMonth();
 
-            // Adjust age if birthday hasn't occurred this year
             const actualAge =
                 monthDiff < 0 ||
                 (monthDiff === 0 && today.getDate() < birthDate.getDate())
@@ -177,6 +176,7 @@ async function registerNGO(userData) {
                 phone: phoneNumber || "",
                 website: website || "",
             },
+            isVerified: false, // Explicitly set to false for new registrations
             isActive: true,
         });
         await ngo.save();
@@ -226,7 +226,6 @@ async function loginUser(email, password) {
             responseData.ngo = ngo;
         }
 
-        // Check if user is associated with any NGO (member, volunteer, donor, admin)
         const userNgoRelation = await UserNgoRelation.findOne({
             user: user._id,
             isActive: true,

@@ -18,6 +18,7 @@ import NgoTeamDashboard from "./Pages/Dashboards/NgoTeam/NgoTeamDashboard";
 import VolunteerDashboard from "./Pages/Dashboards/Volunteer/VolunteerDashboard";
 import DonorDashboard from "./Pages/Dashboards/Donor/DonorDashboard";
 import NgoAdminDashboard from "./Pages/Dashboards/NgoAdmin/NgoAdminDashboard";
+import SiteAdminDashboard from "./Pages/Dashboards/SiteAdmin/SiteAdminDashboard";
 import Achievements from "./Pages/Dashboards/NgoTeam/Achievements";
 import Settings from "./Pages/Dashboards/NgoTeam/Settings";
 import Notifications from "./Pages/Dashboards/NgoTeam/Notifications";
@@ -61,6 +62,10 @@ function Content() {
             />
             <Route path="/dashboard/donor" element={<DonorDashboard />} />
             <Route path="/dashboard/admin" element={<NgoAdminDashboard />} />
+            <Route
+                path="/dashboard/site-admin"
+                element={<SiteAdminDashboard />}
+            />
             <Route
                 path="/dashboard/ngo-team/achievements"
                 element={<Achievements />}

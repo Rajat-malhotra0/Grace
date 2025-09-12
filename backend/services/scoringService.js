@@ -1,5 +1,3 @@
-//Only used in userService.js
-
 //its like a point for each 10 hours of work and similar
 const ScoreWeights = {
     TASK_COMPLETION: 10,

@@ -237,7 +237,6 @@ async function getChatbotResponse(query) {
 
 async function setupKnowledgeBase() {
     try {
-        // Fetch all active articles from database
         const articles = await Article.find({ isActive: true }).sort({
             createdAt: -1,
         });
@@ -247,7 +246,6 @@ async function setupKnowledgeBase() {
             );
             return false;
         }
-        // Convert database articles to the format expected by vector store
         const formattedArticles = articles.map((article) => ({
             content: `${article.title}\n\n${article.content}`,
             metadata: {
@@ -267,7 +265,6 @@ async function setupKnowledgeBase() {
             "Error setting up knowledge base from database:",
             error.message
         );
-        // Fallback to hardcoded articles if database fails
         return await setupFallbackKnowledgeBase();
     }
 }

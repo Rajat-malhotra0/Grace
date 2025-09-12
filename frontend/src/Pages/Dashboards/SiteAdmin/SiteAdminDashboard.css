@@ -1,0 +1,514 @@
+/* Site Admin Dashboard Styles */
+.site-admin-dashboard {
+    min-height: 100vh;
+    background-color: #fff;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+        "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+        "Helvetica Neue", sans-serif;
+}
+
+.admin-container {
+    max-width: 1200px;
+    margin: 120px auto 40px;
+    padding: 2rem;
+}
+
+/* Welcome Section */
+.admin-welcome-section {
+    margin-bottom: 3rem;
+}
+
+.admin-welcome-card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 3rem 2rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border: 1px solid #f0f0f0;
+}
+
+.admin-welcome-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 2rem;
+}
+
+.admin-welcome-title {
+    font-family: "Playfair Display", serif;
+    font-size: 3rem;
+    font-weight: 500;
+    color: #222;
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+}
+
+.admin-welcome-subtitle {
+    font-size: 1.2rem;
+    color: #666;
+    margin: 0;
+    font-weight: 400;
+}
+
+.admin-welcome-content {
+    text-align: center;
+}
+
+.admin-welcome-description {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Quick Stats */
+.admin-quick-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.admin-stat-card {
+    background: #f9f9f9;
+    border-radius: 8px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    border-left: 4px solid #333;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.admin-stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.stat-icon {
+    font-size: 2.5rem;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #333;
+    border-radius: 8px;
+    color: white;
+}
+
+.stat-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #333;
+    line-height: 1;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: #666;
+    font-weight: 500;
+    margin-top: 0.25rem;
+}
+
+/* Actions Section */
+.admin-actions-section {
+    margin-top: 3rem;
+}
+
+.admin-quick-actions {
+    margin-top: 3rem;
+}
+
+.section-title {
+    font-family: "Playfair Display", serif;
+    font-size: 2.25rem;
+    font-weight: 500;
+    color: #222;
+    margin-bottom: 2rem;
+    text-align: center;
+    line-height: 1.3;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 1rem;
+}
+
+/* NGO Verification Styles */
+.loading-message {
+    text-align: center;
+    font-size: 1.1rem;
+    color: #666;
+    padding: 2rem;
+}
+
+.error-message {
+    text-align: center;
+    padding: 2rem;
+    background: #fff5f5;
+    border: 1px solid #fed7d7;
+    border-radius: 10px;
+    color: #c53030;
+}
+
+.error-message p {
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+.no-pending-message {
+    text-align: center;
+    padding: 3rem 2rem;
+    background: #f8f9fa;
+    border-radius: 10px;
+    border: 1px solid #e9ecef;
+}
+
+.no-pending-message p:first-child {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #28a745;
+}
+
+.no-pending-message p:last-child {
+    font-size: 1.1rem;
+    color: #666;
+    margin: 0;
+}
+
+.ngo-verification-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.ngo-verification-card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 2rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border: 1px solid #f0f0f0;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.ngo-verification-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.ngo-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #eee;
+}
+
+.ngo-header h3 {
+    font-family: "Playfair Display", serif;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #333;
+    margin: 0;
+}
+
+.registration-id {
+    background: #f8f9fa;
+    color: #666;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.ngo-details {
+    margin-bottom: 2rem;
+}
+
+.detail-row {
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+}
+
+.detail-row strong {
+    min-width: 100px;
+    color: #333;
+    font-weight: 600;
+}
+
+.description-text {
+    margin: 0.5rem 0 0 0;
+    line-height: 1.6;
+    color: #555;
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 8px;
+    border-left: 4px solid #333;
+}
+
+.ngo-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.approve-btn,
+.reject-btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    min-width: 120px;
+}
+
+.approve-btn {
+    background: #28a745;
+    color: white;
+}
+
+.approve-btn:hover:not(:disabled) {
+    background: #218838;
+    transform: translateY(-2px);
+}
+
+.reject-btn {
+    background: #dc3545;
+    color: white;
+}
+
+.reject-btn:hover:not(:disabled) {
+    background: #c82333;
+    transform: translateY(-2px);
+}
+
+.approve-btn:disabled,
+.reject-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.admin-actions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.admin-action-card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border: 1px solid #f0f0f0;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.admin-action-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.action-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #333;
+    border-radius: 10px;
+    margin: 0 auto 1rem;
+    color: white;
+}
+
+.admin-action-card h3 {
+    font-family: "Playfair Display", serif;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.admin-action-card p {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+}
+
+.action-btn {
+    background: #333;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 5px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+}
+
+.action-btn:hover:not(:disabled) {
+    background: #555;
+    transform: translateY(-2px);
+}
+
+.action-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .admin-container {
+        margin: 100px auto 40px;
+        padding: 1.5rem;
+    }
+
+    .admin-welcome-title {
+        font-size: 2.5rem;
+    }
+
+    .admin-quick-stats {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 1rem;
+    }
+
+    .admin-actions-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .admin-container {
+        margin: 80px auto 20px;
+        padding: 1rem;
+    }
+
+    .admin-welcome-card {
+        padding: 2rem 1.5rem;
+    }
+
+    .admin-welcome-title {
+        font-size: 2rem;
+    }
+
+    .admin-welcome-subtitle {
+        font-size: 1rem;
+    }
+
+    .admin-quick-stats {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+
+    .admin-stat-card {
+        padding: 1rem;
+        flex-direction: column;
+        text-align: center;
+        gap: 0.5rem;
+    }
+
+    .stat-icon {
+        font-size: 2rem;
+        width: 50px;
+        height: 50px;
+    }
+
+    .stat-number {
+        font-size: 1.5rem;
+    }
+
+    .admin-actions-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .admin-action-card {
+        padding: 1.5rem;
+    }
+
+    .action-icon {
+        font-size: 2.5rem;
+        width: 60px;
+        height: 60px;
+    }
+
+    .section-title {
+        font-size: 1.75rem;
+    }
+
+    /* NGO Verification Responsive */
+    .ngo-verification-card {
+        padding: 1.5rem;
+    }
+
+    .ngo-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .ngo-header h3 {
+        font-size: 1.25rem;
+    }
+
+    .detail-row {
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+
+    .detail-row strong {
+        min-width: auto;
+    }
+
+    .ngo-actions {
+        flex-direction: column;
+    }
+
+    .approve-btn,
+    .reject-btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .admin-container {
+        margin: 60px auto 20px;
+        padding: 0.5rem;
+    }
+
+    .admin-welcome-card {
+        padding: 1.5rem 1rem;
+    }
+
+    .admin-welcome-title {
+        font-size: 1.8rem;
+    }
+
+    .admin-quick-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .section-title {
+        font-size: 1.5rem;
+    }
+}

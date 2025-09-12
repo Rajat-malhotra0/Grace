@@ -22,6 +22,7 @@ const marketplaceRoutes = require("./routes/marketplaceRoutes");
 const articleRoutes = require("./routes/articleRoutes");
 
 const ngoReportRoutes = require("./routes/ngoReportRoutes");
+const adminRoutes = require("./routes/adminRoutes");
 
 const app = express();
 app.use(express.json());
@@ -49,6 +50,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/quiz", quizRoutes);
 app.use("/api/marketplace", marketplaceRoutes);
 app.use("/api/ngo-reports", ngoReportRoutes);
+app.use("/api/admin", adminRoutes);
 
 app.get("/api/test", (req, res) => {
     res.json({ message: "Backend is working!" });

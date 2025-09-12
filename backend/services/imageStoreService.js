@@ -53,7 +53,6 @@ const uploadVideo = async (videoPath, folder = "grace-videos") => {
     }
 };
 
-// Delete image from Cloudinary
 const deleteImage = async (publicId) => {
     try {
         const result = await cloudinary.uploader.destroy(publicId);
@@ -64,7 +63,6 @@ const deleteImage = async (publicId) => {
     }
 };
 
-// Upload image from buffer (for file uploads)
 const uploadImageFromBuffer = async (buffer, folder = "grace-feed-images") => {
     try {
         return new Promise((resolve, reject) => {

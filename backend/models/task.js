@@ -25,6 +25,23 @@ const taskSchema = new mongoose.Schema({
         enum: ["low", "medium", "high"],
         default: "medium",
     },
+    isDaily: { type: Boolean, default: false },
+    dayOfWeek: {
+        type: [
+            {
+                type: String,
+                enum: [
+                    "Monday",
+                    "Tuesday",
+                    "Wednesday",
+                    "Thursday",
+                    "Friday",
+                    "Saturday",
+                    "Sunday",
+                ],
+            },
+        ],
+    },
     estimatedMinutes: { type: Number, default: 0 },
     actualMinutes: { type: Number, default: 0 },
     tags: [{ type: String }],

@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { body, query, param, validationResult } = require("express-validator");
 const taskService = require("../services/taskService");
+const userService = require("../services/userService");
 
 router.post(
     "/",
@@ -22,6 +23,26 @@ router.post(
             .optional()
             .isMongoId()
             .withMessage("Invalid user ID"),
+        body("isDaily")
+            .optional()
+            .isBoolean()
+            .withMessage("isDaily must be a boolean"),
+        body("dayOfWeek")
+            .optional()
+            .isArray()
+            .withMessage("dayOfWeek must be an array"),
+        body("dayOfWeek.*")
+            .optional()
+            .isIn([
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday",
+                "Sunday",
+            ])
+            .withMessage("Invalid day of the week"),
     ],
     async (req, res) => {
         const errors = validationResult(req);
@@ -242,6 +263,26 @@ router.put(
             .optional()
             .isMongoId()
             .withMessage("Invalid user ID"),
+        body("isDaily")
+            .optional()
+            .isBoolean()
+            .withMessage("isDaily must be a boolean"),
+        body("dayOfWeek")
+            .optional()
+            .isArray()
+            .withMessage("dayOfWeek must be an array"),
+        body("dayOfWeek.*")
+            .optional()
+            .isIn([
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday",
+                "Sunday",
+            ])
+            .withMessage("Invalid day of the week"),
     ],
     async (req, res) => {
         const errors = validationResult(req);
@@ -298,6 +339,92 @@ router.delete(
             return res.status(200).json({
                 success: true,
                 message: "Task deleted successfully",
+            });
+        } catch (error) {
+            return res.status(500).json({
+                success: false,
+                message: "Internal server error",
+                error: error.message,
+            });
+        }
+    }
+);
+
+// Route for completing daily tasks
+router.post(
+    "/:id/complete-daily",
+    [
+        param("id").isMongoId().withMessage("Invalid task ID"),
+        body("userId").isMongoId().withMessage("Invalid user ID"),
+    ],
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({
+                success: false,
+                message: "Validation errors",
+                errors: errors.array(),
+            });
+        }
+
+        try {
+            const { userId } = req.body;
+            const taskId = req.params.id;
+
+            const result = await userService.completeDailyTask(taskId, userId);
+
+            return res.status(200).json({
+                success: true,
+                message: "Daily task completed successfully",
+                result: result,
+            });
+        } catch (error) {
+            if (error.message === "Daily task already completed today") {
+                return res.status(409).json({
+                    success: false,
+                    message: error.message,
+                });
+            }
+
+            return res.status(500).json({
+                success: false,
+                message: "Internal server error",
+                error: error.message,
+            });
+        }
+    }
+);
+
+// Route for getting daily task completions
+router.get(
+    "/daily-completions/:userId",
+    [
+        param("userId").isMongoId().withMessage("Invalid user ID"),
+        query("date").optional().isISO8601().withMessage("Invalid date format"),
+    ],
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({
+                success: false,
+                message: "Validation errors",
+                errors: errors.array(),
+            });
+        }
+
+        try {
+            const { userId } = req.params;
+            const date = req.query.date ? new Date(req.query.date) : new Date();
+
+            const completedTaskIds = await userService.getDailyTaskCompletions(
+                userId,
+                date
+            );
+
+            return res.status(200).json({
+                success: true,
+                message: "Daily task completions retrieved successfully",
+                result: completedTaskIds,
             });
         } catch (error) {
             return res.status(500).json({
