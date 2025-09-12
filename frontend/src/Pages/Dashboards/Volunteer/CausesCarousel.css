@@ -1,6 +1,6 @@
 .causes-carousel-container {
   padding: 0rem 1.5rem;
-  max-width: 600px;
+  max-width: 600px !important;
   margin: 0;
   background: #fdfdfd;
   flex: 1; /* This ensures it takes up equal space */

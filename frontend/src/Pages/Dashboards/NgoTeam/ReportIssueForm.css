@@ -4,7 +4,7 @@
     padding: 2.5rem;
     border-radius: 16px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-    max-width: 800px;
+    max-width: 800px !important;
     margin: 2rem auto;
     border: 1px solid #e5e5e5;
 }

@@ -81,14 +81,15 @@
   align-items: flex-start;
   justify-content: center;
   width: 100%;
+  margin-right: 990px;
 }
 
 .timeline-content {
   display: flex;
   align-items: flex-start;
-  gap: 6rem; /* Increased gap to make room for the center dot */
+  gap: 2rem; /* Increased gap to make room for the center dot */
   width: 100%;
-  max-width: 1030px; /* Total width for both containers */
+  max-width: 1030px; 
 }
 
 /* When item is on left: card on left side, image on right side */
@@ -99,6 +100,7 @@
 /* When item is on right: image on left side, card on right side */
 .timeline-item.right .timeline-content {
   flex-direction: row-reverse;
+  margin-left: 390px ;
 }
 
 .timeline-dot {
@@ -131,6 +133,7 @@
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
+  margin-left: 390px;
 }
 
 .timeline-image {

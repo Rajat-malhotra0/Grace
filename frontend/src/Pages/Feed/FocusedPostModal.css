@@ -30,7 +30,7 @@
 .focused-post {
   background: var(--color-card);
   border-radius: var(--border-radius);
-  max-width: 1000px;
+  max-width: 1000px !important;
   max-height: 90vh;
   width: 100%;
   overflow: hidden;
@@ -229,11 +229,11 @@
     grid-template-columns: 1fr;
     height: auto;
   }
-  
+
   .focused-media {
     height: 400px;
   }
-  
+
   .focused-details {
     max-height: none;
   }
@@ -243,15 +243,15 @@
   .focused-post-overlay {
     padding: 1rem;
   }
-  
+
   .focused-post {
     max-height: 95vh;
   }
-  
+
   .focused-actions {
     flex-wrap: wrap;
   }
-  
+
   .action-btn {
     flex: 1;
     min-width: calc(50% - 0.5rem);
@@ -376,7 +376,13 @@
 }
 
 @keyframes likeAnimation {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.2); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
 }

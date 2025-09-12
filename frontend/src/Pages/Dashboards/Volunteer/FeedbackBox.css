@@ -1,5 +1,5 @@
 .feedback-box {
-  max-width: 800px;
+  max-width: 800px !important;
   margin: 4rem auto;
   background: #ffffff;
   border-radius: 20px;

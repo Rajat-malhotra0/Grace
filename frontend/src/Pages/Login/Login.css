@@ -5,120 +5,126 @@ This is a styling ".css" file for the main login.js file, allowing us to apply v
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap");
 
 .login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 80px 2rem 2rem 2rem; /* Top padding for fixed header */
-    background-color: #ffffff;
-    font-family: "Poppins", sans-serif;
-    box-sizing: border-box;
+  display: flex;
+  justify-content: center !important;
+  align-items: center !important;
+  min-height: 100vh;
+  padding: 80px 2rem 2rem 2rem; /* Top padding for fixed header */
+  background-color: #ffffff;
+  font-family: "Poppins", sans-serif;
+  box-sizing: border-box;
+  max-width: 600px !important; /* Set to 50% width with important */
+  min-width: 450px; /* Minimum width for smaller screens */
 }
 
 .login-box {
-    width: 100%;
-    max-width: 50% !important; /* Set to 50% width with important */
-    min-width: 400px; /* Minimum width for smaller screens */
-    background: #ffffff;
-    padding: 50px;
-    /* padding-bottom: 75px; */
-    border-radius: 10px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  justify-content: center;
+  width: 100%;
+  max-width: 600px !important; /* Set to 50% width with important */
+  min-width: 450px; /* Minimum width for smaller screens */
+  background: #ffffff;
+  padding: 50px;
+  /* padding-bottom: 75px; */
+  border-radius: 10px;
+  margin-left: 1200px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
 }
 
 .login-header {
-    text-align: center;
-    margin-bottom: 2rem;
+  text-align: center;
+  margin-bottom: 2rem;
 }
 
 .login-header h1 {
-    font-family: var(--font-serif); /* From Header.css */
-    font-size: 2.5rem;
-    color: #333;
-    margin: 0;
+  font-family: var(--font-serif); /* From Header.css */
+  font-size: 2.5rem;
+  color: #333;
+  margin: 0;
 }
 
 .login-header p {
-    font-size: 1rem;
-    color: #666;
-    margin-top: 0.5rem;
+  font-size: 1rem;
+  color: #666;
+  margin-top: 0.5rem;
 }
 
 .login-form input[type="email"],
 .login-form input[type="password"] {
-    width: 100%;
-    padding: 12px 15px;
-    margin-bottom: 2px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: 1rem;
-    color: #333;
-    transition: border-color 0.3s, box-shadow 0.3s;
-    box-sizing: border-box;
+  
+  padding: 12px 15px;
+  margin-bottom: 2px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #333;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  box-sizing: border-box;
+
+  justify-content: center;
 }
 
 .login-form input:focus {
-    outline: none;
-    border-color: #555;
-    box-shadow: 0 0 0 2px rgba(85, 85, 85, 0.1);
+  outline: none;
+  border-color: #555;
+  box-shadow: 0 0 0 2px rgba(85, 85, 85, 0.1);
 }
 
 .login-form button {
-    width: 100%;
-    padding: 14px;
-    background-color: #222;
-    color: white;
-    border: none;
-    border-radius: 12px;
-    font-size: 1rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
-    margin-top: 1rem;
+  width: 100%;
+  padding: 14px;
+  background-color: #222;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  margin-top: 1rem;
 }
 
 .login-form button:hover {
-    background-color: #4d2d2d;
-    transform: translateY(-2px);
+  background-color: #4d2d2d;
+  transform: translateY(-2px);
 }
 
 .register-link {
-    text-align: center;
-    margin-top: 1.5rem;
-    font-size: 0.95rem;
-    color: #666;
+  text-align: center;
+  margin-top: 1.5rem;
+  font-size: 0.95rem;
+  color: #666;
 }
 
 .register-link a {
-    color: #333;
-    font-weight: 500;
-    text-decoration: none;
-    transition: color 0.3s;
+  color: #333;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.3s;
 }
 
 .register-link a:hover {
-    color: #000;
-    text-decoration: underline;
+  color: #000;
+  text-decoration: underline;
 }
 
 @media (max-width: 520px) {
-    .login-box {
-        padding: 2rem 1.5rem;
-        min-width: 300px; /* Smaller minimum width for mobile */
-        max-width: 50%; /* Keep 50% width on mobile too */
-    }
+  .login-box {
+    padding: 2rem 1.5rem;
+    min-width: 300px; /* Smaller minimum width for mobile */
+    max-width: 50%; /* Keep 50% width on mobile too */
+  }
 
-    .login-header h1 {
-        font-size: 2rem;
-    }
+  .login-header h1 {
+    font-size: 2rem;
+  }
 }
 .input-group {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
 }
 
 .input-group div {
-    font-size: 1rem;
-    margin-top: 4px;
+  font-size: 1rem;
+  margin-top: 4px;
 }
