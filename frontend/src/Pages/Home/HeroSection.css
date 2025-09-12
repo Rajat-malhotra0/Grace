@@ -17,6 +17,7 @@
   object-fit: cover;
   z-index: 0;
   transition: opacity 0.5s ease-in-out;
+  
 }
 
 /* Fading Utility Classes */

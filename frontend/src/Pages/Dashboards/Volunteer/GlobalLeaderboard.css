@@ -1,6 +1,6 @@
 .global-leaderboard-container {
   padding: rem 2rem;
-  max-width: 1400px;
+  max-width: 1400px !important;
   margin: 0 auto;
   background: #fdfdfd;
 }
