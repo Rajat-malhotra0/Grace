@@ -12,19 +12,27 @@ async function createNgo(data) {
 
 async function readNgos(filter = {}) {
     try {
+        console.log("ngoService.readNgos - Called with filter:", filter);
+        
         // By default, only show verified and active NGOs unless explicitly specified
-        if (!filter.hasOwnProperty("isVerified")) {
+        if (!("isVerified" in filter)) {
             filter.isVerified = true;
         }
-        if (!filter.hasOwnProperty("isActive")) {
+        if (!("isActive" in filter)) {
             filter.isActive = true;
         }
 
+        console.log("ngoService.readNgos - Final filter to be used:", filter);
+        
         const ngos = await Ngo.find(filter)
             .populate("category", "name")
             .populate("user", "userName email location");
+            
+        console.log("ngoService.readNgos - Found NGOs:", ngos?.length || 0);
         return ngos;
     } catch (error) {
+        console.error("ngoService.readNgos - Error:", error);
+        console.error("ngoService.readNgos - Error stack:", error.stack);
         throw error;
     }
 }

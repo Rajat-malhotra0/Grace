@@ -90,14 +90,19 @@ router.get(
             });
         }
         try {
+            console.log("GET /api/ngos - Request query:", req.query);
             const filter = req.query;
+            console.log("GET /api/ngos - Calling ngoService.readNgos with filter:", filter);
             const ngos = await ngoService.readNgos(filter);
+            console.log("GET /api/ngos - Successfully retrieved NGOs, count:", ngos?.length || 0);
             return res.status(200).json({
                 success: true,
                 message: "NGOs retrieved successfully",
                 result: ngos,
             });
         } catch (error) {
+            console.error("GET /api/ngos - Error occurred:", error);
+            console.error("GET /api/ngos - Error stack:", error.stack);
             return res.status(500).json({
                 success: false,
                 message: "Internal server error",
