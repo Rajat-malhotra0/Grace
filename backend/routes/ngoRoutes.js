@@ -92,9 +92,15 @@ router.get(
         try {
             console.log("GET /api/ngos - Request query:", req.query);
             const filter = req.query;
-            console.log("GET /api/ngos - Calling ngoService.readNgos with filter:", filter);
+            console.log(
+                "GET /api/ngos - Calling ngoService.readNgos with filter:",
+                filter
+            );
             const ngos = await ngoService.readNgos(filter);
-            console.log("GET /api/ngos - Successfully retrieved NGOs, count:", ngos?.length || 0);
+            console.log(
+                "GET /api/ngos - Successfully retrieved NGOs, count:",
+                ngos?.length || 0
+            );
             return res.status(200).json({
                 success: true,
                 message: "NGOs retrieved successfully",

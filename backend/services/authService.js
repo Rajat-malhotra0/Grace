@@ -129,7 +129,7 @@ async function registerNGO(userData) {
             throw new Error("Email or Username already in use");
         }
 
-        // Validate age - user must be at least 16 years old
+        // Validate age - user must be at least 16 years old.
         if (dob) {
             const birthDate = new Date(dob);
             const today = new Date();
