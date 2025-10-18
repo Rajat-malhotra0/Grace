@@ -21,6 +21,8 @@ const NgoCarousel = () => {
     const [ngos, setNgos] = useState([]);
     const [loading, setLoading] = useState(true);
     const [selectedNgo, setSelectedNgo] = useState(null);
+    const [searchTerm, setSearchTerm] = useState("");
+    const [suggestions, setSuggestions] = useState([]);
 
     const getImageUrl = (ngo) => {
         return ngo.coverImage?.url || defaultNgoImage;
@@ -46,13 +48,37 @@ const NgoCarousel = () => {
         fetchNgos();
     }, []);
 
-    const filteredNgos =
-        activeFilter === "All"
-            ? ngos
-            : ngos.filter((ngo) =>
-                  ngo.category.some((cat) => cat.name === activeFilter)
-              );
+   const handleSearchChange = (event) => {
+        const value = event.target.value;
+        setSearchTerm(value);
 
+        if (value.length > 0) {
+        
+            const filteredSuggestions = ngos.filter((ngo) =>
+                ngo.name.toLowerCase().startsWith(value.toLowerCase())
+            );
+            setSuggestions(filteredSuggestions);
+        } else {
+            setSuggestions([]); 
+        }
+    };
+
+    
+    const handleSuggestionClick = (ngoName) => {
+        setSearchTerm(ngoName); 
+        setSuggestions([]); 
+    };
+
+   const filteredNgos = ngos.filter((ngo) => {
+        const categoryMatch =
+            activeFilter === "All" ||
+            (ngo.category && 
+                ngo.category.some((cat) => cat && cat.name === activeFilter)); 
+        const searchMatch = ngo.name
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase());
+        return categoryMatch && searchMatch;
+    });
     const handleDonateClick = (ngo) => {
         setSelectedNgo(ngo);
     };
@@ -100,6 +126,45 @@ const NgoCarousel = () => {
                         </button>
                     ))}
                 </div>
+
+                
+               
+                <div className="search-container">
+                    
+                    <div className="search-bar-wrapper">
+                        <input
+                            type="text"
+                            placeholder="Search for an NGO..."
+                            value={searchTerm}
+                            onChange={handleSearchChange}
+                            className="search-input" 
+                            autoComplete="off"
+                        />
+                        {/* Add the SVG icon */}
+                        <svg
+                            className="search-icon"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            fill="currentColor"
+                        >
+                            <path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 0 0 1.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 0 0-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 0 0 5.34-1.48l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
+                        </svg>
+                    </div>
+                    
+                    {suggestions.length > 0 && (
+                        <ul className="suggestions-list">
+                            {suggestions.map((suggestion) => (
+                                <li
+                                    key={suggestion._id}
+                                    onClick={() => handleSuggestionClick(suggestion.name)}
+                                >
+                                    {suggestion.name}
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+                </div>
+                
 
                 <div className="ngo-cards">
                     {filteredNgos.map((ngo) => (
