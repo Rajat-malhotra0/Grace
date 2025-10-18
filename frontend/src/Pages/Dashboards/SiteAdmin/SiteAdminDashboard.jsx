@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./SiteAdminDashboard.css";
 
 const SiteAdminDashboard = () => {
+    //Only to show during the presentation
     const [stats, setStats] = useState({
         ngos: { total: 0, verified: 0, pending: 0 },
         totalUsers: 0,
