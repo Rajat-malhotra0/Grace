@@ -6,7 +6,12 @@ const VolunteerApplication = require("../models/volunteerApplication");
 const User = require("../models/user");
 const NGO = require("../models/ngo");
 const UserNgoRelation = require("../models/userNgoRelation");
-const { sendEmail } = require("../services/mailService");
+const {
+    sendVolunteerApplicationNotification,
+    sendVolunteerApplicationAccepted,
+    sendVolunteerApplicationRejected,
+    sendVolunteerApplicationUpdate,
+} = require("../services/mailService");
 
 // Apply for a volunteer opportunity
 router.post(
@@ -92,24 +97,17 @@ router.post(
 
             // Send notification email to NGO
             try {
-                await sendEmail({
+                await sendVolunteerApplicationNotification({
                     to: ngo.contact.email,
-                    subject: `New Volunteer Application - ${opportunity.title}`,
-                    html: `
-                        <h2>New Volunteer Application</h2>
-                        <p>A new volunteer has applied for: <strong>${
-                            opportunity.title
-                        }</strong></p>
-                        <p><strong>Applicant:</strong> ${user.userName}</p>
-                        <p><strong>Email:</strong> ${user.email}</p>
-                        ${
-                            message
-                                ? `<p><strong>Message:</strong> ${message}</p>`
-                                : ""
-                        }
-                        <p>Please log in to your dashboard to review this application.</p>
-                    `,
+                    ngoName: ngo.name,
+                    opportunityTitle: opportunity.title,
+                    applicantName: user.userName,
+                    applicantEmail: user.email,
+                    message: message || "",
                 });
+                console.log(
+                    `✅ Application notification sent to NGO: ${ngo.contact.email}`
+                );
             } catch (emailError) {
                 console.error("Failed to send notification email:", emailError);
                 // Continue even if email fails
@@ -358,33 +356,27 @@ router.patch(
 
             // Send notification email to applicant
             try {
-                const emailSubject =
-                    status === "accepted"
-                        ? "Your Volunteer Application Has Been Accepted!"
-                        : "Update on Your Volunteer Application";
-
-                const emailHtml =
-                    status === "accepted"
-                        ? `
-                    <h2>Congratulations!</h2>
-                    <p>Your volunteer application for <strong>${application.opportunityTitle}</strong> at <strong>${application.ngo.name}</strong> has been accepted!</p>
-                    <p>You are now a member of this NGO and can start contributing to their cause.</p>
-                    <p>The NGO will contact you soon with further details.</p>
-                    <p>Thank you for your commitment to making a difference!</p>
-                `
-                        : `
-                    <h2>Application Update</h2>
-                    <p>Thank you for your interest in volunteering for <strong>${application.opportunityTitle}</strong> at <strong>${application.ngo.name}</strong>.</p>
-                    <p>Unfortunately, your application was not accepted at this time. This could be due to various reasons such as the position being filled or specific requirements not being met.</p>
-                    <p>We encourage you to explore other volunteer opportunities on our platform.</p>
-                    <p>Thank you for your willingness to contribute!</p>
-                `;
-
-                await sendEmail({
-                    to: application.user.email,
-                    subject: emailSubject,
-                    html: emailHtml,
-                });
+                if (status === "accepted") {
+                    await sendVolunteerApplicationAccepted({
+                        to: application.user.email,
+                        applicantName: application.user.userName,
+                        opportunityTitle: application.opportunityTitle,
+                        ngoName: application.ngo.name,
+                    });
+                    console.log(
+                        `✅ Acceptance email sent to: ${application.user.email}`
+                    );
+                } else if (status === "rejected") {
+                    await sendVolunteerApplicationRejected({
+                        to: application.user.email,
+                        applicantName: application.user.userName,
+                        opportunityTitle: application.opportunityTitle,
+                        ngoName: application.ngo.name,
+                    });
+                    console.log(
+                        `✅ Rejection email sent to: ${application.user.email}`
+                    );
+                }
             } catch (emailError) {
                 console.error(
                     "Failed to send status update email:",
@@ -403,6 +395,95 @@ router.patch(
             return res.status(500).json({
                 success: false,
                 message: "Failed to update application status",
+                error: error.message,
+            });
+        }
+    }
+);
+
+// Send update email to applicant (NGO admin only)
+router.post(
+    "/:applicationId/send-update",
+    authMiddleware,
+    [
+        param("applicationId")
+            .notEmpty()
+            .withMessage("Application ID is required")
+            .isMongoId()
+            .withMessage("Invalid application ID"),
+        body("updateMessage")
+            .notEmpty()
+            .withMessage("Update message is required")
+            .trim()
+            .isLength({ min: 10, max: 1000 })
+            .withMessage(
+                "Update message must be between 10 and 1000 characters"
+            ),
+    ],
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({
+                success: false,
+                message: "Validation errors",
+                errors: errors.array(),
+            });
+        }
+
+        try {
+            const { applicationId } = req.params;
+            const { updateMessage } = req.body;
+
+            // Find the application
+            const application = await VolunteerApplication.findById(
+                applicationId
+            ).populate("user ngo");
+
+            if (!application) {
+                return res.status(404).json({
+                    success: false,
+                    message: "Application not found",
+                });
+            }
+
+            // Verify user is the NGO owner
+            if (application.ngo.user.toString() !== req.user.id.toString()) {
+                return res.status(403).json({
+                    success: false,
+                    message: "Unauthorized: You don't have access to this NGO",
+                });
+            }
+
+            // Send update email to applicant
+            try {
+                await sendVolunteerApplicationUpdate({
+                    to: application.user.email,
+                    applicantName: application.user.userName,
+                    opportunityTitle: application.opportunityTitle,
+                    ngoName: application.ngo.name,
+                    updateMessage: updateMessage,
+                });
+                console.log(
+                    `✅ Update email sent to: ${application.user.email}`
+                );
+            } catch (emailError) {
+                console.error("Failed to send update email:", emailError);
+                return res.status(500).json({
+                    success: false,
+                    message: "Failed to send update email",
+                    error: emailError.message,
+                });
+            }
+
+            return res.status(200).json({
+                success: true,
+                message: "Update email sent successfully",
+            });
+        } catch (error) {
+            console.error("Send update email error:", error);
+            return res.status(500).json({
+                success: false,
+                message: "Failed to send update email",
                 error: error.message,
             });
         }
