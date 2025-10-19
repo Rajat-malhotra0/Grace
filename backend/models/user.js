@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
+const crypto = require("crypto");
 
 const userSchema = new mongoose.Schema({
     userName: { type: String, required: true, unique: true },
@@ -59,6 +60,10 @@ const userSchema = new mongoose.Schema({
     newsLetter: { type: Boolean, default: false },
     isActive: { type: Boolean, default: true },
     createdAt: { type: Date, default: Date.now, immutable: true },
+
+    emailVerified: { type: Boolean, default: false },
+    emailVerificationTokenHash: { type: String, default: null },
+    emailVerificationTokenExp: { type: Date, default: null },
 });
 
 userSchema.pre("save", async function (next) {
@@ -70,6 +75,41 @@ userSchema.pre("save", async function (next) {
 
 userSchema.methods.comparePassword = async function (candidatePassword) {
     return await bcrypt.compare(candidatePassword, this.password);
+};
+
+// Issue email verification token (returns raw token)
+userSchema.methods.issueEmailVerificationToken = function (ttlMinutes = 30) {
+    const raw = crypto.randomBytes(32).toString("hex");
+    const hash = crypto.createHash("sha256").update(raw).digest("hex");
+    this.emailVerificationTokenHash = hash;
+    this.emailVerificationTokenExp = new Date(
+        Date.now() + ttlMinutes * 60 * 1000
+    );
+    return raw;
+};
+
+userSchema.methods.verifyEmailToken = function (rawToken) {
+    if (
+        !rawToken ||
+        !this.emailVerificationTokenHash ||
+        !this.emailVerificationTokenExp
+    ) {
+        return false;
+    }
+    if (this.emailVerificationTokenExp < new Date()) {
+        return false;
+    }
+    const providedHash = crypto
+        .createHash("sha256")
+        .update(rawToken)
+        .digest("hex");
+    return providedHash === this.emailVerificationTokenHash;
+};
+
+userSchema.methods.markEmailVerified = function () {
+    this.emailVerified = true;
+    this.emailVerificationTokenHash = null;
+    this.emailVerificationTokenExp = null;
 };
 
 userSchema.index({ role: 1 });

@@ -3,6 +3,7 @@ const NGO = require("../models/ngo");
 const mongoose = require("mongoose");
 const UserNgoRelation = require("../models/userNgoRelation");
 const jwt = require("jsonwebtoken");
+const { sendVerificationEmail } = require("./mailService");
 const tokenSecret = "some_random_text(verrry random)";
 
 async function registerUser(userData) {
@@ -94,6 +95,24 @@ async function registerUser(userData) {
         user.token = token;
         await user.save();
 
+        try {
+            const rawToken = user.issueEmailVerificationToken(30);
+            await user.save();
+
+            const baseUrl = process.env.APP_BASE_URL || "http://localhost:3001";
+            const verifyUrl = `${baseUrl}/api/auth/verify-email?uid=${user._id}&token=${rawToken}`;
+
+            await sendVerificationEmail({
+                to: user.email,
+                displayName: user.userName,
+                verifyUrl,
+            });
+
+            console.log(`✅ Verification email sent to ${user.email}`);
+        } catch (emailError) {
+            console.error("Failed to send verification email:", emailError);
+        }
+
         return {
             user: sanitizeUser(user),
             token,
@@ -176,7 +195,7 @@ async function registerNGO(userData) {
                 phone: phoneNumber || "",
                 website: website || "",
             },
-            isVerified: false, // Explicitly set to false for new registrations
+            isVerified: false,
             isActive: true,
         });
         await ngo.save();
@@ -184,6 +203,26 @@ async function registerNGO(userData) {
         const token = generateToken(user);
         user.token = token;
         await user.save();
+
+        // Send verification email
+        try {
+            const rawToken = user.issueEmailVerificationToken(30); // 30 minutes
+            await user.save();
+
+            const baseUrl = process.env.APP_BASE_URL || "http://localhost:3001";
+            const verifyUrl = `${baseUrl}/api/auth/verify-email?uid=${user._id}&token=${rawToken}`;
+
+            await sendVerificationEmail({
+                to: user.email,
+                displayName: user.userName,
+                verifyUrl,
+            });
+
+            console.log(`✅ Verification email sent to ${user.email}`);
+        } catch (emailError) {
+            console.error("Failed to send verification email:", emailError);
+            // Don't fail registration if email fails
+        }
 
         return {
             user: sanitizeUser(user),
@@ -208,6 +247,13 @@ async function loginUser(email, password) {
         const isPasswordValid = await user.comparePassword(password);
         if (!isPasswordValid) {
             throw new Error("Invalid credentials");
+        }
+
+        // Check email verification - ENFORCED
+        if (!user.emailVerified) {
+            throw new Error(
+                "Please verify your email before logging in. Check your inbox for the verification link."
+            );
         }
 
         const token = generateToken(user);

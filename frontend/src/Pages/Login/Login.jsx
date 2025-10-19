@@ -1,4 +1,3 @@
-
 import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -8,6 +7,8 @@ import { AuthContext } from "../../Context/AuthContext";
 function Login() {
     const [formData, setFormData] = useState({});
     const [errors, setErrors] = useState({});
+    const [showResendButton, setShowResendButton] = useState(false);
+    const [isResending, setIsResending] = useState(false);
     const { login } = useContext(AuthContext);
     const navigate = useNavigate();
 
@@ -43,15 +44,72 @@ function Login() {
         }
 
         try {
+            setShowResendButton(false); // Reset resend button
             const result = await login(formData.email, formData.password);
             if (result.success) {
                 toast.success("Logged in successfully");
                 navigate("/");
             } else {
-                toast.error(result.message || "Login failed");
+                // Check if error is about email verification
+                if (
+                    result.message &&
+                    result.message.toLowerCase().includes("verify your email")
+                ) {
+                    toast.error(result.message);
+                    setShowResendButton(true); // Show resend button
+                } else {
+                    toast.error(result.message || "Login failed");
+                }
             }
         } catch (err) {
-            toast.error("Login failed: " + (err.response?.data?.message || err.message || "Unknown error"));
+            const errorMessage =
+                err.response?.data?.message || err.message || "Unknown error";
+
+            // Check if error is about email verification
+            if (errorMessage.toLowerCase().includes("verify your email")) {
+                toast.error(errorMessage);
+                setShowResendButton(true); // Show resend button
+            } else {
+                toast.error("Login failed: " + errorMessage);
+            }
+        }
+    };
+
+    const handleResendVerification = async () => {
+        if (!formData.email) {
+            toast.error("Please enter your email address");
+            return;
+        }
+
+        setIsResending(true);
+        try {
+            const response = await fetch(
+                "http://localhost:3001/api/auth/resend-verification",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ email: formData.email }),
+                }
+            );
+
+            const data = await response.json();
+
+            if (data.success) {
+                toast.success(
+                    "Verification email sent! Please check your inbox."
+                );
+                setShowResendButton(false);
+            } else {
+                toast.error(
+                    data.message || "Failed to send verification email"
+                );
+            }
+        } catch (error) {
+            toast.error("Failed to send verification email. Please try again.");
+        } finally {
+            setIsResending(false);
         }
     };
 
@@ -86,6 +144,23 @@ function Login() {
                         <div style={{ color: "red" }}>{errors.password}</div>
                     </div>
                     <button type="submit">Log In</button>
+                    {showResendButton && (
+                        <div className="resend-verification-section">
+                            <p className="verification-message">
+                                📧 Haven't received the verification email?
+                            </p>
+                            <button
+                                type="button"
+                                onClick={handleResendVerification}
+                                disabled={isResending}
+                                className="btn-resend-verification"
+                            >
+                                {isResending
+                                    ? "Sending..."
+                                    : "Resend Verification Email"}
+                            </button>
+                        </div>
+                    )}
                 </form>
                 <div className="register-link">
                     <span>

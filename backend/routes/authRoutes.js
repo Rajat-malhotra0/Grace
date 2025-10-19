@@ -4,6 +4,8 @@ const mongoose = require("mongoose");
 const router = express.Router();
 const authService = require("../services/authService");
 const { authMiddleware } = require("../middleware/authMiddleware");
+const User = require("../models/user");
+const { sendVerificationEmail } = require("../services/mailService");
 
 router.post(
     "/register",
@@ -158,6 +160,104 @@ router.get("/profile", authMiddleware, async (req, res) => {
         return res.status(500).json({
             success: false,
             message: error.message,
+        });
+    }
+});
+
+router.get("/verify-email", async (req, res) => {
+    try {
+        const { uid, token } = req.query;
+
+        if (!uid || !token) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid verification link",
+            });
+        }
+
+        const user = await User.findById(uid);
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found",
+            });
+        }
+
+        if (user.emailVerified) {
+            const frontendUrl =
+                process.env.FRONTEND_BASE_URL || "http://localhost:5173";
+            return res.redirect(`${frontendUrl}/verify-success?status=already`);
+        }
+
+        if (!user.verifyEmailToken(token)) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid or expired verification token",
+            });
+        }
+
+        user.markEmailVerified();
+        await user.save();
+
+        const frontendUrl =
+            process.env.FRONTEND_BASE_URL || "http://localhost:5173";
+        return res.redirect(`${frontendUrl}/verify-success`);
+    } catch (error) {
+        console.error("Email verification error:", error);
+        return res.status(500).json({
+            success: false,
+            message: "Verification failed",
+        });
+    }
+});
+
+router.post("/resend-verification", async (req, res) => {
+    try {
+        const { email } = req.body;
+
+        if (!email) {
+            return res.status(400).json({
+                success: false,
+                message: "Email is required",
+            });
+        }
+
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found",
+            });
+        }
+
+        if (user.emailVerified) {
+            return res.status(200).json({
+                success: true,
+                message: "Email already verified",
+            });
+        }
+
+        const rawToken = user.issueEmailVerificationToken(30);
+        await user.save();
+
+        const baseUrl = process.env.APP_BASE_URL || "http://localhost:3001";
+        const verifyUrl = `${baseUrl}/api/auth/verify-email?uid=${user._id}&token=${rawToken}`;
+
+        await sendVerificationEmail({
+            to: user.email,
+            displayName: user.userName,
+            verifyUrl,
+        });
+
+        return res.status(200).json({
+            success: true,
+            message: "Verification email sent",
+        });
+    } catch (error) {
+        console.error("Resend verification error:", error);
+        return res.status(500).json({
+            success: false,
+            message: "Failed to send verification email",
         });
     }
 });

@@ -1,0 +1,124 @@
+.email-verification-banner {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+    color: white;
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    animation: slideDown 0.4s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.banner-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.banner-icon {
+    font-size: 32px;
+    flex-shrink: 0;
+}
+
+.banner-text {
+    flex: 1;
+    min-width: 250px;
+}
+
+.banner-text strong {
+    display: block;
+    font-size: 18px;
+    margin-bottom: 4px;
+}
+
+.banner-text p {
+    margin: 0;
+    font-size: 14px;
+    opacity: 0.95;
+}
+
+.banner-message {
+    margin-top: 8px !important;
+    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    font-size: 13px !important;
+}
+
+.banner-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.btn-resend,
+.btn-dismiss {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 14px;
+}
+
+.btn-resend {
+    background: white;
+    color: #ff6b6b;
+}
+
+.btn-resend:hover:not(:disabled) {
+    background: #f0f0f0;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-resend:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.btn-dismiss {
+    background: transparent;
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    padding: 8px 12px;
+    font-size: 18px;
+}
+
+.btn-dismiss:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .banner-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 12px;
+    }
+
+    .banner-actions {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .btn-resend {
+        flex: 1;
+    }
+}

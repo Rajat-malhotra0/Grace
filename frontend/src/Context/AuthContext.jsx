@@ -5,7 +5,7 @@ export const AuthContext = React.createContext();
 
 function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
-    const [ngo, setNgo] = useState(null); // Only for NGO owners
+    const [ngo, setNgo] = useState(null);
     const [token, setToken] = useState(null);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [isAuthLoading, setIsAuthLoading] = useState(true);
@@ -22,7 +22,6 @@ function AuthProvider({ children }) {
 
     useEffect(() => {
         initializeAuth();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     async function initializeAuth() {
@@ -47,18 +46,24 @@ function AuthProvider({ children }) {
                         const profile = response.data.result;
                         setToken(storedToken);
                         let updatedUser = JSON.parse(storedUser);
+
+                        if (
+                            profile.user &&
+                            profile.user.emailVerified !== undefined
+                        ) {
+                            updatedUser.emailVerified =
+                                profile.user.emailVerified;
+                        }
+
                         setIsAuthenticated(true);
 
-                        // Handle NGO data from profile - new logic
                         if (profile.ngo && updatedUser.role?.includes("ngo")) {
-                            // User owns an NGO - store full NGO object
                             setNgo(profile.ngo);
                             localStorage.setItem(
                                 "ngo",
                                 JSON.stringify(profile.ngo)
                             );
                         } else if (profile.associatedNgo || profile.ngoId) {
-                            // User is associated with an NGO - store only ID and name in user object
                             updatedUser.ngoId =
                                 profile.associatedNgo?._id || profile.ngoId;
                             updatedUser.ngoName =
@@ -67,7 +72,6 @@ function AuthProvider({ children }) {
                             storedNgo &&
                             updatedUser.role?.includes("ngo")
                         ) {
-                            // Fallback: use stored NGO if user is NGO owner
                             setNgo(JSON.parse(storedNgo));
                         }
 
@@ -198,28 +202,13 @@ function AuthProvider({ children }) {
             console.log("Registration response:", response.data);
 
             if (response.data.success) {
-                const {
-                    token: newToken,
-                    user: newUser,
-                    ngo: ngoData,
-                } = response.data.result;
-
-                setToken(newToken);
-                setUser(newUser);
-                setIsAuthenticated(true);
-
-                if (ngoData) {
-                    setNgo(ngoData);
-                    localStorage.setItem("ngo", JSON.stringify(ngoData));
-                }
-
-                localStorage.setItem("token", newToken);
-                localStorage.setItem("user", JSON.stringify(newUser));
+                // DO NOT auto-login after registration
+                // User must verify email and then login manually
 
                 return {
                     success: true,
-                    user: newUser,
-                    ngo: ngoData,
+                    message:
+                        "Registration successful! Please check your email to verify your account before logging in.",
                 };
             }
         } catch (error) {
@@ -252,6 +241,7 @@ function AuthProvider({ children }) {
         token,
         isAuthenticated,
         isAuthLoading,
+        isEmailVerified: user?.emailVerified || false,
         login,
         register,
         logout,

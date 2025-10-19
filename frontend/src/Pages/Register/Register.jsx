@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Register.css";
 import axios from "axios";
 import { AuthContext } from "../../Context/AuthContext";
@@ -19,6 +19,7 @@ function Register() {
     const [categories, setCategories] = useState([]);
     const { register } = useContext(AuthContext);
     const [errors, setErrors] = useState({});
+    const navigate = useNavigate();
 
     useEffect(() => {
         async function fetchCategories() {
@@ -434,38 +435,24 @@ function Register() {
 
         if (result && result.success) {
             console.log("Registration successful!");
-            // Use toast.success with JSX components
-            if (isNgo) {
-                toast.success(<NgoRegistrationToast />, {
+            // Show success message
+            toast.success(
+                "Registration successful! Please check your email to verify your account, then login.",
+                {
                     position: "top-right",
                     autoClose: 8000,
                     hideProgressBar: false,
                     closeOnClick: true,
                     pauseOnHover: true,
                     draggable: true,
-                    toastId: "ngo-registration",
-                });
-            } else if (formData.role === "ngoMember") {
-                toast.success(<NgoMemberRegistrationToast />, {
-                    position: "top-right",
-                    autoClose: 8000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    toastId: "ngo-member-registration",
-                });
-            } else {
-                toast.success(<VolunteerRegistrationToast />, {
-                    position: "top-right",
-                    autoClose: 8000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    toastId: "volunteer-registration",
-                });
-            }
+                    toastId: "registration-success",
+                }
+            );
+
+            // Redirect to login page after 2 seconds
+            setTimeout(() => {
+                navigate("/login");
+            }, 2000);
         } else {
             console.log("Registration failed:", result);
             const errorMessage =

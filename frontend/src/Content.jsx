@@ -14,6 +14,7 @@ import Engagement from "./Pages/Engagement/Engagement";
 import Volunteer from "./Pages/VolunteerInsights/volunteer";
 import ImpactStories from "./Pages/Home/ImpactStories";
 import GraceApp from "./Pages/Grace_App/Grace_App";
+import VerifySuccess from "./Pages/VerifySuccess";
 import NgoTeamDashboard from "./Pages/Dashboards/NgoTeam/NgoTeamDashboard";
 import VolunteerDashboard from "./Pages/Dashboards/Volunteer/VolunteerDashboard";
 import DonorDashboard from "./Pages/Dashboards/Donor/DonorDashboard";
@@ -51,6 +52,7 @@ function Content() {
             <Route path="/engagement" element={<Engagement />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/verify-success" element={<VerifySuccess />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/volunteer" element={<Volunteer />} />
             <Route path="/impact-stories" element={<ImpactStories />} />
