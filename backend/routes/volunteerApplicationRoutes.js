@@ -490,6 +490,72 @@ router.post(
     }
 );
 
+// Get accepted volunteers for a specific opportunity (NGO admin only)
+router.get(
+    "/ngo/:ngoId/opportunity/:opportunityId/accepted",
+    authMiddleware,
+    [
+        param("ngoId")
+            .notEmpty()
+            .withMessage("NGO ID is required")
+            .isMongoId()
+            .withMessage("Invalid NGO ID"),
+        param("opportunityId")
+            .notEmpty()
+            .withMessage("Opportunity ID is required")
+            .isInt()
+            .withMessage("Opportunity ID must be a number"),
+    ],
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({
+                success: false,
+                message: "Validation errors",
+                errors: errors.array(),
+            });
+        }
+
+        try {
+            const { ngoId, opportunityId } = req.params;
+
+            // Verify user is associated with the NGO
+            const ngo = await NGO.findById(ngoId);
+            if (!ngo) {
+                return res.status(404).json({
+                    success: false,
+                    message: "NGO not found",
+                });
+            }
+
+            if (ngo.user.toString() !== req.user.id.toString()) {
+                return res.status(403).json({
+                    success: false,
+                    message: "Unauthorized: You don't have access to this NGO",
+                });
+            }
+
+            // Get all accepted volunteers for this opportunity
+            const volunteers = await VolunteerApplication.find({
+                ngo: ngoId,
+                opportunityId: Number(opportunityId),
+                status: "accepted",
+            })
+                .populate("user", "userName email")
+                .sort({ appliedAt: -1 });
+
+            return res.status(200).json(volunteers);
+        } catch (error) {
+            console.error("Get opportunity volunteers error:", error);
+            return res.status(500).json({
+                success: false,
+                message: "Failed to retrieve volunteers",
+                error: error.message,
+            });
+        }
+    }
+);
+
 // Check if user has applied for a specific opportunity
 router.get(
     "/check/:ngoId/:opportunityId",

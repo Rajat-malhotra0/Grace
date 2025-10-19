@@ -125,3 +125,48 @@ export const updateApplicationStatus = async (applicationId, status) => {
         );
     }
 };
+
+// Get accepted volunteers for a specific opportunity (NGO admin only)
+export const getOpportunityVolunteers = async (ngoId, opportunityId) => {
+    try {
+        const response = await axios.get(
+            `${API_BASE_URL}/ngo/${ngoId}/opportunity/${opportunityId}/accepted`,
+            {
+                headers: getAuthHeaders(),
+            }
+        );
+        return response.data;
+    } catch (error) {
+        console.error("Get opportunity volunteers error:", error);
+        throw (
+            error.response?.data || {
+                success: false,
+                message: "Failed to retrieve volunteers",
+            }
+        );
+    }
+};
+
+// Send update email to an applicant (NGO admin only)
+export const sendOpportunityUpdate = async (applicationId, updateMessage) => {
+    try {
+        const response = await axios.post(
+            `${API_BASE_URL}/${applicationId}/send-update`,
+            {
+                updateMessage,
+            },
+            {
+                headers: getAuthHeaders(),
+            }
+        );
+        return response.data;
+    } catch (error) {
+        console.error("Send opportunity update error:", error);
+        throw (
+            error.response?.data || {
+                success: false,
+                message: "Failed to send update email",
+            }
+        );
+    }
+};
