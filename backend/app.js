@@ -23,13 +23,14 @@ const articleRoutes = require("./routes/articleRoutes");
 
 const ngoReportRoutes = require("./routes/ngoReportRoutes");
 const adminRoutes = require("./routes/adminRoutes");
+const volunteerApplicationRoutes = require("./routes/volunteerApplicationRoutes");
 
 const app = express();
 app.use(express.json());
 app.use(
     cors({
         origin: process.env.CORS_ORIGIN || "http://localhost:3000",
-        methods: ["GET", "POST", "PUT", "DELETE"],
+        methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
         credentials: true,
     })
 );
@@ -51,6 +52,7 @@ app.use("/api/quiz", quizRoutes);
 app.use("/api/marketplace", marketplaceRoutes);
 app.use("/api/ngo-reports", ngoReportRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api/volunteer-applications", volunteerApplicationRoutes);
 
 app.get("/api/test", (req, res) => {
     res.json({ message: "Backend is working!" });

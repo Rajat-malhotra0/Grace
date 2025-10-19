@@ -1,21 +1,28 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Toast from "../NgoPage/Toast";
 import DonationModal from "../../Components/DonationModal";
+import { AuthContext } from "../../Context/AuthContext";
+import {
+    applyForVolunteer,
+    checkApplicationStatus,
+} from "../../services/volunteerApplicationService";
 import "./NgoPage.css";
 
 const NgoPage = () => {
     const { ngoId } = useParams();
     const navigate = useNavigate();
+    const { isAuthenticated } = useContext(AuthContext);
     const [ngo, setNgo] = useState(null);
     const [loading, setLoading] = useState(true);
     const [selectedNgo, setSelectedNgo] = useState(null);
     const [error, setError] = useState(null);
     const [showToast, setShowToast] = useState(false);
-
-    const toastMessage =
-        "Thank you for stepping forward! We've received your interest in volunteering, and the NGO has been notified. They'll be reaching out to you soon via email. If you have any questions in the meantime, feel free to write to us at teamgrace@gmail.org — we're here for you. The journey you've begun matters, and we're so glad you're part of it.";
+    const [toastMessage, setToastMessage] = useState("");
+    const [toastType, setToastType] = useState("success");
+    const [applicationStatuses, setApplicationStatuses] = useState({});
+    const [applyingForOpportunity, setApplyingForOpportunity] = useState(null);
 
     useEffect(() => {
         const loadNgoData = async () => {
@@ -49,6 +56,36 @@ const NgoPage = () => {
         }
     }, [ngoId]);
 
+    // Check application statuses for all opportunities
+    useEffect(() => {
+        const checkStatuses = async () => {
+            if (!isAuthenticated || !ngo?.volunteer?.opportunities) {
+                return;
+            }
+
+            const statuses = {};
+            for (const opportunity of ngo.volunteer.opportunities) {
+                try {
+                    const response = await checkApplicationStatus(
+                        ngoId,
+                        opportunity.id
+                    );
+                    if (response.success && response.hasApplied) {
+                        statuses[opportunity.id] = response.application;
+                    }
+                } catch (error) {
+                    console.error(
+                        `Error checking status for opportunity ${opportunity.id}:`,
+                        error
+                    );
+                }
+            }
+            setApplicationStatuses(statuses);
+        };
+
+        checkStatuses();
+    }, [isAuthenticated, ngo, ngoId]);
+
     const handleNavClick = (section) => {
         const sectionElement = document.getElementById(section);
         if (sectionElement) {
@@ -59,8 +96,88 @@ const NgoPage = () => {
         }
     };
 
-    const handleVolunteerClick = () => {
-        setShowToast(true);
+    const handleVolunteerClick = async (opportunity) => {
+        // Check if user is authenticated
+        if (!isAuthenticated) {
+            setToastMessage(
+                "Please login or register to apply for volunteer opportunities."
+            );
+            setToastType("error");
+            setShowToast(true);
+
+            // Redirect to login after a short delay
+            setTimeout(() => {
+                navigate("/login", {
+                    state: { from: `/ngo/${ngoId}`, returnTo: "volunteer" },
+                });
+            }, 2000);
+            return;
+        }
+
+        // Check if already applied
+        const existingApplication = applicationStatuses[opportunity.id];
+        if (existingApplication) {
+            let statusMessage = "";
+            if (existingApplication.status === "pending") {
+                statusMessage =
+                    "You have already applied for this opportunity. Your application is currently under review.";
+            } else if (existingApplication.status === "accepted") {
+                statusMessage =
+                    "Your application for this opportunity has been accepted! You're now a member of this NGO.";
+            } else if (existingApplication.status === "rejected") {
+                statusMessage =
+                    "Unfortunately, your previous application for this opportunity was not accepted.";
+            }
+
+            setToastMessage(statusMessage);
+            setToastType("info");
+            setShowToast(true);
+            return;
+        }
+
+        // Apply for the volunteer opportunity
+        try {
+            setApplyingForOpportunity(opportunity.id);
+
+            console.log("Submitting application for:", {
+                ngoId,
+                opportunityId: opportunity.id,
+                isAuthenticated,
+                hasToken: !!localStorage.getItem("token"),
+            });
+
+            const response = await applyForVolunteer(
+                ngoId,
+                opportunity.id,
+                "" // You can add a message input if needed
+            );
+
+            if (response.success) {
+                setToastMessage(
+                    response.message ||
+                        "Thank you for stepping forward! We've received your interest in volunteering, and the NGO has been notified. They'll be reaching out to you soon via email. If you have any questions in the meantime, feel free to write to us at teamgrace@gmail.org — we're here for you. The journey you've begun matters, and we're so glad you're part of it."
+                );
+                setToastType("success");
+                setShowToast(true);
+
+                // Update application status
+                setApplicationStatuses((prev) => ({
+                    ...prev,
+                    [opportunity.id]: response.result,
+                }));
+            }
+        } catch (error) {
+            console.error("Error applying for volunteer:", error);
+            console.error("Full error object:", JSON.stringify(error, null, 2));
+            setToastMessage(
+                error.message ||
+                    "Failed to submit your application. Please try again later."
+            );
+            setToastType("error");
+            setShowToast(true);
+        } finally {
+            setApplyingForOpportunity(null);
+        }
     };
 
     const handleCloseToast = () => {
@@ -113,6 +230,7 @@ const NgoPage = () => {
                 isVisible={showToast}
                 onClose={handleCloseToast}
                 duration={10000}
+                type={toastType}
             />
 
             {/* Hero Section */}
@@ -267,60 +385,125 @@ const NgoPage = () => {
                     <div className="volunteer-grid">
                         {ngo.volunteer?.opportunities &&
                         ngo.volunteer.opportunities.length > 0 ? (
-                            ngo.volunteer.opportunities.map((opportunity) => (
-                                <div
-                                    key={opportunity.id}
-                                    className="volunteer-card"
-                                >
-                                    <div className="volunteer-content">
-                                        <h3 className="volunteer-title">
-                                            {opportunity.title}
-                                        </h3>
-                                        <p className="volunteer-description">
-                                            {opportunity.description}
-                                        </p>
-                                        <div className="volunteer-details">
-                                            <div className="volunteer-detail">
-                                                <span className="detail-label">
-                                                    People Needed:
-                                                </span>
-                                                <span className="detail-value">
-                                                    {opportunity.peopleNeeded}
-                                                </span>
+                            ngo.volunteer.opportunities.map((opportunity) => {
+                                const applicationStatus =
+                                    applicationStatuses[opportunity.id];
+                                const isApplying =
+                                    applyingForOpportunity === opportunity.id;
+                                const hasApplied = !!applicationStatus;
+                                const isPending =
+                                    applicationStatus?.status === "pending";
+                                const isAccepted =
+                                    applicationStatus?.status === "accepted";
+                                const isRejected =
+                                    applicationStatus?.status === "rejected";
+
+                                return (
+                                    <div
+                                        key={opportunity.id}
+                                        className="volunteer-card"
+                                    >
+                                        <div className="volunteer-content">
+                                            <h3 className="volunteer-title">
+                                                {opportunity.title}
+                                            </h3>
+                                            <p className="volunteer-description">
+                                                {opportunity.description}
+                                            </p>
+                                            <div className="volunteer-details">
+                                                <div className="volunteer-detail">
+                                                    <span className="detail-label">
+                                                        People Needed:
+                                                    </span>
+                                                    <span className="detail-value">
+                                                        {
+                                                            opportunity.peopleNeeded
+                                                        }
+                                                    </span>
+                                                </div>
+                                                <div className="volunteer-detail">
+                                                    <span className="detail-label">
+                                                        Duration:
+                                                    </span>
+                                                    <span className="detail-value">
+                                                        {opportunity.duration}
+                                                    </span>
+                                                </div>
                                             </div>
-                                            <div className="volunteer-detail">
-                                                <span className="detail-label">
-                                                    Duration:
-                                                </span>
-                                                <span className="detail-value">
-                                                    {opportunity.duration}
-                                                </span>
-                                            </div>
-                                        </div>
-                                        {opportunity.tags &&
-                                            opportunity.tags.length > 0 && (
-                                                <div className="volunteer-tags">
-                                                    {opportunity.tags.map(
-                                                        (tag, idx) => (
-                                                            <span
-                                                                key={idx}
-                                                                className="volunteer-tag"
-                                                            >
-                                                                {tag}
-                                                            </span>
-                                                        )
+                                            {opportunity.tags &&
+                                                opportunity.tags.length > 0 && (
+                                                    <div className="volunteer-tags">
+                                                        {opportunity.tags.map(
+                                                            (tag, idx) => (
+                                                                <span
+                                                                    key={idx}
+                                                                    className="volunteer-tag"
+                                                                >
+                                                                    {tag}
+                                                                </span>
+                                                            )
+                                                        )}
+                                                    </div>
+                                                )}
+
+                                            {/* Application Status Badge */}
+                                            {hasApplied && (
+                                                <div
+                                                    className={`application-status ${
+                                                        isPending
+                                                            ? "pending"
+                                                            : isAccepted
+                                                            ? "accepted"
+                                                            : "rejected"
+                                                    }`}
+                                                >
+                                                    {isPending && (
+                                                        <span>
+                                                            ⏳ Application
+                                                            Pending
+                                                        </span>
+                                                    )}
+                                                    {isAccepted && (
+                                                        <span>
+                                                            ✓ Application
+                                                            Accepted
+                                                        </span>
+                                                    )}
+                                                    {isRejected && (
+                                                        <span>
+                                                            ✗ Application Not
+                                                            Accepted
+                                                        </span>
                                                     )}
                                                 </div>
                                             )}
-                                        <button
-                                            className="volunteer-button"
-                                            onClick={handleVolunteerClick}
-                                        >
-                                            Volunteer
-                                        </button>
+
+                                            <button
+                                                className="volunteer-button"
+                                                onClick={() =>
+                                                    handleVolunteerClick(
+                                                        opportunity
+                                                    )
+                                                }
+                                                disabled={
+                                                    isApplying ||
+                                                    (hasApplied && !isRejected)
+                                                }
+                                            >
+                                                {isApplying
+                                                    ? "Applying..."
+                                                    : hasApplied
+                                                    ? isPending
+                                                        ? "Already Applied"
+                                                        : isAccepted
+                                                        ? "Accepted"
+                                                        : "Apply Again"
+                                                    : "Volunteer"}
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
-                            ))
+                                );
+                            })
                         ) : (
                             <div className="no-volunteers">
                                 <p>

@@ -509,6 +509,47 @@ html {
     transform: translateY(-2px);
 }
 
+.volunteer-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.volunteer-button:disabled:hover {
+    background: transparent;
+    color: #f9fafa;
+    transform: none;
+}
+
+/* Application Status Badge */
+.application-status {
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 0.9rem;
+    font-family: "Playfair Display", serif;
+    margin-bottom: 1rem;
+    text-align: center;
+    font-weight: 500;
+}
+
+.application-status.pending {
+    background: rgba(255, 193, 7, 0.1);
+    border: 1px solid #ffc107;
+    color: #ffc107;
+}
+
+.application-status.accepted {
+    background: rgba(76, 175, 80, 0.1);
+    border: 1px solid #4caf50;
+    color: #4caf50;
+}
+
+.application-status.rejected {
+    background: rgba(244, 67, 54, 0.1);
+    border: 1px solid #f44336;
+    color: #f44336;
+}
+
 .volunteer-tags {
     display: flex;
     flex-wrap: wrap;

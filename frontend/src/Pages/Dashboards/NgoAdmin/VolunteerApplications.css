@@ -80,6 +80,69 @@
     line-height: 1.6;
 }
 
+.header-stats {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.stat-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1.5rem 2rem;
+    background: #f9f9f9;
+    border-radius: 12px;
+    border: 2px solid #e0e0e0;
+    min-width: 150px;
+    transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.stat-card.accepted {
+    background: rgba(76, 175, 80, 0.05);
+    border-color: #4caf50;
+}
+
+.stat-card.rejected {
+    background: rgba(244, 67, 54, 0.05);
+    border-color: #f44336;
+}
+
+.stat-card svg {
+    color: #666;
+}
+
+.stat-card.accepted svg {
+    color: #4caf50;
+}
+
+.stat-card.rejected svg {
+    color: #f44336;
+}
+
+.stat-number {
+    font-family: serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #222;
+}
+
+.stat-label {
+    font-family: serif;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
 .applications-filters {
     display: flex;
     gap: 2rem;
@@ -229,6 +292,28 @@
     transform: translateY(-2px);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
     border-color: #ddd;
+}
+
+.application-card.accepted-card {
+    background: linear-gradient(135deg, #f9fff9 0%, #ffffff 100%);
+    border: 2px solid #4caf50;
+    position: relative;
+    overflow: hidden;
+}
+
+.application-card.accepted-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, #4caf50 0%, #66bb6a 100%);
+}
+
+.application-card.accepted-card:hover {
+    border-color: #45a049;
+    box-shadow: 0 4px 16px rgba(76, 175, 80, 0.25);
 }
 
 .application-header {
@@ -417,25 +502,12 @@
     border: 1px solid #e8e8e8;
 }
 
-.empty-icon {
-    color: #ccc;
-    margin-bottom: 1rem;
-}
-
-.empty-message h3 {
-    font-family: serif;
-    font-size: 1.5rem;
-    color: #666;
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-}
-
 .empty-message p {
     font-family: serif;
-    font-size: 1rem;
-    color: #888;
+    font-size: 1.1rem;
+    color: #666;
     margin: 0;
-    font-style: italic;
+    line-height: 1.6;
 }
 
 .view-history-btn {
@@ -604,4 +676,194 @@
 .view-history-btn:focus {
     outline: 2px solid #666;
     outline-offset: 2px;
+}
+
+/* Status Badges */
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    font-family: "Playfair Display", serif;
+}
+
+.status-pending {
+    background: rgba(255, 193, 7, 0.1);
+    border: 1px solid #ffc107;
+    color: #ffc107;
+}
+
+.status-accepted {
+    background: rgba(76, 175, 80, 0.1);
+    border: 1px solid #4caf50;
+    color: #4caf50;
+}
+
+.status-rejected {
+    background: rgba(244, 67, 54, 0.1);
+    border: 1px solid #f44336;
+    color: #f44336;
+}
+
+/* Loading and Error States */
+.loading-state,
+.error-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+    padding: 3rem;
+    text-align: center;
+}
+
+.loading-icon,
+.error-icon {
+    margin-bottom: 1.5rem;
+    color: #666;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.error-icon {
+    color: #f44336;
+    animation: none;
+}
+
+@keyframes pulse {
+    0%,
+    100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.loading-state h3,
+.error-state h3 {
+    font-family: "Playfair Display", serif;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #222;
+}
+
+.loading-state p,
+.error-state p {
+    font-size: 1rem;
+    color: #666;
+    max-width: 400px;
+}
+
+.retry-btn {
+    margin-top: 1.5rem;
+    padding: 0.75rem 2rem;
+    background: #000;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.retry-btn:hover {
+    background: #333;
+    transform: translateY(-2px);
+}
+
+/* Accept/Reject Buttons */
+.accept-btn {
+    background: #4caf50 !important;
+    color: white !important;
+    border: 2px solid #4caf50 !important;
+}
+
+.accept-btn:hover {
+    background: #45a049 !important;
+    border-color: #45a049 !important;
+}
+
+.reject-btn {
+    background: transparent !important;
+    color: #f44336 !important;
+    border: 2px solid #f44336 !important;
+}
+
+.reject-btn:hover {
+    background: #f44336 !important;
+    color: white !important;
+}
+
+.action-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Status Messages */
+.status-message {
+    width: 100%;
+    padding: 1rem;
+    border-radius: 8px;
+    font-family: "Playfair Display", serif;
+}
+
+.accepted-message {
+    background: rgba(76, 175, 80, 0.1);
+    color: #4caf50;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 500;
+}
+
+.rejected-message {
+    background: rgba(244, 67, 54, 0.1);
+    color: #f44336;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 500;
+}
+
+/* Message and Location Sections */
+.message-section,
+.location-section {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+}
+
+.message-section .section-title,
+.location-section .section-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #666;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.message-text,
+.location-text {
+    font-size: 0.95rem;
+    color: #444;
+    line-height: 1.6;
+    font-style: italic;
+}
+
+/* Update applicant info to flex for status badge */
+.applicant-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.applicant-name {
+    margin: 0;
 }
