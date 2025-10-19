@@ -13,58 +13,70 @@ const User = require("../models/user");
 
 const loginUsers = [
     {
-        userName: "littlelanterns",
+        userName: "@lanterns",
         email: "littlelanterns@grace.org",
         password: "password123",
         role: ["ngo"],
+        ngoName: "Little Lanterns",
         location: { city: "Mumbai", state: "Maharashtra" },
         profileCompleted: true,
         leaderboardPoints: 500,
+        emailVerified: true,
     },
     {
         userName: "aashasapne",
         email: "aashasapne@grace.org",
         password: "password123",
         role: ["ngo"],
+        ngoName: "Aasha Sapne",
         location: { city: "Delhi", state: "Delhi" },
         profileCompleted: true,
         leaderboardPoints: 450,
+        emailVerified: true,
     },
     {
         userName: "earthnest",
         email: "earthnest@grace.org",
         password: "password123",
         role: ["ngo"],
+        ngoName: "EarthNest",
         location: { city: "Bangalore", state: "Karnataka" },
         profileCompleted: true,
         leaderboardPoints: 480,
+        emailVerified: true,
     },
     {
         userName: "herrise",
         email: "herrise@grace.org",
         password: "password123",
         role: ["ngo"],
+        ngoName: "HerRise",
         location: { city: "Pune", state: "Maharashtra" },
         profileCompleted: true,
         leaderboardPoints: 420,
+        emailVerified: true,
     },
     {
         userName: "healthfirst",
         email: "healthfirst@grace.org",
         password: "password123",
         role: ["ngo"],
+        ngoName: "Healthfirst Initiative",
         location: { city: "Chennai", state: "Tamil Nadu" },
         profileCompleted: true,
         leaderboardPoints: 510,
+        emailVerified: true,
     },
     {
         userName: "learningbridge",
         email: "learningbridge@grace.org",
         password: "password123",
         role: ["ngo"],
+        ngoName: "Learning Bridge",
         location: { city: "Kolkata", state: "West Bengal" },
         profileCompleted: true,
         leaderboardPoints: 460,
+        emailVerified: true,
     },
     {
         userName: "testvolunteer",
@@ -208,6 +220,7 @@ async function createLoginUsers(keepConnectionOpen = false) {
 
         for (const userData of loginUsers) {
             let user = await User.findOne({ email: userData.email });
+
             if (!user) {
                 user = new User(userData);
                 await user.save();

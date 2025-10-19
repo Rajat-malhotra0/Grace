@@ -55,6 +55,8 @@ const ngoSchema = new mongoose.Schema({
                 description: { type: String, required: true },
                 peopleNeeded: { type: String, default: "" },
                 duration: { type: String, default: "" },
+                tags: [{ type: String }],
+                createdAt: { type: Date, default: Date.now },
             },
         ],
     },

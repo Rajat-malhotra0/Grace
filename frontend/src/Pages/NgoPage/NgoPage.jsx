@@ -297,6 +297,21 @@ const NgoPage = () => {
                                                 </span>
                                             </div>
                                         </div>
+                                        {opportunity.tags &&
+                                            opportunity.tags.length > 0 && (
+                                                <div className="volunteer-tags">
+                                                    {opportunity.tags.map(
+                                                        (tag, idx) => (
+                                                            <span
+                                                                key={idx}
+                                                                className="volunteer-tag"
+                                                            >
+                                                                {tag}
+                                                            </span>
+                                                        )
+                                                    )}
+                                                </div>
+                                            )}
                                         <button
                                             className="volunteer-button"
                                             onClick={handleVolunteerClick}

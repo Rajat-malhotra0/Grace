@@ -48,7 +48,24 @@ function Login() {
             const result = await login(formData.email, formData.password);
             if (result.success) {
                 toast.success("Logged in successfully");
-                navigate("/");
+
+                // Redirect based on user role
+                if (result.user?.role?.includes("ngo")) {
+                    // Get ngoId from result or user object
+                    const ngoId = result.ngo?._id || result.user?.ngoId;
+                    if (ngoId) {
+                        navigate(`/ngo/${ngoId}`);
+                    } else {
+                        toast.error(
+                            "NGO data not found. Please contact support."
+                        );
+                        navigate("/");
+                    }
+                } else if (result.user?.role?.includes("admin")) {
+                    navigate("/admin");
+                } else {
+                    navigate("/");
+                }
             } else {
                 // Check if error is about email verification
                 if (

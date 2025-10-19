@@ -125,6 +125,103 @@ async function getAllNgos(filter = {}) {
     }
 }
 
+async function addVolunteerOpportunity(ngoId, opportunityData) {
+    try {
+        const ngo = await Ngo.findById(ngoId);
+        if (!ngo) {
+            throw new Error("NGO not found");
+        }
+
+        // Get the next ID
+        const nextId =
+            ngo.volunteer.opportunities.length > 0
+                ? Math.max(
+                      ...ngo.volunteer.opportunities.map((opp) => opp.id)
+                  ) + 1
+                : 1;
+
+        const newOpportunity = {
+            id: nextId,
+            title: opportunityData.title,
+            description: opportunityData.description,
+            peopleNeeded: opportunityData.peopleNeeded,
+            duration: opportunityData.duration,
+            tags: opportunityData.tags || [],
+        };
+
+        ngo.volunteer.opportunities.push(newOpportunity);
+        await ngo.save();
+
+        return ngo;
+    } catch (error) {
+        throw error;
+    }
+}
+
+async function updateVolunteerOpportunity(
+    ngoId,
+    opportunityId,
+    opportunityData
+) {
+    try {
+        const ngo = await Ngo.findById(ngoId);
+        if (!ngo) {
+            throw new Error("NGO not found");
+        }
+
+        const opportunityIndex = ngo.volunteer.opportunities.findIndex(
+            (opp) => opp.id === opportunityId
+        );
+
+        if (opportunityIndex === -1) {
+            throw new Error("Volunteer opportunity not found");
+        }
+
+        // Update the opportunity
+        ngo.volunteer.opportunities[opportunityIndex] = {
+            ...ngo.volunteer.opportunities[opportunityIndex].toObject(),
+            ...opportunityData,
+            id: opportunityId, // Ensure ID doesn't change
+        };
+
+        await ngo.save();
+        return ngo;
+    } catch (error) {
+        throw error;
+    }
+}
+
+async function deleteVolunteerOpportunity(ngoId, opportunityId) {
+    try {
+        const ngo = await Ngo.findById(ngoId);
+        if (!ngo) {
+            throw new Error("NGO not found");
+        }
+
+        ngo.volunteer.opportunities = ngo.volunteer.opportunities.filter(
+            (opp) => opp.id !== opportunityId
+        );
+
+        await ngo.save();
+        return ngo;
+    } catch (error) {
+        throw error;
+    }
+}
+
+async function getVolunteerOpportunities(ngoId) {
+    try {
+        const ngo = await Ngo.findById(ngoId);
+        if (!ngo) {
+            throw new Error("NGO not found");
+        }
+
+        return ngo.volunteer.opportunities;
+    } catch (error) {
+        throw error;
+    }
+}
+
 module.exports = {
     createNgo,
     readNgos,
@@ -134,4 +231,8 @@ module.exports = {
     verifyNgo,
     getNgoStats,
     getAllNgos,
+    addVolunteerOpportunity,
+    updateVolunteerOpportunity,
+    deleteVolunteerOpportunity,
+    getVolunteerOpportunities,
 };

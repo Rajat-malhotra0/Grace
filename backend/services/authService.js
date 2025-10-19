@@ -200,6 +200,8 @@ async function registerNGO(userData) {
         });
         await ngo.save();
 
+        // Link the user to the NGO
+        user.ngoId = ngo._id;
         const token = generateToken(user);
         user.token = token;
         await user.save();
@@ -266,10 +268,14 @@ async function loginUser(email, password) {
         };
 
         if (user.role.includes("ngo")) {
+            // Find NGO by user reference (proper way)
             const ngo = await NGO.findOne({ user: user._id }).populate(
                 "category"
             );
-            responseData.ngo = ngo;
+            if (ngo) {
+                responseData.ngo = ngo;
+                responseData.ngoId = ngo._id;
+            }
         }
 
         const userNgoRelation = await UserNgoRelation.findOne({
@@ -340,10 +346,14 @@ async function getUserProfile(userId) {
 
         // Check if user is an NGO owner
         if (user.role.includes("ngo")) {
+            // Find NGO by user reference (proper way)
             const ngo = await NGO.findOne({ user: userId }).populate(
                 "category"
             );
-            profile.ngo = ngo;
+            if (ngo) {
+                profile.ngo = ngo;
+                profile.ngoId = ngo._id;
+            }
         }
 
         // Check if user is associated with any NGO (member, volunteer, donor, admin)

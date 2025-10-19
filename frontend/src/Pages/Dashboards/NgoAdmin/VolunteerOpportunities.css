@@ -49,6 +49,46 @@
     line-height: 1.6;
 }
 
+.section-title {
+    font-family: serif;
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 2rem;
+    margin-top: 3rem;
+    text-align: center;
+    letter-spacing: 0.3px;
+}
+
+.existing-opportunities-section,
+.new-opportunities-section {
+    margin-bottom: 3rem;
+}
+
+.opportunity-display-text {
+    font-family: serif;
+    font-size: 0.95rem;
+    color: #555;
+    line-height: 1.6;
+    margin: 0;
+    padding: 1rem;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.opportunity-display-value {
+    font-family: serif;
+    font-size: 0.95rem;
+    color: #555;
+    margin: 0;
+    padding: 1rem;
+    padding-left: 3rem;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
 .volunteer-board {
     display: flex;
     gap: 2rem;
@@ -247,6 +287,43 @@
 .assign-btn:active {
     transform: translateY(0);
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.delete-btn {
+    padding: 1rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    background: #dc3545;
+    color: #fff;
+    font-family: serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin-top: 1rem;
+    box-shadow: 0 2px 6px rgba(220, 53, 69, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.delete-btn:hover {
+    background: #c82333;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);
+}
+
+.delete-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(220, 53, 69, 0.3);
+}
+
+.delete-btn:focus {
+    outline: 2px solid #dc3545;
+    outline-offset: 2px;
 }
 
 .add-column {

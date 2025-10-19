@@ -260,4 +260,192 @@ router.delete(
     }
 );
 
+// Volunteer Opportunities Routes
+router.post(
+    "/:id/volunteer-opportunities",
+    [
+        param("id")
+            .notEmpty()
+            .withMessage("NGO ID is required")
+            .isMongoId()
+            .withMessage("Invalid NGO ID format"),
+        body("title")
+            .trim()
+            .notEmpty()
+            .withMessage("Title is required")
+            .isLength({ min: 3 })
+            .withMessage("Title must be at least 3 characters long"),
+        body("description")
+            .trim()
+            .notEmpty()
+            .withMessage("Description is required"),
+        body("peopleNeeded")
+            .trim()
+            .notEmpty()
+            .withMessage("People needed is required"),
+        body("duration").trim().notEmpty().withMessage("Duration is required"),
+        body("tags").optional().isArray().withMessage("Tags must be an array"),
+    ],
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({
+                success: false,
+                message: "Validation errors",
+                errors: errors.array(),
+            });
+        }
+        try {
+            const ngo = await ngoService.addVolunteerOpportunity(
+                req.params.id,
+                req.body
+            );
+            return res.status(201).json({
+                success: true,
+                message: "Volunteer opportunity added successfully",
+                result: ngo.volunteer.opportunities,
+            });
+        } catch (error) {
+            return res.status(500).json({
+                success: false,
+                message: error.message || "Internal server error",
+                error: error.message,
+            });
+        }
+    }
+);
+
+router.get(
+    "/:id/volunteer-opportunities",
+    [
+        param("id")
+            .notEmpty()
+            .withMessage("NGO ID is required")
+            .isMongoId()
+            .withMessage("Invalid NGO ID format"),
+    ],
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({
+                success: false,
+                message: "Validation errors",
+                errors: errors.array(),
+            });
+        }
+        try {
+            const opportunities = await ngoService.getVolunteerOpportunities(
+                req.params.id
+            );
+            return res.status(200).json({
+                success: true,
+                message: "Volunteer opportunities retrieved successfully",
+                result: opportunities,
+            });
+        } catch (error) {
+            return res.status(500).json({
+                success: false,
+                message: error.message || "Internal server error",
+                error: error.message,
+            });
+        }
+    }
+);
+
+router.put(
+    "/:id/volunteer-opportunities/:opportunityId",
+    [
+        param("id")
+            .notEmpty()
+            .withMessage("NGO ID is required")
+            .isMongoId()
+            .withMessage("Invalid NGO ID format"),
+        param("opportunityId")
+            .notEmpty()
+            .withMessage("Opportunity ID is required")
+            .isInt()
+            .withMessage("Opportunity ID must be a number"),
+        body("title")
+            .optional()
+            .trim()
+            .isLength({ min: 3 })
+            .withMessage("Title must be at least 3 characters long"),
+        body("description").optional().trim(),
+        body("peopleNeeded").optional().trim(),
+        body("duration").optional().trim(),
+        body("tags").optional().isArray().withMessage("Tags must be an array"),
+    ],
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({
+                success: false,
+                message: "Validation errors",
+                errors: errors.array(),
+            });
+        }
+        try {
+            const ngo = await ngoService.updateVolunteerOpportunity(
+                req.params.id,
+                parseInt(req.params.opportunityId),
+                req.body
+            );
+            return res.status(200).json({
+                success: true,
+                message: "Volunteer opportunity updated successfully",
+                result: ngo.volunteer.opportunities,
+            });
+        } catch (error) {
+            return res.status(500).json({
+                success: false,
+                message: error.message || "Internal server error",
+                error: error.message,
+            });
+        }
+    }
+);
+
+router.delete(
+    "/:id/volunteer-opportunities/:opportunityId",
+    [
+        param("id")
+            .notEmpty()
+            .withMessage("NGO ID is required")
+            .isMongoId()
+            .withMessage("Invalid NGO ID format"),
+        param("opportunityId")
+            .notEmpty()
+            .withMessage("Opportunity ID is required")
+            .isInt()
+            .withMessage("Opportunity ID must be a number"),
+    ],
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({
+                success: false,
+                message: "Validation errors",
+                errors: errors.array(),
+            });
+        }
+        try {
+            const ngo = await ngoService.deleteVolunteerOpportunity(
+                req.params.id,
+                parseInt(req.params.opportunityId)
+            );
+            return res.status(200).json({
+                success: true,
+                message: "Volunteer opportunity deleted successfully",
+                result: ngo.volunteer.opportunities,
+            });
+        } catch (error) {
+            return res.status(500).json({
+                success: false,
+                message: error.message || "Internal server error",
+                error: error.message,
+            });
+        }
+    }
+);
+
 module.exports = router;
