@@ -144,7 +144,7 @@ async function sendVerificationEmail({ to, displayName, verifyUrl }) {
             display: inline-block;
             padding: 12px 32px;
             background-color: #000000;
-            color: #ffffff;
+            color: #ffffff !important;
             text-decoration: none;
             border-radius: 6px;
             font-weight: 600;
