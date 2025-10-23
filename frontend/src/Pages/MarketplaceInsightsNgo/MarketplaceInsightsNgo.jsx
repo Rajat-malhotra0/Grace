@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import DataTable from "react-data-table-component";
 import axios from "axios";
+import { withApiBase } from "config";
 import {
     BarChart,
     LineChart,
@@ -30,9 +31,7 @@ const MarketplaceInsights = () => {
             setError(null);
 
             // Fetch all marketplace items
-            const response = await axios.get(
-                "http://localhost:3001/api/marketplace"
-            );
+            const response = await axios.get(withApiBase("/api/marketplace"));
 
             // Filter items that belong to current NGO
             const ngoItems = response.data.filter(

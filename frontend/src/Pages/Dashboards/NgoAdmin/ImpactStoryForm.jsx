@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { BookOpen, FileText, Sparkles, Send } from "lucide-react";
 import axios from "axios";
+import { withApiBase } from "config";
 import { AuthContext } from "../../../Context/AuthContext";
 import "./ImpactStoryForm.css";
 import storyImg from "../../../assets/Strory.jpg";
@@ -41,7 +42,7 @@ const ImpactStoryForm = () => {
 
         try {
             const response = await axios.post(
-                "http://localhost:3001/api/impact-stories/generate-description",
+                withApiBase("/api/impact-stories/generate-description"),
                 {
                     userInput: `Title: ${story.title}. Additional context: ${
                         story.additionalData ||
@@ -91,7 +92,7 @@ const ImpactStoryForm = () => {
             };
 
             const response = await axios.post(
-                "http://localhost:3001/api/impact-stories",
+                withApiBase("/api/impact-stories"),
                 storyData
             );
 

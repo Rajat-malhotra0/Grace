@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { AuthContext } from "../../../Context/AuthContext";
 import axios from "axios";
+import { withApiBase } from "config";
 import "./ReportIssueForm.css";
 
 const ReportIssueForm = () => {
@@ -75,7 +76,7 @@ const ReportIssueForm = () => {
             console.log("Submitting report data:", reportData);
 
             const response = await axios.post(
-                "http://localhost:3001/api/ngo-reports",
+                withApiBase("/api/ngo-reports"),
                 reportData,
                 {
                     headers: {

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { withApiBase } from "config";
 import "./Register.css";
 
 function NgoMemberFormFields({ formData, handleChange, errors = {} }) {
@@ -10,7 +11,7 @@ function NgoMemberFormFields({ formData, handleChange, errors = {} }) {
     // Fetch NGOs once
     useEffect(() => {
         axios
-            .get("http://localhost:3001/api/ngos")
+            .get(withApiBase("/api/ngos"))
             .then((res) => setNgos(res.data.result || []))
             .catch(console.error);
     }, []);

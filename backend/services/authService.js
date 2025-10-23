@@ -4,7 +4,13 @@ const mongoose = require("mongoose");
 const UserNgoRelation = require("../models/userNgoRelation");
 const jwt = require("jsonwebtoken");
 const { sendVerificationEmail } = require("./mailService");
-const tokenSecret = "some_random_text(verrry random)";
+
+const tokenSecret = process.env.JWT_SECRET;
+const tokenExpiry = process.env.JWT_EXPIRES_IN || "12h";
+
+if (!tokenSecret) {
+    throw new Error("JWT_SECRET environment variable is not configured");
+}
 
 async function registerUser(userData) {
     try {
@@ -391,7 +397,10 @@ function generateToken(user) {
             role: user.role,
             email: user.email,
         },
-        tokenSecret
+        tokenSecret,
+        {
+            expiresIn: tokenExpiry,
+        }
     );
 }
 

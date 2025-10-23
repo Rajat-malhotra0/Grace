@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Register.css";
 import axios from "axios";
+import { withApiBase } from "config";
 import { AuthContext } from "../../Context/AuthContext";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/ReactToastify.css";
@@ -25,7 +26,7 @@ function Register() {
         async function fetchCategories() {
             try {
                 const response = await axios.get(
-                    "http://localhost:3001/api/categories?type=ngo"
+                    withApiBase("/api/categories?type=ngo")
                 );
                 if (response.status === 200) {
                     setCategories(response.data.result);

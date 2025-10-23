@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const express = require("express");
 const connectDB = require("./db/connect");
 const cors = require("cors");
@@ -26,10 +28,32 @@ const adminRoutes = require("./routes/adminRoutes");
 const volunteerApplicationRoutes = require("./routes/volunteerApplicationRoutes");
 
 const app = express();
+
+app.set("trust proxy", 1);
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+const corsOrigins = (
+    process.env.CORS_ORIGINS ||
+    process.env.CLIENT_URL ||
+    process.env.CORS_ORIGIN ||
+    "http://localhost:3000"
+)
+    .split(",")
+    .map((origin) => origin.trim())
+    .filter(Boolean);
+
+const allowsAllOrigins = corsOrigins.includes("*");
+
 app.use(
     cors({
-        origin: process.env.CORS_ORIGIN || "http://localhost:3000",
+        origin: (origin, callback) => {
+            if (!origin || allowsAllOrigins || corsOrigins.includes(origin)) {
+                return callback(null, true);
+            }
+            console.warn(`Blocked CORS request from origin: ${origin}`);
+            return callback(new Error("Not allowed by CORS"));
+        },
         methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
         credentials: true,
     })
@@ -67,7 +91,8 @@ async function run() {
         console.log("Chatbot vector store initialized");
 
         const server = http.createServer(app);
-        socketService.init(server);
+        const socketAllowedOrigins = allowsAllOrigins ? ["*"] : corsOrigins;
+        socketService.init(server, { allowedOrigins: socketAllowedOrigins });
 
         const PORT = process.env.PORT || 3001;
         server.listen(PORT, () => {

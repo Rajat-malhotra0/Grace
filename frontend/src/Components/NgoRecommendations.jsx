@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../Context/AuthContext";
+import { withApiBase } from "config";
 import "./NgoRecommendations.css";
 
 function NGORecommendations({ onRestart }) {
@@ -8,42 +9,41 @@ function NGORecommendations({ onRestart }) {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const fetchRecommendations = async () => {
-        try {
-            if (!token) {
-                throw new Error("No authentication token available");
-            }
-
-            const response = await fetch(
-                "http://localhost:3001/api/ngosRecommendations",
-                {
-                    headers: {
-                        Authorization: token,
-                    },
-                }
-            );
-
-            if (response.ok) {
-                const data = await response.json();
-                setRecommendations(data.recommendations || []);
-            } else {
-                const errorData = await response.json();
-                throw new Error(
-                    errorData.message || "Failed to fetch recommendations"
-                );
-            }
-        } catch (error) {
-            console.error("Error fetching recommendations:", error);
-            setError("Failed to load recommendations");
-        } finally {
-            setLoading(false);
-        }
-    };
-
     useEffect(() => {
-        if (token) {
-            fetchRecommendations();
+        const fetchRecommendations = async () => {
+            try {
+                const response = await fetch(
+                    withApiBase("/api/ngosRecommendations"),
+                    {
+                        headers: {
+                            Authorization: token,
+                        },
+                    }
+                );
+
+                if (response.ok) {
+                    const data = await response.json();
+                    setRecommendations(data.recommendations || []);
+                } else {
+                    const errorData = await response.json();
+                    throw new Error(
+                        errorData.message || "Failed to fetch recommendations"
+                    );
+                }
+            } catch (error) {
+                console.error("Error fetching recommendations:", error);
+                setError("Failed to load recommendations");
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        if (!token) {
+            setLoading(false);
+            return;
         }
+
+        fetchRecommendations();
     }, [token]);
 
     if (loading) {

@@ -1,16 +1,26 @@
 const mongoose = require("mongoose");
 
-async function connectDB() {
-    try {
-        if (mongoose.connection.readyState === 1) {
-            console.log("Database already connected");
-            return;
-        }
+const DEFAULT_URI = "mongodb://127.0.0.1:27017/Grace";
 
-        await mongoose.connect("mongodb://localhost:27017/Grace");
+async function connectDB() {
+    if (mongoose.connection.readyState === 1) {
+        return mongoose.connection;
+    }
+
+    const mongoUri = (process.env.MONGODB_URI || DEFAULT_URI).trim();
+
+    if (!mongoUri) {
+        throw new Error("MONGODB_URI is not configured");
+    }
+
+    try {
+        await mongoose.connect(mongoUri, {
+            serverSelectionTimeoutMS: 5000,
+        });
         console.log("Database connected successfully");
+        return mongoose.connection;
     } catch (err) {
-        console.log("Database connection error:", err);
+        console.error("Database connection error:", err);
         throw err;
     }
 }

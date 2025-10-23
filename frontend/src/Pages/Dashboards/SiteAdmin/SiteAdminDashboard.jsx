@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./SiteAdminDashboard.css";
+import { withApiBase } from "config";
 
 const SiteAdminDashboard = () => {
     //Only to show during the presentation
@@ -21,15 +22,12 @@ const SiteAdminDashboard = () => {
     const fetchStats = async () => {
         try {
             const token = localStorage.getItem("token");
-            const response = await fetch(
-                "http://localhost:3001/api/admin/stats",
-                {
-                    headers: {
-                        Authorization: token,
-                        "Content-Type": "application/json",
-                    },
-                }
-            );
+            const response = await fetch(withApiBase("/api/admin/stats"), {
+                headers: {
+                    Authorization: token,
+                    "Content-Type": "application/json",
+                },
+            });
 
             if (response.ok) {
                 const data = await response.json();
@@ -55,7 +53,7 @@ const SiteAdminDashboard = () => {
             }
 
             const response = await fetch(
-                "http://localhost:3001/api/admin/ngos/pending",
+                withApiBase("/api/admin/ngos/pending"),
                 {
                     headers: {
                         Authorization: token,
@@ -93,7 +91,7 @@ const SiteAdminDashboard = () => {
         try {
             const token = localStorage.getItem("token");
             const response = await fetch(
-                `http://localhost:3001/api/admin/ngos/${ngoId}/verify`,
+                withApiBase(`/api/admin/ngos/${ngoId}/verify`),
                 {
                     method: "PATCH",
                     headers: {

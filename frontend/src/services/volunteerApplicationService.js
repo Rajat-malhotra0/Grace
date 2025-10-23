@@ -1,6 +1,7 @@
 import axios from "axios";
+import { withApiBase } from "config";
 
-const API_BASE_URL = "http://localhost:3001/api/volunteer-applications";
+const API_BASE_URL = withApiBase("/api/volunteer-applications");
 
 // Helper function to get auth headers
 const getAuthHeaders = () => {

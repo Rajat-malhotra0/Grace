@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../../../Context/AuthContext";
 import axios from "axios";
+import { withApiBase } from "config";
 import "./NgoAdminTaskBoard.css";
 import { useNavigate } from "react-router-dom";
 
@@ -49,14 +50,11 @@ const NgoAdminTaskBoard = () => {
 
     const fetchNgoData = async () => {
         try {
-            const response = await axios.get(
-                "http://localhost:3001/api/auth/profile",
-                {
-                    headers: {
-                        Authorization: token,
-                    },
-                }
-            );
+            const response = await axios.get(withApiBase("/api/auth/profile"), {
+                headers: {
+                    Authorization: token,
+                },
+            });
 
             if (response.data.success && response.data.result.ngo) {
                 localStorage.setItem(
@@ -80,7 +78,7 @@ const NgoAdminTaskBoard = () => {
 
         try {
             const response = await axios.get(
-                `http://localhost:3001/api/users/ngo/${ngo._id}`,
+                withApiBase(`/api/users/ngo/${ngo._id}`),
                 {
                     headers: {
                         Authorization: token,
@@ -113,7 +111,7 @@ const NgoAdminTaskBoard = () => {
         try {
             setLoading(true);
             const response = await axios.get(
-                `http://localhost:3001/api/tasks/ngo/${ngo._id}`,
+                withApiBase(`/api/tasks/ngo/${ngo._id}`),
                 {
                     headers: {
                         Authorization: token,
@@ -233,7 +231,9 @@ const NgoAdminTaskBoard = () => {
                           ...section,
                           tasks: section.tasks.map((task) => {
                               if (task.id === taskId) {
-                                  const newDayOfWeek = task.dayOfWeek.includes(day)
+                                  const newDayOfWeek = task.dayOfWeek.includes(
+                                      day
+                                  )
                                       ? task.dayOfWeek.filter((d) => d !== day)
                                       : [...task.dayOfWeek, day];
                                   return { ...task, dayOfWeek: newDayOfWeek };
@@ -299,7 +299,7 @@ const NgoAdminTaskBoard = () => {
 
                 try {
                     const response = await axios.post(
-                        "http://localhost:3001/api/tasks",
+                        withApiBase("/api/tasks"),
                         taskData,
                         {
                             headers: {
@@ -378,7 +378,7 @@ const NgoAdminTaskBoard = () => {
             // If task has a MongoDB ID, update in backend
             if (taskId.length === 24) {
                 await axios.put(
-                    `http://localhost:3001/api/tasks/${taskId}`,
+                    withApiBase(`/api/tasks/${taskId}`),
                     { status: newStatus },
                     {
                         headers: {
@@ -425,14 +425,11 @@ const NgoAdminTaskBoard = () => {
         try {
             // If task has a MongoDB ID, delete from backend
             if (taskId.length === 24) {
-                await axios.delete(
-                    `http://localhost:3001/api/tasks/${taskId}`,
-                    {
-                        headers: {
-                            Authorization: token,
-                        },
-                    }
-                );
+                await axios.delete(withApiBase(`/api/tasks/${taskId}`), {
+                    headers: {
+                        Authorization: token,
+                    },
+                });
             }
 
             // Update local state
@@ -606,11 +603,22 @@ const NgoAdminTaskBoard = () => {
                                 {task.isDaily && (
                                     <div className="days-checkbox-group">
                                         {daysOfWeek.map((day) => (
-                                            <label key={day} className="days-checkbox-label">
+                                            <label
+                                                key={day}
+                                                className="days-checkbox-label"
+                                            >
                                                 <input
                                                     type="checkbox"
-                                                    checked={task.dayOfWeek.includes(day)}
-                                                    onChange={() => handleDayOfWeekChange(section.id, task.id, day)}
+                                                    checked={task.dayOfWeek.includes(
+                                                        day
+                                                    )}
+                                                    onChange={() =>
+                                                        handleDayOfWeekChange(
+                                                            section.id,
+                                                            task.id,
+                                                            day
+                                                        )
+                                                    }
                                                 />
                                                 {day}
                                             </label>

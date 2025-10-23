@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { withApiBase, RAZORPAY_KEY_ID } from "config";
 import { AuthContext } from "../Context/AuthContext";
 import "./DonationModal.css";
 
@@ -16,13 +17,13 @@ const DonationModal = ({ ngo, onClose }) => {
 
         try {
             const orderResponse = await axios.post(
-                "http://localhost:3001/api/payments/create-order",
+                withApiBase("/api/payments/create-order"),
                 { amount: donationAmount }
             );
             const order = orderResponse.data;
 
             const options = {
-                key: process.env.REACT_APP_RAZORPAY_KEY_ID,
+                key: RAZORPAY_KEY_ID,
                 amount: order.amount,
                 currency: order.currency,
                 name: `Donation to ${ngo.name}`,
@@ -31,7 +32,7 @@ const DonationModal = ({ ngo, onClose }) => {
                 handler: async function (response) {
                     try {
                         await axios.post(
-                            "http://localhost:3001/api/payments/verify-payment",
+                            withApiBase("/api/payments/verify-payment"),
                             {
                                 ...response,
                                 amount: order.amount,

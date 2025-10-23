@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "./Login.css";
 import { AuthContext } from "../../Context/AuthContext";
+import { withApiBase } from "config";
 
 function Login() {
     const [formData, setFormData] = useState({});
@@ -101,7 +102,7 @@ function Login() {
         setIsResending(true);
         try {
             const response = await fetch(
-                "http://localhost:3001/api/auth/resend-verification",
+                withApiBase("/api/auth/resend-verification"),
                 {
                     method: "POST",
                     headers: {

@@ -3,6 +3,7 @@ import "./TaskSection.css";
 import { ChevronRight } from "lucide-react";
 import { AuthContext } from "../../../Context/AuthContext";
 import axios from "axios";
+import { withApiBase } from "config";
 import Flower1 from "../../../assets/flower2.svg";
 
 const priorityOrder = {
@@ -44,7 +45,7 @@ const TaskSection = () => {
 
             try {
                 const response = await axios.get(
-                    `http://localhost:3001/api/tasks/daily-completions/${userId}`,
+                    withApiBase(`/api/tasks/daily-completions/${userId}`),
                     {
                         headers: {
                             Authorization: token,
@@ -80,7 +81,9 @@ const TaskSection = () => {
                     const loadDailyTaskCompletions = async () => {
                         try {
                             const response = await axios.get(
-                                `http://localhost:3001/api/tasks/daily-completions/${userId}`,
+                                withApiBase(
+                                    `/api/tasks/daily-completions/${userId}`
+                                ),
                                 {
                                     headers: {
                                         Authorization: token,
@@ -125,7 +128,9 @@ const TaskSection = () => {
                     const loadDailyTaskCompletions = async () => {
                         try {
                             const response = await axios.get(
-                                `http://localhost:3001/api/tasks/daily-completions/${userId}`,
+                                withApiBase(
+                                    `/api/tasks/daily-completions/${userId}`
+                                ),
                                 {
                                     headers: {
                                         Authorization: token,
@@ -187,7 +192,7 @@ const TaskSection = () => {
                 }
 
                 const userTasksResponse = await axios.get(
-                    `http://localhost:3001/api/tasks/user/${userId}`,
+                    withApiBase(`/api/tasks/user/${userId}`),
                     {
                         headers: {
                             Authorization: token,
@@ -203,7 +208,7 @@ const TaskSection = () => {
 
                 if (activeNgoId) {
                     const ngoTasksResponse = await axios.get(
-                        `http://localhost:3001/api/tasks/ngo/${activeNgoId}`,
+                        withApiBase(`/api/tasks/ngo/${activeNgoId}`),
                         {
                             headers: {
                                 Authorization: token,
@@ -241,7 +246,7 @@ const TaskSection = () => {
             if (isDaily) {
                 // For daily tasks, use the new daily completion endpoint
                 await axios.post(
-                    `http://localhost:3001/api/tasks/${taskId}/complete-daily`,
+                    withApiBase(`/api/tasks/${taskId}/complete-daily`),
                     {
                         userId: user._id,
                     },
@@ -259,7 +264,7 @@ const TaskSection = () => {
             } else {
                 // For regular tasks, update the task status
                 await axios.put(
-                    `http://localhost:3001/api/tasks/${taskId}`,
+                    withApiBase(`/api/tasks/${taskId}`),
                     {
                         status: "done",
                         completedAt: new Date(),
@@ -292,7 +297,7 @@ const TaskSection = () => {
     const handleAddExtraTask = async (task) => {
         try {
             const response = await axios.put(
-                `http://localhost:3001/api/tasks/${task._id}`,
+                withApiBase(`/api/tasks/${task._id}`),
                 {
                     assignedTo: user._id,
                     status: "in-progress",

@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Plus, Users, Clock, FileText, Trash2 } from "lucide-react";
 import axios from "axios";
+import { withApiBase } from "config";
 import { AuthContext } from "../../../Context/AuthContext";
 import "./VolunteerOpportunities.css";
 
@@ -43,7 +44,7 @@ const VolunteerOpportunities = () => {
         try {
             setLoading(true);
             const response = await axios.get(
-                `http://localhost:3001/api/ngos/${ngo._id}/volunteer-opportunities`
+                withApiBase(`/api/ngos/${ngo._id}/volunteer-opportunities`)
             );
             if (response.data.success) {
                 setExistingOpportunities(response.data.result || []);
@@ -90,7 +91,7 @@ const VolunteerOpportunities = () => {
 
         try {
             const response = await axios.post(
-                `http://localhost:3001/api/ngos/${ngo._id}/volunteer-opportunities`,
+                withApiBase(`/api/ngos/${ngo._id}/volunteer-opportunities`),
                 {
                     title: form.title,
                     description: form.description,
@@ -148,7 +149,9 @@ const VolunteerOpportunities = () => {
 
         try {
             const response = await axios.delete(
-                `http://localhost:3001/api/ngos/${ngo._id}/volunteer-opportunities/${opportunityId}`
+                withApiBase(
+                    `/api/ngos/${ngo._id}/volunteer-opportunities/${opportunityId}`
+                )
             );
 
             if (response.data.success) {

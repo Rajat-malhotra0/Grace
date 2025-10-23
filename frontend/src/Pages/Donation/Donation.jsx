@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
+import { withApiBase } from "config";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Context/AuthContext";
 import { toast } from "react-toastify";
@@ -27,9 +28,7 @@ const Donations = () => {
         // This effect fetches the list of NGOs when the component mounts
         const fetchNgos = async () => {
             try {
-                const response = await axios.get(
-                    "http://localhost:3001/api/ngos"
-                );
+                const response = await axios.get(withApiBase("/api/ngos"));
                 setNgos(response.data.result);
             } catch (error) {
                 console.error("Failed to fetch NGOs:", error);

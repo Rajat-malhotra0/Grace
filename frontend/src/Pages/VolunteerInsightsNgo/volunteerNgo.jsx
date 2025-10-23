@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { withApiBase } from "config";
 import DataTable from "react-data-table-component";
 import { BarChart, LineChart, PieChart } from "../../Components/Charts/ChartJS";
 import { AuthContext } from "../../Context/AuthContext";
@@ -234,13 +235,9 @@ function VolunteerInsights() {
             // Fetch NGO-specific users, tasks, and categories
             const [usersResponse, tasksResponse, categoriesResponse] =
                 await Promise.all([
-                    axios.get(
-                        `http://localhost:3001/api/users/ngo/${ngo?._id}`
-                    ),
-                    axios.get(
-                        `http://localhost:3001/api/tasks/ngo/${ngo?._id}`
-                    ),
-                    axios.get("http://localhost:3001/api/categories"),
+                    axios.get(withApiBase(`/api/users/ngo/${ngo?._id}`)),
+                    axios.get(withApiBase(`/api/tasks/ngo/${ngo?._id}`)),
+                    axios.get(withApiBase("/api/categories")),
                 ]);
 
             console.log("Users response:", usersResponse.data);

@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../../../Context/AuthContext";
 import axios from "axios";
+import { withApiBase } from "config";
 import "./ExtraTasksBoard.css";
 
 const priorities = ["Low", "Medium", "High"];
@@ -22,7 +23,7 @@ const ExtraTasksBoard = () => {
             try {
                 setLoading(true);
                 const response = await axios.get(
-                    `http://localhost:3001/api/tasks/ngo/${ngo._id}`,
+                    withApiBase(`/api/tasks/ngo/${ngo._id}`),
                     {
                         headers: {
                             Authorization: `Bearer ${token}`,
@@ -61,8 +62,6 @@ const ExtraTasksBoard = () => {
             loadExtraTasks();
         }
     }, [ngo, token]);
-
-    
 
     // Map backend status to frontend status
     const mapBackendStatusToFrontend = (backendStatus) => {
@@ -139,7 +138,7 @@ const ExtraTasksBoard = () => {
                 };
 
                 const response = await axios.post(
-                    "http://localhost:3001/api/tasks",
+                    withApiBase("/api/tasks"),
                     taskData,
                     {
                         headers: {
@@ -219,16 +218,12 @@ const ExtraTasksBoard = () => {
                 status: mapFrontendStatusToBackend(updatedTask.status),
             };
 
-            await axios.put(
-                `http://localhost:3001/api/tasks/${taskId}`,
-                taskData,
-                {
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            );
+            await axios.put(withApiBase(`/api/tasks/${taskId}`), taskData, {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+            });
 
             console.log("Task updated successfully");
         } catch (error) {
@@ -250,7 +245,7 @@ const ExtraTasksBoard = () => {
         try {
             setLoading(true);
 
-            await axios.delete(`http://localhost:3001/api/tasks/${taskId}`, {
+            await axios.delete(withApiBase(`/api/tasks/${taskId}`), {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },

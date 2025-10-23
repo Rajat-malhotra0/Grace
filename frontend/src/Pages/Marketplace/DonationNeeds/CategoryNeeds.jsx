@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { withApiBase } from "config";
 import DonationNeedsPage from "./DonationNeedsPage";
 
 const CategoryNeeds = () => {
@@ -79,9 +80,11 @@ const CategoryNeeds = () => {
                 });
 
                 const response = await axios.get(
-                    `http://localhost:3001/api/marketplace/category/${encodeURIComponent(
-                        categoryInfo.apiName
-                    )}`
+                    withApiBase(
+                        `/api/marketplace/category/${encodeURIComponent(
+                            categoryInfo.apiName
+                        )}`
+                    )
                 );
 
                 const formattedData = response.data.map((item) => ({

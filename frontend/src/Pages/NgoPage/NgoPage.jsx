@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { withApiBase } from "config";
 import Toast from "../NgoPage/Toast";
 import DonationModal from "../../Components/DonationModal";
 import { AuthContext } from "../../Context/AuthContext";
@@ -31,7 +32,7 @@ const NgoPage = () => {
 
                 // Fetch NGO data from the backend API
                 const response = await axios.get(
-                    `http://localhost:3001/api/ngos/${ngoId}`
+                    withApiBase(`/api/ngos/${ngoId}`)
                 );
 
                 if (response.data.success) {

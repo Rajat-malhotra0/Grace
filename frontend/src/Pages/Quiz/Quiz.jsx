@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 import axios from "axios";
+import { withApiBase } from "config";
 import { AuthContext } from "../../Context/AuthContext";
 import questionsFile from "../../data/quiz_questions.json";
 import NGORecommendations from "../../Components/NgoRecommendations";
@@ -135,7 +136,7 @@ function Quiz() {
         setIsSubmitting(true);
         try {
             const response = await axios.post(
-                "http://localhost:3001/api/quiz/submit",
+                withApiBase("/api/quiz/submit"),
                 {
                     answers: answers,
                     aggregatedData: aggregatedData,

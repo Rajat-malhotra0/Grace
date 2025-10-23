@@ -1,5 +1,6 @@
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
+import { withApiBase } from "config";
 
 export const AuthContext = React.createContext();
 
@@ -10,21 +11,21 @@ function AuthProvider({ children }) {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [isAuthLoading, setIsAuthLoading] = useState(true);
 
-    useEffect(() => {
-        if (token) {
-            axios.defaults.headers.common["Authorization"] = token;
-            setIsAuthenticated(true);
-        } else {
-            delete axios.defaults.headers.common["Authorization"];
-            setIsAuthenticated(false);
-        }
-    }, [token]);
+    const clearAuth = useCallback(() => {
+        setUser(null);
+        setToken(null);
+        setNgo(null);
 
-    useEffect(() => {
-        initializeAuth();
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        localStorage.removeItem("ngo");
+        localStorage.removeItem("ngoRelationship");
+        localStorage.removeItem("ngoName");
+
+        delete axios.defaults.headers.common["Authorization"];
     }, []);
 
-    async function initializeAuth() {
+    const initializeAuth = useCallback(async () => {
         setIsAuthLoading(true);
         try {
             const storedToken = localStorage.getItem("token");
@@ -34,7 +35,7 @@ function AuthProvider({ children }) {
             if (storedToken && storedUser) {
                 try {
                     const response = await axios.get(
-                        "http://localhost:3001/api/auth/profile",
+                        withApiBase("/api/auth/profile"),
                         {
                             headers: {
                                 Authorization: storedToken,
@@ -102,31 +103,28 @@ function AuthProvider({ children }) {
         } finally {
             setIsAuthLoading(false);
         }
-    }
+    }, [clearAuth]);
 
-    function clearAuth() {
-        setUser(null);
-        setToken(null);
-        setNgo(null);
+    useEffect(() => {
+        if (token) {
+            axios.defaults.headers.common["Authorization"] = token;
+            setIsAuthenticated(true);
+        } else {
+            delete axios.defaults.headers.common["Authorization"];
+            setIsAuthenticated(false);
+        }
+    }, [token]);
 
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
-        localStorage.removeItem("ngo");
-        localStorage.removeItem("ngoRelationship");
-        localStorage.removeItem("ngoName");
-
-        delete axios.defaults.headers.common["Authorization"];
-    }
+    useEffect(() => {
+        initializeAuth();
+    }, [initializeAuth]);
 
     async function login(email, password) {
         try {
-            const response = await axios.post(
-                "http://localhost:3001/api/auth/login",
-                {
-                    email,
-                    password,
-                }
-            );
+            const response = await axios.post(withApiBase("/api/auth/login"), {
+                email,
+                password,
+            });
 
             if (response.data.success) {
                 const {
@@ -192,8 +190,8 @@ function AuthProvider({ children }) {
     async function register(userData, isNgo = false) {
         try {
             const url = isNgo
-                ? "http://localhost:3001/api/auth/register-ngo"
-                : "http://localhost:3001/api/auth/register";
+                ? withApiBase("/api/auth/register-ngo")
+                : withApiBase("/api/auth/register");
 
             console.log("Registration URL:", url);
             console.log("Registration payload:", userData);
@@ -226,7 +224,7 @@ function AuthProvider({ children }) {
     async function logout() {
         try {
             if (token) {
-                await axios.post("http://localhost:3001/api/auth/logout");
+                await axios.post(withApiBase("/api/auth/logout"));
             }
         } catch (error) {
             // Logout error

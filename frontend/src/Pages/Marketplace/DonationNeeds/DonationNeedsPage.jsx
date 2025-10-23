@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Package, MapPin, Calendar, Clock, Truck, User } from "lucide-react";
 import axios from "axios";
+import { withApiBase } from "config";
 import "./DonationNeedsPage.css";
 import { AuthContext } from "../../../Context/AuthContext";
 import ngoPlaceholder from "../../../assets/ngo-placeholder.jpg";
@@ -36,7 +37,7 @@ const DonationNeedsPage = ({ category, categoryData }) => {
             const donorId = user.id;
 
             const response = await axios.post(
-                `http://localhost:3001/api/marketplace/${itemId}/fulfill`,
+                withApiBase(`/api/marketplace/${itemId}/fulfill`),
                 { donorId },
                 {
                     headers: {

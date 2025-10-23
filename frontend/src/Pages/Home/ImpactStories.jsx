@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import axios from "axios"; // You need to import axios
+import { withApiBase } from "config";
 import "./ImpactStories.css";
 
 // --- Asset Imports ---
@@ -26,7 +27,7 @@ function ImpactStories() {
             try {
                 // Use the correct API endpoint we created
                 const response = await axios.get(
-                    "http://localhost:3001/api/impact-stories/latest/3"
+                    withApiBase("/api/impact-stories/latest/3")
                 );
 
                 // Set the stories from the response data
