@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./NgoCarousel.css";
-import { Heart, Users, Target } from "lucide-react";
+import { Heart, Users, Target, MapPin, Tag } from "lucide-react";
 
 const NgoCard = ({ ngo, onDonateClick }) => {
     const navigate = useNavigate();
@@ -24,9 +24,15 @@ const NgoCard = ({ ngo, onDonateClick }) => {
         console.log(`Volunteer for ${ngo.name}`);
     };
 
+    // Helper to safely get categories
+    const getCategories = () => {
+        if (!ngo.category) return [];
+        return Array.isArray(ngo.category) ? ngo.category : [ngo.category];
+    };
+
     return (
-        <div className="ngo-card" onClick={handleCardClick}>
-            <div className="ngo-img">
+        <div className="ngo-card-v2" onClick={handleCardClick}>
+            <div className="ngo-img-v2">
                 <img
                     src={
                         ngo.image ||
@@ -39,19 +45,37 @@ const NgoCard = ({ ngo, onDonateClick }) => {
                     }}
                 />
             </div>
-            <div className="ngo-info_">
-                <h3>{ngo.name}</h3>
-                <p className="mission">{ngo.mission || ngo.description}</p>
-                <div className="ngo-stats">
-                    <span>
-                        <Users size={18} /> Volunteers Needed:{" "}
-                        {ngo.volunteersNeeded}
-                    </span>
-                    <span>
-                        <Target size={18} /> Donation Goal: ₹
-                        {ngo.donationGoal.toLocaleString("en-IN")}
-                    </span>
+            <div className="ngo-details-v2">
+                <div className="ngo-header-row">
+                    <h3>{ngo.name}</h3>
+                    {ngo.city && (
+                        <span className="ngo-location">
+                            <MapPin size={14} /> {ngo.city}
+                        </span>
+                    )}
                 </div>
+
+                <div className="ngo-tags">
+                    {getCategories().slice(0, 3).map((cat, idx) => (
+                        <span key={idx} className="ngo-tag">
+                            <Tag size={12} /> {cat.name || cat}
+                        </span>
+                    ))}
+                </div>
+
+                <p className="mission">{ngo.mission || ngo.description}</p>
+                
+                <div className="ngo-stats">
+                    <div className="stat-item">
+                        <Users size={16} />
+                        <span>{ngo.volunteersNeeded || 0} Volunteers Needed</span>
+                    </div>
+                    <div className="stat-item">
+                        <Target size={16} />
+                        <span>₹{(ngo.donationGoal || 0).toLocaleString("en-IN")} Goal</span>
+                    </div>
+                </div>
+                
                 <div className="ngo-actions">
                     <button className="btn donate" onClick={handleDonateClick}>
                         <Heart size={16} /> Donate

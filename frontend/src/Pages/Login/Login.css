@@ -9,24 +9,21 @@ This is a styling ".css" file for the main login.js file, allowing us to apply v
     justify-content: center !important;
     align-items: center !important;
     min-height: 100vh;
-    padding: 80px 2rem 2rem 2rem; /* Top padding for fixed header */
+    padding: 80px 1rem; /* Reduced padding */
     background-color: #ffffff;
     font-family: "Poppins", sans-serif;
     box-sizing: border-box;
-    max-width: 600px !important; /* Set to 50% width with important */
-    min-width: 450px; /* Minimum width for smaller screens */
+    width: 100%; /* Ensure full width */
 }
 
 .login-box {
     justify-content: center;
     width: 100%;
-    max-width: 600px !important; /* Set to 50% width with important */
-    min-width: 450px; /* Minimum width for smaller screens */
+    max-width: 500px; /* Removed !important and reduced width */
     background: #ffffff;
-    padding: 50px;
-    /* padding-bottom: 75px; */
+    padding: 40px;
     border-radius: 10px;
-    margin-left: 1200px;
+    margin: 0 auto; /* Centered and removed margin-left: 1200px */
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
 }
 
@@ -109,8 +106,8 @@ This is a styling ".css" file for the main login.js file, allowing us to apply v
 @media (max-width: 520px) {
     .login-box {
         padding: 2rem 1.5rem;
-        min-width: 300px; /* Smaller minimum width for mobile */
-        max-width: 50%; /* Keep 50% width on mobile too */
+        width: 90%; /* Use percentage width */
+        max-width: 100%;
     }
 
     .login-header h1 {

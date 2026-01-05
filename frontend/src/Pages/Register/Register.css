@@ -23,11 +23,11 @@ This is a styling ".css" file for the main register.js file, allowing us to appl
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  padding: 80px 2rem 2rem 2rem; /* Top padding for fixed header */
+  padding: 80px 1rem 2rem 1rem;
   background-color: #ffffff;
   font-family: "Poppins", sans-serif;
   box-sizing: border-box;
-  max-width: 2500px !important;
+  width: 100%;
 }
 
 /* Introductory paragraph */
@@ -52,12 +52,12 @@ This is a styling ".css" file for the main register.js file, allowing us to appl
 /* The form box */
 .register-page-container form {
   width: 100%;
-  max-width: 600px !important; /* Set to 50% width with important */
-  min-width: 450px; /* Minimum width for smaller screens */
+  max-width: 600px;
   background: #ffffff;
-  padding: 50px;
+  padding: 40px;
   border-radius: 10px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  margin: 0 auto;
 }
 
 /* All text, password, email, tel, url, and date inputs */

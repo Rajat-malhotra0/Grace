@@ -176,3 +176,35 @@
   border-radius: 1.5rem;
   object-fit: cover;
 }
+
+@media (max-width: 768px) {
+  .section-header h2 {
+    font-size: 2.5rem;
+  }
+
+  .section-header p {
+    font-size: 1.2rem;
+  }
+
+  .service-card {
+    padding: 2rem 1rem;
+  }
+
+  .service-text h3 {
+    font-size: 2rem;
+  }
+
+  .service-text .desc,
+  .service-text .details {
+    font-size: 1.1rem;
+  }
+
+  .service-image-box {
+    padding-right: 0;
+    margin-bottom: 1.5rem;
+  }
+
+  .service-image {
+    max-height: 300px;
+  }
+}

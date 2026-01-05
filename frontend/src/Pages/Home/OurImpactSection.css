@@ -82,3 +82,15 @@
   max-width: 90%;
   margin: 0 auto;
 }
+
+@media (max-width: 768px) {
+  .impact-heading {
+    font-size: 2.5rem;
+  }
+  .impact-stat-number {
+    font-size: 2.5rem;
+  }
+  .impact-title {
+    font-size: 1.8rem;
+  }
+}

@@ -106,3 +106,18 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
   flex: 1;
 }
+
+@media (max-width: 768px) {
+  .impact-heading- {
+    font-size: 2.5rem;
+  }
+  .impact-heading- p {
+    font-size: 1.2rem;
+  }
+  .leaf,
+  .flower-1,
+  .sparkle-1,
+  .sparkle-2 {
+    display: none;
+  }
+}

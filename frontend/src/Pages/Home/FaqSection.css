@@ -53,3 +53,12 @@
   color: #555;
   line-height: 1.6;
 }
+
+@media (max-width: 768px) {
+  .faq-heading {
+    font-size: 2rem;
+  }
+  .faq-question {
+    font-size: 1.1rem;
+  }
+}

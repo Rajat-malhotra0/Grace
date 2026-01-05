@@ -7,11 +7,16 @@ import { AuthContext } from "../Context/AuthContext";
 
 function Header() {
     const [scrolled, setScrolled] = useState(false);
+    const [menuOpen, setMenuOpen] = useState(false);
     const { isAuthenticated, user, ngo } = useContext(AuthContext);
     const navigate = useNavigate();
     const location = useLocation();
 
     const useDarkText = scrolled || location.pathname !== "/";
+
+    const toggleMenu = () => {
+        setMenuOpen(!menuOpen);
+    };
 
     const getUserDashboardRoute = () => {
         // if (ngo) {
@@ -75,6 +80,7 @@ function Header() {
 
     const handleServicesClick = (e) => {
         e.preventDefault();
+        setMenuOpen(false);
         if (location.pathname === "/") {
             const servicesSection = document.querySelector(".service-section");
             if (servicesSection) {
@@ -118,9 +124,13 @@ function Header() {
             <div className="header-container">
                 <div className="logo">Grace</div>
 
-                <nav className="nav-links">
-                    <Link to="/">Home</Link>
-                    <Link to="/about">Who are we?</Link>
+                <nav className={`nav-links ${menuOpen ? "active" : ""}`}>
+                    <Link to="/" onClick={() => setMenuOpen(false)}>
+                        Home
+                    </Link>
+                    <Link to="/about" onClick={() => setMenuOpen(false)}>
+                        Who are we?
+                    </Link>
                     <Link
                         id="services-link"
                         to="#"
@@ -128,7 +138,9 @@ function Header() {
                     >
                         Services
                     </Link>
-                    <Link to="/feed">Feed</Link>
+                    <Link to="/feed" onClick={() => setMenuOpen(false)}>
+                        Feed
+                    </Link>
                 </nav>
 
                 <div className="nav-actions">
@@ -144,6 +156,15 @@ function Header() {
                             <Button text="Get Started" />
                         </Link>
                     )}
+                </div>
+
+                <div
+                    className={`hamburger ${menuOpen ? "active" : ""}`}
+                    onClick={toggleMenu}
+                >
+                    <span className="bar"></span>
+                    <span className="bar"></span>
+                    <span className="bar"></span>
                 </div>
             </div>
         </header>

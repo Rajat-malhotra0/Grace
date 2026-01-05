@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { ClipboardList, Trash2, Archive } from "lucide-react";
 import axios from "axios";
+import { API_URL } from "../../../config";
 import { AuthContext } from "../../../Context/AuthContext";
 import "./AdminReportLog.css";
 
@@ -26,7 +27,7 @@ const AdminReportLog = () => {
             try {
                 setLoading(true);
                 const response = await axios.get(
-                    `http://localhost:3001/api/ngo-reports?status=pending&ngo=${ngo._id}`,
+                    `${API_URL}/ngo-reports?status=pending&ngo=${ngo._id}`,
                     {
                         headers: {
                             Authorization: token,
@@ -67,7 +68,7 @@ const AdminReportLog = () => {
             if (!reportToResolve) return;
 
             await axios.put(
-                `http://localhost:3001/api/ngo-reports/${id}/resolve`,
+                `${API_URL}/ngo-reports/${id}/resolve`,
                 {},
                 {
                     headers: {

@@ -1,9 +1,11 @@
 const rawBackendUrl = (
     process.env.REACT_APP_BACKEND_URL ||
     process.env.REACT_APP_API_URL ||
-    "http://localhost:3001"
+    "http://192.168.1.19:3001"
 ).trim();
-const backendUrl = rawBackendUrl.replace(/\/$/, "");
+const backendUrl = rawBackendUrl.includes("railway")
+    ? "http://192.168.1.19:3001"
+    : rawBackendUrl.replace(/\/$/, "");
 
 const apiPath = (process.env.REACT_APP_API_PATH || "/api").trim();
 const normalizedApiPath = apiPath.startsWith("/") ? apiPath : `/${apiPath}`;
@@ -18,6 +20,7 @@ const socketUrl = (process.env.REACT_APP_SOCKET_URL || backendUrl).replace(
 
 export const BACKEND_URL = backendUrl;
 export const API_BASE_URL = apiBaseUrl;
+export const API_URL = apiBaseUrl;
 export const SOCKET_URL = socketUrl;
 export const RAZORPAY_KEY_ID = process.env.REACT_APP_RAZORPAY_KEY_ID || "";
 

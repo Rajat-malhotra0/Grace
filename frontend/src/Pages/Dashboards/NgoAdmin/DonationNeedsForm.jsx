@@ -9,6 +9,7 @@ import {
     Calendar,
 } from "lucide-react";
 import axios from "axios";
+import { API_URL } from "../../../config";
 import { AuthContext } from "../../../Context/AuthContext";
 import "./DonationNeedsForm.css";
 
@@ -86,7 +87,7 @@ const DonationNeedsForm = () => {
             };
 
             const response = await axios.post(
-                "http://localhost:3001/api/marketplace",
+                `${API_URL}/marketplace`,
                 marketplaceData
             );
 
