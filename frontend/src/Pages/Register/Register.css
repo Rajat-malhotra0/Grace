@@ -35,7 +35,7 @@ This is a styling ".css" file for the main register.js file, allowing us to appl
   text-align: center;
   font-size: 1.1rem;
   color: #555;
-  max-width: 500px !important;
+  max-width: 450px !important; /* Narrower to match form */
   line-height: 1.6;
   margin-bottom: 1rem;
 }
@@ -47,17 +47,27 @@ This is a styling ".css" file for the main register.js file, allowing us to appl
   color: #333;
   margin-bottom: 2rem;
   text-align: center;
+  max-width: 450px;
 }
 
 /* The form box */
 .register-page-container form {
   width: 100%;
-  max-width: 600px;
+  max-width: 550px; /* Reduced base max-width */
   background: #ffffff;
   padding: 40px;
   border-radius: 10px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
   margin: 0 auto;
+}
+
+@media (min-width: 1024px) {
+  .register-page-container form,
+  .register-page-container > p,
+  .register-page-container > span {
+    max-width: 55% !important; /* Increased as requested */
+    min-width: 400px !important;
+  }
 }
 
 /* All text, password, email, tel, url, and date inputs */

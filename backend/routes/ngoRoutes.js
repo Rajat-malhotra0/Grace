@@ -448,4 +448,109 @@ router.delete(
     }
 );
 
+// Inventory Routes
+router.post(
+    "/:id/inventory/:type",
+    [
+        param("id").isMongoId().withMessage("Invalid NGO ID"),
+        param("type")
+            .isIn(["medicine", "food", "clothes", "books", "other"])
+            .withMessage("Invalid inventory type"),
+        body("itemName").notEmpty().withMessage("Item name is required"),
+        body("quantity").isNumeric().withMessage("Quantity must be a number"),
+    ],
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ success: false, errors: errors.array() });
+        }
+        try {
+            const ngo = await ngoService.addInventoryItem(
+                req.params.id,
+                req.params.type,
+                req.body
+            );
+            return res.status(201).json({
+                success: true,
+                message: "Inventory item added",
+                result: ngo.inventory[req.params.type],
+            });
+        } catch (error) {
+            return res.status(500).json({
+                success: false,
+                message: error.message,
+            });
+        }
+    }
+);
+
+router.put(
+    "/:id/inventory/:type/:itemId",
+    [
+        param("id").isMongoId().withMessage("Invalid NGO ID"),
+        param("type")
+            .isIn(["medicine", "food", "clothes", "books", "other"])
+            .withMessage("Invalid inventory type"),
+        param("itemId").isMongoId().withMessage("Invalid Item ID"),
+    ],
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ success: false, errors: errors.array() });
+        }
+        try {
+            const ngo = await ngoService.updateInventoryItem(
+                req.params.id,
+                req.params.type,
+                req.params.itemId,
+                req.body
+            );
+            return res.status(200).json({
+                success: true,
+                message: "Inventory item updated",
+                result: ngo.inventory[req.params.type],
+            });
+        } catch (error) {
+            return res.status(500).json({
+                success: false,
+                message: error.message,
+            });
+        }
+    }
+);
+
+router.delete(
+    "/:id/inventory/:type/:itemId",
+    [
+        param("id").isMongoId().withMessage("Invalid NGO ID"),
+        param("type")
+            .isIn(["medicine", "food", "clothes", "books", "other"])
+            .withMessage("Invalid inventory type"),
+        param("itemId").isMongoId().withMessage("Invalid Item ID"),
+    ],
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ success: false, errors: errors.array() });
+        }
+        try {
+            const ngo = await ngoService.deleteInventoryItem(
+                req.params.id,
+                req.params.type,
+                req.params.itemId
+            );
+            return res.status(200).json({
+                success: true,
+                message: "Inventory item deleted",
+                result: ngo.inventory[req.params.type],
+            });
+        } catch (error) {
+            return res.status(500).json({
+                success: false,
+                message: error.message,
+            });
+        }
+    }
+);
+
 module.exports = router;

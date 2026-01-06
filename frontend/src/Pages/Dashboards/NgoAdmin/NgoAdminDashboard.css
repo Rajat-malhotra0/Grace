@@ -1,14 +1,213 @@
+.ngo-admin-dashboard {
+    display: flex;
+    min-height: 100vh;
+    background-color: #f8f9fa;
+}
+
 .dashboard-main-container {
+    flex: 1;
     padding-left: 220px;
-    padding-right: 1rem;
-    padding-top: 1rem;
+    padding-right: 2rem;
+    padding-top: 1.5rem;
+    padding-bottom: 2rem;
     transition: padding-left 0.3s ease;
+}
+
+.dashboard-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+    margin-top: 2rem;
+}
+
+.dashboard-section {
+    background: transparent;
+}
+
+.section-header {
+    font-family: "Playfair Display", serif;
+    font-size: 1.8rem;
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #e9ecef;
+}
+
+.section-grid {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.section-grid.two-columns {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.grid-item {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    border: 1px solid #eaeaea;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    overflow: hidden;
+}
+
+.grid-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.08);
+}
+
+.grid-item.full-width {
+    grid-column: 1 / -1;
+}
+
+/* Widget Overrides for Embedded Components */
+.widget-container .inventory-dashboard,
+.widget-container .report-log-container {
+    margin: 0 !important;
+    padding: 0 !important;
+    min-height: auto !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+.widget-container .dashboard-title,
+.widget-container .report-header {
+    font-size: 2rem !important;
+    margin-bottom: 1.5rem !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
+    background: transparent !important;
+    text-align: left !important;
+}
+
+.widget-container .report-title {
+    font-size: 2rem !important;
+}
+
+.widget-container .report-subtitle {
+    display: none;
+}
+
+.widget-container .inventory-section,
+.widget-container .report-card {
+    box-shadow: none !important;
+    border: 1px solid #eee !important;
+}
+
+/* Volunteer Widget Overrides */
+.widget-container .volunteer-opportunities-container,
+.widget-container .volunteer-applications-container {
+    margin: 0 !important;
+    padding: 0 !important;
+    min-height: auto !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    margin-top: 0 !important;
+}
+
+.widget-container .opportunities-header,
+.widget-container .applications-header {
+    margin-bottom: 1.5rem !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
+    background: transparent !important;
+    text-align: left !important;
+    max-width: 100% !important;
+}
+
+.widget-container .opportunities-title,
+.widget-container .applications-title {
+    font-size: 1.8rem !important;
+    margin-bottom: 0.5rem !important;
+}
+
+.widget-container .opportunities-subtitle,
+.widget-container .applications-subtitle {
+    font-size: 1rem !important;
+    color: #666 !important;
+}
+
+.widget-container .volunteer-board {
+    padding: 1rem !important;
+    margin-bottom: 1rem !important;
+    box-shadow: none !important;
+    border: 1px solid #eee !important;
+    min-height: auto !important;
+}
+
+.widget-container .applications-filters {
+    padding: 1rem !important;
+    margin-bottom: 1rem !important;
+    box-shadow: none !important;
+    border: none !important;
+    background: transparent !important;
+    flex-direction: column !important;
+    gap: 0.75rem !important;
+}
+
+.widget-container .filter-group {
+    min-width: 0 !important;
+    width: 100% !important;
+    margin: 0 !important;
+}
+
+.widget-container .filter-input,
+.widget-container .filter-select {
+    padding: 0.75rem 0.75rem 0.75rem 2.5rem !important;
+    font-size: 0.9rem !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+.widget-container .input-icon {
+    left: 0.75rem !important;
+}
+
+.widget-container .application-card {
+    padding: 1.5rem !important;
+}
+
+/* Email Updates Widget Overrides */
+.widget-container .opportunity-email-updates-container {
+    margin: 0 !important;
+    padding: 0 !important;
+    min-height: auto !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+.widget-container .updates-header {
+    margin-bottom: 1.5rem !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
+    background: transparent !important;
+    text-align: left !important;
+}
+
+.widget-container .updates-title {
+    font-size: 1.8rem !important;
+    margin-bottom: 0.5rem !important;
+}
+
+.widget-container .updates-subtitle {
+    font-size: 1rem !important;
+    color: #666 !important;
 }
 
 /* Responsive Design */
 @media (max-width: 1200px) {
     .dashboard-main-container {
         padding-left: 200px;
+    }
+    
+    .section-grid.two-columns {
+        grid-template-columns: 1fr;
     }
 }
 
@@ -21,15 +220,22 @@
 @media (max-width: 768px) {
     .dashboard-main-container {
         padding-left: 0;
-        padding-right: 0.5rem;
-        padding-top: 0.5rem;
+        padding-right: 1rem;
+        padding-top: 1rem;
+    }
+    
+    .section-header {
+        font-size: 1.5rem;
+    }
+    
+    .grid-item {
+        padding: 1rem;
     }
 }
 
 @media (max-width: 480px) {
     .dashboard-main-container {
-        padding-right: 0.25rem;
-        padding-top: 0.25rem;
+        padding-right: 0.5rem;
     }
 }
 

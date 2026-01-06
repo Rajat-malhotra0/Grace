@@ -3,3 +3,10 @@
   padding-right: 1rem;
   padding-top: 1rem;
 }
+
+@media (max-width: 768px) {
+  .dashboard-main-container {
+    padding-left: 1rem;
+    padding-top: 4rem; /* Space for hamburger */
+  }
+}

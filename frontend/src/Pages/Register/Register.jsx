@@ -437,8 +437,19 @@ function Register() {
         if (result && result.success) {
             console.log("Registration successful!");
             // Show success message
+            let ToastComponent;
+            if (isNgo) {
+                ToastComponent = <NgoRegistrationToast />;
+            } else if (formData.role === "volunteer") {
+                ToastComponent = <VolunteerRegistrationToast />;
+            } else if (formData.role === "ngoMember") {
+                ToastComponent = <NgoMemberRegistrationToast />;
+            } else {
+                ToastComponent = "Registration successful! Please check your email to verify your account, then login.";
+            }
+
             toast.success(
-                "Registration successful! Please check your email to verify your account, then login.",
+                ToastComponent,
                 {
                     position: "top-right",
                     autoClose: 8000,

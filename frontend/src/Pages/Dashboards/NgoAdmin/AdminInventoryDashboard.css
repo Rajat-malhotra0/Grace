@@ -61,6 +61,7 @@
     border-radius: 8px;
     overflow: hidden;
     border: 1px solid #e8e8e8;
+    overflow-x: auto;
 }
 
 .inventory-header-row {
@@ -77,6 +78,7 @@
     text-transform: uppercase;
     letter-spacing: 0.3px;
     align-items: center;
+    min-width: max-content;
 }
 
 .inventory-row {
@@ -92,11 +94,12 @@
     color: #555;
     min-height: 55px;
     background: #fff;
+    min-width: max-content;
 }
 
 .inventory-row:hover {
     background: #f8f8f8;
-    transform: translateX(3px);
+    transform: none;
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.08);
 }
 
@@ -106,20 +109,23 @@
 
 .inventory-row span {
     padding: 0.6rem 0.8rem;
-    background: #f9f9f9;
-    border: 1px solid #e8e8e8;
-    border-radius: 4px;
-    text-align: center;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    text-align: left;
     transition: all 0.3s ease;
     color: #666;
     font-size: 0.85rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .inventory-row:hover span {
-    background: #fff;
-    border-color: #ddd;
-    color: #444;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    background: transparent;
+    border-color: transparent;
+    color: #333;
+    box-shadow: none;
 }
 
 .inventory-row input[type="checkbox"] {
@@ -186,27 +192,99 @@
 /* Specific styling for different inventory sections */
 .inventory-section.other-inventory .inventory-header-row,
 .inventory-section.other-inventory .inventory-row {
-    grid-template-columns: 80px repeat(8, 1fr);
+    grid-template-columns: 50px 80px repeat(8, 150px);
 }
 
 /* Books inventory specific columns */
-.inventory-section:has(.section-title:contains("Books")) .inventory-header-row,
-.inventory-section:has(.section-title:contains("Books")) .inventory-row {
-    grid-template-columns: 80px repeat(11, 1fr);
+.inventory-section.books-inventory .inventory-header-row,
+.inventory-section.books-inventory .inventory-row {
+    grid-template-columns: 50px 80px repeat(11, 150px);
 }
 
 /* Medicine inventory specific columns */
-.inventory-section:has(.section-title:contains("Medicine"))
-    .inventory-header-row,
-.inventory-section:has(.section-title:contains("Medicine")) .inventory-row {
-    grid-template-columns: 80px repeat(13, 1fr);
+.inventory-section.medicine-inventory .inventory-header-row,
+.inventory-section.medicine-inventory .inventory-row {
+    grid-template-columns: 50px 80px repeat(13, 150px);
+    font-size: 0.8rem;
+}
+
+/* Food inventory specific columns */
+.inventory-section.food-inventory .inventory-header-row,
+.inventory-section.food-inventory .inventory-row {
+    grid-template-columns: 50px 80px repeat(8, 150px);
+}
+
+.inventory-section.medicine-inventory .inventory-header-row {
+    font-size: 0.75rem;
+    padding: 1rem 0.5rem;
+}
+
+.inventory-section.medicine-inventory .inventory-row {
+    padding: 0.8rem 0.5rem;
+}
+
+.inventory-section.medicine-inventory .inventory-row span {
+    padding: 0.4rem;
+    font-size: 0.8rem;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+}
+
+/* Edit Mode Styles */
+.action-buttons {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    transition: background 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-btn:hover {
+    background-color: #eee;
+}
+
+.icon-btn.save-btn {
+    color: #28a745;
+}
+
+.icon-btn.cancel-btn {
+    color: #dc3545;
+}
+
+.icon-btn.edit-btn {
+    color: #007bff;
+}
+
+.edit-input {
+    width: 100%;
+    padding: 0.4rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-family: inherit;
+}
+
+.edit-input:focus {
+    outline: none;
+    border-color: #666;
+    box-shadow: 0 0 0 2px rgba(0,0,0,0.1);
 }
 
 /* Clothes inventory specific columns */
-.inventory-section:has(.section-title:contains("Clothes"))
-    .inventory-header-row,
-.inventory-section:has(.section-title:contains("Clothes")) .inventory-row {
-    grid-template-columns: 80px repeat(10, 1fr);
+.inventory-section.clothes-inventory .inventory-header-row,
+.inventory-section.clothes-inventory .inventory-row {
+    grid-template-columns: 50px 80px repeat(10, 150px);
 }
 
 /* Loading state */

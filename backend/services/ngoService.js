@@ -222,6 +222,79 @@ async function getVolunteerOpportunities(ngoId) {
     }
 }
 
+async function addInventoryItem(ngoId, type, itemData) {
+    try {
+        const validTypes = ["medicine", "food", "clothes", "books", "other"];
+        if (!validTypes.includes(type)) {
+            throw new Error("Invalid inventory type");
+        }
+
+        const ngo = await Ngo.findById(ngoId);
+        if (!ngo) {
+            throw new Error("NGO not found");
+        }
+
+        // Ensure inventory object exists
+        if (!ngo.inventory) {
+            ngo.inventory = {};
+        }
+        if (!ngo.inventory[type]) {
+            ngo.inventory[type] = [];
+        }
+
+        ngo.inventory[type].push(itemData);
+        await ngo.save();
+        return ngo;
+    } catch (error) {
+        throw error;
+    }
+}
+
+async function updateInventoryItem(ngoId, type, itemId, itemData) {
+    try {
+        const validTypes = ["medicine", "food", "clothes", "books", "other"];
+        if (!validTypes.includes(type)) {
+            throw new Error("Invalid inventory type");
+        }
+
+        const ngo = await Ngo.findById(ngoId);
+        if (!ngo) {
+            throw new Error("NGO not found");
+        }
+
+        const item = ngo.inventory[type].id(itemId);
+        if (!item) {
+            throw new Error("Inventory item not found");
+        }
+
+        Object.assign(item, itemData);
+        await ngo.save();
+        return ngo;
+    } catch (error) {
+        throw error;
+    }
+}
+
+async function deleteInventoryItem(ngoId, type, itemId) {
+    try {
+        const validTypes = ["medicine", "food", "clothes", "books", "other"];
+        if (!validTypes.includes(type)) {
+            throw new Error("Invalid inventory type");
+        }
+
+        const ngo = await Ngo.findById(ngoId);
+        if (!ngo) {
+            throw new Error("NGO not found");
+        }
+
+        ngo.inventory[type].pull(itemId);
+        await ngo.save();
+        return ngo;
+    } catch (error) {
+        throw error;
+    }
+}
+
 module.exports = {
     createNgo,
     readNgos,
@@ -235,4 +308,7 @@ module.exports = {
     updateVolunteerOpportunity,
     deleteVolunteerOpportunity,
     getVolunteerOpportunities,
+    addInventoryItem,
+    updateInventoryItem,
+    deleteInventoryItem,
 };

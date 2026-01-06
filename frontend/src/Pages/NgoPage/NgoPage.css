@@ -151,14 +151,15 @@ html {
     grid-area: quote;
     align-self: end;
     justify-self: start;
-    max-width: 600px !important;
+    max-width: 600px;
+    width: 100%;
 }
 
 .hero-quote blockquote {
-    font-size: 6.8rem;
+    font-size: clamp(2rem, 8vw, 6.8rem);
     color: white;
     margin: 0;
-    line-height: 1.4;
+    line-height: 1.2;
     font-weight: 300;
     font-family: "Instrument Serif", serif;
 }
@@ -208,7 +209,7 @@ html {
 }
 
 .projects-header h2 {
-    font-size: 4.5rem;
+    font-size: clamp(2rem, 5vw, 4.5rem);
     font-weight: 400;
     color: #f9fafa;
     margin-bottom: 1.5rem;
@@ -216,7 +217,7 @@ html {
 }
 
 .projects-subheader {
-    font-size: 2.2rem;
+    font-size: clamp(1rem, 3vw, 2.2rem);
     color: #fefefe;
     line-height: 1.6;
     max-width: 2000px !important;
@@ -226,7 +227,7 @@ html {
 
 .projects-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 3rem;
     margin-top: 0rem;
     max-width: 100%;
@@ -392,7 +393,7 @@ html {
 }
 
 .volunteer-header1 h2 {
-    font-size: 4.5rem;
+    font-size: clamp(2rem, 5vw, 4.5rem);
     font-weight: 400;
     color: #f9fafa;
     margin-bottom: 2rem;
@@ -401,7 +402,7 @@ html {
 }
 
 .volunteer-subheader1 {
-    font-size: 1.9rem;
+    font-size: clamp(1rem, 3vw, 1.9rem);
     color: #f1f0f0;
     line-height: 1.6;
     max-width: 1200px;
@@ -411,7 +412,7 @@ html {
 
 .volunteer-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 350px), 1fr));
     gap: 2.5rem;
     margin-top: 4rem;
     max-width: 100%;
@@ -601,7 +602,7 @@ html {
 }
 
 .donate-header h2 {
-    font-size: 4.5rem;
+    font-size: clamp(2rem, 5vw, 4.5rem);
     font-weight: 400;
     color: #f9fafa;
     margin-bottom: 2rem;
@@ -610,7 +611,7 @@ html {
 }
 
 .donate-subheader {
-    font-size: 1.9rem;
+    font-size: clamp(1rem, 3vw, 1.9rem);
     color: #f1f0f0;
     line-height: 1.6;
     max-width: 1200px;
@@ -625,6 +626,19 @@ html {
     margin-top: 2rem;
     max-width: 100%;
     width: 100%;
+}
+
+@media (max-width: 1024px) {
+    .donate-grid {
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .donate-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
 }
 
 .donate-card {
@@ -642,8 +656,14 @@ html {
 
 .donate-image {
     width: 100%;
-    height: 400px;
+    height: 300px;
     overflow: hidden;
+}
+
+@media (min-width: 1024px) {
+    .donate-image {
+        height: 400px;
+    }
 }
 
 .donate-image img {
@@ -662,10 +682,10 @@ html {
 }
 
 .donate-title {
-    font-size: 2rem;
+    font-size: clamp(1.4rem, 4vw, 2rem);
     font-weight: 600;
     color: #f9fafa;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.2rem;
     font-family: "Playfair Display", serif;
     line-height: 1.3;
 }
@@ -753,7 +773,7 @@ html {
     }
 
     .hero-quote blockquote {
-        font-size: 1.2rem;
+        font-size: clamp(1.8rem, 6vw, 2.5rem);
     }
 
     .our-projects {

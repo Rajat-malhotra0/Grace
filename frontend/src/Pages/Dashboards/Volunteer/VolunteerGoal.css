@@ -11,6 +11,25 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+@media (max-width: 768px) {
+  .goal-form-container,
+  .goal-progress-container {
+    padding: 1.5rem;
+    margin: 1rem 1rem;
+    width: auto;
+  }
+
+  .goal-form-container h2,
+  .goal-progress-container h2 {
+    font-size: 1.8rem;
+  }
+
+  .goal-form-container p,
+  .goal-progress-container p {
+    font-size: 1.1rem;
+  }
+}
+
 .goal-header {
   display: flex;
   align-items: center;
