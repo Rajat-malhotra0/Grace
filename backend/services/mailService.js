@@ -1,57 +1,55 @@
-const nodemailer = require("nodemailer");
+const { Resend } = require("resend");
 
-let transporter;
+// Initialize Resend with API key
+let resend;
 
-async function initTransporter() {
-    if (transporter) return transporter;
+function initResend() {
+    if (resend) return resend;
 
-    const { GMAIL_USER, GMAIL_APP_PASS } = process.env;
-
-    if (GMAIL_USER && GMAIL_APP_PASS) {
-        transporter = nodemailer.createTransport({
-            host: "smtp.gmail.com",
-            port: 465,
-            secure: true,
-            auth: {
-                user: GMAIL_USER,
-                pass: GMAIL_APP_PASS,
-            },
-        });
-        return transporter;
+    // Check for API key
+    if (process.env.RESEND_API_KEY) {
+        resend = new Resend(process.env.RESEND_API_KEY);
+        return resend;
     }
 
-    // Dev fallback: Ethereal for testing
-    console.log("⚠️  Gmail credentials not found, using Ethereal test account");
-    const testAccount = await nodemailer.createTestAccount();
-    transporter = nodemailer.createTransport({
-        host: "smtp.ethereal.email",
-        port: 587,
-        secure: false,
-        auth: { user: testAccount.user, pass: testAccount.pass },
-    });
-    return transporter;
+    console.warn("⚠️ RESEND_API_KEY not found in environment variables");
+    return null;
 }
 
+// Function to send email
 async function sendMail({ to, subject, html, text }) {
     try {
-        const t = await initTransporter();
-        const from =
-            process.env.EMAIL_FROM ||
-            process.env.GMAIL_USER ||
-            "Grace <no-reply@grace.org>";
+        const mailClient = initResend();
 
-        const info = await t.sendMail({ from, to, subject, html, text });
-
-        // Log preview URL for dev testing
-        const preview = nodemailer.getTestMessageUrl(info);
-        if (preview) {
-            console.log("📧 Email preview:", preview);
+        if (!mailClient) {
+            console.log("Mock Email Sent (No API Key):");
+            console.log(`To: ${to}`);
+            console.log(`Subject: ${subject}`);
+            return { message: "Mock email logged" };
         }
 
-        return info;
+        const from = process.env.EMAIL_FROM || "Grace <no-reply@send.grace-backend.run.place>";
+
+        const data = await mailClient.emails.send({
+            from,
+            to,
+            subject,
+            html,
+            text
+        });
+
+        if (data.error) {
+            console.error("Resend API Error:", data.error);
+            throw new Error(data.error.message);
+        }
+
+        console.log("📧 Email sent successfully:", data.id);
+        return data;
     } catch (error) {
         console.error("Email send error:", error);
-        throw error;
+        // Don't crash the app if email fails, just log it
+        // throw error; 
+        return null;
     }
 }
 
@@ -236,9 +234,8 @@ async function sendVerificationEmail({ to, displayName, verifyUrl }) {
 
     `;
 
-    const text = `Hi ${
-        displayName || "there"
-    },\n\nWelcome to Grace! Please verify your email by clicking the link below:\n\n${verifyUrl}\n\nThis link will expire in 30 minutes.\n\nIf you didn't create an account, you can ignore this email.`;
+    const text = `Hi ${displayName || "there"
+        },\n\nWelcome to Grace! Please verify your email by clicking the link below:\n\n${verifyUrl}\n\nThis link will expire in 30 minutes.\n\nIf you didn't create an account, you can ignore this email.`;
 
     return sendMail({ to, subject, html, text });
 }
@@ -421,16 +418,15 @@ async function sendVolunteerApplicationNotification({
                     <p><strong>Applicant Email:</strong> ${applicantEmail}</p>
                 </div>
                 
-                ${
-                    message
-                        ? `
+                ${message
+            ? `
                 <p><strong>Message from Applicant:</strong></p>
                 <div class="message-box">
                     <p>"${message}"</p>
                 </div>
                 `
-                        : ""
-                }
+            : ""
+        }
                 
                 <p>Please review this application and respond at your earliest convenience.</p>
                 
@@ -448,9 +444,8 @@ async function sendVolunteerApplicationNotification({
 </html>
     `;
 
-    const text = `New Volunteer Application\n\nHello ${ngoName},\n\nYou have received a new volunteer application:\n\nOpportunity: ${opportunityTitle}\nApplicant: ${applicantName}\nEmail: ${applicantEmail}\n${
-        message ? `\nMessage: ${message}\n` : ""
-    }\nPlease log in to your Grace dashboard to review and respond to this application.`;
+    const text = `New Volunteer Application\n\nHello ${ngoName},\n\nYou have received a new volunteer application:\n\nOpportunity: ${opportunityTitle}\nApplicant: ${applicantName}\nEmail: ${applicantEmail}\n${message ? `\nMessage: ${message}\n` : ""
+        }\nPlease log in to your Grace dashboard to review and respond to this application.`;
 
     return sendMail({ to, subject, html, text });
 }
@@ -864,9 +859,8 @@ async function sendVolunteerApplicationRejected({
                     <h3>Don't be discouraged! 💪</h3>
                     <p>Your willingness to volunteer and make a difference is commendable. There are many other amazing opportunities waiting for you on Grace.</p>
                     <div class="button-container">
-                        <a href="${
-                            process.env.APP_BASE_URL || "http://localhost:3001"
-                        }/explore" class="button">Explore More Opportunities</a>
+                        <a href="${process.env.APP_BASE_URL || "http://localhost:3001"
+        }/explore" class="button">Explore More Opportunities</a>
                     </div>
                 </div>
                 
