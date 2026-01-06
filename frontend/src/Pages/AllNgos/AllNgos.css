@@ -1,0 +1,132 @@
+.all-ngos-page {
+  padding: 8rem 2rem 4rem;
+  background-color: #fdfdfd;
+  min-height: 100vh;
+}
+
+.all-ngos-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.all-ngos-header {
+  text-align: center;
+  margin-bottom: 4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.all-ngos-header h1 {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  color: #2e2e2e;
+  margin: 0;
+  font-weight: 500;
+}
+
+.all-ngos-header p {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(1.1rem, 2vw, 1.5rem);
+  color: #555;
+  max-width: 800px;
+  line-height: 1.6;
+  font-style: italic;
+}
+
+/* Filters and Search */
+.filters-section {
+  margin-bottom: 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+.search-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 1rem 3rem 1rem 1.5rem;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 50px;
+  background: white;
+  transition: all 0.3s ease;
+  font-family: "Inter", sans-serif;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #333;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.search-icon {
+  position: absolute;
+  right: 1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #888;
+  pointer-events: none;
+}
+
+.category-filters {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.category-btn {
+  padding: 0.6rem 1.5rem;
+  border: 1px solid #ddd;
+  background: white;
+  border-radius: 50px;
+  font-family: "Playfair Display", serif;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #555;
+}
+
+.category-btn:hover {
+  border-color: #333;
+  color: #333;
+}
+
+.category-btn.active {
+  background: #2e2e2e;
+  color: white;
+  border-color: #2e2e2e;
+}
+
+/* Grid Layout for Cards */
+.ngos-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Loading and Error States */
+.loading-state,
+.error-state,
+.no-results {
+  text-align: center;
+  padding: 4rem 0;
+  font-family: "Playfair Display", serif;
+  font-size: 1.5rem;
+  color: #666;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .all-ngos-page {
+    padding: 6rem 1rem 3rem;
+  }
+}

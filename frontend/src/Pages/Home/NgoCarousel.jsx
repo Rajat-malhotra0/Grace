@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { withApiBase } from "config";
 import "./NgoCarousel.css";
@@ -18,6 +19,7 @@ const filterCategories = [
 ];
 
 const NgoCarousel = () => {
+    const navigate = useNavigate();
     const [activeFilter, setActiveFilter] = useState("All");
     const [ngos, setNgos] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -185,7 +187,10 @@ const NgoCarousel = () => {
                                 There's a cause waiting for your kindness.
                                 Discover the NGOs weaving change.
                             </p>
-                            <button className="explore-btn">
+                            <button
+                                className="explore-btn"
+                                onClick={() => navigate("/all-ngos")}
+                            >
                                 View All Organizations
                             </button>
                         </div>

@@ -29,6 +29,7 @@ import AdminReportHistory from "./Pages/Dashboards/NgoAdmin/AdminReportHistory";
 import NgoPage from "./Pages/NgoPage/NgoPage";
 import MarketplaceInsightsNgo from "./Pages/MarketplaceInsightsNgo/MarketplaceInsightsNgo";
 import VolunteerInsightsNgo from "./Pages/VolunteerInsightsNgo/volunteerNgo";
+import AllNgos from "./Pages/AllNgos/AllNgos";
 
 function Content() {
     return (
@@ -95,6 +96,7 @@ function Content() {
                 element={<VolunteerInsightsNgo />}
             />
             <Route path="/ngo/:ngoId" element={<NgoPage />} />
+            <Route path="/all-ngos" element={<AllNgos />} />
             {/* is a route parameter syntax, not an actual URL path */}
             {/* Add more routes as needed */}
         </Routes>
