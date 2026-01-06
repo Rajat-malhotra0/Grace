@@ -31,11 +31,17 @@ function ImpactStories() {
                 );
 
                 // Set the stories from the response data
-                setStories(response.data.result);
+                const result = response.data.result || response.data || [];
+                if (Array.isArray(result)) {
+                    setStories(result);
+                } else {
+                    setStories([]);
+                }
             } catch (err) {
                 // If an error occurs, save the error message
                 setError("Failed to load stories. Please try again later.");
                 console.error("Fetch error:", err);
+                setStories([]);
             } finally {
                 // Always set loading to false after the attempt
                 setLoading(false);

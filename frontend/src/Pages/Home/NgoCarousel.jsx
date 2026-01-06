@@ -36,11 +36,18 @@ const NgoCarousel = () => {
             try {
                 const response = await axios.get(withApiBase("/api/ngos"));
 
-                console.log("Fetched NGOs:", response.data.result);
-                console.log("First NGO structure:", response.data.result[0]);
-                setNgos(response.data.result.slice(0, 6));
+                const result = response.data.result || response.data || [];
+                console.log("Fetched NGOs:", result);
+                
+                if (Array.isArray(result)) {
+                    setNgos(result.slice(0, 6));
+                } else {
+                    console.error("API response is not an array:", result);
+                    setNgos([]);
+                }
             } catch (error) {
                 console.error("Failed to fetch NGOs:", error);
+                setNgos([]);
             } finally {
                 setLoading(false);
             }
