@@ -60,7 +60,13 @@ function Header() {
     const getUserWelcomeText = () => {
         // If it's an NGO, show organization name
         if (ngo) {
-            return `Welcome, ${ngo.organizationName || ngo.name || "NGO"}`;
+            const ngoName = ngo.organizationName || ngo.name || "NGO";
+            return (
+                <span className="welcome-btn-content">
+                    <span className="welcome-prefix">Welcome, </span>
+                    <span className="welcome-name">{ngoName}</span>
+                </span>
+            );
         }
 
         // For other users, show their name with role
@@ -75,7 +81,13 @@ function Header() {
             })`;
         }
 
-        return `Welcome, ${userName}${userRole}`;
+        return (
+            <span className="welcome-btn-content">
+                <span className="welcome-prefix">Welcome, </span>
+                <span className="welcome-name">{userName}</span>
+                <span className="welcome-role">{userRole}</span>
+            </span>
+        );
     };
 
     const handleServicesClick = (e) => {

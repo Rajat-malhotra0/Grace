@@ -167,8 +167,10 @@
 /* Responsive design */
 @media (max-width: 1024px) {
   .header-container {
-    padding: 0 1rem;
-    grid-template-columns: auto 1fr auto;
+    padding: 0 1.5rem;
+    display: flex; /* Switch to flex on mobile for easier alignment */
+    justify-content: space-between;
+    align-items: center;
   }
 
   .nav-links {
@@ -203,9 +205,8 @@
   }
 
   .nav-actions {
-    grid-column: auto;
-    justify-content: flex-end;
-    margin-right: 1.5rem;
+    margin-left: auto; /* Push towards hamburger */
+    margin-right: 1.5rem; /* Gap between button and hamburger */
   }
 
   .logo {
@@ -214,5 +215,41 @@
 
   .hamburger {
     display: flex;
+  }
+}
+
+@media (max-width: 768px) {
+  .welcome-prefix, 
+  .welcome-role {
+    display: none;
+  }
+  
+  .nav-actions {
+    margin-right: 1rem;
+  }
+
+  .grace-header .grace-button {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-container {
+    padding: 0 1rem;
+  }
+
+  .logo {
+    font-size: 1.3rem;
+  }
+
+  .nav-actions {
+    margin-right: 0.75rem;
+  }
+
+  .grace-header .grace-button {
+    padding: 0.35rem 0.7rem;
+    font-size: 0.7rem;
   }
 }

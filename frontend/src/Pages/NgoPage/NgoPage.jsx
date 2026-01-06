@@ -271,6 +271,12 @@ const NgoPage = () => {
                     <div className="hero-nav">
                         <button
                             className="hero-nav-link"
+                            onClick={() => navigate("/")}
+                        >
+                            Home
+                        </button>
+                        <button
+                            className="hero-nav-link"
                             onClick={() => handleNavClick("about-us")}
                         >
                             About Us
@@ -282,12 +288,6 @@ const NgoPage = () => {
                             }
                         >
                             Volunteer
-                        </button>
-                        <button
-                            className="hero-nav-link"
-                            onClick={() => handleNavClick("donate-section")}
-                        >
-                            Donate
                         </button>
                     </div>
 
