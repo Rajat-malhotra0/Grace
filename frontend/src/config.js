@@ -1,11 +1,9 @@
 const rawBackendUrl = (
     process.env.REACT_APP_BACKEND_URL ||
     process.env.REACT_APP_API_URL ||
-    "http://192.168.1.19:3001"
+    "http://localhost:3001"
 ).trim();
-const backendUrl = rawBackendUrl.includes("railway")
-    ? "http://192.168.1.19:3001"
-    : rawBackendUrl.replace(/\/$/, "");
+const backendUrl = rawBackendUrl.replace(/\/$/, "");
 
 const apiPath = (process.env.REACT_APP_API_PATH || "/api").trim();
 const normalizedApiPath = apiPath.startsWith("/") ? apiPath : `/${apiPath}`;

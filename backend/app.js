@@ -35,7 +35,6 @@ app.use(express.urlencoded({ extended: true }));
 
 const allowedOrigins = [
     "http://localhost:3000",
-    "http://192.168.1.19:3000",
     process.env.CORS_ORIGIN,
 ].filter(Boolean);
 
