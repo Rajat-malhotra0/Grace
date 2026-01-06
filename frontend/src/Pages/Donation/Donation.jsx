@@ -77,8 +77,11 @@ const Donations = () => {
                             </div>
                             <div className="ngo-list-action">
                                 <button
-                                    onClick={() => handleDonateClick(ngo)}
+                                    onClick={(e) => e.preventDefault()}
                                     className="donation-button"
+                                    disabled
+                                    style={{ opacity: 0.6, cursor: 'not-allowed' }}
+                                    title="Donations are temporarily unavailable"
                                 >
                                     Donate
                                 </button>

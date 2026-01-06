@@ -77,7 +77,13 @@ const NgoCard = ({ ngo, onDonateClick }) => {
                 </div>
                 
                 <div className="ngo-actions">
-                    <button className="btn donate" onClick={handleDonateClick}>
+                    <button 
+                        className="btn donate" 
+                        onClick={(e) => { e.stopPropagation(); }} 
+                        disabled 
+                        style={{ opacity: 0.6, cursor: 'not-allowed' }}
+                        title="Donations are temporarily unavailable"
+                    >
                         <Heart size={16} /> Donate
                     </button>
                     <button

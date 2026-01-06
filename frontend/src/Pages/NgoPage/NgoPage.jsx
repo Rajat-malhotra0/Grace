@@ -561,11 +561,9 @@ const NgoPage = () => {
                                             ) : (
                                                 <button
                                                     className="donate-button secondary"
-                                                    onClick={() =>
-                                                        handleDonateClick(
-                                                            "donate"
-                                                        )
-                                                    }
+                                                    disabled
+                                                    style={{ opacity: 0.6, cursor: 'not-allowed' }}
+                                                    title="Donations are temporarily unavailable"
                                                 >
                                                     Donate Now
                                                 </button>
