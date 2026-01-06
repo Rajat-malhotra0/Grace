@@ -37,7 +37,6 @@ const NgoCarousel = () => {
                 const response = await axios.get(withApiBase("/api/ngos"));
 
                 const result = response.data.result || response.data || [];
-                console.log("Fetched NGOs:", result);
                 
                 if (Array.isArray(result)) {
                     setNgos(result.slice(0, 6));

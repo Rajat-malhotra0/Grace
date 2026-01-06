@@ -122,10 +122,7 @@ function Header() {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-    // Debug: Log user data to console (remove in production)
-    console.log("User data:", user);
-    console.log("NGO data:", ngo);
-    console.log("Dashboard route:", getUserDashboardRoute());
+
 
     return (
         <header
