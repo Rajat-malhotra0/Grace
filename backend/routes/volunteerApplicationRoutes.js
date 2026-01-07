@@ -232,7 +232,10 @@ router.get(
             }
 
             const applications = await VolunteerApplication.find(filter)
-                .populate("user", "userName email location volunteerType")
+                .populate(
+                    "user",
+                    "userName email location volunteerType about leaderboardStats"
+                )
                 .sort({ appliedAt: -1 });
 
             return res.status(200).json({
@@ -301,12 +304,15 @@ router.patch(
                 });
             }
 
+            // Allow status updates even if already processed (e.g. revoke acceptance)
+            /* 
             if (application.status !== "pending") {
                 return res.status(400).json({
                     success: false,
                     message: `Application has already been ${application.status}`,
                 });
             }
+            */
 
             // Update application status
             application.status = status;

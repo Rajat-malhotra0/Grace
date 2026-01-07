@@ -56,7 +56,7 @@ async function registerUser(userData) {
 
             const actualAge =
                 monthDiff < 0 ||
-                (monthDiff === 0 && today.getDate() < birthDate.getDate())
+                    (monthDiff === 0 && today.getDate() < birthDate.getDate())
                     ? age - 1
                     : age;
 
@@ -163,7 +163,7 @@ async function registerNGO(userData) {
 
             const actualAge =
                 monthDiff < 0 ||
-                (monthDiff === 0 && today.getDate() < birthDate.getDate())
+                    (monthDiff === 0 && today.getDate() < birthDate.getDate())
                     ? age - 1
                     : age;
 
@@ -397,10 +397,7 @@ function generateToken(user) {
             role: user.role,
             email: user.email,
         },
-        tokenSecret,
-        {
-            expiresIn: tokenExpiry,
-        }
+        tokenSecret
     );
 }
 

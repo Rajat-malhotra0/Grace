@@ -208,6 +208,7 @@ const loginUsers = [
         location: { city: "Delhi", state: "Delhi" },
         profileCompleted: true,
         leaderboardPoints: 1000,
+        emailVerified: true,
     },
 ];
 
@@ -233,6 +234,9 @@ async function createLoginUsers(keepConnectionOpen = false) {
             } else {
                 const plainPassword = userData.password;
                 user.password = plainPassword;
+                if (userData.emailVerified) {
+                    user.emailVerified = true;
+                }
                 user.markModified("password");
                 await user.save();
                 console.log(

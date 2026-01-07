@@ -798,6 +798,53 @@
     color: white !important;
 }
 
+.bio-section,
+.stats-section {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: #fbfbfb;
+    border-radius: 8px;
+    border: 1px solid #f0f0f0;
+}
+
+.bio-text {
+    font-family: serif;
+    font-size: 0.95rem;
+    color: #555;
+    line-height: 1.6;
+    margin: 0;
+    white-space: pre-wrap;
+}
+
+.mini-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 1rem;
+    text-align: center;
+}
+
+.mini-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.mini-stat-value {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #333;
+    font-family: serif;
+}
+
+.mini-stat-label {
+    font-size: 0.75rem;
+    color: #777;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 500;
+}
+
 .action-btn:disabled {
     opacity: 0.6;
     cursor: not-allowed;
@@ -866,4 +913,41 @@
 
 .applicant-name {
     margin: 0;
+}
+/* Revoke & Reject Container Styles */
+.status-actions-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    width: 100%;
+}
+
+.status-actions-container .accepted-message {
+    margin: 0;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.6rem;
+    font-size: 0.95rem;
+}
+
+/* Small Button Modifier */
+.small-btn {
+    padding: 0.5rem 1rem !important;
+    font-size: 0.8rem !important;
+    white-space: nowrap !important;
+    min-width: auto !important;
+    width: auto !important;
+    flex: 0 0 auto !important; /* Prevent shrinking */
+    background: #fff !important;
+    border-color: #f44336 !important;
+    color: #f44336 !important;
+    box-shadow: none !important;
+}
+
+.small-btn:hover {
+    background: #f44336 !important;
+    color: white !important;
 }

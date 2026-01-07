@@ -5,11 +5,14 @@ import "./Login.css";
 import { AuthContext } from "../../Context/AuthContext";
 import { withApiBase } from "config";
 
+import { Eye, EyeOff } from "lucide-react";
+
 function Login() {
     const [formData, setFormData] = useState({});
     const [errors, setErrors] = useState({});
     const [showResendButton, setShowResendButton] = useState(false);
     const [isResending, setIsResending] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
     const { login } = useContext(AuthContext);
     const navigate = useNavigate();
 
@@ -63,32 +66,26 @@ function Login() {
                         navigate("/");
                     }
                 } else if (result.user?.role?.includes("admin")) {
-                    navigate("/admin");
+                    navigate("/dashboard/site-admin");
                 } else {
                     navigate("/");
                 }
             } else {
-                // Check if error is about email verification
+                // AuthContext already showed the error toast.
+                // Just check if we need to show the resend button.
                 if (
                     result.message &&
                     result.message.toLowerCase().includes("verify your email")
                 ) {
-                    toast.error(result.message);
                     setShowResendButton(true); // Show resend button
-                } else {
-                    toast.error(result.message || "Login failed");
                 }
             }
         } catch (err) {
-            const errorMessage =
-                err.response?.data?.message || err.message || "Unknown error";
-
-            // Check if error is about email verification
+            console.error("Unexpected login error:", err);
+             // Verify email check in catch block just in case
+             const errorMessage = err.response?.data?.message || err.message || "Unknown error";
             if (errorMessage.toLowerCase().includes("verify your email")) {
-                toast.error(errorMessage);
-                setShowResendButton(true); // Show resend button
-            } else {
-                toast.error("Login failed: " + errorMessage);
+                setShowResendButton(true);
             }
         }
     };
@@ -152,13 +149,39 @@ function Login() {
                     </div>
                     <div className="input-group">
                         <label> Password </label>
-                        <input
-                            type="password"
-                            name="password"
-                            placeholder="Password"
-                            onChange={handleChange}
-                            value={formData.password || ""}
-                        />
+                        <div style={{ position: "relative" }}>
+                            <input
+                                type={showPassword ? "text" : "password"}
+                                name="password"
+                                placeholder="Password"
+                                onChange={handleChange}
+                                value={formData.password || ""}
+                                style={{ width: "100%", paddingRight: "40px" }}
+                            />
+                            <button
+                                type="button"
+                                onClick={() => setShowPassword(!showPassword)}
+                                style={{
+                                    position: "absolute",
+                                    right: "10px",
+                                    top: "50%",
+                                    transform: "translateY(-50%)",
+                                    background: "transparent",
+                                    border: "none",
+                                    cursor: "pointer",
+                                    padding: "0",
+                                    marginTop: "0",
+                                    width: "auto",
+                                    color: "#555",
+                                }}
+                            >
+                                {showPassword ? (
+                                    <EyeOff size={20} />
+                                ) : (
+                                    <Eye size={20} />
+                                )}
+                            </button>
+                        </div>
                         <div style={{ color: "red" }}>{errors.password}</div>
                     </div>
                     <button type="submit">Log In</button>

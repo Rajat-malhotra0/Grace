@@ -859,8 +859,8 @@ async function sendVolunteerApplicationRejected({
                     <h3>Don't be discouraged! 💪</h3>
                     <p>Your willingness to volunteer and make a difference is commendable. There are many other amazing opportunities waiting for you on Grace.</p>
                     <div class="button-container">
-                        <a href="${process.env.APP_BASE_URL || "http://localhost:3001"
-        }/explore" class="button">Explore More Opportunities</a>
+                        <a href="${process.env.FRONTEND_URL || "http://localhost:3000"
+        }/all-ngos" class="button">Explore More Opportunities</a>
                     </div>
                 </div>
                 

@@ -90,7 +90,7 @@ html {
 /* Top Left - NGO Name */
 .hero-ngo-name {
     grid-area: ngo-name;
-    align-self: start;
+    align-self: center;
     justify-self: start;
 }
 
@@ -107,7 +107,7 @@ html {
 /* Top Right - Navigation Links */
 .hero-nav {
     grid-area: nav;
-    align-self: start;
+    align-self: center;
     justify-self: end;
     display: flex;
     gap: 3rem;

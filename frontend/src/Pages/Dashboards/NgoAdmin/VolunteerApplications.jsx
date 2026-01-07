@@ -430,6 +430,37 @@ const VolunteerApplications = () => {
                                         </div>
                                     )}
 
+                                    {app.user?.about && (
+                                        <div className="bio-section">
+                                            <h4 className="section-title">About the Applicant</h4>
+                                            <p className="bio-text">{app.user.about}</p>
+                                        </div>
+                                    )}
+
+                                    {app.user?.leaderboardStats && (
+                                        <div className="stats-section">
+                                            <h4 className="section-title">Volunteer Impact</h4>
+                                            <div className="mini-stats-grid">
+                                                <div className="mini-stat">
+                                                    <span className="mini-stat-value">{app.user.leaderboardStats.hours || 0}</span>
+                                                    <span className="mini-stat-label">Hours</span>
+                                                </div>
+                                                <div className="mini-stat">
+                                                    <span className="mini-stat-value">{app.user.leaderboardStats.tasksCompleted || 0}</span>
+                                                    <span className="mini-stat-label">Tasks</span>
+                                                </div>
+                                                <div className="mini-stat">
+                                                    <span className="mini-stat-value">{app.user.leaderboardStats.impactScore || 0}</span>
+                                                    <span className="mini-stat-label">Impact</span>
+                                                </div>
+                                                 <div className="mini-stat">
+                                                    <span className="mini-stat-value">{app.user.leaderboardStats.level || "Beginner"}</span>
+                                                    <span className="mini-stat-label">Level</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
+
                                     {app.user?.location && (
                                         <div className="location-section">
                                             <h4 className="section-title">
@@ -463,7 +494,8 @@ const VolunteerApplications = () => {
                                 </div>
 
                                 <div className="application-actions">
-                                    {app.status === "pending" ? (
+                                    {/* Pending State: Show Accept and Reject */}
+                                    {app.status === "pending" && (
                                         <>
                                             <button
                                                 className="action-btn accept-btn"
@@ -494,22 +526,31 @@ const VolunteerApplications = () => {
                                                     : "Reject"}
                                             </button>
                                         </>
-                                    ) : (
-                                        <div className="status-message">
-                                            {app.status === "accepted" && (
-                                                <p className="accepted-message">
-                                                    ✓ This volunteer has been
-                                                    accepted and is now a member
-                                                    of your NGO.
-                                                </p>
-                                            )}
-                                            {app.status === "rejected" && (
-                                                <p className="rejected-message">
-                                                    ✗ This application has been
-                                                    rejected.
-                                                </p>
-                                            )}
+                                    )}
+
+                                    {/* Accepted State: Show Outcome Message + Option to Reject */}
+                                    {app.status === "accepted" && (
+                                        <div className="status-actions-container">
+                                            <p className="accepted-message">
+                                                ✓ Volunteer Accepted
+                                            </p>
+                                            <button
+                                                className="action-btn reject-btn small-btn"
+                                                onClick={() => handleReject(app._id)}
+                                                disabled={processingId === app._id}
+                                                title="Revoke acceptance"
+                                            >
+                                                <XCircle size={14} />
+                                                Revoke & Reject
+                                            </button>
                                         </div>
+                                    )}
+
+                                    {/* Rejected State: Show Outcome Message */}
+                                    {app.status === "rejected" && (
+                                        <p className="rejected-message">
+                                            ✗ Application Rejected
+                                        </p>
                                     )}
                                 </div>
                             </div>

@@ -2,6 +2,64 @@ const express = require("express");
 const router = express.Router();
 const { body, query, param, validationResult } = require("express-validator");
 const userService = require("../services/userService");
+const { authMiddleware } = require("../middleware/authMiddleware");
+
+// Update own profile
+router.put(
+    "/profile",
+    authMiddleware,
+    [
+        body("userName")
+            .optional()
+            .trim()
+            .isLength({ min: 3 })
+            .withMessage("Name must be at least 3 characters long"),
+        body("about").optional().trim(),
+        body("location").optional(),
+    ],
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({
+                success: false,
+                message: "Validation errors",
+                errors: errors.array(),
+            });
+        }
+        try {
+            const userId = req.user.id;
+            const updateData = {};
+
+            if (req.body.userName) updateData.userName = req.body.userName;
+            if (req.body.about !== undefined) updateData.about = req.body.about;
+            if (req.body.location) updateData.location = req.body.location;
+
+            const user = await userService.updateUser(
+                { _id: userId },
+                updateData
+            );
+
+            if (user) {
+                return res.status(200).json({
+                    success: true,
+                    message: "Profile updated successfully",
+                    result: user,
+                });
+            } else {
+                return res.status(404).json({
+                    success: false,
+                    message: "User not found",
+                });
+            }
+        } catch (error) {
+            return res.status(500).json({
+                success: false,
+                message: "Internal server error",
+                error: error.message,
+            });
+        }
+    }
+);
 
 router.post(
     "/",

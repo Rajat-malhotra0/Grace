@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./NgoCarousel.css";
 import { Heart, Users, Target, MapPin, Tag } from "lucide-react";
+import defaultNgoImage from "../../assets/ngo-placeholder.jpg";
 
 const NgoCard = ({ ngo, onDonateClick }) => {
     const navigate = useNavigate();
@@ -37,11 +38,11 @@ const NgoCard = ({ ngo, onDonateClick }) => {
                     src={
                         ngo.image ||
                         ngo.coverImage?.url ||
-                        "/default-ngo-image.jpg"
+                        defaultNgoImage
                     }
                     alt={ngo.name}
                     onError={(e) => {
-                        e.target.src = "/default-ngo-image.jpg";
+                        e.target.src = defaultNgoImage;
                     }}
                 />
             </div>

@@ -25,6 +25,9 @@ const VolunteerOpportunities = () => {
             description: "",
             peopleNeeded: "",
             duration: "",
+            eventDate: "",
+            location: "",
+            isOnline: false,
             tags: [],
         },
     ]);
@@ -97,6 +100,9 @@ const VolunteerOpportunities = () => {
                     description: form.description,
                     peopleNeeded: form.peopleNeeded,
                     duration: form.duration,
+                    eventDate: form.eventDate,
+                    location: form.location,
+                    isOnline: form.isOnline,
                     tags: form.tags,
                 }
             );
@@ -110,6 +116,9 @@ const VolunteerOpportunities = () => {
                     description: "",
                     peopleNeeded: "",
                     duration: "",
+                    eventDate: "",
+                    location: "",
+                    isOnline: false,
                     tags: [],
                 };
                 setOpportunityForms(newForms);
@@ -133,6 +142,9 @@ const VolunteerOpportunities = () => {
                 description: "",
                 peopleNeeded: "",
                 duration: "",
+                eventDate: "",
+                location: "",
+                isOnline: false,
                 tags: [],
             },
         ]);
@@ -255,6 +267,36 @@ const VolunteerOpportunities = () => {
                                     </div>
                                 </div>
 
+                                {opportunity.eventDate && (
+                                    <div className="form-group">
+                                        <div className="input-with-icon">
+                                            <p className="opportunity-display-value">
+                                                <strong>Date:</strong>{" "}
+                                                {new Date(
+                                                    opportunity.eventDate
+                                                ).toLocaleDateString()}{" "}
+                                                {new Date(
+                                                    opportunity.eventDate
+                                                ).toLocaleTimeString([], {
+                                                    hour: "2-digit",
+                                                    minute: "2-digit",
+                                                })}
+                                            </p>
+                                        </div>
+                                    </div>
+                                )}
+
+                                <div className="form-group">
+                                    <div className="input-with-icon">
+                                        <p className="opportunity-display-value">
+                                            <strong>Location:</strong>{" "}
+                                            {opportunity.isOnline
+                                                ? "Online"
+                                                : opportunity.location || "N/A"}
+                                        </p>
+                                    </div>
+                                </div>
+
                                 {opportunity.tags &&
                                     opportunity.tags.length > 0 && (
                                         <div className="form-group">
@@ -304,9 +346,10 @@ const VolunteerOpportunities = () => {
                             </div>
 
                             <div className="form-group">
+                                <label className="form-label">Title</label>
                                 <input
                                     name="title"
-                                    placeholder="Opportunity Title"
+                                    placeholder="e.g. Tree Plantation Drive"
                                     value={form.title}
                                     onChange={(e) =>
                                         handleChange(
@@ -320,9 +363,10 @@ const VolunteerOpportunities = () => {
                             </div>
 
                             <div className="form-group">
+                                <label className="form-label">Description</label>
                                 <textarea
                                     name="description"
-                                    placeholder="Description"
+                                    placeholder="Describe the opportunity..."
                                     value={form.description}
                                     onChange={(e) =>
                                         handleChange(
@@ -336,11 +380,12 @@ const VolunteerOpportunities = () => {
                             </div>
 
                             <div className="form-group">
+                                <label className="form-label">People Needed</label>
                                 <div className="input-with-icon">
                                     <Users size={16} className="input-icon" />
                                     <input
                                         name="peopleNeeded"
-                                        placeholder="People Needed"
+                                        placeholder="0"
                                         type="number"
                                         value={form.peopleNeeded}
                                         onChange={(e) =>
@@ -356,11 +401,12 @@ const VolunteerOpportunities = () => {
                             </div>
 
                             <div className="form-group">
+                                <label className="form-label">Duration</label>
                                 <div className="input-with-icon">
                                     <Clock size={16} className="input-icon" />
                                     <input
                                         name="duration"
-                                        placeholder="Duration (e.g. 2 weeks)"
+                                        placeholder="e.g. 2 weeks / 1 day"
                                         value={form.duration}
                                         onChange={(e) =>
                                             handleChange(
@@ -373,6 +419,66 @@ const VolunteerOpportunities = () => {
                                     />
                                 </div>
                             </div>
+
+                            <div className="form-group">
+                                <label className="form-label">Event Date (Optional)</label>
+                                <input
+                                    type="datetime-local"
+                                    name="eventDate"
+                                    value={form.eventDate || ""}
+                                    onChange={(e) =>
+                                        handleChange(
+                                            index,
+                                            "eventDate",
+                                            e.target.value
+                                        )
+                                    }
+                                    className="form-input"
+                                />
+                            </div>
+
+                            <div className="form-group" style={{ flexDirection: 'row', alignItems: 'center', margin: '0.5rem 0' }}>
+                                <input
+                                    type="checkbox"
+                                    id={`online-${index}`}
+                                    name="isOnline"
+                                    checked={form.isOnline || false}
+                                    onChange={(e) =>
+                                        handleChange(
+                                            index,
+                                            "isOnline",
+                                            e.target.checked
+                                        )
+                                    }
+                                    style={{ width: 'auto', margin: 0 }}
+                                />
+                                <label 
+                                    htmlFor={`online-${index}`} 
+                                    className="form-label" 
+                                    style={{ margin: 0, marginLeft: '8px', cursor: 'pointer' }}
+                                >
+                                    This is an Online Event
+                                </label>
+                            </div>
+
+                            {!form.isOnline && (
+                                <div className="form-group">
+                                    <label className="form-label">Location</label>
+                                    <input
+                                        name="location"
+                                        placeholder="Enter full address"
+                                        value={form.location || ""}
+                                        onChange={(e) =>
+                                            handleChange(
+                                                index,
+                                                "location",
+                                                e.target.value
+                                            )
+                                        }
+                                        className="form-input"
+                                    />
+                                </div>
+                            )}
 
                             <div className="form-group">
                                 <label className="form-label">Tags</label>

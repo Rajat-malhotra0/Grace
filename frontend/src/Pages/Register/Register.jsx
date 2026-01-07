@@ -11,6 +11,8 @@ import VolunteerFormFields from "./VolunteerFormFields";
 import NgoMemberFormFields from "./NgoMemberFormFields";
 import DonorFormFields from "./DonorFormFields";
 
+import { Eye, EyeOff } from "lucide-react";
+
 function Register() {
     const [formData, setFormData] = useState({
         remindMe: false,
@@ -21,6 +23,8 @@ function Register() {
     const { register } = useContext(AuthContext);
     const [errors, setErrors] = useState({});
     const navigate = useNavigate();
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     useEffect(() => {
         async function fetchCategories() {
@@ -514,27 +518,81 @@ function Register() {
 
                 <div className="input-group">
                     <label>Password</label>
-                    <input
-                        type="password"
-                        name="password"
-                        placeholder="Password"
-                        onChange={handleChange}
-                        value={formData.password || ""}
-                        required
-                    />
+                    <div style={{ position: "relative" }}>
+                        <input
+                            type={showPassword ? "text" : "password"}
+                            name="password"
+                            placeholder="Password"
+                            onChange={handleChange}
+                            value={formData.password || ""}
+                            required
+                            style={{ width: "100%", paddingRight: "40px" }}
+                        />
+                        <button
+                            type="button"
+                            onClick={() => setShowPassword(!showPassword)}
+                            style={{
+                                position: "absolute",
+                                right: "10px",
+                                top: "50%",
+                                transform: "translateY(-50%)",
+                                background: "transparent",
+                                border: "none",
+                                cursor: "pointer",
+                                padding: "0",
+                                marginTop: "0",
+                                width: "auto",
+                                color: "#555",
+                            }}
+                        >
+                            {showPassword ? (
+                                <EyeOff size={20} />
+                            ) : (
+                                <Eye size={20} />
+                            )}
+                        </button>
+                    </div>
                     <div style={{ color: "red" }}> {errors.password}</div>
                 </div>
 
                 <div className="input-group">
                     <label>Confirm Password</label>
-                    <input
-                        type="password"
-                        name="confirmedPassword"
-                        placeholder="Confirm Password"
-                        onChange={handleChange}
-                        value={formData.confirmedPassword || ""}
-                        required
-                    />
+                    <div style={{ position: "relative" }}>
+                        <input
+                            type={showConfirmPassword ? "text" : "password"}
+                            name="confirmedPassword"
+                            placeholder="Confirm Password"
+                            onChange={handleChange}
+                            value={formData.confirmedPassword || ""}
+                            required
+                            style={{ width: "100%", paddingRight: "40px" }}
+                        />
+                        <button
+                            type="button"
+                            onClick={() =>
+                                setShowConfirmPassword(!showConfirmPassword)
+                            }
+                            style={{
+                                position: "absolute",
+                                right: "10px",
+                                top: "50%",
+                                transform: "translateY(-50%)",
+                                background: "transparent",
+                                border: "none",
+                                cursor: "pointer",
+                                padding: "0",
+                                marginTop: "0",
+                                width: "auto",
+                                color: "#555",
+                            }}
+                        >
+                            {showConfirmPassword ? (
+                                <EyeOff size={20} />
+                            ) : (
+                                <Eye size={20} />
+                            )}
+                        </button>
+                    </div>
                     <div style={{ color: "red" }}>
                         {" "}
                         {errors.confirmedPassword}

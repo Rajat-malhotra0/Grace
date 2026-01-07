@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import axios from "axios";
 import React, { useState, useEffect, useCallback } from "react";
 import { withApiBase } from "config";
@@ -172,16 +173,20 @@ function AuthProvider({ children }) {
                 };
             } else {
                 // Backend returned success: false
+                 const msg = response.data.message || "Login failed";
+                 toast.error(msg);
                 return {
                     success: false,
-                    message: response.data.message || "Login failed",
+                    message: msg,
                 };
             }
         } catch (error) {
-            console.error("Login error details:", error.response?.data); // Add this to see backend error
+            console.error("Login error details:", error.response?.data);
+            const errorMessage = error.response?.data?.message || error.message || "Login failed";
+            toast.error(errorMessage);
             return {
                 success: false,
-                message: error.response?.data?.message || "Login failed",
+                message: errorMessage,
                 error: error,
             };
         }

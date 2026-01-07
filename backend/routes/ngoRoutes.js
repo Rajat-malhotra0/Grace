@@ -118,6 +118,23 @@ router.get(
     }
 );
 
+router.get("/active-opportunities", async (req, res) => {
+    try {
+        const opportunities = await ngoService.getAllActiveOpportunities();
+        return res.status(200).json({
+            success: true,
+            message: "Active opportunities retrieved successfully",
+            result: opportunities,
+        });
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: error.message || "Internal server error",
+            error: error.message,
+        });
+    }
+});
+
 router.get(
     "/:id",
     [param("id").notEmpty().withMessage("ID is required")],
@@ -284,6 +301,9 @@ router.post(
             .notEmpty()
             .withMessage("People needed is required"),
         body("duration").trim().notEmpty().withMessage("Duration is required"),
+        body("eventDate").optional().isISO8601().toDate().withMessage("Invalid date format"),
+        body("location").optional().trim(),
+        body("isOnline").optional().isBoolean(),
         body("tags").optional().isArray().withMessage("Tags must be an array"),
     ],
     async (req, res) => {
@@ -373,6 +393,9 @@ router.put(
         body("description").optional().trim(),
         body("peopleNeeded").optional().trim(),
         body("duration").optional().trim(),
+        body("eventDate").optional().isISO8601().toDate().withMessage("Invalid date format"),
+        body("location").optional().trim(),
+        body("isOnline").optional().isBoolean(),
         body("tags").optional().isArray().withMessage("Tags must be an array"),
     ],
     async (req, res) => {

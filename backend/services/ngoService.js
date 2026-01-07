@@ -136,8 +136,8 @@ async function addVolunteerOpportunity(ngoId, opportunityData) {
         const nextId =
             ngo.volunteer.opportunities.length > 0
                 ? Math.max(
-                      ...ngo.volunteer.opportunities.map((opp) => opp.id)
-                  ) + 1
+                    ...ngo.volunteer.opportunities.map((opp) => opp.id)
+                ) + 1
                 : 1;
 
         const newOpportunity = {
@@ -146,6 +146,9 @@ async function addVolunteerOpportunity(ngoId, opportunityData) {
             description: opportunityData.description,
             peopleNeeded: opportunityData.peopleNeeded,
             duration: opportunityData.duration,
+            eventDate: opportunityData.eventDate,
+            location: opportunityData.location,
+            isOnline: opportunityData.isOnline,
             tags: opportunityData.tags || [],
         };
 
@@ -311,4 +314,31 @@ module.exports = {
     addInventoryItem,
     updateInventoryItem,
     deleteInventoryItem,
+    getAllActiveOpportunities,
 };
+
+async function getAllActiveOpportunities() {
+    try {
+        const currentDate = new Date();
+        const ngos = await Ngo.aggregate([
+            { $unwind: "$volunteer.opportunities" },
+            {
+                $match: {
+                    "volunteer.opportunities.eventDate": { $gte: currentDate },
+                    isActive: true, // Optional: Only active NGOs
+                },
+            },
+            {
+                $project: {
+                    _id: 1,
+                    ngoName: "$name",
+                    opportunity: "$volunteer.opportunities",
+                },
+            },
+            { $sort: { "volunteer.opportunities.eventDate": 1 } },
+        ]);
+        return ngos;
+    } catch (error) {
+        throw error;
+    }
+}

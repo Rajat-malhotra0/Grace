@@ -8,10 +8,13 @@ import OurImpactSection from "./OurImpactSection";
 import FaqSection from "./FaqSection";
 import ContactSection from "./ContactSection";
 
+import CurrentEvents from "./CurrentEvents";
+
 function Home() {
     return (
         <div className="page-content">
             <HeroSection />
+            <CurrentEvents />
             <NgoCarousel />
             <QuizSection />
             <ServiceCarousel />

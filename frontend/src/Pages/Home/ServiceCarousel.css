@@ -65,23 +65,23 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
-/* Background Color Utility */
-.bg-blue {
+/* Background Color Utility - Reinforced for Active Tabs */
+.bg-blue, .tab-btn.active-tab.bg-blue {
   background-color: #092658;
 }
-.bg-pink {
+.bg-pink, .tab-btn.active-tab.bg-pink {
   background-color: #4f0228;
 }
-.bg-purple {
+.bg-purple, .tab-btn.active-tab.bg-purple {
   background-color: #190547;
 }
-.bg-yellow {
+.bg-yellow, .tab-btn.active-tab.bg-yellow {
   background-color: #4e3203;
 }
-.bg-emerald {
+.bg-emerald, .tab-btn.active-tab.bg-emerald {
   background-color: #013d29;
 }
-.bg-red {
+.bg-red, .tab-btn.active-tab.bg-red {
   background-color: #8b0000;
 }
 

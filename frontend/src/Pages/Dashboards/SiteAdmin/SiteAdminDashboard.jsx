@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./SiteAdminDashboard.css";
+import NgoPageEditor from "./NgoPageEditor";
 import { withApiBase } from "config";
 
 const SiteAdminDashboard = () => {
@@ -13,6 +14,10 @@ const SiteAdminDashboard = () => {
     const [loading, setLoading] = useState(true);
     const [actionLoading, setActionLoading] = useState(null);
     const [error, setError] = useState(null);
+    const [allNgos, setAllNgos] = useState([]);
+    const [activeTab, setActiveTab] = useState("pending"); // "pending" or "all"
+    const [selectedNgo, setSelectedNgo] = useState(null);
+    const [showEditor, setShowEditor] = useState(false);
 
     useEffect(() => {
         fetchStats();
@@ -85,6 +90,54 @@ const SiteAdminDashboard = () => {
             setLoading(false);
         }
     };
+
+    const fetchAllNgos = async () => {
+        try {
+            setLoading(true);
+            const token = localStorage.getItem("token");
+            // No filter implies fetching all (or we can add specific query param if backend requires)
+            // But based on our check, GET /api/ngos?isVerified=false gets pending.
+            // GET /api/ngos usually fetches verified. 
+            // We want ALL for ADMIN.
+            // ngoService.readNgos logic: if no isVerified in filter, it adds isVerified=true.
+            // To get ALL, we might need to send allow both.
+            // Wait, looking at ngoService.js: updateNgo uses Ngo.findOneAndUpdate.
+            
+            // Let's assume GET /api/ngos returns verified ones, which is what we want to edit.
+            
+            const response = await fetch(withApiBase("/api/ngos"), {
+                headers: {
+                    Authorization: token,
+                    "Content-Type": "application/json",
+                },
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                setAllNgos(data.result);
+            }
+        } catch (error) {
+            console.error("Error fetching all NGOs:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleEditPage = (ngo) => {
+        setSelectedNgo(ngo);
+        setShowEditor(true);
+    };
+
+    const handleNgoUpdate = (updatedNgo) => {
+        setAllNgos(prev => prev.map(n => n._id === updatedNgo._id ? updatedNgo : n));
+        fetchStats();
+    };
+
+    useEffect(() => {
+        if (activeTab === "all") {
+            fetchAllNgos();
+        }
+    }, [activeTab]);
 
     const handleNgoVerification = async (ngoId, isApproved) => {
         setActionLoading(ngoId);
@@ -188,99 +241,168 @@ const SiteAdminDashboard = () => {
                 </div>
 
                 <div className="admin-actions-section">
-                    <h2 className="section-title">NGO Verification</h2>
-                    {loading ? (
-                        <div className="loading-message">
-                            Loading pending NGOs...
-                        </div>
-                    ) : error ? (
-                        <div className="error-message">
-                            <p>❌ {error}</p>
-                        </div>
-                    ) : pendingNgos.length === 0 ? (
-                        <div className="no-pending-message">
-                            <p>🎉 No pending NGO verifications!</p>
-                            <p>All NGOs are up to date.</p>
+                    <div className="section-header-tabs">
+                        <button
+                            className={`tab-btn ${
+                                activeTab === "pending" ? "active" : ""
+                            }`}
+                            onClick={() => setActiveTab("pending")}
+                        >
+                            Pending Verifications ({stats.ngos.pending})
+                        </button>
+                        <button
+                            className={`tab-btn ${
+                                activeTab === "all" ? "active" : ""
+                            }`}
+                            onClick={() => setActiveTab("all")}
+                        >
+                            Manage All NGOs ({stats.ngos.total})
+                        </button>
+                    </div>
+
+                    {activeTab === "pending" ? (
+                        <div className="pending-ngos-view">
+                            {loading ? (
+                                <div className="loading-message">
+                                    Loading pending NGOs...
+                                </div>
+                            ) : error ? (
+                                <div className="error-message">
+                                    <p>❌ {error}</p>
+                                </div>
+                            ) : pendingNgos.length === 0 ? (
+                                <div className="no-pending-message">
+                                    <p>🎉 No pending NGO verifications!</p>
+                                    <p>All NGOs are up to date.</p>
+                                </div>
+                            ) : (
+                                <div className="ngo-verification-grid">
+                                    {pendingNgos.map((ngo) => (
+                                        <div
+                                            key={ngo._id}
+                                            className="ngo-verification-card"
+                                        >
+                                            <div className="ngo-header">
+                                                <h3>{ngo.name}</h3>
+                                                <span className="registration-id">
+                                                    ID:{" "}
+                                                    {ngo.registerationId ||
+                                                        "N/A"}
+                                                </span>
+                                            </div>
+
+                                            <div className="ngo-details">
+                                                <div className="detail-row">
+                                                    <strong>Admin:</strong>{" "}
+                                                    {ngo.user?.userName}
+                                                </div>
+                                                <div className="detail-row">
+                                                    <strong>Email:</strong>{" "}
+                                                    {ngo.contact?.email}
+                                                </div>
+                                                <div className="detail-row">
+                                                    <strong>Phone:</strong>{" "}
+                                                    {ngo.contact?.phone ||
+                                                        "N/A"}
+                                                </div>
+                                                <div className="detail-row">
+                                                    <strong>Categories:</strong>{" "}
+                                                    {ngo.category
+                                                        ?.map((cat) => cat.name)
+                                                        .join(", ")}
+                                                </div>
+                                                <div className="detail-row">
+                                                    <strong>Description:</strong>
+                                                    <p className="description-text">
+                                                        {ngo.description}
+                                                    </p>
+                                                </div>
+                                                <div className="detail-row">
+                                                    <strong>Registered:</strong>{" "}
+                                                    {new Date(
+                                                        ngo.user?.createdAt
+                                                    ).toLocaleDateString()}
+                                                </div>
+                                            </div>
+
+                                            <div className="ngo-actions">
+                                                <button
+                                                    className="approve-btn"
+                                                    onClick={() =>
+                                                        handleNgoVerification(
+                                                            ngo._id,
+                                                            true
+                                                        )
+                                                    }
+                                                    disabled={
+                                                        actionLoading ===
+                                                        ngo._id
+                                                    }
+                                                >
+                                                    {actionLoading === ngo._id
+                                                        ? "Processing..."
+                                                        : "✅ Approve"}
+                                                </button>
+                                                <button
+                                                    className="reject-btn"
+                                                    onClick={() =>
+                                                        handleNgoVerification(
+                                                            ngo._id,
+                                                            false
+                                                        )
+                                                    }
+                                                    disabled={
+                                                        actionLoading ===
+                                                        ngo._id
+                                                    }
+                                                >
+                                                    {actionLoading === ngo._id
+                                                        ? "Processing..."
+                                                        : "❌ Reject"}
+                                                </button>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
                         </div>
                     ) : (
-                        <div className="ngo-verification-grid">
-                            {pendingNgos.map((ngo) => (
-                                <div
-                                    key={ngo._id}
-                                    className="ngo-verification-card"
-                                >
-                                    <div className="ngo-header">
-                                        <h3>{ngo.name}</h3>
-                                        <span className="registration-id">
-                                            ID: {ngo.registerationId || "N/A"}
-                                        </span>
-                                    </div>
-
-                                    <div className="ngo-details">
-                                        <div className="detail-row">
-                                            <strong>Admin:</strong>{" "}
-                                            {ngo.user?.userName}
-                                        </div>
-                                        <div className="detail-row">
-                                            <strong>Email:</strong>{" "}
-                                            {ngo.contact?.email}
-                                        </div>
-                                        <div className="detail-row">
-                                            <strong>Phone:</strong>{" "}
-                                            {ngo.contact?.phone || "N/A"}
-                                        </div>
-                                        <div className="detail-row">
-                                            <strong>Categories:</strong>{" "}
-                                            {ngo.category
-                                                ?.map((cat) => cat.name)
-                                                .join(", ")}
-                                        </div>
-                                        <div className="detail-row">
-                                            <strong>Description:</strong>
-                                            <p className="description-text">
-                                                {ngo.description}
-                                            </p>
-                                        </div>
-                                        <div className="detail-row">
-                                            <strong>Registered:</strong>{" "}
-                                            {new Date(
-                                                ngo.user?.createdAt
-                                            ).toLocaleDateString()}
-                                        </div>
-                                    </div>
-
-                                    <div className="ngo-actions">
-                                        <button
-                                            className="approve-btn"
-                                            onClick={() =>
-                                                handleNgoVerification(
-                                                    ngo._id,
-                                                    true
-                                                )
-                                            }
-                                            disabled={actionLoading === ngo._id}
-                                        >
-                                            {actionLoading === ngo._id
-                                                ? "Processing..."
-                                                : "✅ Approve"}
-                                        </button>
-                                        <button
-                                            className="reject-btn"
-                                            onClick={() =>
-                                                handleNgoVerification(
-                                                    ngo._id,
-                                                    false
-                                                )
-                                            }
-                                            disabled={actionLoading === ngo._id}
-                                        >
-                                            {actionLoading === ngo._id
-                                                ? "Processing..."
-                                                : "❌ Reject"}
-                                        </button>
-                                    </div>
+                        <div className="all-ngos-view">
+                            {loading ? (
+                                <div className="loading-message">
+                                    Loading all NGOs...
                                 </div>
-                            ))}
+                            ) : (
+                                <div className="all-ngos-list">
+                                    {allNgos.filter(n => n.isVerified).length === 0 ? (
+                                        <p>No verified NGOs found.</p>
+                                    ) : (
+                                        <div className="ngo-verification-grid">
+                                            {allNgos.filter(n => n.isVerified).map((ngo) => (
+                                                <div key={ngo._id} className="ngo-verification-card">
+                                                    <div className="ngo-header">
+                                                        <h3>{ngo.name}</h3>
+                                                        <span className="registration-id">
+                                                            {ngo.isVerified ? "✅ Verified" : "⏳ Pending"}
+                                                        </span>
+                                                    </div>
+                                                    <div className="ngo-details">
+                                                        <p>{ngo.description?.substring(0, 100)}...</p>
+                                                    </div>
+                                                    <div className="ngo-actions">
+                                                        <button 
+                                                            className="action-btn"
+                                                            onClick={() => handleEditPage(ngo)}
+                                                        >
+                                                            ✏️ Manage Page Content
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+                            )}
                         </div>
                     )}
                 </div>
@@ -289,38 +411,24 @@ const SiteAdminDashboard = () => {
                     <h2 className="section-title">Quick Actions</h2>
                     <div className="admin-actions-grid">
                         <div className="admin-action-card">
-                            <div className="action-icon">�</div>
+                            <div className="action-icon">📊</div>
                             <h3>Platform Analytics</h3>
-                            <p>
-                                View comprehensive platform statistics and
-                                insights
-                            </p>
                             <button className="action-btn" disabled>
                                 Coming Soon
                             </button>
                         </div>
-                        <div className="admin-action-card">
-                            <div className="action-icon">👥</div>
-                            <h3>User Management</h3>
-                            <p>
-                                Manage users, roles, and permissions across the
-                                platform
-                            </p>
-                            <button className="action-btn" disabled>
-                                Coming Soon
-                            </button>
-                        </div>
-                        <div className="admin-action-card">
-                            <div className="action-icon">⚙️</div>
-                            <h3>System Settings</h3>
-                            <p>Configure platform settings and maintenance</p>
-                            <button className="action-btn" disabled>
-                                Coming Soon
-                            </button>
-                        </div>
+                        {/* More actions... */}
                     </div>
                 </div>
             </div>
+
+            {showEditor && selectedNgo && (
+                <NgoPageEditor 
+                    ngo={selectedNgo} 
+                    onClose={() => setShowEditor(false)}
+                    onUpdate={handleNgoUpdate}
+                />
+            )}
         </div>
     );
 };
