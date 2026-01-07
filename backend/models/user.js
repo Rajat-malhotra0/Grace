@@ -61,6 +61,9 @@ const userSchema = new mongoose.Schema({
     isActive: { type: Boolean, default: true },
     createdAt: { type: Date, default: Date.now, immutable: true },
 
+    mobileNumber: { type: String, default: "" },
+    mobileVerified: { type: Boolean, default: false },
+
     emailVerified: { type: Boolean, default: false },
     emailVerificationTokenHash: { type: String, default: null },
     emailVerificationTokenExp: { type: Date, default: null },

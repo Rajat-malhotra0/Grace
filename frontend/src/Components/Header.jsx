@@ -131,7 +131,7 @@ function Header() {
             }`}
         >
             <div className="header-container">
-                <Link to="/" className="logo" style={{ textDecoration: 'none', color: 'inherit' }}>Grace</Link>
+                <Link to="/" className="logo" style={{ textDecoration: 'none' }}>Grace</Link>
 
                 <nav className={`nav-links ${menuOpen ? "active" : ""}`}>
                     <Link to="/" onClick={() => setMenuOpen(false)}>

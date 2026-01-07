@@ -290,3 +290,27 @@
         grid-template-columns: 1fr;
     }
 }
+
+/* Mobile Verification Badges */
+.mobile-display-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.verification-badge {
+    font-size: 0.8rem;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-weight: 500;
+}
+
+.verification-badge.verified {
+    background-color: #d1fae5;
+    color: #065f46;
+}
+
+.verification-badge.not-verified {
+    background-color: #fee2e2;
+    color: #991b1b;
+}

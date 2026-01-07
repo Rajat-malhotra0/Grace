@@ -142,6 +142,20 @@ function Profile() {
                         </div>
 
                         <div className="info-group">
+                            <label>Mobile Number</label>
+                            <div className="mobile-display-row">
+                                <p className="info-text">
+                                    {user?.mobileVerified && user?.mobileNumber
+                                        ? `******${user.mobileNumber.slice(-4)}` 
+                                        : (user?.mobileNumber || "Not provided")}
+                                </p>
+                                <span className={`verification-badge ${user?.mobileVerified ? 'verified' : 'not-verified'}`}>
+                                    {user?.mobileVerified ? 'Verified' : 'Not Verified'}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div className="info-group">
                             <label>Role</label>
                             <p className="info-text capitalized">
                                 {user?.role?.join(", ") || "Not specified"}

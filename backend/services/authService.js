@@ -416,6 +416,8 @@ function sanitizeUser(user) {
         newsLetter: user.newsLetter,
         isActive: user.isActive,
         createdAt: user.createdAt,
+        mobileNumber: user.mobileNumber,
+        mobileVerified: user.mobileVerified,
     };
 }
 
