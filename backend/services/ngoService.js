@@ -26,7 +26,8 @@ async function readNgos(filter = {}) {
 
         const ngos = await Ngo.find(filter)
             .populate("category", "name")
-            .populate("user", "userName email location");
+            .populate("user", "userName email location")
+            .sort({ isFeatured: -1, createdAt: -1 });
 
         console.log("ngoService.readNgos - Found NGOs:", ngos?.length || 0);
         return ngos;
@@ -80,6 +81,24 @@ async function verifyNgo(ngoId, isApproved) {
         const ngo = await Ngo.findByIdAndUpdate(ngoId, updateData, {
             new: true,
         }).populate("user", "userName email");
+
+        if (!ngo) {
+            throw new Error("NGO not found");
+        }
+
+        return ngo;
+    } catch (error) {
+        throw error;
+    }
+}
+
+async function toggleNgoFeatureStatus(ngoId, isFeatured) {
+    try {
+        const ngo = await Ngo.findByIdAndUpdate(
+            ngoId,
+            { isFeatured },
+            { new: true }
+        ).populate("user", "userName email");
 
         if (!ngo) {
             throw new Error("NGO not found");
@@ -305,6 +324,7 @@ module.exports = {
     deleteNgo,
     getPendingNgos,
     verifyNgo,
+    toggleNgoFeatureStatus,
     getNgoStats,
     getAllNgos,
     addVolunteerOpportunity,

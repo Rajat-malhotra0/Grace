@@ -111,39 +111,43 @@
     margin-bottom: 25px;
 }
 
-.ngo-verification-grid {
+.admin-ngo-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     gap: 25px;
 }
 
-.ngo-verification-card {
+.admin-ngo-card {
     border: 1px solid #eee;
     border-radius: 12px;
     padding: 20px;
+    background: white;
     transition: box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
 }
 
-.ngo-verification-card:hover {
+.admin-ngo-card:hover {
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 }
 
-.ngo-header {
+.admin-ngo-header {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: center; /* Ensure alignment */
     margin-bottom: 15px;
     border-bottom: 1px solid #eee;
     padding-bottom: 10px;
 }
 
-.ngo-header h3 {
+.admin-ngo-header h3 {
     margin: 0;
     color: #2c3e50;
     font-size: 1.2rem;
+    font-weight: 600;
 }
 
-.registration-id {
+.admin-registration-id {
     font-size: 0.85rem;
     background: #f0f3f6;
     padding: 4px 8px;
@@ -151,13 +155,33 @@
     color: #666;
 }
 
-.detail-row {
+.admin-status-badge {
+    font-size: 0.8rem;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.admin-status-badge.verified {
+    background-color: #d1fae5;
+    color: #065f46;
+}
+
+.admin-status-badge.pending {
+    background-color: #fef3c7;
+    color: #92400e;
+}
+
+.admin-detail-row {
     margin-bottom: 8px;
     font-size: 0.95rem;
     color: #555;
+    display: flex; /* Ensure separation */
+    gap: 5px;
 }
 
-.description-text {
+.admin-description-text {
     margin-top: 5px;
     background: #fafafa;
     padding: 10px;
@@ -167,10 +191,11 @@
     line-height: 1.5;
 }
 
-.ngo-actions {
+.admin-ngo-actions {
     display: flex;
     gap: 10px;
-    margin-top: 20px;
+    margin-top: auto; /* Push to bottom */
+    padding-top: 15px;
 }
 
 .approve-btn,
@@ -195,7 +220,7 @@
 }
 
 .action-btn {
-    width: 100%;
+    flex: 1; /* Match flex behavior */
     padding: 10px;
     background: #3498db;
     color: white;
@@ -203,11 +228,17 @@
     border-radius: 6px;
     cursor: pointer;
     font-weight: 600;
-    transition: background 0.2s;
+    transition: all 0.2s;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
 }
 
 .action-btn:hover {
     background: #2980b9;
+    transform: translateY(-1px);
 }
 
 .admin-actions-grid {
@@ -254,4 +285,61 @@
 
 .no-pending-message {
     font-size: 1.1rem;
+}
+
+.admin-feature-btn {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    background: #f3f4f6; /* Explicit background */
+    color: #4b5563; /* Explicit color */
+    text-transform: none; /* Prevent uppercase */
+}
+
+.admin-feature-btn.featured {
+    background: #fffbeb;
+    color: #b45309;
+    border-color: #fbbf24;
+    box-shadow: 0 0 0 1px #fbbf24;
+}
+
+.admin-feature-btn:hover {
+    background: #e5e7eb;
+    transform: translateY(-1px);
+}
+
+.admin-feature-btn.featured:hover {
+    background: #fef3c7;
+}
+
+.admin-edit-btn {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    background: #3b82f6;
+    color: white;
+    text-transform: none;
+}
+
+.admin-edit-btn:hover {
+    background: #2563eb;
+    transform: translateY(-1px);
 }

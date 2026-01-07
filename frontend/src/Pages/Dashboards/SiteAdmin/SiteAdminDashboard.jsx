@@ -276,48 +276,48 @@ const SiteAdminDashboard = () => {
                                     <p>All NGOs are up to date.</p>
                                 </div>
                             ) : (
-                                <div className="ngo-verification-grid">
+                                <div className="admin-ngo-grid">
                                     {pendingNgos.map((ngo) => (
                                         <div
                                             key={ngo._id}
-                                            className="ngo-verification-card"
+                                            className="admin-ngo-card"
                                         >
-                                            <div className="ngo-header">
+                                            <div className="admin-ngo-header">
                                                 <h3>{ngo.name}</h3>
-                                                <span className="registration-id">
+                                                <span className="admin-registration-id">
                                                     ID:{" "}
                                                     {ngo.registerationId ||
                                                         "N/A"}
                                                 </span>
                                             </div>
 
-                                            <div className="ngo-details">
-                                                <div className="detail-row">
+                                            <div className="admin-ngo-details">
+                                                <div className="admin-detail-row">
                                                     <strong>Admin:</strong>{" "}
                                                     {ngo.user?.userName}
                                                 </div>
-                                                <div className="detail-row">
+                                                <div className="admin-detail-row">
                                                     <strong>Email:</strong>{" "}
                                                     {ngo.contact?.email}
                                                 </div>
-                                                <div className="detail-row">
+                                                <div className="admin-detail-row">
                                                     <strong>Phone:</strong>{" "}
                                                     {ngo.contact?.phone ||
                                                         "N/A"}
                                                 </div>
-                                                <div className="detail-row">
+                                                <div className="admin-detail-row">
                                                     <strong>Categories:</strong>{" "}
                                                     {ngo.category
                                                         ?.map((cat) => cat.name)
                                                         .join(", ")}
                                                 </div>
-                                                <div className="detail-row">
+                                                <div className="admin-detail-row">
                                                     <strong>Description:</strong>
-                                                    <p className="description-text">
+                                                    <p className="admin-description-text">
                                                         {ngo.description}
                                                     </p>
                                                 </div>
-                                                <div className="detail-row">
+                                                <div className="admin-detail-row">
                                                     <strong>Registered:</strong>{" "}
                                                     {new Date(
                                                         ngo.user?.createdAt
@@ -325,7 +325,7 @@ const SiteAdminDashboard = () => {
                                                 </div>
                                             </div>
 
-                                            <div className="ngo-actions">
+                                            <div className="admin-ngo-actions">
                                                 <button
                                                     className="approve-btn"
                                                     onClick={() =>
@@ -377,24 +377,53 @@ const SiteAdminDashboard = () => {
                                     {allNgos.filter(n => n.isVerified).length === 0 ? (
                                         <p>No verified NGOs found.</p>
                                     ) : (
-                                        <div className="ngo-verification-grid">
+                                        <div className="admin-ngo-grid">
                                             {allNgos.filter(n => n.isVerified).map((ngo) => (
-                                                <div key={ngo._id} className="ngo-verification-card">
-                                                    <div className="ngo-header">
+                                                <div key={ngo._id} className="admin-ngo-card">
+                                                    <div className="admin-ngo-header">
                                                         <h3>{ngo.name}</h3>
-                                                        <span className="registration-id">
+                                                        <span className={`admin-status-badge ${ngo.isVerified ? 'verified' : 'pending'}`}>
                                                             {ngo.isVerified ? "✅ Verified" : "⏳ Pending"}
                                                         </span>
                                                     </div>
-                                                    <div className="ngo-details">
+                                                    <div className="admin-ngo-details">
                                                         <p>{ngo.description?.substring(0, 100)}...</p>
                                                     </div>
-                                                    <div className="ngo-actions">
+                                                    <div className="admin-ngo-actions">
                                                         <button 
-                                                            className="action-btn"
+                                                            className={`admin-feature-btn ${ngo.isFeatured ? 'featured' : ''}`}
+                                                            onClick={async (e) => {
+                                                                e.stopPropagation();
+                                                                try {
+                                                                    const token = localStorage.getItem("token");
+                                                                    const response = await fetch(
+                                                                        withApiBase(`/api/admin/ngos/${ngo._id}/feature`),
+                                                                        {
+                                                                            method: "PATCH",
+                                                                            headers: {
+                                                                                Authorization: token,
+                                                                                "Content-Type": "application/json",
+                                                                            },
+                                                                            body: JSON.stringify({ isFeatured: !ngo.isFeatured }),
+                                                                        }
+                                                                    );
+                                                                    if (response.ok) {
+                                                                        const updatedNgo = (await response.json()).result;
+                                                                        setAllNgos(prev => prev.map(n => n._id === ngo._id ? { ...n, isFeatured: updatedNgo.isFeatured } : n));
+                                                                    }
+                                                                } catch (err) {
+                                                                    console.error("Failed to toggle feature:", err);
+                                                                }
+                                                            }}
+                                                            title={ngo.isFeatured ? "Remove from Featured" : "Mark as Featured"}
+                                                        >
+                                                            {ngo.isFeatured ? "⭐ Featured" : "☆ Feature"}
+                                                        </button>
+                                                        <button 
+                                                            className="admin-edit-btn"
                                                             onClick={() => handleEditPage(ngo)}
                                                         >
-                                                            ✏️ Manage Page Content
+                                                            ✏️ Manage Page
                                                         </button>
                                                     </div>
                                                 </div>

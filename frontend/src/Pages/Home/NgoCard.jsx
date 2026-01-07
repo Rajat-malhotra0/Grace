@@ -45,6 +45,11 @@ const NgoCard = ({ ngo, onDonateClick }) => {
                         e.target.src = defaultNgoImage;
                     }}
                 />
+                {ngo.isFeatured && (
+                    <div className="ngo-featured-badge">
+                        <span>⭐ Featured</span>
+                    </div>
+                )}
             </div>
             <div className="ngo-details-v2">
                 <div className="ngo-header-row">

@@ -114,6 +114,24 @@
   left: 0;
 }
 
+.ngo-featured-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #d97706;
+    border: 1px solid #fbbf24;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
 .ngo-details-v2 {
   padding: 2rem;
   flex-grow: 1;

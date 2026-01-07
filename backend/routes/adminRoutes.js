@@ -33,6 +33,52 @@ router.get("/ngos/pending", async (req, res) => {
     }
 });
 
+// Toggle featured status
+router.patch(
+    "/ngos/:id/feature",
+    [
+        param("id")
+            .notEmpty()
+            .withMessage("NGO ID is required")
+            .isMongoId()
+            .withMessage("Invalid NGO ID format"),
+        body("isFeatured")
+            .notEmpty()
+            .withMessage("Featured status is required")
+            .isBoolean()
+            .withMessage("Featured status must be a boolean"),
+    ],
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({
+                success: false,
+                message: "Validation errors",
+                errors: errors.array(),
+            });
+        }
+
+        try {
+            const { id } = req.params;
+            const { isFeatured } = req.body;
+
+            const ngo = await ngoService.toggleNgoFeatureStatus(id, isFeatured);
+
+            return res.status(200).json({
+                success: true,
+                message: `NGO feature status updated successfully`,
+                result: ngo,
+            });
+        } catch (error) {
+            return res.status(500).json({
+                success: false,
+                message: "Internal server error",
+                error: error.message,
+            });
+        }
+    }
+);
+
 // Approve or reject NGO verification
 router.patch(
     "/ngos/:id/verify",

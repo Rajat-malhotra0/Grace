@@ -142,6 +142,7 @@ const ngoSchema = new mongoose.Schema({
     volunteersNeeded: { type: Number, default: 0 },
     donationGoal: { type: Number, default: 0 },
     isVerified: { type: Boolean, default: false },
+    isFeatured: { type: Boolean, default: false },
     isActive: { type: Boolean, default: true },
     createdAt: { type: Date, default: Date.now, immutable: true },
     updatedAt: { type: Date, default: Date.now },

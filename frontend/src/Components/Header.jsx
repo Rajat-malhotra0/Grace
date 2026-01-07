@@ -24,7 +24,13 @@ function Header() {
         // }
 
         if (user?.role && Array.isArray(user.role) && user.role.length > 0) {
-            if (user.role.some((role) => role.toLowerCase() === "ngomember")) {
+            if (
+                user.role.some((role) => role.toLowerCase() === "admin")
+            ) {
+                return "/dashboard/site-admin";
+            } else if (user.role.some((role) => role.toLowerCase() === "ngo")) {
+                return "/dashboard/admin";
+            } else if (user.role.some((role) => role.toLowerCase() === "ngomember")) {
                 return "/dashboard/ngo-team";
             } else if (
                 user.role.some((role) => role.toLowerCase() === "volunteer")
@@ -34,12 +40,6 @@ function Header() {
                 user.role.some((role) => role.toLowerCase() === "donor")
             ) {
                 return "/dashboard/donor";
-            } else if (user.role.some((role) => role.toLowerCase() === "ngo")) {
-                return "/dashboard/admin";
-            } else if (
-                user.role.some((role) => role.toLowerCase() === "admin")
-            ) {
-                return "/dashboard/site-admin";
             }
         }
 
