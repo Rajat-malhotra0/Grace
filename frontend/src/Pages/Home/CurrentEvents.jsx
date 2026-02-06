@@ -20,7 +20,7 @@ const CurrentEvents = () => {
         const fetchEvents = async () => {
             try {
                 const response = await axios.get(
-                    withApiBase("/api/ngos/active-opportunities")
+                    withApiBase("/api/ngos/active-opportunities"),
                 );
                 if (response.data.success) {
                     setEvents(response.data.result);
@@ -37,7 +37,7 @@ const CurrentEvents = () => {
 
     const handleApply = async (ngoId, opportunityId, title, e) => {
         if (e) e.stopPropagation();
-        
+
         if (!isAuthenticated) {
             toast.error("Please login to volunteer for this event", {
                 position: "bottom-center",
@@ -51,27 +51,30 @@ const CurrentEvents = () => {
             const response = await applyForVolunteer(
                 ngoId,
                 opportunityId,
-                `Applied for "${title}" from Home Page`
+                `Applied for "${title}" from Home Page`,
             );
 
             if (response.success) {
-                toast.success("Interest registered! The NGO has been notified.", {
-                    position: "bottom-center",
-                    autoClose: 4000,
-                });
+                toast.success(
+                    "Interest registered! The NGO has been notified.",
+                    {
+                        position: "bottom-center",
+                        autoClose: 4000,
+                    },
+                );
             }
         } catch (error) {
             console.error("handleApply caught error:", error);
-            
+
             // The service throws the response data object directly, so 'error' might define 'message' directly.
             // We check various paths to find the error message.
-            const msg = 
-                error.message || 
-                error.response?.data?.message || 
-                (typeof error === 'string' ? error : "Failed to apply");
+            const msg =
+                error.message ||
+                error.response?.data?.message ||
+                (typeof error === "string" ? error : "Failed to apply");
 
             console.log("Toast message to show:", msg);
-            
+
             if (msg && msg.toLowerCase().includes("already applied")) {
                 toast.info("You have already applied for this event.");
             } else {
@@ -84,12 +87,12 @@ const CurrentEvents = () => {
 
     const openModal = (item) => {
         setSelectedEvent(item);
-        document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        document.body.style.overflow = "hidden"; // Prevent background scrolling
     };
 
     const closeModal = () => {
         setSelectedEvent(null);
-        document.body.style.overflow = 'auto'; // Restore scrolling
+        document.body.style.overflow = "auto"; // Restore scrolling
     };
 
     const navigateToNgo = (ngoId) => {
@@ -101,14 +104,17 @@ const CurrentEvents = () => {
         <div className="current-events-section">
             <div className="section-container">
                 <div className="section-header">
-                    <h2 className="section-title">Happening Now</h2>
+                    <h2 className="section-title">
+                        <span className="live-indicator"></span> Happening Now
+                    </h2>
                     <p className="section-subtitle">
-                        Join these upcoming events and make a difference today
+                        Events are live! Join these opportunities and make an
+                        immediate impact.
                     </p>
                 </div>
 
                 {loading ? (
-                   <div className="loading-state">Loading events...</div>
+                    <div className="loading-state">Loading events...</div>
                 ) : events.length === 0 ? (
                     <div className="no-events-message">
                         <p>No current events scheduled. Check back soon!</p>
@@ -126,12 +132,12 @@ const CurrentEvents = () => {
                                     <div className="event-date-badge">
                                         <span className="date-day">
                                             {new Date(
-                                                opportunity.eventDate
+                                                opportunity.eventDate,
                                             ).getDate()}
                                         </span>
                                         <span className="date-month">
                                             {new Date(
-                                                opportunity.eventDate
+                                                opportunity.eventDate,
                                             ).toLocaleString("default", {
                                                 month: "short",
                                             })}
@@ -149,10 +155,11 @@ const CurrentEvents = () => {
                                         </h3>
 
                                         <p className="event-description">
-                                            {opportunity.description.length > 100
+                                            {opportunity.description.length >
+                                            100
                                                 ? `${opportunity.description.substring(
                                                       0,
-                                                      100
+                                                      100,
                                                   )}...`
                                                 : opportunity.description}
                                         </p>
@@ -162,7 +169,7 @@ const CurrentEvents = () => {
                                                 <Calendar size={16} />
                                                 <span className="event-time">
                                                     {new Date(
-                                                        opportunity.eventDate
+                                                        opportunity.eventDate,
                                                     ).toLocaleTimeString([], {
                                                         hour: "2-digit",
                                                         minute: "2-digit",
@@ -186,10 +193,12 @@ const CurrentEvents = () => {
                                                     ngoId,
                                                     opportunity.id,
                                                     opportunity.title,
-                                                    e
+                                                    e,
                                                 )
                                             }
-                                            disabled={applyingId === opportunity.id}
+                                            disabled={
+                                                applyingId === opportunity.id
+                                            }
                                         >
                                             {applyingId === opportunity.id ? (
                                                 "Sending..."
@@ -211,27 +220,40 @@ const CurrentEvents = () => {
             {/* Event Details Modal */}
             {selectedEvent && (
                 <div className="event-modal-overlay" onClick={closeModal}>
-                    <div 
-                        className="event-modal-content" 
+                    <div
+                        className="event-modal-content"
                         onClick={(e) => e.stopPropagation()}
                     >
-                        <button className="modal-close-btn" onClick={closeModal}>
+                        <button
+                            className="modal-close-btn"
+                            onClick={closeModal}
+                        >
                             &times;
                         </button>
-                        
+
                         <div className="modal-header">
                             <span className="modal-date-badge">
-                                {new Date(selectedEvent.opportunity.eventDate).toLocaleDateString(undefined, {
-                                    weekday: 'long', 
-                                    year: 'numeric', 
-                                    month: 'long', 
-                                    day: 'numeric' 
+                                {new Date(
+                                    selectedEvent.opportunity.eventDate,
+                                ).toLocaleDateString(undefined, {
+                                    weekday: "long",
+                                    year: "numeric",
+                                    month: "long",
+                                    day: "numeric",
                                 })}
                             </span>
-                            <h2 className="modal-title">{selectedEvent.opportunity.title}</h2>
-                            <div className="modal-ngo-link" onClick={() => navigateToNgo(selectedEvent._id)}>
+                            <h2 className="modal-title">
+                                {selectedEvent.opportunity.title}
+                            </h2>
+                            <div
+                                className="modal-ngo-link"
+                                onClick={() => navigateToNgo(selectedEvent._id)}
+                            >
                                 <User size={16} />
-                                <span>Organized by <strong>{selectedEvent.ngoName}</strong></span>
+                                <span>
+                                    Organized by{" "}
+                                    <strong>{selectedEvent.ngoName}</strong>
+                                </span>
                             </div>
                         </div>
 
@@ -241,25 +263,36 @@ const CurrentEvents = () => {
                                     <label>Time</label>
                                     <p>
                                         <Calendar size={16} />
-                                        {new Date(selectedEvent.opportunity.eventDate).toLocaleTimeString([], {
-                                            hour: '2-digit', 
-                                            minute: '2-digit'
+                                        {new Date(
+                                            selectedEvent.opportunity.eventDate,
+                                        ).toLocaleTimeString([], {
+                                            hour: "2-digit",
+                                            minute: "2-digit",
                                         })}
                                     </p>
                                 </div>
                                 <div className="modal-info-item">
                                     <label>Duration</label>
-                                    <p>{selectedEvent.opportunity.duration || 'Not specified'}</p>
+                                    <p>
+                                        {selectedEvent.opportunity.duration ||
+                                            "Not specified"}
+                                    </p>
                                 </div>
                                 <div className="modal-info-item">
                                     <label>People Needed</label>
-                                    <p>{selectedEvent.opportunity.peopleNeeded || 'Open'}</p>
+                                    <p>
+                                        {selectedEvent.opportunity
+                                            .peopleNeeded || "Open"}
+                                    </p>
                                 </div>
                                 <div className="modal-info-item">
                                     <label>Location</label>
                                     <p>
                                         <MapPin size={16} />
-                                        {selectedEvent.opportunity.isOnline ? 'Online Event' : selectedEvent.opportunity.location}
+                                        {selectedEvent.opportunity.isOnline
+                                            ? "Online Event"
+                                            : selectedEvent.opportunity
+                                                  .location}
                                     </p>
                                 </div>
                             </div>
@@ -272,27 +305,31 @@ const CurrentEvents = () => {
                             {selectedEvent.opportunity.roleResult && (
                                 <div className="modal-skills">
                                     <h3>Skills/Roles</h3>
-                                    <p>{selectedEvent.opportunity.roleResult}</p>
+                                    <p>
+                                        {selectedEvent.opportunity.roleResult}
+                                    </p>
                                 </div>
                             )}
                         </div>
 
                         <div className="modal-footer">
-                            <button 
+                            <button
                                 className="modal-volunteer-btn"
-                                onClick={(e) => handleApply(
-                                    selectedEvent._id, 
-                                    selectedEvent.opportunity.id, 
-                                    selectedEvent.opportunity.title,
-                                    e
-                                )}
-                                disabled={applyingId === selectedEvent.opportunity.id}
+                                onClick={(e) =>
+                                    handleApply(
+                                        selectedEvent._id,
+                                        selectedEvent.opportunity.id,
+                                        selectedEvent.opportunity.title,
+                                        e,
+                                    )
+                                }
+                                disabled={
+                                    applyingId === selectedEvent.opportunity.id
+                                }
                             >
-                                {applyingId === selectedEvent.opportunity.id ? (
-                                    "Processing Application..."
-                                ) : (
-                                    "Volunteer for this Opportunity"
-                                )}
+                                {applyingId === selectedEvent.opportunity.id
+                                    ? "Processing Application..."
+                                    : "Volunteer for this Opportunity"}
                             </button>
                         </div>
                     </div>

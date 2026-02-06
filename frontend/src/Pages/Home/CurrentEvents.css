@@ -10,7 +10,7 @@
 }
 
 .current-events-section {
-    padding: 3rem 1.5rem 6rem; /* Reduced top padding for better distancing of top line */
+    padding: 140px 1.5rem 6rem; /* Increased top padding for spacing below fixed navbar */
     background-color: #fcfcfc;
     width: 100%;
     border-top: 1px solid #e0e0e0;
@@ -28,7 +28,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1rem;
+    gap: 1.5rem; /* Increased gap */
     border-bottom: none !important; /* Ensure no phantom line */
 }
 /* ... existing styles ... */
@@ -43,7 +43,8 @@
 }
 
 .event-time {
-    font-family: 'Consolas', 'Monaco', 'Lucida Console', monospace; /* Distinct time font */
+    font-family:
+        "Consolas", "Monaco", "Lucida Console", monospace; /* Distinct time font */
     font-weight: 500;
     letter-spacing: -0.5px;
     font-size: 0.95rem;
@@ -57,20 +58,25 @@
 
 .section-title {
     font-family: var(--font-serif);
-    font-size: clamp(2.5rem, 6vw, 3.5rem);
+    font-size: clamp(2.5rem, 5vw, 4rem);
     color: var(--color-text-primary);
     margin: 0;
     font-weight: 500;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.01em;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    line-height: 1.1;
+    justify-content: center;
 }
 
 .section-subtitle {
     font-family: var(--font-serif);
-    font-size: 1.2rem;
+    font-size: 1.15rem;
     color: var(--color-text-secondary);
     max-width: 600px;
     margin: 0;
-    font-style: italic;
+    font-style: normal; /* Removed italic for cleaner look */
     line-height: 1.6;
     border: none !important; /* Ensure no phantom line */
 }
@@ -212,27 +218,47 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Subtle shadow for depth */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
 }
 
 .event-action-btn:hover {
     background: transparent;
     color: #1a1a1a;
     transform: translateY(-2px); /* Slight lift */
-    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 .no-events-message {
     text-align: center;
-    padding: 4rem;
-    background: #f9f9f9;
-    border-radius: 8px;
-    border: 1px dashed #ccc;
-    color: #777;
-    font-family: var(--font-serif);
-    font-size: 1.2rem;
+    padding: 6rem 2rem;
+    background: #ffffff;
+    border-radius: 16px;
+    border: 1px dashed #e5e7eb;
+    color: #4b5563;
+    font-family: var(--font-sans);
+    font-size: 1.1rem;
     margin-top: 2rem;
-    font-style: italic;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    box-shadow:
+        0 4px 6px -1px rgba(0, 0, 0, 0.02),
+        0 2px 4px -1px rgba(0, 0, 0, 0.02);
+}
+
+.no-events-message::before {
+    content: "🗓️"; /* Or use an SVG icon in the JSX and style it */
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+    opacity: 0.5;
+    filter: grayscale(1);
+}
+
+.no-events-message p {
+    margin: 0;
+    max-width: 400px;
+    line-height: 1.6;
 }
 
 /* Custom horizontal separator (optional if needed explicitly) */
@@ -247,11 +273,11 @@
     .section-title {
         font-size: 2.2rem;
     }
-    
+
     .events-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .event-card {
         min-height: auto;
     }
@@ -387,7 +413,7 @@
     gap: 0.5rem;
 }
 
-.modal-description h3, 
+.modal-description h3,
 .modal-skills h3 {
     font-family: var(--font-serif);
     font-size: 1.5rem;
@@ -395,7 +421,7 @@
     margin: 0 0 1rem 0;
 }
 
-.modal-description p, 
+.modal-description p,
 .modal-skills p {
     font-family: var(--font-sans);
     font-size: 1.05rem;
@@ -444,18 +470,22 @@
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 @keyframes slideUp {
-    from { 
+    from {
         opacity: 0;
-        transform: translateY(20px); 
+        transform: translateY(20px);
     }
-    to { 
+    to {
         opacity: 1;
-        transform: translateY(0); 
+        transform: translateY(0);
     }
 }
 
@@ -473,5 +503,33 @@
 
     .modal-title {
         font-size: 1.75rem;
+    }
+}
+
+.live-indicator {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    background-color: #e53e3e;
+    border-radius: 50%;
+    margin-right: 12px;
+    position: relative;
+    box-shadow: 0 0 10px rgba(229, 62, 62, 0.6);
+    animation: pulse 2s infinite cubic-bezier(0.66, 0, 0, 1);
+    top: 2px; /* Slight visual adjustment */
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.6;
+        transform: scale(1.1);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
     }
 }

@@ -13,7 +13,7 @@ import CurrentEvents from "./CurrentEvents";
 function Home() {
     return (
         <div className="page-content">
-            <HeroSection />
+            {/* <HeroSection /> */}
             <CurrentEvents />
             <NgoCarousel />
             <QuizSection />

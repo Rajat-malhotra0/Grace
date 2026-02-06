@@ -1,272 +1,273 @@
 @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&display=swap");
 
 :root {
-  --font-serif: "Playfair Display", serif;
+    --font-serif: "Playfair Display", serif;
 }
 
 /* Sticky header */
 .grace-header {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  background: transparent;
-  transition: background-color 0.4s ease;
-  z-index: 1000;
-  height: 80px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: #ffffff;
+    transition: background-color 0.4s ease;
+    z-index: 1000;
+    height: 80px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Added shadow for visibility against white backgrounds */
 }
 
 .grace-header.scrolled {
-  background-color: rgb(255, 255, 255);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* Header inner container --- USING CSS GRID --- */
 .header-container {
-  max-width: 1200px !important;
-  margin: 0 auto;
-  height: 100%;
-  padding: 0 2rem;
-  box-sizing: border-box;
-  display: grid;
-  grid-template-columns: auto 1fr auto; /* Column for Logo | Nav (fills space) | Actions */
-  align-items: center; /* Vertically centers everything in the grid */
+    max-width: 1200px !important;
+    margin: 0 auto;
+    height: 100%;
+    padding: 0 2rem;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: auto 1fr auto; /* Column for Logo | Nav (fills space) | Actions */
+    align-items: center; /* Vertically centers everything in the grid */
 }
 
 /* Logo text */
 .logo {
-  font-family: var(--font-serif);
-  font-size: 2rem;
-  font-weight: 400;
-  color: white;
-  transition: color 0.3s ease;
+    font-family: var(--font-serif);
+    font-size: 2rem;
+    font-weight: 400;
+    color: #000000;
+    transition: color 0.3s ease;
 }
 
 .grace-header.scrolled .logo {
-  color: black;
+    color: #000000;
 }
 
 /* Navigation links */
 .nav-links {
-  display: flex;
-  align-items: center;
-  justify-content: center; /* Center the links within their grid area */
-  gap: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center the links within their grid area */
+    gap: 1rem;
 }
 
 .nav-links a {
-  display: flex;
-  align-items: center;
-  font-family: var(--font-serif);
-  text-decoration: none;
-  color: white;
-  font-size: 1rem;
-  transition: color 0.3s ease;
-  padding: 0 1rem;
+    display: flex;
+    align-items: center;
+    font-family: var(--font-serif);
+    text-decoration: none;
+    color: #000000;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+    padding: 0 1rem;
 }
 
 .grace-header.scrolled .nav-links a {
-  color: black;
+    color: #000000;
 }
 
 .nav-links a:hover {
-  color: #ccc;
+    color: #555;
 }
 
 .grace-header.scrolled .nav-links a:hover {
-  color: #555;
+    color: #555;
 }
 
 /* Actions section (button) */
 .nav-actions {
-  display: flex;
-  justify-content: flex-end; /* Align button to the far right */
+    display: flex;
+    justify-content: flex-end; /* Align button to the far right */
 }
 
 .nav-button,
 .user-menu {
-  display: flex;
-  align-items: center;
-  text-decoration: none; /* Add this line */
+    display: flex;
+    align-items: center;
+    text-decoration: none; /* Add this line */
 }
 
 .user-menu > a {
-  display: flex;
-  align-items: center;
-  text-decoration: none;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
 }
 
 /* Header-specific button override */
 .grace-header .grace-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid white;
-  background: transparent;
-  color: white;
-  padding: 0.5rem 1rem;
-  text-transform: uppercase;
-  font-size: 0.875rem;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  transition: all 0.3s ease;
-  cursor: pointer;
-  border-radius: 15px; /* Changed this from 0 */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid black;
+    background: transparent;
+    color: black;
+    padding: 0.5rem 1rem;
+    text-transform: uppercase;
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border-radius: 15px; /* Changed this from 0 */
 }
 
 .grace-header.scrolled .grace-button {
-  border-color: black;
-  color: black;
+    border-color: black;
+    color: black;
 }
 
 .grace-header .grace-button:hover {
-  background: white;
-  color: black;
+    background: black;
+    color: white;
 }
 
 .grace-header.scrolled .grace-button:hover {
-  background: black;
-  color: white;
+    background: black;
+    color: white;
 }
 
 /* Profile picture styles */
 .nav-profile img.profile-picture {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid rgba(255, 255, 255, 0.8);
-  transition: border-color 0.3s ease;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(0, 0, 0, 0.8);
+    transition: border-color 0.3s ease;
 }
 
 .grace-header.scrolled .nav-profile img.profile-picture {
-  border-color: black;
+    border-color: black;
 }
 
 /* Hamburger Menu */
 .hamburger {
-  display: none;
-  cursor: pointer;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 30px;
-  height: 21px;
-  z-index: 1001;
+    display: none;
+    cursor: pointer;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 21px;
+    z-index: 1001;
 }
 
 .hamburger .bar {
-  width: 100%;
-  height: 3px;
-  background-color: white;
-  border-radius: 10px;
-  transition: all 0.3s ease;
+    width: 100%;
+    height: 3px;
+    background-color: black;
+    border-radius: 10px;
+    transition: all 0.3s ease;
 }
 
 .grace-header.scrolled .hamburger .bar {
-  background-color: black;
+    background-color: black;
 }
 
 .grace-header.dark-text .hamburger .bar {
-  background-color: #333;
+    background-color: #333;
 }
 
 .hamburger.active .bar:nth-child(1) {
-  transform: translateY(9px) rotate(45deg);
+    transform: translateY(9px) rotate(45deg);
 }
 
 .hamburger.active .bar:nth-child(2) {
-  opacity: 0;
+    opacity: 0;
 }
 
 .hamburger.active .bar:nth-child(3) {
-  transform: translateY(-9px) rotate(-45deg);
+    transform: translateY(-9px) rotate(-45deg);
 }
 
 /* Responsive design */
 @media (max-width: 1024px) {
-  .header-container {
-    padding: 0 1.5rem;
-    display: flex; /* Switch to flex on mobile for easier alignment */
-    justify-content: space-between;
-    align-items: center;
-  }
+    .header-container {
+        padding: 0 1.5rem;
+        display: flex; /* Switch to flex on mobile for easier alignment */
+        justify-content: space-between;
+        align-items: center;
+    }
 
-  .nav-links {
-    position: fixed;
-    top: 0;
-    right: -100%;
-    height: 100vh;
-    width: 100%;
-    max-width: 300px;
-    background-color: rgba(0, 0, 0, 0.95);
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    transition: right 0.3s ease-in-out;
-    gap: 2rem;
-    padding: 0;
-    z-index: 999;
-  }
+    .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        height: 100vh;
+        width: 100%;
+        max-width: 300px;
+        background-color: rgba(0, 0, 0, 0.95);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transition: right 0.3s ease-in-out;
+        gap: 2rem;
+        padding: 0;
+        z-index: 999;
+    }
 
-  .grace-header.dark-text .nav-links {
-    background-color: rgba(255, 255, 255, 0.98);
-    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
-  }
+    .grace-header.dark-text .nav-links {
+        background-color: rgba(255, 255, 255, 0.98);
+        box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+    }
 
-  .nav-links.active {
-    right: 0;
-  }
+    .nav-links.active {
+        right: 0;
+    }
 
-  .nav-links a {
-    font-size: 1.2rem;
-    margin: 0;
-  }
+    .nav-links a {
+        font-size: 1.2rem;
+        margin: 0;
+    }
 
-  .nav-actions {
-    margin-left: auto; /* Push towards hamburger */
-    margin-right: 1.5rem; /* Gap between button and hamburger */
-  }
+    .nav-actions {
+        margin-left: auto; /* Push towards hamburger */
+        margin-right: 1.5rem; /* Gap between button and hamburger */
+    }
 
-  .logo {
-    font-size: 1.5rem;
-  }
+    .logo {
+        font-size: 1.5rem;
+    }
 
-  .hamburger {
-    display: flex;
-  }
+    .hamburger {
+        display: flex;
+    }
 }
 
 @media (max-width: 768px) {
-  .welcome-prefix, 
-  .welcome-role {
-    display: none;
-  }
-  
-  .nav-actions {
-    margin-right: 1rem;
-  }
+    .welcome-prefix,
+    .welcome-role {
+        display: none;
+    }
 
-  .grace-header .grace-button {
-    padding: 0.4rem 0.8rem;
-    font-size: 0.75rem;
-    letter-spacing: 0.05em;
-  }
+    .nav-actions {
+        margin-right: 1rem;
+    }
+
+    .grace-header .grace-button {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.75rem;
+        letter-spacing: 0.05em;
+    }
 }
 
 @media (max-width: 480px) {
-  .header-container {
-    padding: 0 1rem;
-  }
+    .header-container {
+        padding: 0 1rem;
+    }
 
-  .logo {
-    font-size: 1.3rem;
-  }
+    .logo {
+        font-size: 1.3rem;
+    }
 
-  .nav-actions {
-    margin-right: 0.75rem;
-  }
+    .nav-actions {
+        margin-right: 0.75rem;
+    }
 
-  .grace-header .grace-button {
-    padding: 0.35rem 0.7rem;
-    font-size: 0.7rem;
-  }
+    .grace-header .grace-button {
+        padding: 0.35rem 0.7rem;
+        font-size: 0.7rem;
+    }
 }
