@@ -105,7 +105,8 @@ const CurrentEvents = () => {
             <div className="section-container">
                 <div className="section-header">
                     <h2 className="section-title">
-                        <span className="live-indicator"></span> Happening Now
+                        {/* <span className="live-indicator"></span> */}
+                        Happening Now
                     </h2>
                     <p className="section-subtitle">
                         Events are live! Join these opportunities and make an
